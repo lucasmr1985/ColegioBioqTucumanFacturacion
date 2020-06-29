@@ -1,0 +1,78 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<definitions name="AfiliadoDatosTraer" targetNamespace="WServices" xmlns:wsdlns="WServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="WServices">
+	<types>
+		<schema targetNamespace="WServices" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<complexType name="SDTAfiliado">
+				<sequence>
+					<element minOccurs="0" maxOccurs="unbounded" name="SDTAfiliado.SDTAfiliadoItem" type="tns:SDTAfiliado.SDTAfiliadoItem">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="SDTAfiliado.SDTAfiliadoItem">
+				<sequence>
+					<element name="AfiId" type="xsd:int">
+					</element>
+					<element name="AfiCUIIL" type="xsd:string">
+					</element>
+					<element name="AfiApellidoNombre" type="xsd:string">
+					</element>
+					<element name="AfiDocumento" type="xsd:string">
+					</element>
+					<element name="AfiFechaNacimiento" type="xsd:date" nillable="true">
+					</element>
+					<element name="AfiEdad" type="xsd:short">
+					</element>
+					<element name="AfiSexId" type="xsd:string">
+					</element>
+				</sequence>
+			</complexType>
+			<element name="AfiliadoDatosTraer.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="AfiliadoDatosTraer.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Afiliado" type="tns:SDTAfiliado" />
+						<element minOccurs="1" maxOccurs="1" name="Motivorechazo" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="AfiliadoDatosTraer.ExecuteSoapIn">
+		<part name="parameters" element="tns:AfiliadoDatosTraer.Execute" />
+	</message>
+	<message name="AfiliadoDatosTraer.ExecuteSoapOut">
+		<part name="parameters" element="tns:AfiliadoDatosTraer.ExecuteResponse" />
+	</message>
+	<portType name="AfiliadoDatosTraerSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:AfiliadoDatosTraer.ExecuteSoapIn" />
+			<output message="wsdlns:AfiliadoDatosTraer.ExecuteSoapOut" />
+		</operation>
+	</portType>
+	<binding name="AfiliadoDatosTraerSoapBinding" type="wsdlns:AfiliadoDatosTraerSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Execute">
+			<soap:operation soapAction="WServicesaction/AAFILIADODATOSTRAER.Execute" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="AfiliadoDatosTraer">
+		<port name="AfiliadoDatosTraerSoapPort" binding="wsdlns:AfiliadoDatosTraerSoapBinding">
+			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx" />
+		</port>
+	</service>
+</definitions>

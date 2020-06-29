@@ -1,0 +1,55 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<definitions name="OrdenValidadaAnular" targetNamespace="WServices" xmlns:wsdlns="WServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="WServices">
+	<types>
+		<schema targetNamespace="WServices" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="OrdenValidadaAnular.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordnumero" type="xsd:long" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenValidadaAnular.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Ordenanuladada" type="xsd:byte" />
+						<element minOccurs="1" maxOccurs="1" name="Motivo" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="OrdenValidadaAnular.ExecuteSoapIn">
+		<part name="parameters" element="tns:OrdenValidadaAnular.Execute" />
+	</message>
+	<message name="OrdenValidadaAnular.ExecuteSoapOut">
+		<part name="parameters" element="tns:OrdenValidadaAnular.ExecuteResponse" />
+	</message>
+	<portType name="OrdenValidadaAnularSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:OrdenValidadaAnular.ExecuteSoapIn" />
+			<output message="wsdlns:OrdenValidadaAnular.ExecuteSoapOut" />
+		</operation>
+	</portType>
+	<binding name="OrdenValidadaAnularSoapBinding" type="wsdlns:OrdenValidadaAnularSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Execute">
+			<soap:operation soapAction="WServicesaction/AORDENVALIDADAANULAR.Execute" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="OrdenValidadaAnular">
+		<port name="OrdenValidadaAnularSoapPort" binding="wsdlns:OrdenValidadaAnularSoapBinding">
+			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx" />
+		</port>
+	</service>
+</definitions>

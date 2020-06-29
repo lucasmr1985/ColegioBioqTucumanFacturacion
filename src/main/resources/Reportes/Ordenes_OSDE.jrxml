@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
+	<property name="ireport.zoom" value="1.771561000000002"/>
+	<property name="ireport.x" value="27"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="matricula" class="java.lang.String"/>
+	<parameter name="periodo" class="java.lang.String"/>
+	<parameter name="obra_social" class="java.lang.String"/>
+	<parameter name="num_obra_social" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="laboratorio" class="java.lang.String"/>
+	<parameter name="domicilio_lab" class="java.lang.String"/>
+	<parameter name="localidad" class="java.lang.String"/>
+	<parameter name="pacientes" class="java.lang.String"/>
+	<parameter name="practicas" class="java.lang.String"/>
+	<parameter name="total_letras_pesos" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
+	<parameter name="total_letras_centavos" class="java.lang.String"/>
+	<field name="numero_afiliado" class="java.lang.String"/>
+	<field name="nombre_afiliado" class="java.lang.String"/>
+	<field name="orden" class="java.lang.String"/>
+	<field name="codigo_analisis" class="java.lang.String"/>
+	<field name="analisis" class="java.lang.String"/>
+	<field name="importe" class="java.lang.String"/>
+	<field name="codigo_fac" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="99">
+			<rectangle radius="10">
+				<reportElement uuid="bde5655b-6b26-4090-afd4-9470bf27afda" x="0" y="42" width="554" height="43"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement uuid="bde5655b-6b26-4090-afd4-9470bf27afda" x="1" y="2" width="553" height="37"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement uuid="47909fb3-805d-4328-9215-2ce9cccc119b" x="0" y="88" width="554" height="11"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="f9b68fd5-1a78-4905-a677-e2bb8d3edfd1" x="4" y="89" width="65" height="10"/>
+				<textElement textAlignment="Left">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° de Afiliado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="80f3d267-05fb-4bb2-ba32-10e6bd6858d7" x="67" y="89" width="103" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Afiliado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="987bb10f-ae42-470c-b279-208db74241ad" x="233" y="89" width="74" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Transacción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a70558b2-92fd-493b-bf9e-1f667b8bd914" x="307" y="89" width="38" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="90f8cc25-eb58-4600-98df-fd6bdc00ca95" x="392" y="89" width="107" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Analisis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b4aa0396-d0f6-4ce6-bc77-2e2908e2e285" x="499" y="89" width="48" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="8" y="74" width="65" height="10"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="392" y="53" width="91" height="20"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Obra Social N°:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="9" y="53" width="20" height="11"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[a:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="8" y="43" width="361" height="11"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[Resumen por servicios de Laboratorio prestados durante el periodo de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="306" y="74" width="64" height="10"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[Localidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="8" y="63" width="73" height="10"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[Laboratorio:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement uuid="24e24fe1-c069-4177-aaab-ff39b15c0021" x="371" y="43" width="168" height="11"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3f90ca45-0911-45d9-8a2d-b37e5424918d" x="27" y="53" width="366" height="11"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{obra_social}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="62ef6189-40d8-4e06-8aea-8ab27ccf520c" x="483" y="53" width="56" height="20"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{num_obra_social}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="187674c5-ef39-4650-ae8f-25335b7641be" x="81" y="63" width="458" height="10"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{laboratorio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2ef4f4e9-e348-4d0b-a0af-ad5d24680480" x="73" y="74" width="233" height="10"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{domicilio_lab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c3c21000-1f78-43b8-90ce-331f426886a1" x="370" y="74" width="169" height="10"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{localidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="439" y="15" width="61" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matrícula:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="654f04ab-a64b-4283-842a-5e42e96a026e" x="499" y="15" width="36" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e4edae72-f1c0-4cd9-b6bd-e185ecd4adec" x="439" y="27" width="61" height="11"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="8156aafc-78a4-4305-b724-b42879ae5fa2" x="499" y="27" width="36" height="12"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="269" y="3" width="124" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[San Miguel de Tucumán, ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="fc65cdd5-199d-4324-b77f-db202b767b8e" x="393" y="3" width="142" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="3" y="28" width="194" height="11"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="3" y="18" width="194" height="11"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<text><![CDATA[Ley 5482]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a70558b2-92fd-493b-bf9e-1f667b8bd914" x="345" y="89" width="49" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod. Fac.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b45e156-b7c2-44ca-a192-e34f454cc011" x="170" y="89" width="41" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4bb99fe0-d293-45bc-85df-351bd72694d0" x="211" y="89" width="22" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="277865fb-175e-4234-92f1-28836a004449" x="81" y="3" width="70" height="15"/>
+				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\icocbt.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement uuid="54012c1e-bc77-46fe-ae05-e7b5e3bdba63" x="69" y="2" width="102" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_afiliado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6d6e20ca-9e41-45e9-b34d-536389af0a90" x="233" y="2" width="74" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orden}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7c307776-8a01-43d3-b950-3d7f68f869f7" x="307" y="2" width="38" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_analisis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="119dcc8b-931f-410f-84d2-694834fc836b" x="393" y="2" width="106" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{analisis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="1099d384-c00d-4f20-b5a1-0ae01cfe8c51" x="499" y="2" width="48" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8809eea7-da92-4057-96fc-6d7e7e75653f" x="4" y="2" width="64" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_afiliado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b456337b-6b11-4aff-807a-7062ca112de4" x="345" y="2" width="47" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_fac}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="91e4347e-c761-45f9-9c15-06529ac9457b" x="171" y="2" width="40" height="9"/>
+				<textElement textAlignment="Justified">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9888a760-7327-4145-b098-add4f4c5286a" x="211" y="2" width="22" height="9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="54">
+			<rectangle radius="10">
+				<reportElement uuid="f27ec9ec-415e-4c4c-82d9-c1f4ad07b2eb" x="1" y="2" width="555" height="50"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="12" y="39" width="119" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Practicas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="12" y="4" width="30" height="11"/>
+				<textElement>
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Son:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="447" y="10" width="30" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="12" y="28" width="119" height="12"/>
+				<textElement>
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Ordenes:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="91bf33a8-f8a3-4b6d-a77b-441ba6259330" x="130" y="28" width="117" height="12"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pacientes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d1f1081-4409-4e4e-b8e0-2dd936c25176" x="130" y="39" width="117" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{practicas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5da1d715-6e0c-4e86-b85a-87f466290305" x="12" y="16" width="30" height="12"/>
+				<textElement>
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Con:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="831d613b-f6c8-4837-8952-3881d8146614" x="42" y="4" width="400" height="11"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total_letras_pesos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="33dd393d-b9cc-4e4b-a777-c95c03a3fade" x="42" y="16" width="400" height="12"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total_letras_centavos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1a929973-162d-4dfe-af6d-ef9606e39c2f" x="474" y="10" width="10" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<text><![CDATA[$]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement uuid="424e91da-aa72-44c1-9187-ae9e373c6206" x="484" y="10" width="71" height="13"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement uuid="191513af-c427-4c05-8ab8-1863b4bdd639" x="283" y="25" width="271" height="14"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{matricula}+$P{periodo}+$P{num_obra_social}+$P{pacientes}+$P{practicas}+$P{total}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement uuid="36bf0163-9491-49b9-8b05-e6e52d286858" x="306" y="39" width="241" height="13"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{matricula}+$P{num_obra_social}+$P{pacientes}+$P{practicas}+$P{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

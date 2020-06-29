@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://sistemasboreal.com.ar:5480/WsBoreal/servlet/awsboreal?wsdl" uri="wsdl/sistemasboreal.com.ar_5480/WsBoreal/servlet/awsboreal.wsdl"/>
+    <system systemId="http://190.220.152.235:8083/ws_expendio/aordensolicitarautorizacion.aspx?wsdl" uri="xml-resources/web-service-references/aordensolicitarautorizacion/wsdl/190.220.152.235_8083/ws_expendio/aordensolicitarautorizacion.aspx.wsdl"/>
+    <system systemId="http://e.sancorsalud.com.ar/apawe_ssa_v2.aspx?wsdl" uri="wsdl/e.sancorsalud.com.ar/apawe_ssa_v2.aspx.wsdl"/>
+    <system systemId="http://190.220.152.235:8083/WS/aordenautorizar.aspx?wsdl" uri="wsdl/190.220.152.235_8083/WS/aordenautorizar.aspx.wsdl"/>
+    <system systemId="http://190.220.152.235:8083/ws_expendio/apafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/190.220.152.235_8083/ws_expendio/apafiliadopuedeconsumir.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ServiciosIpsstBioq/aws_afiliacionesaccionsocial.aspx?wsdl" uri="xml-resources/web-service-references/aws_afiliacionesaccionsocial/wsdl/186.122.150.144/ServiciosIpsstBioq/aws_afiliacionesaccionsocial.aspx.wsdl"/>
+    <system systemId="http://190.220.152.235:8083/Ws_AfiliacionesAccionSocial/aws_afiliacionesaccionsocial.aspx?wsdl" uri="xml-resources/web-service-references/aws_afiliacionesaccionsocial_1/wsdl/190.220.152.235_8083/Ws_AfiliacionesAccionSocial/aws_afiliacionesaccionsocial.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ServiciosIpsstBioq/apafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/186.122.150.144/ServiciosIpsstBioq/apafiliadopuedeconsumir.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ServiciosIpsstBioq/aafiliadodatos.aspx?wsdl" uri="wsdl/186.122.150.144/ServiciosIpsstBioq/aafiliadodatos.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ServiciosIpsstBioq/aordenautorizar.aspx?wsdl" uri="wsdl/186.122.150.144/ServiciosIpsstBioq/aordenautorizar.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ServiciosIpsstBioq/aordenvalidar.aspx?wsdl" uri="wsdl/186.122.150.144/ServiciosIpsstBioq/aordenvalidar.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ServiciosIpsstBioq/aordendevolver.aspx?wsdl" uri="wsdl/186.122.150.144/ServiciosIpsstBioq/aordendevolver.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ws_expendio/apafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/apafiliadopuedeconsumir.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ws_expendio/aafiliadodatos.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aafiliadodatos.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ws_expendio/aordenautorizar.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aordenautorizar.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ws_expendio/aordenvalidar.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aordenvalidar.aspx.wsdl"/>
+    <system systemId="http://186.122.150.144/ws_expendio/aordendevolver.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aordendevolver.aspx.wsdl"/>
+</catalog>

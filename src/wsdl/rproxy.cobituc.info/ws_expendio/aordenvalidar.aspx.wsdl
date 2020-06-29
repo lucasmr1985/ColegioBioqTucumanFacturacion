@@ -1,0 +1,76 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<definitions name="OrdenValidar" targetNamespace="WServices" xmlns:wsdlns="WServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="WServices">
+	<types>
+		<schema targetNamespace="WServices" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<complexType name="ArrayOfWSPracticaValidar">
+				<sequence>
+					<element minOccurs="0" maxOccurs="unbounded" name="WSPracticaValidar" type="tns:WSPracticaValidar">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="WSPracticaValidar">
+				<sequence>
+					<element name="Practica" type="xsd:string">
+					</element>
+					<element name="Plan" type="xsd:int">
+					</element>
+					<element name="Seccion" type="xsd:string">
+					</element>
+					<element name="Descripcion" type="xsd:string">
+					</element>
+					<element name="Cantidad" type="xsd:short">
+					</element>
+				</sequence>
+			</complexType>
+			<element name="OrdenValidar.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordnumero" type="xsd:long" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:int" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenValidar.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Ordenvalida" type="xsd:byte" />
+						<element minOccurs="1" maxOccurs="1" name="Motivo" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPracticaValidar" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="OrdenValidar.ExecuteSoapIn">
+		<part name="parameters" element="tns:OrdenValidar.Execute" />
+	</message>
+	<message name="OrdenValidar.ExecuteSoapOut">
+		<part name="parameters" element="tns:OrdenValidar.ExecuteResponse" />
+	</message>
+	<portType name="OrdenValidarSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:OrdenValidar.ExecuteSoapIn" />
+			<output message="wsdlns:OrdenValidar.ExecuteSoapOut" />
+		</operation>
+	</portType>
+	<binding name="OrdenValidarSoapBinding" type="wsdlns:OrdenValidarSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Execute">
+			<soap:operation soapAction="WServicesaction/AORDENVALIDAR.Execute" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="OrdenValidar">
+		<port name="OrdenValidarSoapPort" binding="wsdlns:OrdenValidarSoapBinding">
+			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx" />
+		</port>
+	</service>
+</definitions>

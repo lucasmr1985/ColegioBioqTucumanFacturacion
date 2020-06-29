@@ -1,0 +1,43 @@
+package Clases;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+public class ConexionMariaDB {
+
+    public String db = "colegiobioquimicos";
+    //public String url = "jdbc:mysql://localhost:3306/"+db;
+   public String url = "jdbc:mariadb://db.cobituc.info:3306/"+db;
+   ///public String url = "jdbc:mariadb://138.99.7.73:3306/" + db;    
+   //  public String url = "jdbc:mysql://66.97.36.239:3306/"+db;
+
+    public String user = "root";
+    public String pass = "Cole978-+";
+
+    //public String pass = "Cole978-+";
+    /*  public String db = "proveeduriaprueba";
+    public String url = "jdbc:mysql://localhost:3306/"+db;
+
+
+    public String user = "root";
+    public String pass = "";*/
+
+    public Connection Conectar() {
+        Connection link = null;
+        try {
+            //Cargamos el Driver MySQL
+            Class.forName("org.mariadb.jdbc.Driver");
+            //Creamos un enlace hacia la base de datos
+            link = DriverManager.getConnection(this.url, this.user, this.pass);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ConexionMariaDB.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return link;
+    }
+}

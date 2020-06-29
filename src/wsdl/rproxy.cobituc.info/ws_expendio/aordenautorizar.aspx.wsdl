@@ -1,0 +1,201 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<definitions name="OrdenAutorizar" targetNamespace="WServices" xmlns:wsdlns="WServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="WServices">
+	<types>
+		<schema targetNamespace="WServices" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<complexType name="ArrayOfWSPractica">
+				<sequence>
+					<element minOccurs="0" maxOccurs="unbounded" name="WSPractica" type="tns:WSPractica">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="WSPractica">
+				<sequence>
+					<element name="NomPrestacion" type="xsd:string">
+					</element>
+					<element name="PlanCobertura" type="xsd:int">
+					</element>
+					<element name="Cantidad" type="xsd:int">
+					</element>
+					<element name="Coseguro" type="xsd:double">
+					</element>
+					<element name="Autorizado" type="xsd:byte">
+					</element>
+					<element name="Motivo" type="xsd:string">
+					</element>
+				</sequence>
+			</complexType>
+			<element name="OrdenAutorizar.CHEQUEARFACTIBILIDAD">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Prescriptor" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordentipo" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPractica" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.CHEQUEARFACTIBILIDADResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPractica" />
+						<element minOccurs="1" maxOccurs="1" name="Factibilidad" type="xsd:byte" />
+						<element minOccurs="1" maxOccurs="1" name="Motivorechazo" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.PARAAUDITORIA">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Prescriptor" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordentipo" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPractica" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.PARAAUDITORIAResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPractica" />
+						<element minOccurs="1" maxOccurs="1" name="Nrotransaccion" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Autorizado" type="xsd:byte" />
+						<element minOccurs="1" maxOccurs="1" name="Motivorechazo" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.EMITIRAUTORIZADA">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordentemporal" type="xsd:int" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.EMITIRAUTORIZADAResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Ordenautorizada" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Estado" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordnumero" type="xsd:int" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.EMITIR">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Prescriptor" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordentipo" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPractica" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenAutorizar.EMITIRResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Practicas" type="tns:ArrayOfWSPractica" />
+						<element minOccurs="1" maxOccurs="1" name="Nrotransaccion" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Ordnumero" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Motivorechazo" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="OrdenAutorizar.CHEQUEARFACTIBILIDADSoapIn">
+		<part name="parameters" element="tns:OrdenAutorizar.CHEQUEARFACTIBILIDAD" />
+	</message>
+	<message name="OrdenAutorizar.CHEQUEARFACTIBILIDADSoapOut">
+		<part name="parameters" element="tns:OrdenAutorizar.CHEQUEARFACTIBILIDADResponse" />
+	</message>
+	<message name="OrdenAutorizar.PARAAUDITORIASoapIn">
+		<part name="parameters" element="tns:OrdenAutorizar.PARAAUDITORIA" />
+	</message>
+	<message name="OrdenAutorizar.PARAAUDITORIASoapOut">
+		<part name="parameters" element="tns:OrdenAutorizar.PARAAUDITORIAResponse" />
+	</message>
+	<message name="OrdenAutorizar.EMITIRAUTORIZADASoapIn">
+		<part name="parameters" element="tns:OrdenAutorizar.EMITIRAUTORIZADA" />
+	</message>
+	<message name="OrdenAutorizar.EMITIRAUTORIZADASoapOut">
+		<part name="parameters" element="tns:OrdenAutorizar.EMITIRAUTORIZADAResponse" />
+	</message>
+	<message name="OrdenAutorizar.EMITIRSoapIn">
+		<part name="parameters" element="tns:OrdenAutorizar.EMITIR" />
+	</message>
+	<message name="OrdenAutorizar.EMITIRSoapOut">
+		<part name="parameters" element="tns:OrdenAutorizar.EMITIRResponse" />
+	</message>
+	<portType name="OrdenAutorizarSoapPort">
+		<operation name="CHEQUEARFACTIBILIDAD">
+			<input message="wsdlns:OrdenAutorizar.CHEQUEARFACTIBILIDADSoapIn" />
+			<output message="wsdlns:OrdenAutorizar.CHEQUEARFACTIBILIDADSoapOut" />
+		</operation>
+		<operation name="PARAAUDITORIA">
+			<input message="wsdlns:OrdenAutorizar.PARAAUDITORIASoapIn" />
+			<output message="wsdlns:OrdenAutorizar.PARAAUDITORIASoapOut" />
+		</operation>
+		<operation name="EMITIRAUTORIZADA">
+			<input message="wsdlns:OrdenAutorizar.EMITIRAUTORIZADASoapIn" />
+			<output message="wsdlns:OrdenAutorizar.EMITIRAUTORIZADASoapOut" />
+		</operation>
+		<operation name="EMITIR">
+			<input message="wsdlns:OrdenAutorizar.EMITIRSoapIn" />
+			<output message="wsdlns:OrdenAutorizar.EMITIRSoapOut" />
+		</operation>
+	</portType>
+	<binding name="OrdenAutorizarSoapBinding" type="wsdlns:OrdenAutorizarSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="CHEQUEARFACTIBILIDAD">
+			<soap:operation soapAction="WServicesaction/AORDENAUTORIZAR.CHEQUEARFACTIBILIDAD" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="PARAAUDITORIA">
+			<soap:operation soapAction="WServicesaction/AORDENAUTORIZAR.PARAAUDITORIA" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="EMITIRAUTORIZADA">
+			<soap:operation soapAction="WServicesaction/AORDENAUTORIZAR.EMITIRAUTORIZADA" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="EMITIR">
+			<soap:operation soapAction="WServicesaction/AORDENAUTORIZAR.EMITIR" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="OrdenAutorizar">
+		<port name="OrdenAutorizarSoapPort" binding="wsdlns:OrdenAutorizarSoapBinding">
+			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx" />
+		</port>
+	</service>
+</definitions>

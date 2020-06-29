@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="WsBoreal" targetNamespace="WsBoreal" xmlns:wsdlns="WsBoreal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="WsBoreal">
+	<types>
+		<schema targetNamespace="WsBoreal" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="WsBoreal.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Ingresoxml" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="WsBoreal.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Egresoxml" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="WsBoreal.ExecuteSoapIn">
+		<part name="parameters" element="tns:WsBoreal.Execute"/>
+	</message>
+	<message name="WsBoreal.ExecuteSoapOut">
+		<part name="parameters" element="tns:WsBoreal.ExecuteResponse"/>
+	</message>
+	<portType name="WsBorealSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:WsBoreal.ExecuteSoapIn"/>
+			<output message="wsdlns:WsBoreal.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="WsBorealSoapBinding" type="wsdlns:WsBorealSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="WsBorealaction/AWSBOREAL.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="WsBoreal">
+		<port name="WsBorealSoapPort" binding="wsdlns:WsBorealSoapBinding">
+			<soap:address location="http://181.13.142.59:5480/WsBoreal/servlet/awsboreal"/>
+		</port>
+	</service>
+</definitions>

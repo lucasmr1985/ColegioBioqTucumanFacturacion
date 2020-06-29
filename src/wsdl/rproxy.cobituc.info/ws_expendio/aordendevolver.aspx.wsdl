@@ -1,0 +1,56 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<definitions name="OrdenDevolver" targetNamespace="WServices" xmlns:wsdlns="WServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="WServices">
+	<types>
+		<schema targetNamespace="WServices" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="OrdenDevolver.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Token" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Ordnumero" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Ordtipo" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Prestador" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Aficuil" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OrdenDevolver.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Estadoactual" type="xsd:string" />
+						<element minOccurs="1" maxOccurs="1" name="Motivo" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="OrdenDevolver.ExecuteSoapIn">
+		<part name="parameters" element="tns:OrdenDevolver.Execute" />
+	</message>
+	<message name="OrdenDevolver.ExecuteSoapOut">
+		<part name="parameters" element="tns:OrdenDevolver.ExecuteResponse" />
+	</message>
+	<portType name="OrdenDevolverSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:OrdenDevolver.ExecuteSoapIn" />
+			<output message="wsdlns:OrdenDevolver.ExecuteSoapOut" />
+		</operation>
+	</portType>
+	<binding name="OrdenDevolverSoapBinding" type="wsdlns:OrdenDevolverSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="Execute">
+			<soap:operation soapAction="WServicesaction/AORDENDEVOLVER.Execute" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="OrdenDevolver">
+		<port name="OrdenDevolverSoapPort" binding="wsdlns:OrdenDevolverSoapBinding">
+			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordendevolver.aspx" />
+		</port>
+	</service>
+</definitions>
