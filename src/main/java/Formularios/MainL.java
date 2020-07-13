@@ -3676,14 +3676,15 @@ public class MainL extends javax.swing.JFrame {
         int banderaControl = 0;
         int estadoPami = 1;
         int estado_orden;
+        String fechaDate = "";
         /////////////////PAMO//////////////////////
         if (id_obra_social == 58) {
             ConexionMariaDB mysqlpAMI = new ConexionMariaDB();
             Connection cnPAMI = mysqlpAMI.Conectar();
             String num_orden_PAMI = txtnumorden.getText();
             txtfecha.setText(txtDiaOrden.getText() + "/" + txtmes.getText() + "/" + txtaño.getText());
+            fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtDiaOrden.getText();
             if (banderamodifica == 0) {
-
                 try {
                     String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
                     Statement stControl = cnPAMI.createStatement();
@@ -3696,12 +3697,13 @@ public class MainL extends javax.swing.JFrame {
                     } else {
                         estadoPami = 0;
                         JOptionPane.showMessageDialog(null, "La orden ya se encuentra cargada. Separar bono");
-
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        } else {
+            fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtfecha.getText().substring(0,1);
         }
         ///////////////////////////////////////////
 
@@ -3821,7 +3823,8 @@ public class MainL extends javax.swing.JFrame {
                                         observacion,
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
 
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     System.out.println("Anulacion Osde");
@@ -3879,7 +3882,8 @@ public class MainL extends javax.swing.JFrame {
                                         respuestapractica.substring(pos + 15, pos2),
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
                                 System.out.println(respuestapractica);
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     cursor2();
@@ -3970,7 +3974,8 @@ public class MainL extends javax.swing.JFrame {
                                         observacion,
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     System.out.println("Anulacion sw");
                                     mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fechaosde + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
@@ -4024,7 +4029,8 @@ public class MainL extends javax.swing.JFrame {
                                         respuestapractica.substring(pos + 15, pos2),
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     cursor2();
                                     JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
@@ -4160,7 +4166,8 @@ public class MainL extends javax.swing.JFrame {
                                         observacion,
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     System.out.println("Anulacion boreal");
                                     /////////////////////////////////////////////////////////////////////////////////
@@ -4261,7 +4268,8 @@ public class MainL extends javax.swing.JFrame {
                                     observacion,
                                     plan_ss,
                                     coseguro_ss,
-                                    estado_orden);
+                                    estado_orden,
+                                    fechaDate);
                             if (respuesta == 0) {
                                 try {
                                     DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -4475,7 +4483,8 @@ public class MainL extends javax.swing.JFrame {
                                     observacion,
                                     plan_ss,
                                     coseguro_ss,
-                                    estado_orden);
+                                    estado_orden,
+                                    fechaDate);
                             if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                 System.out.println("Anulacion sancor");
                                 ClienteSancor.PAWESSAV2ANULACION servicioanulacion = new ClienteSancor.PAWESSAV2ANULACION();
@@ -4534,7 +4543,8 @@ public class MainL extends javax.swing.JFrame {
                                     observacion,
                                     plan_ss,
                                     coseguro_ss,
-                                    estado_orden);
+                                    estado_orden,
+                                    fechaDate);
                             if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                 cursor2();
                                 JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
@@ -4729,7 +4739,8 @@ public class MainL extends javax.swing.JFrame {
                                             observacion,
                                             plan_ss,
                                             coseguro_ss,
-                                            estado_orden);
+                                            estado_orden,
+                                            fechaDate);
                                     if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                         System.out.println("Anulacion ss 1805");
                                         ClienteIPSST5.OrdenDevolverExecute servicio_anulacion = new ClienteIPSST5.OrdenDevolverExecute();
@@ -5116,7 +5127,8 @@ public class MainL extends javax.swing.JFrame {
                                                 observacion,
                                                 plan_ss,
                                                 coseguro_ss,
-                                                estado_orden);
+                                                estado_orden,
+                                                fechaDate);
                                         if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                             System.out.println("Anulacion ss 1806");
                                             ClienteIPSST6.OrdenValidadaAnularExecute servicio_anulacion = new ClienteIPSST6.OrdenValidadaAnularExecute();
@@ -5275,7 +5287,8 @@ public class MainL extends javax.swing.JFrame {
                                         observacion,
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     num_orden = "";
                                     System.out.println("Anulacion medife");
@@ -5376,7 +5389,8 @@ public class MainL extends javax.swing.JFrame {
                                         observacion,
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
 
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     cursor2();
@@ -5613,7 +5627,8 @@ public class MainL extends javax.swing.JFrame {
                                                 observacion,
                                                 plan_ss,
                                                 coseguro_ss,
-                                                estado_orden);
+                                                estado_orden,
+                                                fechaDate);
                                         if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
 
                                             System.out.println("Anulacion Jerarquicos");
@@ -5690,7 +5705,8 @@ public class MainL extends javax.swing.JFrame {
                                         observacion,
                                         plan_ss,
                                         coseguro_ss,
-                                        estado_orden);
+                                        estado_orden,
+                                        fechaDate);
                                 if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     cursor2();
                                     JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
@@ -5761,7 +5777,8 @@ public class MainL extends javax.swing.JFrame {
                                 observacion,//observacion,
                                 plan_ss,//0,
                                 coseguro_ss,
-                                estado_orden);//0.00                        
+                                estado_orden,
+                                fechaDate);//0.00                        
                         if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                             bandera_obra_social_comun = 0;
                         } else {
@@ -11749,14 +11766,11 @@ public class MainL extends javax.swing.JFrame {
                 }
             } else {
                 if (!txtnumafiliado.getText().equals("") && txtnumafiliado.getText().length() == 14) {
-
                     ban = 1;
-
                 }
                 if (ban == 1) {
                     txtmatricula.setEnabled(true);
                     txtmatricula.requestFocus();
-
                 } else {
                     JOptionPane.showMessageDialog(null, "Número de afiliado inválido. Recuerde que son 14 dígitos");
                     txtnumafiliado.requestFocus();
@@ -12036,11 +12050,11 @@ public class MainL extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void cbotipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbotipoActionPerformed
-       
+
     }//GEN-LAST:event_cbotipoActionPerformed
 
     private void cbotipoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbotipoKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtdocumento.requestFocus();
         }
     }//GEN-LAST:event_cbotipoKeyPressed

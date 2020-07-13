@@ -37,7 +37,8 @@ public class validar_orden {
             String observacion,
             String plan_ss,
             String coseguro_ss,
-            int estado) {
+            int estado,
+            String fechaDate) {
         ///////
         ConexionMariaDB mysql = new ConexionMariaDB();
         Connection cn = mysql.Conectar();
@@ -47,7 +48,7 @@ public class validar_orden {
             if (cantidad_practicas != 0) {
                 try {
                     CallableStatement SP_cargar_orden = null;
-                    SP_cargar_orden = cn.prepareCall("{CALL cargar_orden2 (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+                    SP_cargar_orden = cn.prepareCall("{CALL cargar_prueba (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
                     SP_cargar_orden.setInt(1, periodo);
                     SP_cargar_orden.setString(2, nombre_afiliado);
                     SP_cargar_orden.setString(3, dni_afiliado);
@@ -73,6 +74,7 @@ public class validar_orden {
                     SP_cargar_orden.setString(22, observacion);
                     SP_cargar_orden.setString(23, plan_ss);
                     SP_cargar_orden.setString(24, coseguro_ss);
+                    SP_cargar_orden.setString(25, fechaDate);
                     boolean respuesta = SP_cargar_orden.execute();
                     if (respuesta == true) {
                         bandera = 1;
