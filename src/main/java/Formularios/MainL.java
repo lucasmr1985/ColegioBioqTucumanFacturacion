@@ -339,12 +339,12 @@ public class MainL extends javax.swing.JFrame {
 
         new Detalle_Practicas(null, true).setVisible(true);
     }
-    
+
     void cargarPracticas(int idObraSocial) {
         conexion = new ConexionMariaDB();
         conexion.EstablecerConexion();
         listaPracticas = new ArrayList<>();
-        Practica.cargarPracticasIosfa(conexion.getConnection(), listaPracticas,idObraSocial);
+        Practica.cargarPracticasIosfa(conexion.getConnection(), listaPracticas, idObraSocial);
         conexion.cerrarConexion();
     }
 
@@ -3695,6 +3695,7 @@ public class MainL extends javax.swing.JFrame {
             String num_orden_PAMI = txtnumorden.getText();
             txtfecha.setText(txtDiaOrden.getText() + "/" + txtmes.getText() + "/" + txtaño.getText());
             fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtDiaOrden.getText();
+
             if (banderamodifica == 0) {
                 try {
                     String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
@@ -3704,7 +3705,13 @@ public class MainL extends javax.swing.JFrame {
                     banderaControl = rsControl.getInt(1);
 
                     if (banderaControl == 0) {
-                        estadoPami = 1;
+                        if (!txtnumafiliado.getText().equals("") && txtnumafiliado.getText().length() == 14) {
+                            estadoPami = 1;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Número de afiliado inválido. Recuerde que son 14 dígitos");
+                            txtnumafiliado.requestFocus();
+                            estadoPami = 0;
+                        }
                     } else {
                         estadoPami = 0;
                         JOptionPane.showMessageDialog(null, "La orden ya se encuentra cargada. Separar bono");
@@ -3714,7 +3721,7 @@ public class MainL extends javax.swing.JFrame {
                 }
             }
         } else {
-            fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtfecha.getText().substring(0,1);
+            fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtfecha.getText().substring(0, 2);
         }
         ///////////////////////////////////////////
 
@@ -5736,65 +5743,62 @@ public class MainL extends javax.swing.JFrame {
                         }
                     }
                 }
-                if(obra.equals("40813 - IOSFA")){
-                    
-                    double coseguroIosfa=0;
-                    int cuentaPracticasComunes=0;
+                if (obra.equals("40813 - IOSFA")) {
+
+                    double coseguroIosfa = 0;
+                    int cuentaPracticasComunes = 0;
                     String cadenaPractica;
-                    
-                    for(int i=0; i<tablapracticas.getRowCount();i++){
+
+                    for (int i = 0; i < tablapracticas.getRowCount(); i++) {
                         cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
-                        System.out.println("Tipo práctica:"+ Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
+                        System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
                         switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
                             case 3:
-                                if(Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal()>500){
-                                    
+                                if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
+
                                     coseguroIosfa = coseguroIosfa + 500;
-                                    
-                                }else{
-                                    
+
+                                } else {
+
                                     coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-                                    
-                                }   break;
+
+                                }
+                                break;
                             case 2:
-                                if(Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal()>200){
-                                    
+                                if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
+
                                     coseguroIosfa = coseguroIosfa + 200;
-                                    
-                                }else{
-                                    
+
+                                } else {
+
                                     coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-                                    
-                                }   break;
+
+                                }
+                                break;
                             case 1:
                                 cuentaPracticasComunes++;
                                 break;
                         }
                     }
-                    
-                    if(cuentaPracticasComunes>0){
-                        
-                        if(cuentaPracticasComunes>6){
-                            
-                            int excedente=cuentaPracticasComunes-6;
-                            coseguroIosfa = coseguroIosfa + excedente*40;
-                            
-                                                        
+
+                    if (cuentaPracticasComunes > 0) {
+
+                        if (cuentaPracticasComunes > 6) {
+
+                            int excedente = cuentaPracticasComunes - 6;
+                            coseguroIosfa = coseguroIosfa + excedente * 40;
+
                         }
                         coseguroIosfa = coseguroIosfa + 100;
                     }
-                   
-                    JOptionPane.showMessageDialog(null, "Coseguro: $"+coseguroIosfa);
-                    
+
+                    JOptionPane.showMessageDialog(null, "Coseguro: $" + coseguroIosfa);
+
                 }
             } else {
 
                 cursor();
-                
-                
-                
-                
-                
+
                 ////////////////////////////////////////////////////////////////////////////////////////////
                 plan_ss = "";
                 coseguro_ss = "";
@@ -5901,7 +5905,7 @@ public class MainL extends javax.swing.JFrame {
                         ResultSet rs4 = st4.executeQuery(sSQL4);
                         rs4.next();
                         ///System.out.println("bandera_jerarquicos = " + bandera_jerarquicos);
-                        if (rs4.getBoolean("estado") == true && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1 && bandera_sw == 1 && bandera_subsidio == 1 && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1 && bandera_iosfa ==1) {
+                        if (rs4.getBoolean("estado") == true && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1 && bandera_sw == 1 && bandera_subsidio == 1 && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1 && bandera_iosfa == 1) {
                             if (!txtnombreafiliado.getText().equals("") && !txtdocumento.getText().equals("") && !txtnumafiliado.getText().equals("")) {
                                 if (tablapracticas.getRowCount() != 0) {
                                     double total = 0.0, totalordenes = 0.0;
@@ -11736,8 +11740,9 @@ public class MainL extends javax.swing.JFrame {
                     txtobrasocial.setText("");
                 }
             }
-            if(id_obra_social==108)
-            cargarPracticas(id_obra_social);
+            if (id_obra_social == 108) {
+                cargarPracticas(id_obra_social);
+            }
         }
         cargarperiodo();
     }//GEN-LAST:event_txtobrasocialActionPerformed
