@@ -136,6 +136,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import modelo.Practica;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrintManager;
@@ -180,6 +181,8 @@ public class MainL extends javax.swing.JFrame {
     XMLGregorianCalendar date_jerarquicos;
     String fechahora_medife = "", codigo_seguridad_medife = "", fecha_txt = "";
     TableRowSorter sorter = null;
+    private ConexionMariaDB conexion;
+    public static ArrayList<Practica> listaPracticas;
 
     public MainL() {
         initComponents();
@@ -335,6 +338,14 @@ public class MainL extends javax.swing.JFrame {
         Detalle_Practicas.observacion = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 12).toString();
 
         new Detalle_Practicas(null, true).setVisible(true);
+    }
+    
+    void cargarPracticas(int idObraSocial) {
+        conexion = new ConexionMariaDB();
+        conexion.EstablecerConexion();
+        listaPracticas = new ArrayList<>();
+        Practica.cargarPracticasIosfa(conexion.getConnection(), listaPracticas,idObraSocial);
+        conexion.cerrarConexion();
     }
 
     ///////////////////////////////////////HILO Ordenes///////////////////////////////////////////////
@@ -3718,7 +3729,7 @@ public class MainL extends javax.swing.JFrame {
         int respuesta = 0;
         int banderaControlMedico = 0;
         cargarfecha();
-        int bandera_periodo = 0, subsidio = 0, bandera_medife = 0, bandera_obra_social_comun = 1, bandera_osde = 1, bandera_boreal = 1, bandera_sw = 1, bandera_sancor = 1, bandera_subsidio = 1, bandera_actualizacion = 0, bandera_jerarquicos = 1;
+        int bandera_periodo = 0, subsidio = 0, bandera_medife = 0, bandera_obra_social_comun = 1, bandera_osde = 1, bandera_boreal = 1, bandera_sw = 1, bandera_sancor = 1, bandera_subsidio = 1, bandera_actualizacion = 0, bandera_jerarquicos = 1, bandera_iosfa = 1;
         ConexionMariaDB mysql = new ConexionMariaDB();
         double COSEGURO = 0.0;
         Connection cn = mysql.Conectar();
@@ -3758,7 +3769,7 @@ public class MainL extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
         if (bandera_periodo == 0 && bandera_actualizacion == 0 && banderaControlMedico == 0 && estadoPami == 1) {
-            if (obra.equals("50015 - BOREAL") || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") || obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)") || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE") || obra.equals("9000 - ASOCIACION MUTUAL SANCOR") || obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE") || obra.equals("512 - MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.") || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) { ///|| obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
+            if (obra.equals("50015 - BOREAL") || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") || obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)") || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE") || obra.equals("9000 - ASOCIACION MUTUAL SANCOR") || obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE") || obra.equals("512 - MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.") || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE") || obra.equals("40813 - IOSFA")) { ///|| obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                 if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
                     plan_ss = "";
                     coseguro_ss = "";
@@ -5709,9 +5720,65 @@ public class MainL extends javax.swing.JFrame {
                         }
                     }
                 }
+                if(obra.equals("40813 - IOSFA")){
+                    
+                    double coseguroIosfa=0;
+                    int cuentaPracticasComunes=0;
+                    String cadenaPractica;
+                    
+                    for(int i=0; i<tablapracticas.getRowCount();i++){
+                        cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
+                        System.out.println("Tipo práctica:"+ Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
+                        switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
+                            case 3:
+                                if(Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal()>500){
+                                    
+                                    coseguroIosfa = coseguroIosfa + 500;
+                                    
+                                }else{
+                                    
+                                    coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                    
+                                }   break;
+                            case 2:
+                                if(Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal()>200){
+                                    
+                                    coseguroIosfa = coseguroIosfa + 200;
+                                    
+                                }else{
+                                    
+                                    coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                    
+                                }   break;
+                            case 1:
+                                cuentaPracticasComunes++;
+                                break;
+                        }
+                    }
+                    
+                    if(cuentaPracticasComunes>0){
+                        
+                        if(cuentaPracticasComunes>6){
+                            
+                            int excedente=cuentaPracticasComunes-6;
+                            coseguroIosfa = coseguroIosfa + excedente*40;
+                            
+                                                        
+                        }
+                        coseguroIosfa = coseguroIosfa + 100;
+                    }
+                   
+                    JOptionPane.showMessageDialog(null, "Coseguro: $"+coseguroIosfa);
+                    
+                }
             } else {
 
                 cursor();
+                
+                
+                
+                
+                
                 ////////////////////////////////////////////////////////////////////////////////////////////
                 plan_ss = "";
                 coseguro_ss = "";
@@ -5816,8 +5883,8 @@ public class MainL extends javax.swing.JFrame {
                         Statement st4 = cn.createStatement();
                         ResultSet rs4 = st4.executeQuery(sSQL4);
                         rs4.next();
-                        System.out.println("bandera_jerarquicos = " + bandera_jerarquicos);
-                        if (rs4.getBoolean("estado") == true && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1 && bandera_sw == 1 && bandera_subsidio == 1 && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1) {
+                        ///System.out.println("bandera_jerarquicos = " + bandera_jerarquicos);
+                        if (rs4.getBoolean("estado") == true && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1 && bandera_sw == 1 && bandera_subsidio == 1 && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1 && bandera_iosfa ==1) {
                             if (!txtnombreafiliado.getText().equals("") && !txtdocumento.getText().equals("") && !txtnumafiliado.getText().equals("")) {
                                 if (tablapracticas.getRowCount() != 0) {
                                     double total = 0.0, totalordenes = 0.0;
@@ -11652,6 +11719,8 @@ public class MainL extends javax.swing.JFrame {
                     txtobrasocial.setText("");
                 }
             }
+            if(id_obra_social==108)
+            cargarPracticas(id_obra_social);
         }
         cargarperiodo();
     }//GEN-LAST:event_txtobrasocialActionPerformed

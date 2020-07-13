@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ConexionMariaDB {
-
+private Connection connection;  
     public String db = "colegiobioquimicos";
     //public String url = "jdbc:mysql://localhost:3306/"+db;
    public String url = "jdbc:mariadb://db.cobituc.info:3306/"+db;
@@ -25,6 +25,34 @@ public class ConexionMariaDB {
 
     public String user = "root";
     public String pass = "";*/
+    
+    public Connection getConnection() {
+		return connection;
+	}
+    
+    public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
+    public void EstablecerConexion() {
+       
+        try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			connection = DriverManager.getConnection(url, user, pass);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException ex) {
+        Logger.getLogger(ConexionMariaDB.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+    public void cerrarConexion(){
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+    
 
     public Connection Conectar() {
         Connection link = null;
