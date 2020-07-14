@@ -3705,6 +3705,7 @@ public class MainL extends javax.swing.JFrame {
                     banderaControl = rsControl.getInt(1);
 
                     if (banderaControl == 0) {
+                        estado_orden = 3;
                         if (!txtnumafiliado.getText().equals("") && txtnumafiliado.getText().length() == 14) {
                             estadoPami = 1;
                         } else {
@@ -5855,7 +5856,11 @@ public class MainL extends javax.swing.JFrame {
                 }
                 if (banderamodifica == 0) {
                     if (!txtnumorden.getText().equals("")) {
-                        estado_orden = 1;
+                        if (id_obra_social == 58) {
+                            estado_orden = 3;
+                        } else {
+                            estado_orden = 1;
+                        }
                         System.out.println(id_practicas + "  " + n2);
                         /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                         validar_orden obra_social_comun = new validar_orden();
