@@ -5744,35 +5744,25 @@ public class MainL extends javax.swing.JFrame {
                     }
                 }
                 if (obra.equals("40813 - IOSFA")) {
-
                     double coseguroIosfa = 0;
                     int cuentaPracticasComunes = 0;
                     String cadenaPractica;
-
                     for (int i = 0; i < tablapracticas.getRowCount(); i++) {
                         cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
                         System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
                         switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
                             case 3:
                                 if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
-
                                     coseguroIosfa = coseguroIosfa + 500;
-
                                 } else {
-
                                     coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-
                                 }
                                 break;
                             case 2:
                                 if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
-
                                     coseguroIosfa = coseguroIosfa + 200;
-
                                 } else {
-
                                     coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-
                                 }
                                 break;
                             case 1:
@@ -5780,20 +5770,63 @@ public class MainL extends javax.swing.JFrame {
                                 break;
                         }
                     }
-
                     if (cuentaPracticasComunes > 0) {
-
                         if (cuentaPracticasComunes > 6) {
-
                             int excedente = cuentaPracticasComunes - 6;
                             coseguroIosfa = coseguroIosfa + excedente * 40;
-
                         }
                         coseguroIosfa = coseguroIosfa + 100;
                     }
-
-                    JOptionPane.showMessageDialog(null, "Coseguro: $" + coseguroIosfa);
-
+                    String cadena_practicas = "", id_practicas = "";
+                    int n2 = tablapracticas.getRowCount();
+                    if (tablapracticas.getRowCount() != 0) {
+                        int i = 0;
+                        if (n2 != 0) {
+                            while (i < n2) {
+                                plan_ss = plan_ss + "00";
+                                coseguro_ss = coseguro_ss + "00000.0";
+                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
+                                System.out.println(cadena_practicas);
+                                i++;
+                            }
+                        }
+                    } else {
+                        cursor2();
+                    }
+                    estado_orden = 1;
+                    System.out.println(id_practicas + "  " + n2);
+                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                    validar_orden obra_social_comun = new validar_orden();
+                    respuesta = obra_social_comun.valida(
+                            Integer.valueOf(txtaño.getText() + txtmes.getText()),//periodo
+                            txtnombreafiliado.getText(),//nombre_afiliado
+                            txtdocumento.getText(),//dni_afiliado
+                            txtnumafiliado.getText(),//numero_afiliado
+                            Integer.valueOf(txtmatricula.getText()),//matricula_presc
+                            txtnumorden.getText(),//numero_orden
+                            txtfecha.getText(),//fecha_orden
+                            Double.valueOf(txttotal1.getText()),//total_orden
+                            fecha,//fecha_carga,
+                            hora,//hora_carga,
+                            ip2,//ip,
+                            id_obra_social,//id_obrasocial,
+                            id_usuario,//id_usuario,
+                            n2,// cantidad_practicas,
+                            cadena_practicas,//practicas
+                            Double.valueOf(txtcoseguro.getText()),//Double.valueOf(txtcoseguro.getText()),
+                            fecha,//fecha,
+                            tipo_orden,//tipo_orden,
+                            observacion,//observacion,
+                            plan_ss,//0,
+                            coseguro_ss,
+                            estado_orden,
+                            fechaDate);//0.00                        
+                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                        bandera_obra_social_comun = 0;
+                    } else {
+                        bandera_obra_social_comun = 1;
+                    }
                 }
             } else {
 
