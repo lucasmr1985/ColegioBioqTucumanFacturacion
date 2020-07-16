@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Clases;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import static java.sql.Types.INTEGER;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author
- */
 public class validar_orden {
 
     public int valida(
@@ -43,6 +36,7 @@ public class validar_orden {
         ConexionMariaDB mysql = new ConexionMariaDB();
         Connection cn = mysql.Conectar();
         int bandera = 0;
+        int numeroOrden=0;
        
         if (!numero_afiliado.equals("") && !dni_afiliado.equals("") && !numero_afiliado.equals("")) {
             if (cantidad_practicas != 0) {
@@ -67,7 +61,7 @@ public class validar_orden {
                     SP_cargar_orden.setInt(16, cantidad_practicas);
                     System.out.println("practicas " + practicas);
                     SP_cargar_orden.setString(17, practicas);
-                    SP_cargar_orden.setString(18, "@_transaccion");
+                    SP_cargar_orden.registerOutParameter("_transaccion",INTEGER);
                     SP_cargar_orden.setDouble(19, coseguro);
                     SP_cargar_orden.setString(20, fecha_coseguro);
                     SP_cargar_orden.setInt(21, tipo_orden);
@@ -76,6 +70,8 @@ public class validar_orden {
                     SP_cargar_orden.setString(24, coseguro_ss);
                     SP_cargar_orden.setString(25, fechaDate);
                     boolean respuesta = SP_cargar_orden.execute();
+                    numeroOrden = SP_cargar_orden.getInt("_transaccion");
+                    
                     if (respuesta == true) {
                         bandera = 1;
                     } else {
@@ -94,11 +90,13 @@ public class validar_orden {
             }
         }
         if (bandera == 1) {
-            return 1;
+            return numeroOrden;
         } else {
             return 0;
         }
     }
+    
+    
 
     public double Redondear(double numero) {
         return Math.rint(numero * 100) / 100;
