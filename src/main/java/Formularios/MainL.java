@@ -5815,14 +5815,45 @@ public class MainL extends javax.swing.JFrame {
                             id_usuario,//id_usuario,
                             n2,// cantidad_practicas,
                             cadena_practicas,//practicas
-                            Double.valueOf(txtcoseguro.getText()),//Double.valueOf(txtcoseguro.getText()),
+                            coseguroIosfa,//Double.valueOf(txtcoseguro.getText()),
                             fecha,//fecha,
                             tipo_orden,//tipo_orden,
                             observacion,//observacion,
                             plan_ss,//0,
                             coseguro_ss,
                             estado_orden,
-                            fechaDate);//0.00                        
+                            fechaDate);//0.00
+                    int opcion = JOptionPane.YES_NO_OPTION;;
+                    JOptionPane.showConfirmDialog (null, "Desea imprimir el comprobante","Atención",opcion);
+                    JOptionPane.showMessageDialog(null, opcion);
+                    if(opcion==0){
+                            ConexionMariaDB cc = new ConexionMariaDB();
+        Connection cnn = cc.Conectar();
+        ////////////////Previsualizacion///////////////////////////
+        JFrame viewer = new JFrame();
+        viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
+        viewer.setSize(800, 600);
+        viewer.setLocationRelativeTo(null);
+        JasperViewer jv = null;
+        ///////////////////////////////////////////////////////////
+        Map parametros = new HashMap();
+        parametros.put("id_orden", respuesta);
+                    try {
+            JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
+            JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
+            //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
+            //JasperPrintManager.printReport(jPrint_comprobante, true);
+            jv = new JasperViewer(jPrint_comprobante, false);
+            viewer.getContentPane().add(jv.getContentPane());
+            viewer.setVisible(true);
+            cnn.close();
+        } catch (JRException ex) {
+            System.err.println("Error iReport: " + ex.getMessage());
+        }           catch (SQLException ex) {
+                        Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);                        
+                    }
+                    
+                }
                     if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                         bandera_obra_social_comun = 0;
                     } else {
@@ -12016,7 +12047,7 @@ public class MainL extends javax.swing.JFrame {
             b = 1;
         }
         if (b == 0) {
-            nombre_jasper = "Comprobante";
+            nombre_jasper = "Comprobante_iosfa";
         }
 
         try {
