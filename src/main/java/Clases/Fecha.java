@@ -59,7 +59,7 @@ public class Fecha {
         }
     
     
-     public java.util.Date stringAdate(String fecha) {
+     public static java.util.Date stringAdate(String fecha) {
         
         SimpleDateFormat formato_de_texto = new SimpleDateFormat("yyyy-MM-dd");
         

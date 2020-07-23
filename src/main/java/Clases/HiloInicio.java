@@ -26,7 +26,7 @@ public class HiloInicio extends Thread {
     public static String[] practicaconobra = new String[150000];
     public static String[] analisis = new String[50000];
     public static String novedad = "", version = "", aviso = "", link = "", link_descarga = "";
-    public static String version_actual = "216";
+    public static String version_actual = "217";
     public static int[] idobra = new int[150000];
     public static String[] precio_practica = new String[150000];
     public static int contadorpractica = 0;
@@ -171,7 +171,11 @@ public class HiloInicio extends Thread {
 
         ConexionMariaDB mysql = new ConexionMariaDB();
         Connection cn = mysql.Conectar();
-
+        idobrasocial = new int[500];
+        nombreobrasocial = new String[500];
+        arancel = new Double[500];
+        obrasocial = new String[500];
+        contadorobrasocial = 0;
         String sSQL = "SELECT id_obrasocial,razonsocial_obrasocial,importeunidaddearancel_obrasocial,codigo_obrasocial,añonbu FROM obrasocial where estado_obrasocial=1";
         try {
             Statement st = cn.createStatement();
