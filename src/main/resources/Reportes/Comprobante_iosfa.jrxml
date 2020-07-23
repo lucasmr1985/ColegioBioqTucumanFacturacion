@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
-	<property name="ireport.zoom" value="2.85311670611003"/>
-	<property name="ireport.x" value="784"/>
-	<property name="ireport.y" value="266"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="22" bottomMargin="14" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+	<property name="ireport.zoom" value="2.357947691000025"/>
+	<property name="ireport.x" value="442"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="id_orden" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -55,6 +55,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 	<variable name="precio_practica_2" class="java.lang.Double" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{precio_practica}]]></variableExpression>
 	</variable>
+	<variable name="total" class="java.lang.String"/>
 	<title>
 		<band height="79">
 			<textField>
@@ -222,25 +223,17 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<text><![CDATA[Numero Af.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="4" width="86" height="14" uuid="e1adf7d4-11e8-4354-a9e6-d2ca7ca481dc"/>
+				<reportElement x="0" y="4" width="49" height="14" uuid="e1adf7d4-11e8-4354-a9e6-d2ca7ca481dc"/>
 				<box>
 					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 					<paragraph firstLineIndent="2"/>
 				</textElement>
-				<text><![CDATA[Total Coseguro:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="154" y="4" width="60" height="14" uuid="4552385d-acbb-47b6-b120-6b0b818561ad"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Subtotal:]]></text>
+				<text><![CDATA[Coseguro:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="167" y="75" width="86" height="14" uuid="8eeeb2a7-58db-404b-8570-b0cb4ee4991b"/>
@@ -251,17 +244,6 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Firma]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="308" y="4" width="86" height="14" uuid="732093b2-7dc9-4a4c-b7f7-8a03305f06b1"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-					<paragraph firstLineIndent="2"/>
-				</textElement>
-				<text><![CDATA[Total Coseguro:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="308" y="22" width="59" height="12" uuid="ed0e7547-73b2-4bb6-8861-dc35081feb28"/>
@@ -279,16 +261,6 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Firma]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="456" y="4" width="59" height="14" uuid="6a924062-19d9-4f07-b5f2-4b17244b1ec3"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Subtotal:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="367" y="22" width="186" height="12" uuid="1da43e17-9a0e-4fd0-a485-610f81de4e9a"/>
@@ -323,9 +295,11 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<textFieldExpression><![CDATA[$F{numero_afiliado}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$##.00">
-				<reportElement x="94" y="4" width="60" height="14" uuid="2d722f11-f6cb-464e-8a8c-79a206b99a12"/>
+				<reportElement x="49" y="4" width="42" height="14" uuid="2d722f11-f6cb-464e-8a8c-79a206b99a12"/>
 				<box>
 					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
@@ -334,7 +308,42 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$##.00">
-				<reportElement x="214" y="4" width="39" height="14" uuid="51ce1421-b37e-4af1-9693-d2fab3bff455"/>
+				<reportElement x="204" y="4" width="48" height="14" uuid="51ce1421-b37e-4af1-9693-d2fab3bff455"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph firstLineIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{precio_practica_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="4" width="27" height="14" uuid="969f9ab3-947d-479a-bde6-1b8b4cfdc56e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="4" width="49" height="14" uuid="42f5ea1f-b11e-4623-b2bf-7199017992b8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph firstLineIndent="2"/>
+				</textElement>
+				<text><![CDATA[Coseguro:]]></text>
+			</staticText>
+			<textField pattern="$##.00">
+				<reportElement x="506" y="4" width="47" height="14" uuid="70fdfa04-64d9-48b4-8439-db4f990eeb8a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -345,20 +354,11 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<textFieldExpression><![CDATA[$V{precio_practica_2}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$##.00">
-				<reportElement x="515" y="4" width="39" height="14" uuid="9e3a11b4-f7b3-4390-b29f-57ba74496ee8"/>
+				<reportElement x="351" y="4" width="42" height="14" uuid="57af2ec4-3f4a-4360-997a-4ef5fa54bf96"/>
 				<box>
 					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-					<paragraph firstLineIndent="2"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{precio_practica_2}]]></textFieldExpression>
-			</textField>
-			<textField pattern="$##.00">
-				<reportElement x="394" y="4" width="62" height="14" uuid="abd2a6ca-ef43-49e3-9a83-140c94da763b"/>
-				<box>
-					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
@@ -366,6 +366,17 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="479" y="4" width="27" height="14" uuid="ac55f824-d38e-4492-b307-6990acfb8333"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
 		</band>
 	</pageFooter>
 </jasperReport>

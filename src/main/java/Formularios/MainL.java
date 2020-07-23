@@ -22,7 +22,6 @@ import Clases.Hilo_Espera;
 import Clases.ImagenPDF;
 import Clases.Ordenes;
 import Clases.TripleDes;
-//import Clases.camposordenes;
 import Clases.camposboreal;
 import Clases.camposordenes_osde;
 import Clases.camposordenes_ss;
@@ -175,6 +174,7 @@ public class MainL extends javax.swing.JFrame {
     String[][] tablaimportar;
     Object prueba[] = new Object[10];
     TextAutoCompleter textAutoAcompleter;
+    TextAutoCompleter textAutoAcompleter2;
     public static String ruta = "C:\\Descargas-CBT\\";
     String obra = "", mensajepractica = "", mensajeanulacion = "", respuestapractica = "", respuestaafiliado = "", respuestaanulacion = "";
     String ip2 = "";
@@ -191,6 +191,7 @@ public class MainL extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         cargarip();
         cargarperiodo();
+        textAutoAcompleter2 = new TextAutoCompleter(txtobrasocial);
         cargarobrasocial();
         cargarorden();
         dobleclick();
@@ -210,6 +211,8 @@ public class MainL extends javax.swing.JFrame {
         tablapracticas.getColumnModel().getColumn(4).setPreferredWidth(0);
         ////////////////////////////////////////////////////////////////////////
         textAutoAcompleter = new TextAutoCompleter(txtpractica);
+        
+        
         lblcolegiado.setText(nombre_colegiado);
         lblcolegiado1.setText(nombre_colegiado);
         lblcolegiado2.setText(nombre_colegiado);
@@ -249,6 +252,8 @@ public class MainL extends javax.swing.JFrame {
                 mensaje(evt);
             }
         });
+        txtcoseguro.setEnabled(false);
+        txtfechacoseguro.setEnabled(false);
     }
 
     public void mensaje(ChangeEvent evt) {
@@ -746,15 +751,15 @@ public class MainL extends javax.swing.JFrame {
                             + "    JOIN ordenes ON colegiados.id_colegiados = ordenes.id_colegiados\n"
                             + "    JOIN detalle_ordenes ON detalle_ordenes.id_orden = ordenes.id_orden\n"
                             + "    JOIN obrasocial ON obrasocial.id_obrasocial = ordenes.id_obrasocial\n"
-                            + "WHERE detalle_ordenes.estado=0 and ordenes.estado_orden=1 and ordenes.id_colegiados=" + id_usuario + " and periodo=" + periododjj + " and ordenes.id_obrasocial=" + idobraimprime + "\n"
+                            + "WHERE detalle_ordenes.estado=0 and ordenes.estado_orden!=0 and ordenes.id_colegiados=" + id_usuario + " and periodo=" + periododjj + " and ordenes.id_obrasocial=" + idobraimprime + "\n"
                             + " GROUP BY ordenes.id_orden");
 
                     String estado = "";
                     int i = 1;
 
                     while (Rs.next()) {
-                        if (Rs.getInt(11) == 1) {
-                            if (Rs.getInt(11) == 1) {
+                        if (Rs.getInt(11) != 0) {
+                            if (Rs.getInt(11) != 0) {
                                 estado = "OK";
                             } else {
                                 estado = "ANULADA";
@@ -1717,22 +1722,20 @@ public class MainL extends javax.swing.JFrame {
     }
 
     void cargarobrasocial() {
-        TextAutoCompleter textAutoAcompleter = new TextAutoCompleter(txtobrasocial);
-
         int i = 0;
-
+        borrarobrasocial();
         // Recorro y cargo las obras sociales
         while (i < contadorobrasocial) {
-            textAutoAcompleter.addItem(obrasocial[i]);
+            textAutoAcompleter2.addItem(obrasocial[i]);
 
             i++;
         }
 
-        textAutoAcompleter.setMode(0); // infijo     
+        textAutoAcompleter2.setMode(0); // infijo     
 
         // textAutoAcompleter.setMode(1); // sufijo
         //textAutoAcompleter.setCaseSensitive(true); // Sensible a mayúsculas
-        textAutoAcompleter.setCaseSensitive(false); //No sensible a mayúsculas        
+        textAutoAcompleter2.setCaseSensitive(false); //No sensible a mayúsculas        
 
     }
 
@@ -1765,6 +1768,12 @@ public class MainL extends javax.swing.JFrame {
     void borrarpractica() {
         textAutoAcompleter.removeAllItems();
     }
+    
+    
+    void borrarobrasocial() {
+        textAutoAcompleter2.removeAllItems();
+    }
+   
 
     void cargarpracticaconobra() {
         int i = 0;
@@ -5745,38 +5754,41 @@ public class MainL extends javax.swing.JFrame {
                     }
                 }
                 if (obra.equals("40813 - IOSFA")) {
+
                     double coseguroIosfa = 0;
-                    int cuentaPracticasComunes = 0;
-                    String cadenaPractica;
-                    for (int i = 0; i < tablapracticas.getRowCount(); i++) {
-                        cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
-                        System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
-                        switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
-                            case 3:
-                                if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
-                                    coseguroIosfa = coseguroIosfa + 500;
-                                } else {
-                                    coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-                                }
-                                break;
-                            case 2:
-                                if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
-                                    coseguroIosfa = coseguroIosfa + 200;
-                                } else {
-                                    coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-                                }
-                                break;
-                            case 1:
-                                cuentaPracticasComunes++;
-                                break;
+                    if (chkcoseguro.isSelected()) {
+                        int cuentaPracticasComunes = 0;
+                        String cadenaPractica;
+                        for (int i = 0; i < tablapracticas.getRowCount(); i++) {
+                            cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
+                            System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
+                            switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
+                                case 3:
+                                    if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
+                                        coseguroIosfa = coseguroIosfa + 500;
+                                    } else {
+                                        coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                    }
+                                    break;
+                                case 2:
+                                    if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
+                                        coseguroIosfa = coseguroIosfa + 200;
+                                    } else {
+                                        coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                    }
+                                    break;
+                                case 1:
+                                    cuentaPracticasComunes++;
+                                    break;
+                            }
                         }
-                    }
-                    if (cuentaPracticasComunes > 0) {
-                        if (cuentaPracticasComunes > 6) {
-                            int excedente = cuentaPracticasComunes - 6;
-                            coseguroIosfa = coseguroIosfa + excedente * 40;
+                        if (cuentaPracticasComunes > 0) {
+                            if (cuentaPracticasComunes > 6) {
+                                int excedente = cuentaPracticasComunes - 6;
+                                coseguroIosfa = coseguroIosfa + excedente * 40;
+                            }
+                            coseguroIosfa = coseguroIosfa + 100;
                         }
-                        coseguroIosfa = coseguroIosfa + 100;
                     }
                     String cadena_practicas = "", id_practicas = "";
                     int n2 = tablapracticas.getRowCount();
@@ -5823,37 +5835,39 @@ public class MainL extends javax.swing.JFrame {
                             coseguro_ss,
                             estado_orden,
                             fechaDate);//0.00
-                    int opcion = JOptionPane.YES_NO_OPTION;;
-                    JOptionPane.showConfirmDialog (null, "Desea imprimir el comprobante","Atención",opcion);
-                    JOptionPane.showMessageDialog(null, opcion);
-                    if(opcion==0){
+                    if (chkcoseguro.isSelected()) {
+                        
+                        int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + coseguroIosfa + "\nDesea Imprimir un comprobante?", "IOSFA Impresíon", JOptionPane.YES_NO_OPTION);
+
+                        if (opcion == 0) {
                             ConexionMariaDB cc = new ConexionMariaDB();
-        Connection cnn = cc.Conectar();
-        ////////////////Previsualizacion///////////////////////////
-        JFrame viewer = new JFrame();
-        viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
-        viewer.setSize(800, 600);
-        viewer.setLocationRelativeTo(null);
-        JasperViewer jv = null;
-        ///////////////////////////////////////////////////////////
-        Map parametros = new HashMap();
-        parametros.put("id_orden", respuesta);
-                    try {
-            JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
-            JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
-            //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
-            //JasperPrintManager.printReport(jPrint_comprobante, true);
-            jv = new JasperViewer(jPrint_comprobante, false);
-            viewer.getContentPane().add(jv.getContentPane());
-            viewer.setVisible(true);
-            cnn.close();
-        } catch (JRException ex) {
-            System.err.println("Error iReport: " + ex.getMessage());
-        }           catch (SQLException ex) {
-                        Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);                        
+                            Connection cnn = cc.Conectar();
+                            ////////////////Previsualizacion///////////////////////////
+                            JFrame viewer = new JFrame();
+                            viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
+                            viewer.setSize(800, 600);
+                            viewer.setLocationRelativeTo(null);
+                            JasperViewer jv = null;
+                            ///////////////////////////////////////////////////////////
+                            Map parametros = new HashMap();
+                            parametros.put("id_orden", respuesta);
+                            try {
+                                JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
+                                JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
+                                //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
+                                JasperPrintManager.printReport(jPrint_comprobante, false);
+                                //jv = new JasperViewer(jPrint_comprobante, false);
+                                //viewer.getContentPane().add(jv.getContentPane());
+                                //viewer.setVisible(true);
+                                cnn.close();
+                            } catch (JRException ex) {
+                                System.err.println("Error iReport: " + ex.getMessage());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                        }
                     }
-                    
-                }
                     if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                         bandera_obra_social_comun = 0;
                     } else {
@@ -10017,7 +10031,8 @@ public class MainL extends javax.swing.JFrame {
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SUBSIDIO DE SALUD - ONLINE")
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("JERARQUICOS SALUD - EMP. BNA - ONLINE")
-                    || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.")) {
+                    || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.")
+                    || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("IOSFA")) {
 
                 // else {
                 JOptionPane.showMessageDialog(null, "Las ordenes cargadas ONLINE deben ser anuladas...");
@@ -11834,11 +11849,17 @@ public class MainL extends javax.swing.JFrame {
     private void chkcoseguroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chkcoseguroKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (chkcoseguro.isSelected()) {
-                txtcoseguro.setEnabled(true);
-                jLabel24.setEnabled(true);
-                txtfechacoseguro.setEnabled(true);
-                jLabel25.setEnabled(true);
-                chkcoseguro.transferFocus();
+
+                if (!txtobrasocial.getText().equals("40813 - IOSFA")) {
+                    txtcoseguro.setEnabled(true);
+                    jLabel24.setEnabled(true);
+                    txtfechacoseguro.setEnabled(true);
+                    jLabel25.setEnabled(true);
+                    chkcoseguro.transferFocus();
+                }else{
+                    txtpractica.requestFocus();
+                }
+
             } else {
                 if (txtpractica.isEditable()) {
                     txtcoseguro.setEnabled(false);
@@ -11859,14 +11880,19 @@ public class MainL extends javax.swing.JFrame {
 
     private void chkcoseguroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkcoseguroActionPerformed
         if (chkcoseguro.isSelected()) {
-            txtcoseguro.setEnabled(true);
-            txtcoseguro.setEditable(true);
-            txtcoseguro.selectAll();
-            txtfechacoseguro.setText(fecha);
-            jLabel24.setEnabled(true);
-            txtfechacoseguro.setEnabled(true);
-            jLabel25.setEnabled(true);
-            chkcoseguro.transferFocus();
+            if (!txtobrasocial.getText().equals("40813 - IOSFA")) {
+                txtcoseguro.setEnabled(true);
+                txtcoseguro.setEditable(true);
+                txtcoseguro.selectAll();
+                txtfechacoseguro.setText(fecha);
+                jLabel24.setEnabled(true);
+                txtfechacoseguro.setEnabled(true);
+                jLabel25.setEnabled(true);
+                chkcoseguro.transferFocus();
+            }
+            else{
+               txtpractica.requestFocus();
+           }
         } else {
             txtcoseguro.setEnabled(false);
             jLabel24.setEnabled(false);
@@ -12046,8 +12072,12 @@ public class MainL extends javax.swing.JFrame {
             nombre_jasper = "Comprobante_boreal_1";
             b = 1;
         }
-        if (b == 0) {
+        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().toString().equals("IOSFA")) {
             nombre_jasper = "Comprobante_iosfa";
+            b = 1;
+        }
+        if (b == 0) {
+            nombre_jasper = "Comprobante";
         }
 
         try {

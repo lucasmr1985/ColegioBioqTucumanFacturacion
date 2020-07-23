@@ -19,6 +19,7 @@ public class Resumen_OS extends javax.swing.JDialog {
 
     DefaultTableModel model;
     DefaultTableCellRenderer alinearCentro, alinearDerecha, alinearIzquierda;
+    public static double coseguro;
 
     public Resumen_OS(java.awt.Frame parent, boolean modal) {
 
@@ -33,10 +34,10 @@ public class Resumen_OS extends javax.swing.JDialog {
 
     void cargardatostabla_resumen(String valor) {
         cursor();
-        String[] Titulo = {"Cod O.S:", "Nombre de Obra Social", "Periodo", "U. Hnrs", "Importe", "Cant. Prac.", "Cant. Ord."};
+        String[] Titulo = {"Cod O.S:", "Nombre de Obra Social", "Periodo", "", "Importe", "Cant. Prac.", "Cant. Ord."};
         String[] Registros = new String[7];
 
-        String sql = "SELECT count(detalle_ordenes.cod_practica),count(DISTINCT(ordenes.id_orden)),sum(detalle_ordenes.precio_practica),obrasocial.id_obrasocial,obrasocial.razonsocial_obrasocial,obrasocial.codigo_obrasocial,obrasocial.importeunidaddegasto_obrasocial,obrasocial.importeunidaddearancel_obrasocial\n"
+        String sql = "SELECT count(detalle_ordenes.cod_practica),count(DISTINCT(ordenes.id_orden)),sum(detalle_ordenes.precio_practica),obrasocial.id_obrasocial,obrasocial.razonsocial_obrasocial,obrasocial.codigo_obrasocial,obrasocial.importeunidaddegasto_obrasocial,obrasocial.importeunidaddearancel_obrasocial \n"
                 + "FROM ordenes \n"
                 + "INNER JOIN colegiados ON colegiados.id_colegiados=ordenes.id_colegiados \n"
                 + "INNER JOIN detalle_ordenes ON detalle_ordenes.id_orden=ordenes.id_orden \n"
@@ -52,7 +53,7 @@ public class Resumen_OS extends javax.swing.JDialog {
         };
         ConexionMariaDB cc = new ConexionMariaDB();
         Connection cn = cc.Conectar();
-
+        coseguro = 0;
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -60,14 +61,14 @@ public class Resumen_OS extends javax.swing.JDialog {
                 Registros[0] = rs.getString("obrasocial.codigo_obrasocial");
                 Registros[1] = rs.getString("obrasocial.razonsocial_obrasocial");
                 Registros[2] = MainL.periododjj;
-                Registros[3] = rs.getString("obrasocial.importeunidaddearancel_obrasocial");
+                Registros[3] = "";
                 Registros[4] = rs.getString("sum(detalle_ordenes.precio_practica)");
                 Registros[5] = rs.getString("count(detalle_ordenes.cod_practica)");
                 Registros[6] = rs.getString("count(DISTINCT(ordenes.id_orden))");
 
                 model.addRow(Registros);
             }
-
+//            txtCoseguro.setText(coseguro+"");
             tabla_resumen_OS.setModel(model);
             tabla_resumen_OS.setAutoCreateRowSorter(true);
             /////
@@ -95,7 +96,7 @@ public class Resumen_OS extends javax.swing.JDialog {
         cursor2();
     }
 
-     void cursor() {
+    void cursor() {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         /* this.btnCursor02.setCursor(new Cursor(Cursor.HAND_CURSOR));
          this.btnCursor03.setCursor(new Cursor(Cursor.MOVE_CURSOR));
@@ -122,7 +123,7 @@ public class Resumen_OS extends javax.swing.JDialog {
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         this.pack();
     }
-    
+
     void alinear() {
         alinearCentro = new DefaultTableCellRenderer();
         alinearCentro.setHorizontalAlignment(SwingConstants.CENTER);
@@ -238,19 +239,19 @@ public class Resumen_OS extends javax.swing.JDialog {
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnimprimir)
-                        .addGap(122, 122, 122)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtpracticas, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtpracticas, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(184, 184, 184)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -265,16 +266,17 @@ public class Resumen_OS extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtpracticas, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnimprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel14)
-                        .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtpracticas)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(btnimprimir))
+                        .addGap(0, 1, Short.MAX_VALUE))
+                    .addComponent(txttotal)
+                    .addComponent(txtordenes, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
@@ -282,7 +284,10 @@ public class Resumen_OS extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
