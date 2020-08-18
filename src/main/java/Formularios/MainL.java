@@ -124,6 +124,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.RowFilter;
@@ -211,8 +212,7 @@ public class MainL extends javax.swing.JFrame {
         tablapracticas.getColumnModel().getColumn(4).setPreferredWidth(0);
         ////////////////////////////////////////////////////////////////////////
         textAutoAcompleter = new TextAutoCompleter(txtpractica);
-        
-        
+
         lblcolegiado.setText(nombre_colegiado);
         lblcolegiado1.setText(nombre_colegiado);
         lblcolegiado2.setText(nombre_colegiado);
@@ -408,6 +408,9 @@ public class MainL extends javax.swing.JFrame {
                         if (Rs.getInt(11) == 2) {
                             estado = "OBSERVADA";
                         }
+                        if (Rs.getInt(11) == 3) {
+                            estado = "AUDITORIA";
+                        }
                         datos[0] = Rs.getString(1);
                         datos[1] = Rs.getString(2);
                         datos[2] = Rs.getString(3);
@@ -499,6 +502,9 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (Rs.getInt(11) == 2) {
                             estado = "OBSERVADA";
+                        }
+                        if (Rs.getInt(11) == 3) {
+                            estado = "AUDITORIA";
                         }
                         datos[0] = Rs.getString(1);
                         datos[1] = Rs.getString(2);
@@ -760,7 +766,11 @@ public class MainL extends javax.swing.JFrame {
                     while (Rs.next()) {
                         if (Rs.getInt(11) != 0) {
                             if (Rs.getInt(11) != 0) {
+                                if (Rs.getInt(11) == 3) {
+                            estado = "AUDITORIA";
+                        } else{
                                 estado = "OK";
+                                }
                             } else {
                                 estado = "ANULADA";
                             }
@@ -1200,7 +1210,9 @@ public class MainL extends javax.swing.JFrame {
                         if (Rs.getInt(11) == 1) {
                             if (Rs.getInt(11) == 1) {
                                 estado = "OK";
-                            } else {
+                            } else if(Rs.getInt(11) == 3){
+                                estado = "AUDITORIA";
+                            }else{
                                 estado = "ANULADA";
                             }
                             datos[0] = Rs.getString(1);
@@ -1768,12 +1780,10 @@ public class MainL extends javax.swing.JFrame {
     void borrarpractica() {
         textAutoAcompleter.removeAllItems();
     }
-    
-    
+
     void borrarobrasocial() {
         textAutoAcompleter2.removeAllItems();
     }
-   
 
     void cargarpracticaconobra() {
         int i = 0;
@@ -2095,6 +2105,9 @@ public class MainL extends javax.swing.JFrame {
         btnobrasociales = new javax.swing.JButton();
         btnnomenclador = new javax.swing.JButton();
         btnnbu = new javax.swing.JButton();
+        btnPrensa = new javax.swing.JButton();
+        btnSubsidio = new javax.swing.JButton();
+        btnIosfa = new javax.swing.JButton();
         btnsalir2 = new javax.swing.JButton();
         btnsalir4 = new javax.swing.JButton();
         lblcolegiado3 = new javax.swing.JLabel();
@@ -2453,7 +2466,7 @@ public class MainL extends javax.swing.JFrame {
         });
 
         cbotipo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden Médica Electronica", "Bono Especialista", "Bono Generalista" }));
+        cbotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden Médica Electrónica", "Bono Especialista", "Bono Generalista" }));
         cbotipo.setNextFocusableComponent(txtdocumento);
         cbotipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3447,7 +3460,7 @@ public class MainL extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3510,19 +3523,55 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnPrensa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnPrensa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
+        btnPrensa.setText("Prensa");
+        btnPrensa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrensaActionPerformed(evt);
+            }
+        });
+
+        btnSubsidio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSubsidio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
+        btnSubsidio.setText("Subsidio de Salud");
+        btnSubsidio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubsidioActionPerformed(evt);
+            }
+        });
+
+        btnIosfa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnIosfa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
+        btnIosfa.setText("Iosfa");
+        btnIosfa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIosfaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnnbu, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnobrasociales, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnnomenclador, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnobrasociales, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnnomenclador, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(btnSubsidio, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnIosfa, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -3534,6 +3583,11 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(btnnomenclador)
                     .addComponent(btnnbu)
                     .addComponent(jButton3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPrensa)
+                    .addComponent(btnSubsidio)
+                    .addComponent(btnIosfa))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -3631,9 +3685,9 @@ public class MainL extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnsalir2)
@@ -5763,16 +5817,24 @@ public class MainL extends javax.swing.JFrame {
                             cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
                             System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
                             switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
-                                case 3:
+
+                                case 4:
                                     if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
                                         coseguroIosfa = coseguroIosfa + 500;
                                     } else {
                                         coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
                                     }
                                     break;
-                                case 2:
+                                case 3:
                                     if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
                                         coseguroIosfa = coseguroIosfa + 200;
+                                    } else {
+                                        coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                    }
+                                    break;
+                                case 2:
+                                    if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 100) {
+                                        coseguroIosfa = coseguroIosfa + 100;
                                     } else {
                                         coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
                                     }
@@ -5836,17 +5898,17 @@ public class MainL extends javax.swing.JFrame {
                             estado_orden,
                             fechaDate);//0.00
                     if (chkcoseguro.isSelected()) {
-                        
+
                         int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + coseguroIosfa + "\nDesea Imprimir un comprobante?", "IOSFA Impresíon", JOptionPane.YES_NO_OPTION);
 
                         if (opcion == 0) {
                             ConexionMariaDB cc = new ConexionMariaDB();
                             Connection cnn = cc.Conectar();
                             ////////////////Previsualizacion///////////////////////////
-                            JFrame viewer = new JFrame();
-                            viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
-                            viewer.setSize(800, 600);
-                            viewer.setLocationRelativeTo(null);
+                             JDialog viewer = new JDialog(new javax.swing.JFrame(), "Coseguro IOSFA", true);
+            viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
+            viewer.setSize(800, 600);
+            viewer.setLocationRelativeTo(null);
                             JasperViewer jv = null;
                             ///////////////////////////////////////////////////////////
                             Map parametros = new HashMap();
@@ -5855,10 +5917,10 @@ public class MainL extends javax.swing.JFrame {
                                 JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
                                 JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
                                 //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
-                                JasperPrintManager.printReport(jPrint_comprobante, false);
-                                //jv = new JasperViewer(jPrint_comprobante, false);
-                                //viewer.getContentPane().add(jv.getContentPane());
-                                //viewer.setVisible(true);
+                               // JasperPrintManager.printReport(jPrint_comprobante, false);
+                                jv = new JasperViewer(jPrint_comprobante, false);
+                                viewer.getContentPane().add(jv.getContentPane());
+                                viewer.setVisible(true);
                                 cnn.close();
                             } catch (JRException ex) {
                                 System.err.println("Error iReport: " + ex.getMessage());
@@ -6050,6 +6112,7 @@ public class MainL extends javax.swing.JFrame {
                                             pst3.execute();
 
                                         } catch (Exception e) {
+                                            observacion = null;
                                             cursor2();
                                             JOptionPane.showMessageDialog(null, "Error en la base de datos...");
                                             JOptionPane.showMessageDialog(null, e);
@@ -6082,6 +6145,7 @@ public class MainL extends javax.swing.JFrame {
                                                 }
                                             }
                                         } catch (SQLException ex) {
+                                            observacion = null;
                                             cursor2();
                                             JOptionPane.showMessageDialog(null, ex);
                                         }
@@ -6159,6 +6223,7 @@ public class MainL extends javax.swing.JFrame {
                         }
                         cn.close();
                     } catch (Exception e) {
+                        observacion = null;
                         cursor2();
                         JOptionPane.showMessageDialog(null, e);
                         JOptionPane.showMessageDialog(null, "Error en la base de datos");
@@ -6256,6 +6321,7 @@ public class MainL extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al intentar ingresar la orden");
         }
         ///}
+        observacion = null;
         cursor2();
         btnaceptar.setEnabled(true);
     }//GEN-LAST:event_btnaceptarActionPerformed
@@ -6630,7 +6696,7 @@ public class MainL extends javax.swing.JFrame {
             }
         } else {
             if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)") || obra.equals("3102 - OSDE - OFFLINE")) {
-                if (tablapracticas.getRowCount() <= 24) {
+                if (tablapracticas.getRowCount() <= 20) {
                     if (!txtpractica.getText().equals("+")) {
                         DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
                         String cod = "", nom = "", cadena = txtpractica.getText();
@@ -6797,7 +6863,7 @@ public class MainL extends javax.swing.JFrame {
 
                 int band = 0;
 
-                if (txtnumorden.getText().length() > 12) {
+                if (cbotipo.getSelectedItem().equals("Orden Médica Electrónica")) {
                     if (!cadena.equals("")) {
                         i = 0;
                         int fila = 0;
@@ -6851,7 +6917,7 @@ public class MainL extends javax.swing.JFrame {
                         }
 
                     }
-                } else {
+                } else if (cbotipo.getSelectedItem().equals("Bono Especialista")) {
                     if (tablapracticas.getRowCount() <= 2) {
                         if (!cadena.equals("")) {
                             i = 0;
@@ -6955,6 +7021,63 @@ public class MainL extends javax.swing.JFrame {
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Superó el límite permitido");
+                    }
+                } else {
+                    if (!cadena.equals("")) {
+                        if (tablapracticas.getRowCount() <= 4) {
+                            i = 0;
+                            int fila = 0;
+
+                            while (i < contadorj) {
+                                if (cadena.equals(practica[i])) {
+                                    /* if (n != 0) {
+                                    fila = n;
+                                } else {
+                                    fila = 0;
+                                }*/
+                                    Object nuevo[] = {
+                                        n + 1, cod.substring(0, 6), nom, preciopractica[i], codfacpractica[i], idpractica[i]};
+                                    temp.addRow(nuevo);
+                                    /* tablapracticas.setValueAt(cod.substring(0, 6), fila, 1);
+                                tablapracticas.setValueAt(nom, fila, 2);
+                                tablapracticas.setValueAt(preciopractica[i], fila, 3);
+                                tablapracticas.setValueAt(codfacpractica[i], fila, 4);
+                                tablapracticas.setValueAt(idpractica[i], fila, 5);*/
+                                    band = 1;
+
+                                }
+                                i++;
+
+                                tablapracticas.getColumnModel().getColumn(0).setPreferredWidth(10);
+                                tablapracticas.getColumnModel().getColumn(1).setPreferredWidth(20);
+                                tablapracticas.getColumnModel().getColumn(2).setPreferredWidth(400);
+                                tablapracticas.getColumnModel().getColumn(3).setPreferredWidth(20);
+
+                                tablapracticas.getColumnModel().getColumn(4).setPreferredWidth(0);
+                                tablapracticas.getColumnModel().getColumn(5).setPreferredWidth(0);
+                                tablapracticas.getColumnModel().getColumn(4).setMaxWidth(0);
+                                tablapracticas.getColumnModel().getColumn(5).setMaxWidth(0);
+                                tablapracticas.getColumnModel().getColumn(4).setMinWidth(0);
+                                tablapracticas.getColumnModel().getColumn(5).setMinWidth(0);
+
+                                alinear();
+                                tablapracticas.getColumnModel().getColumn(0).setCellRenderer(alinearCentro);
+                                tablapracticas.getColumnModel().getColumn(1).setCellRenderer(alinearCentro);
+                                tablapracticas.getColumnModel().getColumn(2).setCellRenderer(alinearCentro);
+                                tablapracticas.getColumnModel().getColumn(3).setCellRenderer(alinearCentro);
+
+                                Rectangle r = tablapracticas.getCellRect(tablapracticas.getRowCount() - 1, 0, true);
+                                tablapracticas.scrollRectToVisible(r);
+                                tablapracticas.getSelectionModel().setSelectionInterval(tablapracticas.getRowCount() - 1, tablapracticas.getRowCount() - 1);
+                                cargartotalpracticas();
+                            }
+                            if (band == 0) {
+                                JOptionPane.showMessageDialog(null, "La practica no es aceptada por la Obra Social...");
+                                txtpractica.requestFocus();
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Superó el límite permitido");
+                        }
                     }
                 }
 
@@ -9972,7 +10095,9 @@ public class MainL extends javax.swing.JFrame {
                     String estado = "";
                     if (rs.getInt("estado_orden") == 1) {
                         estado = "OK";
-                    } else {
+                    } else if(rs.getInt("estado_orden") == 3){
+                        estado = "AUDITORIA";
+                    }else{
                         estado = "ANULADA";
                     }
                     Registros[10] = estado;
@@ -10023,7 +10148,7 @@ public class MainL extends javax.swing.JFrame {
     }
 
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
-        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK")) {
+        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("AUDITORIA")) {
             if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("BOREAL")
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SWISS MEDICAL GROUP S.A. - ONLINE")
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE")
@@ -10097,7 +10222,9 @@ public class MainL extends javax.swing.JFrame {
                             /////////OSDE////////////////////////////////////////////////////
                             if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE  ( RESPONSABLES INSCRIPTOS)")) {
                                 System.out.println("Anulacion Osde");
+
                                 mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+
                                 HttpOsdeAnulacion http = new HttpOsdeAnulacion();
                                 System.out.println("Testing 3 - Send Http GET request");
                                 try {
@@ -11856,7 +11983,7 @@ public class MainL extends javax.swing.JFrame {
                     txtfechacoseguro.setEnabled(true);
                     jLabel25.setEnabled(true);
                     chkcoseguro.transferFocus();
-                }else{
+                } else {
                     txtpractica.requestFocus();
                 }
 
@@ -11889,10 +12016,9 @@ public class MainL extends javax.swing.JFrame {
                 txtfechacoseguro.setEnabled(true);
                 jLabel25.setEnabled(true);
                 chkcoseguro.transferFocus();
+            } else {
+                txtpractica.requestFocus();
             }
-            else{
-               txtpractica.requestFocus();
-           }
         } else {
             txtcoseguro.setEnabled(false);
             jLabel24.setEnabled(false);
@@ -12232,6 +12358,36 @@ public class MainL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbotipoKeyPressed
 
+    private void btnPrensaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrensaActionPerformed
+
+        try {
+            Desktop.getDesktop().browse(new URI("http://prensanet.osppt.org.ar:8080/PrensaNet/servlet/com.prensanet.login"));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
+        }
+        
+    }//GEN-LAST:event_btnPrensaActionPerformed
+
+    private void btnSubsidioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubsidioActionPerformed
+        
+        try {
+            Desktop.getDesktop().browse(new URI("https://validaciones.ipsst.gov.ar/IPSST_GAM/gamremotelogin.aspx?6bd5d16ab8cf48d88bad332bb731b2d8"));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
+        }
+        
+    }//GEN-LAST:event_btnSubsidioActionPerformed
+
+    private void btnIosfaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIosfaActionPerformed
+
+        try {
+            Desktop.getDesktop().browse(new URI("https://iosfa.gob.ar/"));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
+        }
+        
+    }//GEN-LAST:event_btnIosfaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;
     private javax.swing.JPanel Facturacion;
@@ -12241,6 +12397,9 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JPanel Ordenes;
     private javax.swing.JMenuItem Practicas;
     private javax.swing.JPanel Utilitarios;
+    private javax.swing.JButton btnIosfa;
+    private javax.swing.JButton btnPrensa;
+    private javax.swing.JButton btnSubsidio;
     private javax.swing.JButton btnaceptar;
     private javax.swing.JButton btnaceptar2;
     private javax.swing.JButton btnborrar;
