@@ -15,8 +15,11 @@ public class ConexionMariaDBBackup {
 //public String url = "jdbc:mariadb://3.16.170.11:3306/"+db;
     // public String url = "jdbc:mysql://3.16.3.243:3306/"+db;
 
-    public String user = "root";
-    public String pass = "Cole978-+";
+   // public String user = "root";
+   // public String pass = "Cole978-+";
+    
+    public String user = "usFacturacion";
+    public String pass = "Cole978++";
 
     //public String pass = "Cole978-+";
     /*  public String db = "proveeduriaprueba";

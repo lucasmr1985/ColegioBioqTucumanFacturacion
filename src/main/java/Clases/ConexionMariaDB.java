@@ -15,8 +15,11 @@ private Connection connection;
    ///public String url = "jdbc:mariadb://138.99.7.73:3306/" + db;    
    //  public String url = "jdbc:mysql://66.97.36.239:3306/"+db;
 
-    public String user = "root";
-    public String pass = "Cole978-+";
+   // public String user = "root";
+   // public String pass = "Cole978-+";
+    
+    public String user = "usFacturacion";
+    public String pass = "Cole978++";
 
     //public String pass = "Cole978-+";
     /*  public String db = "proveeduriaprueba";
