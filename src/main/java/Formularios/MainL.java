@@ -767,9 +767,9 @@ public class MainL extends javax.swing.JFrame {
                         if (Rs.getInt(11) != 0) {
                             if (Rs.getInt(11) != 0) {
                                 if (Rs.getInt(11) == 3) {
-                            estado = "AUDITORIA";
-                        } else{
-                                estado = "OK";
+                                    estado = "AUDITORIA";
+                                } else {
+                                    estado = "OK";
                                 }
                             } else {
                                 estado = "ANULADA";
@@ -881,13 +881,14 @@ public class MainL extends javax.swing.JFrame {
 
                             total = 0;
                             int id_ordenes = 0;
-                            if (idobraimprime == 89) {
+                            if (idobraimprime == 89 || idobraimprime == 108 || idobraimprime == 21) {
                                 Statement st7 = cn.createStatement();
                                 String sql7 = "SELECT  sum(coseguro)\n"
                                         + "FROM ordenes\n"
                                         + "WHERE periodo=" + periodo + " and estado_orden=1 and id_obrasocial=89 and id_colegiados=" + id_usuario;
                                 ResultSet rs7 = st7.executeQuery(sql7);
                                 if (rs7.next()) {
+                                    coseguro=0;
                                     coseguro = Redondeardosdigitos(rs7.getDouble(1));
                                 }
                             }
@@ -897,7 +898,7 @@ public class MainL extends javax.swing.JFrame {
                                 codigo_obra = Integer.valueOf(CodObra);
                                 if (idobraimprime == 11 || idobraimprime == 12
                                         || idobraimprime == 14 || idobraimprime == 90 || idobraimprime == 100
-                                        || idobraimprime == 103 || idobraimprime == 15) {
+                                        || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113 ) {
                                     camposordenes_ss tipo_ss;
                                     //System.out.println(rs.getString("id_orden"));
                                     if (id_ordenes == 0) {
@@ -1057,7 +1058,7 @@ public class MainL extends javax.swing.JFrame {
                             }
                         }
 
-                        if (CodObra.equals("50015")) {
+                        if (CodObra.equals("50015") || CodObra.equals("40813") || CodObra.equals("2700")) {
                             try {
                                 JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Ordenes_coseguro.jasper"));
                                 parametros.put("total_letras_pesos", total_pesos_letras + " PESOS");
@@ -1080,7 +1081,7 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810")) {
+                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("1807")) {
                             try {
                                 pesos = totalconcoseguro;
                                 centavos = Redondearcentavos(pesos);
@@ -1135,7 +1136,8 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("50015") || CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("511")) {
+                                || CodObra.equals("1806") || CodObra.equals("1810") ||  CodObra.equals("1807") || CodObra.equals("511")
+                                 || CodObra.equals("40813") || CodObra.equals("2700")) {
 
                         } else {
                             System.out.println(CodObra);
@@ -1210,9 +1212,9 @@ public class MainL extends javax.swing.JFrame {
                         if (Rs.getInt(11) == 1) {
                             if (Rs.getInt(11) == 1) {
                                 estado = "OK";
-                            } else if(Rs.getInt(11) == 3){
+                            } else if (Rs.getInt(11) == 3) {
                                 estado = "AUDITORIA";
-                            }else{
+                            } else {
                                 estado = "ANULADA";
                             }
                             datos[0] = Rs.getString(1);
@@ -1477,7 +1479,7 @@ public class MainL extends javax.swing.JFrame {
                             }
                         }
 
-                        if (CodObra.equals("50015")) {
+                        if (CodObra.equals("50015") ) {
                             try {
                                 JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Ordenes_coseguro.jasper"));
                                 Map parametros = new HashMap();
@@ -1511,7 +1513,7 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810")) {
+                                || CodObra.equals("1806") || CodObra.equals("1810")|| CodObra.equals("1807") ) {
                             try {
                                 pesos = totalconcoseguro;
                                 centavos = Redondearcentavos(pesos);
@@ -1588,7 +1590,8 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("50015") || CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("511")) {
+                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("511")  || CodObra.equals("1807")
+                                 || CodObra.equals("40813")  || CodObra.equals("2700")) {
 
                         } else {
                             System.out.println(CodObra);
@@ -2110,8 +2113,8 @@ public class MainL extends javax.swing.JFrame {
         btnIosfa = new javax.swing.JButton();
         btnsalir2 = new javax.swing.JButton();
         btnsalir4 = new javax.swing.JButton();
-        lblcolegiado3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        lblcolegiado3 = new javax.swing.JLabel();
         btnsalir5 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
@@ -3460,7 +3463,7 @@ public class MainL extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3550,49 +3553,8 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnobrasociales, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnnomenclador, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(btnSubsidio, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnIosfa, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnobrasociales)
-                    .addComponent(btnnomenclador)
-                    .addComponent(btnnbu)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPrensa)
-                    .addComponent(btnSubsidio)
-                    .addComponent(btnIosfa))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         btnsalir2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnsalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
+        btnsalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logocbt.png"))); // NOI18N
         btnsalir2.setMnemonic('s');
         btnsalir2.setText("Pagina Web CBT");
         btnsalir2.setToolTipText("[Alt + s]");
@@ -3605,7 +3567,7 @@ public class MainL extends javax.swing.JFrame {
         btnsalir4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnsalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728983 - folder.png"))); // NOI18N
         btnsalir4.setMnemonic('c');
-        btnsalir4.setText("Ir a carpeta de descagas");
+        btnsalir4.setText("Ir a carpeta descagas");
         btnsalir4.setToolTipText("[Alt + c]");
         btnsalir4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3613,18 +3575,68 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        lblcolegiado3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblcolegiado3.setForeground(new java.awt.Color(0, 102, 255));
-        lblcolegiado3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/teamviewer-icon-32.png"))); // NOI18N
-        jButton1.setText("Instalar Asistencia Remota CBT");
+        jButton1.setText("Asistencia Remota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnobrasociales, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnSubsidio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnIosfa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnomenclador, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnobrasociales)
+                    .addComponent(btnnomenclador)
+                    .addComponent(btnnbu)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnPrensa)
+                        .addComponent(btnSubsidio)
+                        .addComponent(btnIosfa))
+                    .addComponent(btnsalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnsalir4)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        lblcolegiado3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblcolegiado3.setForeground(new java.awt.Color(0, 102, 255));
+        lblcolegiado3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnsalir5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnsalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728935 - exit left logout.png"))); // NOI18N
@@ -3665,12 +3677,7 @@ public class MainL extends javax.swing.JFrame {
                                 .addGap(94, 94, 94)))
                         .addComponent(jLabel15))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                        .addComponent(btnsalir4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnsalir5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -3685,15 +3692,11 @@ public class MainL extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnsalir2)
-                    .addComponent(btnsalir4)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsalir5))
+                .addComponent(btnsalir5)
                 .addContainerGap())
         );
 
@@ -3766,13 +3769,35 @@ public class MainL extends javax.swing.JFrame {
                     ResultSet rsControl = stControl.executeQuery(controlOrden);
                     rsControl.next();
                     banderaControl = rsControl.getInt(1);
-
                     if (banderaControl == 0) {
                         estado_orden = 3;
-                        if (!txtnumafiliado.getText().equals("") && txtnumafiliado.getText().length() == 14) {
-                            estadoPami = 1;
+                        if (!txtnumafiliado.getText().equals("")
+                                && txtnumafiliado.getText().length() == 14
+                                && !txtnombreafiliado.getText().equals("")
+                                && isNumeric(txtDiaOrden.getText())
+                                && txtDiaOrden.getText().length() == 2) {
+                            if ((txtnumorden.getText().substring(0, 4).equals("33" + txtaño.getText().substring(2))
+                                    || txtnumorden.getText().substring(0, 4).equals("33" + (Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                                    && txtnumorden.getText().length() == 13
+                                    && cbotipo.getSelectedIndex() == 0) {
+                                System.out.println("pami 1");
+                                estadoPami = 1;
+
+                            } else if ((txtnumorden.getText().substring(2, 4).equals(txtaño.getText().substring(2))
+                                    || txtnumorden.getText().substring(2, 4).equals(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                                    && txtnumorden.getText().length() == 11
+                                    && cbotipo.getSelectedIndex() == 1) {
+                                System.out.println("pami 2");
+                                estadoPami = 1;
+                            } else if (cbotipo.getSelectedIndex() == 2) {
+                                System.out.println("pami 3");
+                                estadoPami = 1;
+                            } else {
+                                estadoPami = 0;
+                                JOptionPane.showMessageDialog(null, "Número de orden incorrecto");
+                            }
                         } else {
-                            JOptionPane.showMessageDialog(null, "Número de afiliado inválido. Recuerde que son 14 dígitos");
+                            JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios");
                             txtnumafiliado.requestFocus();
                             estadoPami = 0;
                         }
@@ -3781,6 +3806,7 @@ public class MainL extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "La orden ya se encuentra cargada. Separar bono");
                     }
                 } catch (SQLException ex) {
+                    estadoPami = 0;
                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -3788,7 +3814,7 @@ public class MainL extends javax.swing.JFrame {
             fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtfecha.getText().substring(0, 2);
         }
         ///////////////////////////////////////////
-
+        System.out.println("estadoPami " + estadoPami);
         cargarip();
         try {
             cargar_fecha_jerarquicos();
@@ -3940,6 +3966,11 @@ public class MainL extends javax.swing.JFrame {
                                 int pos4 = respuestapractica.indexOf("</NroReferencia>");
                                 num_orden = respuestapractica.substring(pos3 + 15, pos4);
 
+                                observacion = respuestapractica.substring(pos + 15, pos2);
+                                if (observacion.length() > 500) {
+                                    observacion = observacion.substring(0, 500);
+                                }
+
                                 validar_orden osde = new validar_orden();
 
                                 respuesta = osde.valida(
@@ -3961,7 +3992,7 @@ public class MainL extends javax.swing.JFrame {
                                         Double.valueOf(txtcoseguro.getText()),
                                         txtfechacoseguro.getText(),
                                         tipo_orden,
-                                        respuestapractica.substring(pos + 15, pos2),
+                                        observacion,
                                         plan_ss,
                                         coseguro_ss,
                                         estado_orden,
@@ -4087,6 +4118,11 @@ public class MainL extends javax.swing.JFrame {
                                 int pos4 = respuestapractica.indexOf("</CodAutorizacion>");
                                 num_orden = respuestapractica.substring(pos3 + 17, pos4);
 
+                                observacion = respuestapractica.substring(pos + 15, pos2);
+                                if (observacion.length() > 500) {
+                                    observacion = observacion.substring(0, 500);
+                                }
+
                                 validar_orden swm = new validar_orden();
 
                                 respuesta = swm.valida(
@@ -4108,7 +4144,7 @@ public class MainL extends javax.swing.JFrame {
                                         Double.valueOf(txtcoseguro.getText()),
                                         txtfechacoseguro.getText(),
                                         tipo_orden,
-                                        respuestapractica.substring(pos + 15, pos2),
+                                        observacion,
                                         plan_ss,
                                         coseguro_ss,
                                         estado_orden,
@@ -4324,6 +4360,10 @@ public class MainL extends javax.swing.JFrame {
                             int pos3 = respuestapractica.indexOf("<AutObs>");
                             int pos4 = respuestapractica.indexOf("</AutObs>");
                             observacion = respuestapractica.substring(pos3 + 8, pos4);
+
+                            if (observacion.length() > 500) {
+                                observacion = observacion.substring(0, 500);
+                            }
                             ///Orden no se pudo grabar en boreal
                             estado_orden = 0;
                             ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4334,7 +4374,7 @@ public class MainL extends javax.swing.JFrame {
                                     txtdocumento.getText(),
                                     txtnumafiliado.getText(),
                                     Integer.valueOf(txtmatricula.getText()),
-                                    num_orden,
+                                    "0",
                                     fecha,
                                     Double.valueOf(txttotal1.getText()),
                                     fecha,
@@ -4600,6 +4640,9 @@ public class MainL extends javax.swing.JFrame {
                             }
                             System.out.println(mensaje);
                             observacion = mensaje;
+                            if (observacion.length() > 500) {
+                                observacion = observacion.substring(0, 500);
+                            }
                             /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                             validar_orden sancor = new validar_orden();
                             System.out.println(practicas);
@@ -4609,7 +4652,7 @@ public class MainL extends javax.swing.JFrame {
                                     txtdocumento.getText(),
                                     txtnumafiliado.getText(),
                                     Integer.valueOf(txtmatricula.getText()),
-                                    num_orden,
+                                    "0",
                                     fecha,
                                     Double.valueOf(txttotal1.getText()),
                                     fecha,
@@ -5446,6 +5489,12 @@ public class MainL extends javax.swing.JFrame {
 
                                 estado_orden = 0;
                                 txtnumorden.setText(num_orden);
+
+                                observacion = result;
+                                if (observacion.length() > 500) {
+                                    observacion = observacion.substring(0, 500);
+                                }
+
                                 /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                                 validar_orden medife = new validar_orden();
                                 System.out.println(practicas);
@@ -5762,6 +5811,9 @@ public class MainL extends javax.swing.JFrame {
                                 int pos_trans = observacion.indexOf("\"IdTransaccion\":");
                                 num_orden = observacion.substring(pos_trans + 16, pos_trans + 22);
                                 txtnumorden.setText(num_orden);
+                                if (observacion.length() > 500) {
+                                    observacion = observacion.substring(0, 500);
+                                }
                                 /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                                 validar_orden jerarquicos = new validar_orden();
                                 System.out.println(practicas);
@@ -5905,10 +5957,10 @@ public class MainL extends javax.swing.JFrame {
                             ConexionMariaDB cc = new ConexionMariaDB();
                             Connection cnn = cc.Conectar();
                             ////////////////Previsualizacion///////////////////////////
-                             JDialog viewer = new JDialog(new javax.swing.JFrame(), "Coseguro IOSFA", true);
-            viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
-            viewer.setSize(800, 600);
-            viewer.setLocationRelativeTo(null);
+                            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Coseguro IOSFA", true);
+                            viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
+                            viewer.setSize(800, 600);
+                            viewer.setLocationRelativeTo(null);
                             JasperViewer jv = null;
                             ///////////////////////////////////////////////////////////
                             Map parametros = new HashMap();
@@ -5917,7 +5969,7 @@ public class MainL extends javax.swing.JFrame {
                                 JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
                                 JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
                                 //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
-                               // JasperPrintManager.printReport(jPrint_comprobante, false);
+                                // JasperPrintManager.printReport(jPrint_comprobante, false);
                                 jv = new JasperViewer(jPrint_comprobante, false);
                                 viewer.getContentPane().add(jv.getContentPane());
                                 viewer.setVisible(true);
@@ -5962,7 +6014,7 @@ public class MainL extends javax.swing.JFrame {
                     //JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
                 }
                 if (banderamodifica == 0) {
-                    if (!txtnumorden.getText().equals("")) {
+                    if (!txtnumorden.getText().equals("") && txtdocumento.getText().length() >= 7 && !txtnombreafiliado.getText().equals("")) {
                         if (id_obra_social == 58) {
                             estado_orden = 3;
                         } else {
@@ -7736,6 +7788,7 @@ public class MainL extends javax.swing.JFrame {
         txttotal.setText("");
         txttotalordenes.setText("0");
         cargarperiodo();
+        txtmes1.requestFocus();
     }//GEN-LAST:event_btncancelar1ActionPerformed
 
     private void btnsalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalir1ActionPerformed
@@ -8156,6 +8209,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -8185,6 +8239,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -8787,6 +8842,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -8816,6 +8872,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -8928,6 +8985,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -8959,6 +9017,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -8985,7 +9044,7 @@ public class MainL extends javax.swing.JFrame {
         Connection cn = mysql.Conectar();
         String dni = txtdocumento.getText();
         if (!dni.equals("")) {
-            if (!dni.equals("11111111") && !dni.equals("22222222") && !dni.equals("33333333") && !dni.equals("44444444") && !dni.equals("55555555") && !dni.equals("66666666") && !dni.equals("77777777") && !dni.equals("88888888") && !dni.equals("99999999") && !dni.equals("00000000") && !dni.equals("1")) {
+            if (!dni.equals("11111111") && !dni.equals("22222222") && !dni.equals("33333333") && !dni.equals("44444444") && !dni.equals("55555555") && !dni.equals("66666666") && !dni.equals("77777777") && !dni.equals("88888888") && !dni.equals("99999999") && !dni.equals("00000000") && dni.length() >= 7) {
                 int i = 0, obrasocial = 0;
 
                 if (id_obra_social == 11 || id_obra_social == 12 || id_obra_social == 13 || id_obra_social == 14 || id_obra_social == 15 || id_obra_social == 90) {
@@ -9110,6 +9169,8 @@ public class MainL extends javax.swing.JFrame {
                     txtnumafiliado.setEditable(true);
                     jLabel18.setEnabled(true);
                     txtnombreafiliado.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un número de documento valido");
                 }
             }
         }
@@ -9256,6 +9317,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -9283,6 +9345,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -9392,6 +9455,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -9421,6 +9485,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -9683,6 +9748,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -9712,6 +9778,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -9759,6 +9826,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -9788,6 +9856,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -9843,6 +9912,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -9872,6 +9942,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -9919,6 +9990,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -9948,6 +10020,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -10001,6 +10074,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -10030,6 +10104,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -10095,9 +10170,9 @@ public class MainL extends javax.swing.JFrame {
                     String estado = "";
                     if (rs.getInt("estado_orden") == 1) {
                         estado = "OK";
-                    } else if(rs.getInt("estado_orden") == 3){
+                    } else if (rs.getInt("estado_orden") == 3) {
                         estado = "AUDITORIA";
-                    }else{
+                    } else {
                         estado = "ANULADA";
                     }
                     Registros[10] = estado;
@@ -10616,6 +10691,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes3.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -10635,6 +10711,7 @@ public class MainL extends javax.swing.JFrame {
             new LoginAdmin(this, true).setVisible(true);
             if (estadologinadmin == true) {
                 Facturacion.setEnabled(true);
+                txtmes1.requestFocus();
                 txtmes1.setEnabled(true);
                 txtaño1.setEnabled(true);
                 btnbuscar.setEnabled(true);
@@ -10645,6 +10722,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -10851,6 +10929,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -10880,6 +10959,7 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar3.setEnabled(true);
                 btncancelar1.setEnabled(true);
                 btnsalir1.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -10942,6 +11022,7 @@ public class MainL extends javax.swing.JFrame {
                 btnaceptar2.setEnabled(true);
                 btncancelar2.setEnabled(true);
                 btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
             } else {
                 jPanel7.setEnabled(false);
                 txtmes3.setEnabled(false);
@@ -12365,27 +12446,27 @@ public class MainL extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
         }
-        
+
     }//GEN-LAST:event_btnPrensaActionPerformed
 
     private void btnSubsidioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubsidioActionPerformed
-        
+
         try {
-            Desktop.getDesktop().browse(new URI("https://validaciones.ipsst.gov.ar/IPSST_GAM/gamremotelogin.aspx?6bd5d16ab8cf48d88bad332bb731b2d8"));
+            Desktop.getDesktop().browse(new URI("https://validaciones.ipsst.gov.ar/"));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
         }
-        
+
     }//GEN-LAST:event_btnSubsidioActionPerformed
 
     private void btnIosfaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIosfaActionPerformed
 
         try {
-            Desktop.getDesktop().browse(new URI("https://iosfa.gob.ar/"));
+            Desktop.getDesktop().browse(new URI("http://validador.iosfa.gob.ar:5080/Login/Login.aspx"));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
         }
-        
+
     }//GEN-LAST:event_btnIosfaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
