@@ -3628,9 +3628,9 @@ public class MainL extends javax.swing.JFrame {
                         .addComponent(btnIosfa))
                     .addComponent(btnsalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnsalir4)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnsalir4))
                 .addContainerGap())
         );
 
@@ -3676,9 +3676,7 @@ public class MainL extends javax.swing.JFrame {
                                 .addComponent(jButton5)
                                 .addGap(94, 94, 94)))
                         .addComponent(jLabel15))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnsalir5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnsalir5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         UtilitariosLayout.setVerticalGroup(
@@ -7581,25 +7579,25 @@ public class MainL extends javax.swing.JFrame {
         }
         txttotal.setText((String.valueOf(Redondear(total))));*/
         double total = 0.00, sumatoria = 0.0;
-        System.out.println("Formularios.MainL.cargatotales()");
+       /// System.out.println("Formularios.MainL.cargatotales()");
         DecimalFormat df = new DecimalFormat("0.00");
         //AQUI SE SUMAN LOS VALORES DE CADA FILA PARA COLOCARLO EN EL CAMPO DE TOTAL
         int totalRow = tablaordenes.getRowCount();
         totalRow -= 1;
         for (int i = 0; i <= (totalRow); i++) {
-            System.out.println("Formularios.MainL.cargatotales() 2");
+           // System.out.println("Formularios.MainL.cargatotales() 2");
             if (!tablaordenes.getValueAt(i, 10).toString().equals("ANULADA")) {
-                System.out.println("Formularios.MainL.cargatotales() 3");
+               // System.out.println("Formularios.MainL.cargatotales() 3");
                 String x = tablaordenes.getValueAt(i, 9).toString();
                 sumatoria = Double.valueOf(x);
                 total = total + sumatoria;
             }
         }
-        System.out.println("Formularios.MainL.cargatotales() 5");
+     ///   System.out.println("Formularios.MainL.cargatotales() 5");
         //txttotalordenes.setText((String.valueOf(totalRow + 1)));
 
         txttotal.setText((String.valueOf(Redondear(total))));
-        System.out.println("Formularios.MainL.cargatotales() 6");
+       /// System.out.println("Formularios.MainL.cargatotales() 6");
     }
 
     /*void cargatotales_obra_social() {
