@@ -888,7 +888,7 @@ public class MainL extends javax.swing.JFrame {
                                         + "WHERE periodo=" + periodo + " and estado_orden=1 and id_obrasocial=89 and id_colegiados=" + id_usuario;
                                 ResultSet rs7 = st7.executeQuery(sql7);
                                 if (rs7.next()) {
-                                    coseguro=0;
+                                    coseguro = 0;
                                     coseguro = Redondeardosdigitos(rs7.getDouble(1));
                                 }
                             }
@@ -898,7 +898,7 @@ public class MainL extends javax.swing.JFrame {
                                 codigo_obra = Integer.valueOf(CodObra);
                                 if (idobraimprime == 11 || idobraimprime == 12
                                         || idobraimprime == 14 || idobraimprime == 90 || idobraimprime == 100
-                                        || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113 ) {
+                                        || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113) {
                                     camposordenes_ss tipo_ss;
                                     //System.out.println(rs.getString("id_orden"));
                                     if (id_ordenes == 0) {
@@ -1136,8 +1136,8 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("50015") || CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810") ||  CodObra.equals("1807") || CodObra.equals("511")
-                                 || CodObra.equals("40813") || CodObra.equals("2700")) {
+                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("1807") || CodObra.equals("511")
+                                || CodObra.equals("40813") || CodObra.equals("2700")) {
 
                         } else {
                             System.out.println(CodObra);
@@ -1479,7 +1479,7 @@ public class MainL extends javax.swing.JFrame {
                             }
                         }
 
-                        if (CodObra.equals("50015") ) {
+                        if (CodObra.equals("50015")) {
                             try {
                                 JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Ordenes_coseguro.jasper"));
                                 Map parametros = new HashMap();
@@ -1513,7 +1513,7 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810")|| CodObra.equals("1807") ) {
+                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("1807")) {
                             try {
                                 pesos = totalconcoseguro;
                                 centavos = Redondearcentavos(pesos);
@@ -1590,8 +1590,8 @@ public class MainL extends javax.swing.JFrame {
                         }
                         if (CodObra.equals("50015") || CodObra.equals("1800") || CodObra.equals("1801") || CodObra.equals("1802")
                                 || CodObra.equals("1803") || CodObra.equals("1804") || CodObra.equals("1805")
-                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("511")  || CodObra.equals("1807")
-                                 || CodObra.equals("40813")  || CodObra.equals("2700")) {
+                                || CodObra.equals("1806") || CodObra.equals("1810") || CodObra.equals("511") || CodObra.equals("1807")
+                                || CodObra.equals("40813") || CodObra.equals("2700")) {
 
                         } else {
                             System.out.println(CodObra);
@@ -2019,7 +2019,6 @@ public class MainL extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtpractica = new javax.swing.JTextField();
-        txtdocumento = new javax.swing.JFormattedTextField();
         jLabel20 = new javax.swing.JLabel();
         txtnumorden = new javax.swing.JFormattedTextField();
         txtfecha = new javax.swing.JFormattedTextField();
@@ -2036,6 +2035,7 @@ public class MainL extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         cbotipo = new javax.swing.JComboBox<>();
+        txtdocumento = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -2298,23 +2298,6 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        txtdocumento.setForeground(new java.awt.Color(0, 102, 204));
-        txtdocumento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtdocumento.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        txtdocumento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdocumentoActionPerformed(evt);
-            }
-        });
-        txtdocumento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtdocumentoKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtdocumentoKeyReleased(evt);
-            }
-        });
-
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(51, 51, 51));
         jLabel20.setText("Documento:");
@@ -2482,6 +2465,24 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        txtdocumento.setNextFocusableComponent(txtnombreafiliado);
+        txtdocumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtdocumentoActionPerformed(evt);
+            }
+        });
+        txtdocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtdocumentoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtdocumentoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtdocumentoKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -2504,22 +2505,6 @@ public class MainL extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
                     .addComponent(jSeparator2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtnombreafiliado))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtnumafiliado)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtmatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel23)
@@ -2550,7 +2535,23 @@ public class MainL extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDiaOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtDiaOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtnombreafiliado))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtnumafiliado)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtmatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -2572,8 +2573,8 @@ public class MainL extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtnombreafiliado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel20)
+                    .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -3670,13 +3671,15 @@ public class MainL extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                                .addComponent(lblcolegiado3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                                .addComponent(jButton5)
-                                .addGap(94, 94, 94)))
-                        .addComponent(jLabel15))
-                    .addComponent(btnsalir5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
+                                        .addComponent(lblcolegiado3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
+                                        .addComponent(jButton5)
+                                        .addGap(94, 94, 94)))
+                                .addComponent(jLabel15))
+                            .addComponent(btnsalir5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         UtilitariosLayout.setVerticalGroup(
@@ -7579,25 +7582,25 @@ public class MainL extends javax.swing.JFrame {
         }
         txttotal.setText((String.valueOf(Redondear(total))));*/
         double total = 0.00, sumatoria = 0.0;
-       /// System.out.println("Formularios.MainL.cargatotales()");
+        /// System.out.println("Formularios.MainL.cargatotales()");
         DecimalFormat df = new DecimalFormat("0.00");
         //AQUI SE SUMAN LOS VALORES DE CADA FILA PARA COLOCARLO EN EL CAMPO DE TOTAL
         int totalRow = tablaordenes.getRowCount();
         totalRow -= 1;
         for (int i = 0; i <= (totalRow); i++) {
-           // System.out.println("Formularios.MainL.cargatotales() 2");
+            // System.out.println("Formularios.MainL.cargatotales() 2");
             if (!tablaordenes.getValueAt(i, 10).toString().equals("ANULADA")) {
-               // System.out.println("Formularios.MainL.cargatotales() 3");
+                // System.out.println("Formularios.MainL.cargatotales() 3");
                 String x = tablaordenes.getValueAt(i, 9).toString();
                 sumatoria = Double.valueOf(x);
                 total = total + sumatoria;
             }
         }
-     ///   System.out.println("Formularios.MainL.cargatotales() 5");
+        ///   System.out.println("Formularios.MainL.cargatotales() 5");
         //txttotalordenes.setText((String.valueOf(totalRow + 1)));
 
         txttotal.setText((String.valueOf(Redondear(total))));
-       /// System.out.println("Formularios.MainL.cargatotales() 6");
+        /// System.out.println("Formularios.MainL.cargatotales() 6");
     }
 
     /*void cargatotales_obra_social() {
@@ -9034,153 +9037,6 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(3);
         }
     }//GEN-LAST:event_txtañoKeyPressed
-
-    private void txtdocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdocumentoActionPerformed
-        txtdocumento.transferFocus();
-        int band = 0, band2 = 0;
-        ConexionMariaDB mysql = new ConexionMariaDB();
-        Connection cn = mysql.Conectar();
-        String dni = txtdocumento.getText();
-        if (!dni.equals("")) {
-            if (!dni.equals("11111111") && !dni.equals("22222222") && !dni.equals("33333333") && !dni.equals("44444444") && !dni.equals("55555555") && !dni.equals("66666666") && !dni.equals("77777777") && !dni.equals("88888888") && !dni.equals("99999999") && !dni.equals("00000000") && dni.length() >= 7) {
-                int i = 0, obrasocial = 0;
-
-                if (id_obra_social == 11 || id_obra_social == 12 || id_obra_social == 13 || id_obra_social == 14 || id_obra_social == 15 || id_obra_social == 90) {
-                    obrasocial = 11;
-                } else {
-                    obrasocial = id_obra_social;
-                }
-                //String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + id_obra_social + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + id_obra_social + ") ";
-                if (id_obra_social == 58) {
-
-                    txtdocumento.transferFocus();
-
-                    try {
-
-                        String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + 58 + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + 58 + ") ";
-                        Statement st = cn.createStatement();
-                        ResultSet rs = st.executeQuery(sSQL);
-                        if (rs.next()) {
-                            txtnombreafiliado.setText(rs.getString("nombre_afiliado"));
-                            txtnumafiliado.setText(rs.getString("numero_afiliado"));
-                            txtdocumento.setText(rs.getString("dni_afiliado"));
-                            txtnombreafiliado.setEnabled(true);
-                            txtnombreafiliado.setEditable(false);
-                            txtnumafiliado.setEnabled(true);
-                            txtnumafiliado.requestFocus();
-                            band = 1;
-                        }
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, e);
-                    }
-                    if (band == 0) {
-                        try {
-                            String sSQL = "SELECT dni_persona,apellido_persona,nombre_persona FROM personas WHERE dni_persona=" + dni;
-                            Statement st = cn.createStatement();
-                            ResultSet rs = st.executeQuery(sSQL);
-                            if (rs.next()) {
-                                documento_afiliado = dni;
-                                nombre_afiliado = rs.getString("apellido_persona") + " " + rs.getString("nombre_persona");
-                                numero_afiliado = "";
-                                band2 = 1;
-                                txtdocumento.setText(documento_afiliado);
-                                txtnombreafiliado.setEnabled(true);
-                                txtnombreafiliado.setEditable(false);
-                                txtnombreafiliado.setText(nombre_afiliado);
-                                txtnumafiliado.setText(numero_afiliado);
-                                txtnumafiliado.setEnabled(true);
-                                txtnumafiliado.requestFocus();
-                            }
-                        } catch (SQLException e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        if (band2 == 0) {
-                            txtdocumento.setEnabled(true);
-                            txtnombreafiliado.setEditable(true);
-                            txtnombreafiliado.setEnabled(true);
-                            txtnumafiliado.setEnabled(true);
-                            txtnombreafiliado.requestFocus();
-                        }
-                    }
-
-                } else {
-
-                    try {
-                        String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + obrasocial + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + obrasocial + ") ";
-                        Statement st = cn.createStatement();
-                        ResultSet rs = st.executeQuery(sSQL);
-                        if (rs.next()) {
-                            txtnombreafiliado.setText(rs.getString("nombre_afiliado"));
-                            txtnumafiliado.setText(rs.getString("numero_afiliado"));
-                            txtdocumento.setText(rs.getString("dni_afiliado"));
-                            txtnombreafiliado.setEditable(false);
-                            txtnumafiliado.setEnabled(true);
-                            txtnumafiliado.setEditable(true);
-                            txtnumafiliado.requestFocus();
-                            band = 1;
-                        }
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e);
-                    }
-                    if (band == 0) {
-                        try {
-                            String sSQL = "SELECT dni_persona,apellido_persona,nombre_persona FROM personas WHERE dni_persona=" + dni;
-                            Statement st = cn.createStatement();
-                            ResultSet rs = st.executeQuery(sSQL);
-                            while (rs.next()) {
-                                documento_afiliado = dni;
-                                nombre_afiliado = rs.getString("apellido_persona") + " " + rs.getString("nombre_persona");
-                                numero_afiliado = "";
-                                band2 = 1;
-                                txtdocumento.setText(documento_afiliado);
-                                txtnombreafiliado.setEditable(false);
-                                txtnombreafiliado.setEditable(false);
-                                txtnombreafiliado.setText(nombre_afiliado);
-                                txtnumafiliado.setText(numero_afiliado);
-                                txtnumafiliado.setEnabled(true);
-                                txtnumafiliado.setEditable(true);
-                                txtnumafiliado.requestFocus();
-                            }
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        if (band2 == 0) {
-                            txtdocumento.setEnabled(true);
-                            txtnombreafiliado.setEditable(true);
-                            txtnombreafiliado.setEnabled(true);
-                            txtnumafiliado.setText("");
-                            txtnumafiliado.setEnabled(true);
-                            jLabel18.setEnabled(true);
-                            txtnombreafiliado.requestFocus();
-                        }
-                    }
-                }
-
-            } else {
-                if (id_obra_social != 58) {
-                    txtdocumento.setEnabled(true);
-                    txtdocumento.setEditable(true);
-                    txtnombreafiliado.setEnabled(true);
-                    txtnombreafiliado.setEditable(true);
-                    txtnumafiliado.setText("");
-                    txtnumafiliado.setEnabled(true);
-                    txtnumafiliado.setEditable(true);
-                    jLabel18.setEnabled(true);
-                    txtnombreafiliado.requestFocus();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Debe ingresar un número de documento valido");
-                }
-            }
-        }
-    }//GEN-LAST:event_txtdocumentoActionPerformed
-
-    private void txtdocumentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyReleased
-        if (txtdocumento.getText().equals("")) {
-            txtnombreafiliado.setText("");
-            txtnumafiliado.setText("");
-            txtdocumento.requestFocus();
-        }
-    }//GEN-LAST:event_txtdocumentoKeyReleased
 
     private void txtnumordenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnumordenKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB) {
@@ -10979,98 +10835,6 @@ public class MainL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtobrasocialKeyPressed
 
-    private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtnombreafiliado.setEnabled(true);
-            txtnombreafiliado.setEditable(false);
-            /*  if (obra.equals("1800 - SUBSIDIO DE SALUD - IPSSPT") || obra.equals("1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL")
-                    || obra.equals("1803 - SUBSIDIO DE SALUD - RECIPROCIDAD") || obra.equals("1804 - SUBSIDIO DE SALUD - INTERNADO")
-                    || obra.equals("1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION")) {
-                try {
-                    txtnumafiliado.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("##-######-##")));
-                } catch (ParseException ex) {
-                    JOptionPane.showMessageDialog(null, ex);
-                }
-            } else {
-                txtnumafiliado.setFormatterFactory(new DefaultFormatterFactory());
-            }*/
-        }
-        /*if ((evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (txtdocumento.getText().equals(""))) {
-            txtobrasocial.setEnabled(true);
-            txtobrasocial.setText("");
-            txtobrasocial.setEditable(true);
-            txtobrasocial.requestFocus();
-            txtdocumento.setText("");
-            deshabilitarpanel1();
-        }*/
-        if (evt.getKeyCode() == KeyEvent.VK_F1) {
-            jTabbedPane2.setSelectedIndex(0);
-        }
-        if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_F3) {
-
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
-        }
-        if (evt.getKeyCode() == KeyEvent.VK_F4) {
-
-            jTabbedPane2.setSelectedIndex(3);
-        }
-    }//GEN-LAST:event_txtdocumentoKeyPressed
-
     private void txtnombreafiliadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreafiliadoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (!txtnombreafiliado.getText().equals("")) {
@@ -12467,6 +12231,252 @@ public class MainL extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnIosfaActionPerformed
 
+    private void txtdocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdocumentoActionPerformed
+        txtdocumento.transferFocus();
+        int band = 0, band2 = 0;
+        ConexionMariaDB mysql = new ConexionMariaDB();
+        Connection cn = mysql.Conectar();
+        String dni = txtdocumento.getText();
+        if (!dni.equals("")) {
+            if (!dni.equals("11111111") && !dni.equals("22222222") && !dni.equals("33333333") && !dni.equals("44444444") && !dni.equals("55555555") && !dni.equals("66666666") && !dni.equals("77777777") && !dni.equals("88888888") && !dni.equals("99999999") && !dni.equals("00000000") && dni.length() >= 7) {
+                int i = 0, obrasocial = 0;
+
+                if (id_obra_social == 11 || id_obra_social == 12 || id_obra_social == 13 || id_obra_social == 14 || id_obra_social == 15 || id_obra_social == 90) {
+                    obrasocial = 11;
+                } else {
+                    obrasocial = id_obra_social;
+                }
+                //String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + id_obra_social + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + id_obra_social + ") ";
+                if (id_obra_social == 58) {
+
+                    txtdocumento.transferFocus();
+
+                    try {
+
+                        String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + 58 + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + 58 + ") ";
+                        Statement st = cn.createStatement();
+                        ResultSet rs = st.executeQuery(sSQL);
+                        if (rs.next()) {
+                            txtnombreafiliado.setText(rs.getString("nombre_afiliado"));
+                            txtnumafiliado.setText(rs.getString("numero_afiliado"));
+                            txtdocumento.setText(rs.getString("dni_afiliado"));
+                            txtnombreafiliado.setEnabled(true);
+                            txtnombreafiliado.setEditable(false);
+                            txtnumafiliado.setEnabled(true);
+                            txtnumafiliado.requestFocus();
+                            band = 1;
+                        }
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                    if (band == 0) {
+                        try {
+                            String sSQL = "SELECT dni_persona,apellido_persona,nombre_persona FROM personas WHERE dni_persona=" + dni;
+                            Statement st = cn.createStatement();
+                            ResultSet rs = st.executeQuery(sSQL);
+                            if (rs.next()) {
+                                documento_afiliado = dni;
+                                nombre_afiliado = rs.getString("apellido_persona") + " " + rs.getString("nombre_persona");
+                                numero_afiliado = "";
+                                band2 = 1;
+                                txtdocumento.setText(documento_afiliado);
+                                txtnombreafiliado.setEnabled(true);
+                                txtnombreafiliado.setEditable(false);
+                                txtnombreafiliado.setText(nombre_afiliado);
+                                txtnumafiliado.setText(numero_afiliado);
+                                txtnumafiliado.setEnabled(true);
+                                txtnumafiliado.requestFocus();
+                            }
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, e);
+                        }
+                        if (band2 == 0) {
+                            txtdocumento.setEnabled(true);
+                            txtnombreafiliado.setEditable(true);
+                            txtnombreafiliado.setEnabled(true);
+                            txtnumafiliado.setEnabled(true);
+                            txtnombreafiliado.requestFocus();
+                        }
+                    }
+
+                } else {
+
+                    try {
+                        String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + obrasocial + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + obrasocial + ") ";
+                        Statement st = cn.createStatement();
+                        ResultSet rs = st.executeQuery(sSQL);
+                        if (rs.next()) {
+                            txtnombreafiliado.setText(rs.getString("nombre_afiliado"));
+                            txtnumafiliado.setText(rs.getString("numero_afiliado"));
+                            txtdocumento.setText(rs.getString("dni_afiliado"));
+                            txtnombreafiliado.setEditable(false);
+                            txtnumafiliado.setEnabled(true);
+                            txtnumafiliado.setEditable(true);
+                            txtnumafiliado.requestFocus();
+                            band = 1;
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                    if (band == 0) {
+                        try {
+                            String sSQL = "SELECT dni_persona,apellido_persona,nombre_persona FROM personas WHERE dni_persona=" + dni;
+                            Statement st = cn.createStatement();
+                            ResultSet rs = st.executeQuery(sSQL);
+                            while (rs.next()) {
+                                documento_afiliado = dni;
+                                nombre_afiliado = rs.getString("apellido_persona") + " " + rs.getString("nombre_persona");
+                                numero_afiliado = "";
+                                band2 = 1;
+                                txtdocumento.setText(documento_afiliado);
+                                txtnombreafiliado.setEditable(false);
+                                txtnombreafiliado.setEditable(false);
+                                txtnombreafiliado.setText(nombre_afiliado);
+                                txtnumafiliado.setText(numero_afiliado);
+                                txtnumafiliado.setEnabled(true);
+                                txtnumafiliado.setEditable(true);
+                                txtnumafiliado.requestFocus();
+                            }
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e);
+                        }
+                        if (band2 == 0) {
+                            txtdocumento.setEnabled(true);
+                            txtnombreafiliado.setEditable(true);
+                            txtnombreafiliado.setEnabled(true);
+                            txtnumafiliado.setText("");
+                            txtnumafiliado.setEnabled(true);
+                            jLabel18.setEnabled(true);
+                            txtnombreafiliado.requestFocus();
+                        }
+                    }
+                }
+
+            } else {
+                if (id_obra_social != 58) {
+                    txtdocumento.setEnabled(true);
+                    txtdocumento.setEditable(true);
+                    txtnombreafiliado.setEnabled(true);
+                    txtnombreafiliado.setEditable(true);
+                    txtnumafiliado.setText("");
+                    txtnumafiliado.setEnabled(true);
+                    txtnumafiliado.setEditable(true);
+                    jLabel18.setEnabled(true);
+                    txtnombreafiliado.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un número de documento valido");
+                }
+            }
+        }
+    }//GEN-LAST:event_txtdocumentoActionPerformed
+
+    private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtnombreafiliado.setEnabled(true);
+            txtnombreafiliado.setEditable(false);
+            /*  if (obra.equals("1800 - SUBSIDIO DE SALUD - IPSSPT") || obra.equals("1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL")
+                    || obra.equals("1803 - SUBSIDIO DE SALUD - RECIPROCIDAD") || obra.equals("1804 - SUBSIDIO DE SALUD - INTERNADO")
+                    || obra.equals("1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION")) {
+                try {
+                    txtnumafiliado.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("##-######-##")));
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            } else {
+                txtnumafiliado.setFormatterFactory(new DefaultFormatterFactory());
+            }*/
+        }
+        /*if ((evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (txtdocumento.getText().equals(""))) {
+            txtobrasocial.setEnabled(true);
+            txtobrasocial.setText("");
+            txtobrasocial.setEditable(true);
+            txtobrasocial.requestFocus();
+            txtdocumento.setText("");
+            deshabilitarpanel1();
+        }*/
+        if (evt.getKeyCode() == KeyEvent.VK_F1) {
+            jTabbedPane2.setSelectedIndex(0);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_F2) {
+            jTabbedPane2.setSelectedIndex(1);
+            txtordenes.setText("");
+            new LoginAdmin(this, true).setVisible(true);
+            if (estadologinadmin == true) {
+                jPanel7.setEnabled(true);
+                txtmes3.setEnabled(true);
+                txtaño3.setEnabled(true);
+                btnimportar.setEnabled(true);
+                tablaordenes1.setEnabled(true);
+                btnaceptar2.setEnabled(true);
+                btncancelar2.setEnabled(true);
+                btnsalir3.setEnabled(true);
+                txtmes1.requestFocus();
+            } else {
+                jPanel7.setEnabled(false);
+                txtmes3.setEnabled(false);
+                txtaño3.setEnabled(false);
+                btnimportar.setEnabled(false);
+                tablaordenes1.setEnabled(false);
+                btnaceptar2.setEnabled(false);
+                btncancelar2.setEnabled(false);
+                btnsalir3.setEnabled(false);
+            }
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_F3) {
+
+            jTabbedPane2.setSelectedIndex(2);
+            txtordenes.setText("");
+            new LoginAdmin(this, true).setVisible(true);
+            if (estadologinadmin == true) {
+                Facturacion.setEnabled(true);
+                txtmes1.setEnabled(true);
+                txtaño1.setEnabled(true);
+                btnbuscar.setEnabled(true);
+                txtordenes.setEnabled(true);
+                tablaordenes.setEnabled(true);
+                btnimprimirdjj.setEnabled(true);
+                btnimprimirobra.setEnabled(true);
+                btncancelar3.setEnabled(true);
+                btncancelar1.setEnabled(true);
+                btnsalir1.setEnabled(true);
+            } else {
+                Facturacion.setEnabled(false);
+                txtmes1.setEnabled(false);
+                txtaño1.setEnabled(false);
+                btnbuscar.setEnabled(false);
+                txtordenes.setEnabled(false);
+                tablaordenes.setEnabled(false);
+                btnimprimirdjj.setEnabled(false);
+                btnimprimirobra.setEnabled(false);
+                btncancelar3.setEnabled(false);
+                btncancelar1.setEnabled(false);
+                btnsalir1.setEnabled(false);
+            }
+
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_F4) {
+
+            jTabbedPane2.setSelectedIndex(3);
+        }
+    }//GEN-LAST:event_txtdocumentoKeyPressed
+
+    private void txtdocumentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyReleased
+                if (txtdocumento.getText().equals("")) {
+            txtnombreafiliado.setText("");
+            txtnumafiliado.setText("");
+            txtdocumento.requestFocus();
+        }
+    }//GEN-LAST:event_txtdocumentoKeyReleased
+
+    private void txtdocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtdocumentoKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;
     private javax.swing.JPanel Facturacion;
@@ -12572,7 +12582,7 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtaño1;
     private javax.swing.JFormattedTextField txtaño3;
     private javax.swing.JTextField txtcoseguro;
-    private javax.swing.JFormattedTextField txtdocumento;
+    private javax.swing.JTextField txtdocumento;
     private javax.swing.JFormattedTextField txtfecha;
     private javax.swing.JFormattedTextField txtfechacoseguro;
     private javax.swing.JTextField txtmatricula;
