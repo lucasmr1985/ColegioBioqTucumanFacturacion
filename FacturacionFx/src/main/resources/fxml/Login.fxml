@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="301.0" prefWidth="327.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Controlador.LoginController">
+   <children>
+      <FontAwesomeIconView fill="#646464" glyphName="USER" layoutX="43.0" layoutY="91.0" size="25" />
+      <JFXTextField fx:id="txtUsuario" focusColor="#646464" layoutX="75.0" layoutY="62.0" prefHeight="25.0" prefWidth="209.0" promptText="Ingrese usuario" unFocusColor="#646464" />
+      <FontAwesomeIconView fill="#646464" glyphName="LOCK" layoutX="44.0" layoutY="158.0" size="25" />
+      <JFXPasswordField fx:id="txtContrasña" focusColor="#646464" layoutX="75.0" layoutY="127.0" prefHeight="25.0" prefWidth="209.0" promptText="Ingrese contraseña" unFocusColor="#646464" />
+      <JFXButton buttonType="RAISED" layoutX="55.0" layoutY="227.0" onAction="#ingresar" prefHeight="41.0" prefWidth="219.0" stylesheets="@../styles/Styles.css" text="Ingresar" textFill="WHITE" />
+   </children>
+</AnchorPane>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
 	<property name="ireport.zoom" value="1.7715610000000024"/>
-	<property name="ireport.x" value="15"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="matricula" class="java.lang.String"/>
 	<parameter name="periodo" class="java.lang.String"/>
@@ -21,7 +21,7 @@ FROM colegiados
 JOIN ordenes ON colegiados.id_colegiados = ordenes.id_colegiados
 JOIN detalle_ordenes ON detalle_ordenes.id_orden = ordenes.id_orden
 JOIN obrasocial ON obrasocial.id_obrasocial = ordenes.id_obrasocial
-WHERE detalle_ordenes.estado=0 and ordenes.estado_orden=1 AND colegiados.matricula_colegiado=$P{matricula} and periodo=$P{periodo} and obrasocial.`codigo_obrasocial`=$P{num_obra_social} 
+WHERE detalle_ordenes.estado=0 and ordenes.estado_orden!=0 AND colegiados.matricula_colegiado=$P{matricula} and periodo=$P{periodo} and obrasocial.`codigo_obrasocial`=$P{num_obra_social} 
 GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
 	</queryString>
 	<field name="id_orden" class="java.lang.Integer">
@@ -45,21 +45,15 @@ GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
 	<field name="matricula_colegiado" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="Total" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="coseguro" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="Total" class="java.lang.Double"/>
+	<field name="coseguro" class="java.lang.Double"/>
 	<field name="estado_orden" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="dni_afiliado" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="ip" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="ip" class="java.lang.String"/>
 	<field name="codigo_obrasocial" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
