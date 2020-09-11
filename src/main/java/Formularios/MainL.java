@@ -1657,10 +1657,14 @@ public class MainL extends javax.swing.JFrame {
             ///////////////////////////////////////////////////////////
             Map parametros = new HashMap();
             parametros.put("matricula", matricula_colegiado);
+            System.out.println("matricula:" +matricula_colegiado);
             parametros.put("periodo", periododjj);
+            System.out.println("periodo:" +periododjj);
             parametros.put("fecha", fecha2);
             parametros.put("obra_social", ObraSocial);
+            System.out.println("obra_social:" + ObraSocial);
             parametros.put("num_obra_social", CodObra);
+             System.out.println("num_obra_social:" + CodObra);
             parametros.put("laboratorio", nombre_colegiado);
             parametros.put("domicilio_lab", domicilio_lab);
             parametros.put("localidad", localidad_lab);
@@ -2114,6 +2118,7 @@ public class MainL extends javax.swing.JFrame {
         btnsalir2 = new javax.swing.JButton();
         btnsalir4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         lblcolegiado3 = new javax.swing.JLabel();
         btnsalir5 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -2465,6 +2470,8 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        txtdocumento.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtdocumento.setForeground(new java.awt.Color(0, 102, 204));
         txtdocumento.setNextFocusableComponent(txtnombreafiliado);
         txtdocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3464,7 +3471,7 @@ public class MainL extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3527,8 +3534,9 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnPrensa.setBackground(new java.awt.Color(0, 0, 204));
         btnPrensa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnPrensa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
+        btnPrensa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/prensa.png"))); // NOI18N
         btnPrensa.setText("Prensa");
         btnPrensa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3536,17 +3544,19 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnSubsidio.setBackground(new java.awt.Color(0, 0, 204));
         btnSubsidio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnSubsidio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
-        btnSubsidio.setText("Subsidio de Salud");
+        btnSubsidio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/subsidio.png"))); // NOI18N
+        btnSubsidio.setText("Subsidio");
         btnSubsidio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubsidioActionPerformed(evt);
             }
         });
 
+        btnIosfa.setBackground(new java.awt.Color(0, 0, 204));
         btnIosfa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnIosfa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728931 - browser earth world.png"))); // NOI18N
+        btnIosfa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/iosfa.png"))); // NOI18N
         btnIosfa.setText("Iosfa");
         btnIosfa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3554,6 +3564,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnsalir2.setBackground(new java.awt.Color(0, 0, 204));
         btnsalir2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnsalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logocbt.png"))); // NOI18N
         btnsalir2.setMnemonic('s');
@@ -3568,7 +3579,7 @@ public class MainL extends javax.swing.JFrame {
         btnsalir4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnsalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728983 - folder.png"))); // NOI18N
         btnsalir4.setMnemonic('c');
-        btnsalir4.setText("Ir a carpeta descagas");
+        btnsalir4.setText("Carpeta descagas");
         btnsalir4.setToolTipText("[Alt + c]");
         btnsalir4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3576,12 +3587,23 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(0, 0, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/teamviewer-icon-32.png"))); // NOI18N
         jButton1.setText("Asistencia Remota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(0, 0, 204));
+        jButton8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728901 - archive office.png"))); // NOI18N
+        jButton8.setText("Info Digital");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
             }
         });
 
@@ -3594,45 +3616,50 @@ public class MainL extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnnbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(btnobrasociales, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnSubsidio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnSubsidio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnobrasociales, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnIosfa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnomenclador, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnnomenclador, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnobrasociales)
-                    .addComponent(btnnomenclador)
-                    .addComponent(btnnbu)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnobrasociales)
+                            .addComponent(btnnomenclador)
+                            .addComponent(jButton3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnsalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnSubsidio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnIosfa)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnsalir4)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnnbu)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnPrensa)
-                        .addComponent(btnSubsidio)
-                        .addComponent(btnIosfa))
-                    .addComponent(btnsalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsalir4))
-                .addContainerGap())
+                        .addGap(52, 52, 52)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lblcolegiado3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -3694,7 +3721,7 @@ public class MainL extends javax.swing.JFrame {
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnsalir5)
@@ -5970,7 +5997,7 @@ public class MainL extends javax.swing.JFrame {
                                 JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
                                 JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
                                 //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
-                                // JasperPrintManager.printReport(jPrint_comprobante, false);
+                                //JasperPrintManager.printReport(jPrint_comprobante, false);
                                 jv = new JasperViewer(jPrint_comprobante, false);
                                 viewer.getContentPane().add(jv.getContentPane());
                                 viewer.setVisible(true);
@@ -6015,7 +6042,7 @@ public class MainL extends javax.swing.JFrame {
                     //JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
                 }
                 if (banderamodifica == 0) {
-                    if (!txtnumorden.getText().equals("") && txtdocumento.getText().length() >= 7 && !txtnombreafiliado.getText().equals("")) {
+                    if (!txtnumorden.getText().equals("") && txtdocumento.getText().length() >= 4 && !txtnombreafiliado.getText().equals("")) {
                         if (id_obra_social == 58) {
                             estado_orden = 3;
                         } else {
@@ -6055,7 +6082,7 @@ public class MainL extends javax.swing.JFrame {
                         }
                     } else {
                         cursor2();
-                        JOptionPane.showMessageDialog(null, "Debe ingresar un numero de orden...");
+                        JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios...");
                     }
                 }
             }
@@ -8387,7 +8414,8 @@ public class MainL extends javax.swing.JFrame {
                                         bandera = 3;
                                     }
                                     if (bandera == 0) {
-                                        if (obra_social != 13800 && obra_social != 3101 && obra_social != 10700 && obra_social != 50015 && obra_social != 9000 && obra_social != 1806 && obra_social != 1805 && obra_social != 9000) {
+                                        if (obra_social != 13800 && obra_social != 3101 && obra_social != 10700 && obra_social != 50015 && obra_social != 9000 && obra_social != 1806 && obra_social != 1805 && obra_social != 9000 && obra_social != 1807
+                                                && obra_social != 2601 && obra_social != 40813 && obra_social != 512 && obra_social != 37701) {
 
                                             String sSQL3 = "SELECT id_obrasocial,nbu.añonbu FROM obrasocial inner join nbu on obrasocial.añonbu = nbu.id_nbu WHERE Int_codigo_obrasocial=" + obra_social + " and estado_obrasocial=1";
                                             Statement st3 = cn.createStatement();
@@ -10129,7 +10157,7 @@ public class MainL extends javax.swing.JFrame {
             if (rs.getBoolean("estado") == true && rs.getInt("periodo") <= Integer.valueOf(periodo_anula)) {
                 i = 0;
                 //////////////////////////////////////////////////////////////
-                if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK")) {
+                if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK")||tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("AUDITORIA")) {
 
                     id_orden = Integer.valueOf(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 0).toString());
                     String cod_afiliado = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString();
@@ -12238,7 +12266,7 @@ public class MainL extends javax.swing.JFrame {
         Connection cn = mysql.Conectar();
         String dni = txtdocumento.getText();
         if (!dni.equals("")) {
-            if (!dni.equals("11111111") && !dni.equals("22222222") && !dni.equals("33333333") && !dni.equals("44444444") && !dni.equals("55555555") && !dni.equals("66666666") && !dni.equals("77777777") && !dni.equals("88888888") && !dni.equals("99999999") && !dni.equals("00000000") && dni.length() >= 7) {
+            if (!dni.equals("11111111") && !dni.equals("22222222") && !dni.equals("33333333") && !dni.equals("44444444") && !dni.equals("55555555") && !dni.equals("66666666") && !dni.equals("77777777") && !dni.equals("88888888") && !dni.equals("99999999") && !dni.equals("00000000") && dni.length() >= 4) {
                 int i = 0, obrasocial = 0;
 
                 if (id_obra_social == 11 || id_obra_social == 12 || id_obra_social == 13 || id_obra_social == 14 || id_obra_social == 15 || id_obra_social == 90) {
@@ -12364,6 +12392,8 @@ public class MainL extends javax.swing.JFrame {
                     jLabel18.setEnabled(true);
                     txtnombreafiliado.requestFocus();
                 } else {
+                    txtdocumento.setText("");
+                    txtdocumento.requestFocus();
                     JOptionPane.showMessageDialog(null, "Debe ingresar un número de documento valido");
                 }
             }
@@ -12477,6 +12507,15 @@ public class MainL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtdocumentoKeyTyped
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+          try {
+            Desktop.getDesktop().browse(new URI("http://www.cobituc.org.ar/sistemainformacion/"));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
+        }
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;
     private javax.swing.JPanel Facturacion;
@@ -12520,6 +12559,7 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

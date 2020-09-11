@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="884.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.PrincipalController">
+   <center>
+      <JFXTabPane stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="Órdenes">
+               <content>
+                  <GridPane prefHeight="631.0" prefWidth="626.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="96.0" minHeight="9.0" prefHeight="78.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="258.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="172.0" minHeight="1.0" prefHeight="48.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="285.0" minHeight="10.0" prefHeight="188.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="208.0" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="437.0" minWidth="10.0" prefWidth="181.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="739.0" minWidth="10.0" prefWidth="703.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="260.0" text="Periodo de facturación">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <GridPane prefHeight="37.0" prefWidth="358.0" GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="88.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="93.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <JFXTextField fx:id="txtMesOrdenes" promptText="Mes" unFocusColor="#969696">
+                                             <GridPane.margin>
+                                                <Insets bottom="2.0" left="20.0" right="5.0" top="2.0" />
+                                             </GridPane.margin>
+                                             <font>
+                                                <Font name="Calibri Bold" size="14.0" />
+                                             </font>
+                                          </JFXTextField>
+                                          <JFXTextField fx:id="txtAñoOrdenes" prefHeight="27.0" prefWidth="148.0" promptText="Año" unFocusColor="#969696" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets bottom="2.0" left="5.0" right="20.0" top="2.0" />
+                                             </GridPane.margin>
+                                             <font>
+                                                <Font name="Calibri Bold" size="14.0" />
+                                             </font>
+                                          </JFXTextField>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </GridPane>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="73.0" prefWidth="795.0" text="HERNANDEZ MARÍA DOLORES" textAlignment="CENTER" textFill="#646464" wrapText="true" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="1">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="972.0" text="Ingreso">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTextField fx:id="txtObraSocial" onAction="#eventoOS" promptText="Obra Social" unFocusColor="#969696" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font name="Calibri Bold" size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="2">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="144.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="542.0" minWidth="10.0" prefWidth="498.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="377.0" minWidth="10.0" prefWidth="190.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXTextField fx:id="txtDocumento" onAction="#eventoDNI" promptText="Documento" unFocusColor="#969696">
+                                       <font>
+                                          <Font name="Calibri Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="5.0" />
+                                       </GridPane.margin>
+                                    </JFXTextField>
+                                    <JFXTextField fx:id="txtNombreAfiliado" promptText="Nombre del afiliado" unFocusColor="#969696" GridPane.columnIndex="1">
+                                       <font>
+                                          <Font name="Calibri Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </GridPane.margin>
+                                    </JFXTextField>
+                                    <JFXTextField fx:id="txtNumenoAfiliado" promptText="Número de afiliado" unFocusColor="#969696" GridPane.columnIndex="2">
+                                       <font>
+                                          <Font name="Calibri Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXTextField>
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXTextField fx:id="txtMatriculaPrescripcion" prefHeight="27.0" prefWidth="268.0" promptText="Matrícula prescripción" unFocusColor="#969696">
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="Calibri Bold" size="14.0" />
+                                       </font>
+                                    </JFXTextField>
+                                    <JFXTextField fx:id="txtNumeroOrden" promptText="Número de orden" unFocusColor="#969696" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="Calibri Bold" size="14.0" />
+                                       </font>
+                                    </JFXTextField>
+                                    <JFXDatePicker fx:id="dtpkFechaRealizacion" defaultColor="#2554b8" overLay="true" prefHeight="31.0" prefWidth="303.0" promptText="Fecha de realización" styleClass="button" GridPane.columnIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXDatePicker>
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="2">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXCheckBox fx:id="chkCoseguro" checkedColor="#2554b8" prefHeight="22.0" prefWidth="308.0" text="Coseguro">
+                                       <font>
+                                          <Font name="Calibri Bold" size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="5.0" />
+                                       </GridPane.margin>
+                                    </JFXCheckBox>
+                                    <JFXTextField fx:id="txtCoseguro" promptText="Precio coseguro" unFocusColor="#969696" GridPane.columnIndex="1">
+                                       <font>
+                                          <Font name="Calibri Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="5.0" right="5.0" />
+                                       </padding>
+                                    </JFXTextField>
+                                    <JFXDatePicker fx:id="dtpkFechaCoseguro" defaultColor="#2554b8" prefHeight="25.0" prefWidth="288.0" promptText="Fecha de coseguro" styleClass="button" GridPane.columnIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXDatePicker>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                        <JFXTextField fx:id="txtBuscarPractica" promptText="Buscar práctica" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Calibri Bold" size="14.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </GridPane.margin>
+                        </JFXTextField>
+                        <GridPane GridPane.rowIndex="4">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="180.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="708.0" text="Total: $" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTreeTableView>
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                 </GridPane.margin>
+                                 <columns>
+                                    <TreeTableColumn prefWidth="73.0" text="Número" />
+                                    <TreeTableColumn prefWidth="94.0" text="Código" />
+                                    <TreeTableColumn prefWidth="618.0" text="Descripción" />
+                                    <TreeTableColumn prefWidth="78.0" text="Precio" />
+                                 </columns>
+                              </JFXTreeTableView>
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="5">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXButton fx:id="btnAceptar" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="45.0" prefWidth="207.0" text="Aceptar" textFill="WHITE">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="20.0" right="10.0" />
+                                 </GridPane.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="45.0" prefWidth="168.0" text="Cambiar OS" textFill="WHITE" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </GridPane.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="EXCHANGE" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="45.0" prefWidth="182.0" text="Cambiar paciente" textFill="WHITE" GridPane.columnIndex="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </GridPane.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="STREET_VIEW" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="45.0" prefWidth="196.0" text="Borrar todo" textFill="WHITE" GridPane.columnIndex="3">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </GridPane.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#salir" prefHeight="45.0" prefWidth="190.0" text="Salir" textFill="WHITE" GridPane.columnIndex="4">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="20.0" />
+                                 </GridPane.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="POWER_OFF" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab text="Importar">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="658.0">
+                     <children>
+                        <GridPane layoutX="90.0" layoutY="110.0" prefHeight="646.0" prefWidth="651.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="553.0" minHeight="10.0" prefHeight="478.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="210.0" minHeight="0.0" prefHeight="66.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <GridPane GridPane.rowIndex="1">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <JFXTextField promptText="Mes" unFocusColor="#969696">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <font>
+                                                <Font name="Calibri Bold" size="14.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="10.0" right="5.0" />
+                                             </GridPane.margin>
+                                          </JFXTextField>
+                                          <JFXTextField promptText="Año" unFocusColor="#969696" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Calibri Bold" size="14.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" right="10.0" />
+                                             </GridPane.margin>
+                                          </JFXTextField>
+                                       </children>
+                                    </GridPane>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="412.0" text="Periodo de facturación" textAlignment="CENTER" />
+                                    <JFXProgressBar prefHeight="8.0" prefWidth="358.0" styleClass="jfx-progress-bar" stylesheets="@../styles/Styles.css" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXProgressBar>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="50.0" prefWidth="245.0" text="Agregar archivo" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="FOLDER_OPEN" size="20" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="341.0" text="HERNANDEZ MARÍA DOLORES" textAlignment="CENTER" textFill="#646464" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="Berlin Sans FB" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                              <JFXTreeTableView prefHeight="379.0" prefWidth="651.0" GridPane.rowIndex="1" />
+                              <GridPane GridPane.rowIndex="2">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" prefHeight="25.0" prefWidth="202.0" text="Aceptar" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" prefHeight="25.0" prefWidth="189.0" text="Borrar tabla" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#salir" prefHeight="25.0" prefWidth="153.0" text="Salir" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="POWER_OFF" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Facturación">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane prefHeight="646.0" prefWidth="884.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="553.0" minHeight="10.0" prefHeight="457.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="210.0" minHeight="0.0" prefHeight="87.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <GridPane GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <JFXTextField promptText="Mes" unFocusColor="#969696">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <font>
+                                                <Font name="Calibri Bold" size="14.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="10.0" right="5.0" />
+                                             </GridPane.margin>
+                                          </JFXTextField>
+                                          <JFXTextField promptText="Año" unFocusColor="#969696" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Calibri Bold" size="14.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets left="5.0" right="10.0" />
+                                             </GridPane.margin>
+                                          </JFXTextField>
+                                       </children>
+                                    </GridPane>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="412.0" text="Periodo de facturación" textAlignment="CENTER" />
+                                    <JFXProgressBar prefHeight="8.0" prefWidth="358.0" styleClass="yellow-bar" stylesheets="@../styles/Styles.css" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXProgressBar>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="37.0" prefWidth="175.0" text="Aceptar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="60.0" right="60.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="20" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="341.0" text="HERNANDEZ MARÍA DOLORES" textAlignment="CENTER" textFill="#646464" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="Berlin Sans FB" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="2">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="130.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="142.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="352.0" minWidth="10.0" prefWidth="272.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="212.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" prefWidth="99.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" prefHeight="45.0" prefWidth="279.0" text="Cerrar periodo y descargar DDJJ" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="CLOUD_DOWNLOAD" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" prefHeight="45.0" prefWidth="227.0" text="Borrar tabla" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#salir" prefHeight="45.0" prefWidth="225.0" text="Salir" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="POWER_OFF" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" layoutX="281.0" layoutY="31.0" prefHeight="25.0" prefWidth="202.0" text="Detalle de OS" textFill="WHITE" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="INDENT" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="31.0" prefHeight="25.0" prefWidth="202.0" text="Resumen de OS" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="LIST_UL" size="15" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                 </children>
+                              </GridPane>
+                              <GridPane prefHeight="457.0" prefWidth="819.0" GridPane.rowIndex="1">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="401.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="419.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <JFXTextField prefHeight="17.0" prefWidth="254.0" promptText="Buscar órdenes" unFocusColor="#969696">
+                                       <padding>
+                                          <Insets left="10.0" right="450.0" />
+                                       </padding>
+                                    </JFXTextField>
+                                    <GridPane GridPane.rowIndex="2">
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="105.0" text="Órdenes OK:">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="178.0" text="Anuladas:" GridPane.columnIndex="2">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="117.0" text="Observadas:" GridPane.columnIndex="4">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="176.0" text="Total:" GridPane.columnIndex="6">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="0" textFill="#3b75fc" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="0" textFill="#3b75fc" GridPane.columnIndex="3">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="0" textFill="#3b75fc" GridPane.columnIndex="5">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="0" textFill="#3b75fc" GridPane.columnIndex="7">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                    <JFXTreeTableView prefHeight="399.0" prefWidth="770.0" GridPane.rowIndex="1">
+                                       <columns>
+                                          <TreeTableColumn prefWidth="46.0" text="Nº" />
+                                          <TreeTableColumn prefWidth="104.0" text="OS" />
+                                          <TreeTableColumn prefWidth="89.0" text="Afiliado Nº" />
+                                          <TreeTableColumn prefWidth="271.0" text="Nombre" />
+                                          <TreeTableColumn prefWidth="74.0" text="Mat. prescr." />
+                                          <TreeTableColumn prefWidth="90.0" text="Orden Nº" />
+                                          <TreeTableColumn prefWidth="81.0" text="Fecha" />
+                                          <TreeTableColumn prefWidth="65.0" text="Total" />
+                                          <TreeTableColumn prefWidth="63.0" text="Estado" />
+                                       </columns></JFXTreeTableView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Utilitarios">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="126.0" layoutY="207.0" prefHeight="635.0" prefWidth="651.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="108.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="482.0" minHeight="10.0" prefHeight="422.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="755.0" text="HERNANDEZ MARÍA DOLORES" textAlignment="CENTER" textFill="#646464" wrapText="true">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="18.0" />
+                                 </font>
+                              </Label>
+                              <GridPane GridPane.rowIndex="1">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="42.0" prefWidth="231.0" text="Nomenclador" textFill="WHITE">
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="10.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="BOOK" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="25.0" prefWidth="277.0" text="Obras Sociales" textFill="WHITE" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="BUILDING" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="25.0" prefWidth="233.0" text="Nomenclador por OS" textFill="WHITE" GridPane.columnIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="BOOK" size="15" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="42.0" prefWidth="239.0" text="Versión CBT" textFill="WHITE" GridPane.columnIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="20.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="INFO_CIRCLE" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="3">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#salir" prefHeight="42.0" prefWidth="255.0" text="Salir" textFill="WHITE" GridPane.columnIndex="3">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="POWER_OFF" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="42.0" prefWidth="269.0" text="Web CBT" textFill="WHITE" GridPane.columnIndex="2">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="CHROME" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="44.0" prefWidth="257.0" text="Asistencia remota" textFill="WHITE" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </GridPane.margin>
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="TEAMVIEWER" size="15" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="42.0" prefWidth="264.0" text="Carpeta de descargas" textFill="WHITE">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="FOLDER" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets left="20.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                 </children>
+                              </GridPane>
+                              <JFXTextArea text=" 01/03/2015 NO OLVIDE DE ACTUALIZAR EL SISTEMA A LA VERSION 1.2 - AREA COMPUTOS- - 05/06/2015 09:24 - El servidor se apagará unos minutos por refacciones que se están llevando acabo en el colegio. Disculpe las molestias. - 10/06/2015 NO OLVIDE DE VISITAR LA PAGINA DEL COLEGIO www.cobituc.org.ar - 15/06/2015 Se les recuerda a todos los bioquímicos que deben completar el formulario para la actualizacion de datos, el mismo se encuentra disponible en la pagina del colegio, www.cobituc.org.ar - 22/06/2015 10:14 - El servidor se apagará aproximadamente una hora por refacciones que se están llevando acabo en el colegio. Disculpe las molestias. - 01/07/2015 11:24 - POR UN INCONVENIENTE EN EL SERVIDOR WEB, TODOS LOS QUE HAYAN BAJADO LA ACTUALIZACION 1.4 EL DIA DE AYER PEDIMOS QUE LA DESCARGUE NUEVAMENTE - AREA COMPUTOS- - 12/07/2015 16:27 EN EL DIA DE LA FECHA EL SERVIDOR ESTARA INACTIVO DESDE LAS 17:00 HS POR UN TRASLADO PROGRAMADO EL MISMO DURARA APROXIMADAMENTE 5 HORAS EN EL TRANSCURSO NO PODRA HACER CONSULTAS ASI COMO CARGAR ORDENES - AREA COMPUTOS - 31/08/2015  20:40 Un Corte de suministro eléctrico en el colegio generó varios inconvenientes en el servidor, por lo que se había inhabilitado el uso del programa de facturación. Disculpe las molestias, Depto de Cómputos.- - 29/09/2015  14:29  Por un inconveniente en el Servidor de datos, hubo una pérdida de dos días de carga anterior al Lunes 28/09/2015, por lo que se ruega verificar las ordenes. Por tal motivo se extiende la entrega hasta el dia Lunes 05/02 a horas 8:00. Desde ya muchas Gracias, sepan disculpar las molestias ocasionadas. Dpto de Cómputos - 29/10/2015 12:36  - El día lunes 2 de noviembre se trabajara hasta horas 12:00 pm por asueto administrativo. El cierre de facturación será el día 3 de noviembre, que corresponde al segundo día habil. No olvide  tener todas las ordenes cargadas para no tener inconvenientes. Computos - 01/12/2015 Por actualizacion de Aranceles en la obra social Subsidio de Salud se podran descargar las Declaraciones Juradas despues de las 12:00 - 18/02/2016 Buenos días estimados, en el día de la fecha a partir de horas 10:00 am el servidor estará en reparaciones y mantenimiento hasta las 18:00 aproximadamente. Sepa entender las molestias ocasionadas. Departamento Cómputos. - 19/02/2016 Buenos días estimados, en el día de la fecha a partir de horas 11:00 am el servidor estará en reparaciones y mantenimiento hasta las 16:00 aproximadamente. Sepa entender las molestias ocasionadas. Departamento Cómputos. - 19/02/2016 15:47 -  Ya se encuentra operativo el servidor. Pero queda pendiente poder descargar las declaraciones juradas por motivo de mantenimiento del servidor. - 01/03/2016 03:55 Por mantenimiento en la distribución eléctrica el servidor estará inactivo durante 30 minutos, por tal motivo el cierre de la facturación será el día 2 de Marzo de 2016  a 10:00 am. Cómputos - 15/03/2016 - &quot;Señores Bioquímicos Laboratoristas&quot; Ante las omisiones reiteradas en los bonos de análisis: fechas que no corresponden al mes del bono, firma y sello del médico, firma y sello del bioquímico, como así también en lo referente al paciente (falta de datos y firma de conformidad), se les comunica que se devolverán las órdenes y NO podrán ser refacturadas. Solicitamos prestar atención en que el bono esté completo al presentarlo, ya que son exigencias de la AUDITORIA DE PAMI.- - 07/04/2016 - El Colegio de Bioquímicos de Tucumán informa a todos sus colegas que los bonos de PAMI de medicos de cabecera (Generalista) con numeración comprendida entre 22738 hasta 22848 del mes de ABRIL/16 no deben ser aceptados, ya que los mismos fueron extraviados por el medico prestador y fueron anulados en nuestros sistemas. En reemplazo se enviaron los bonos con numeracion comprendida entre 28258 y 28307 inclusive. - 11/07/2016 Por Actualizacion en la Base de Datos, estara inactivo la carga de Ordenes hasta 12:00 PM - 29/08/2016 - Para facilitar la cargar de Subsidio de Salud Ambulatorio el Dpto. cómputos genero una Base de datos de afiliados con los datos ingresados durante los periodos anteriores. Seguimos trabajando para brindarles mejores servicios.   - 07/10/2016 - El Colegio de Bioquímicos de Tucumán informa a todos sus colegas que los bonos de PAMI de medicos de cabecera (Generalista) con numeración comprendida entre 10773 hasta 10808 del mes de OCTUBRE/16 no deben ser aceptados, ya que los mismos fueron extraviados por el medico prestador y fueron anulados en nuestros sistemas. En reemplazo se enviaron los bonos con numeracion comprendida entre 25922 y 25957 inclusive. - 11/10/2016 - El Colegio de Bioquímicos de Tucumán informa a todos sus colegas que los bonos de PAMI de medicos de cabecera (Generalista) con numeración comprendida entre 13027 hasta 13077 del mes de OCTUBRE/16 no deben ser aceptados, ya que los mismos fueron extraviados por el medico prestador y fueron anulados en nuestros sistemas. En reemplazo se enviaron los bonos con numeracion comprendida entre 25958 y 26008 inclusive. - 12/10/2016 - El Colegio de Bioquímicos de Tucumán informa a todos sus colegas que los bonos de PAMI de medicos de cabecera (Generalista) con numeración comprendida entre 12889 hasta 13026 del mes de OCTUBRE/16 no deben ser aceptados, ya que los mismos fueron extraviados por el medico prestador y fueron anulados en nuestros sistemas. En reemplazo se enviaron los bonos con numeracion comprendida entre 26009 y 26118 inclusive. - 19/10/2016 - Sigue con inconvenientes el servidor de OSDE por lo que la validaciones ONLINE no se pueden ingresar, cuando este solucionado estaremos informando por este medio. Dpto de Computos - 20/10/2016 - Buenos dias estimados, todavia no es necesario el ingreso de &quot;COSEGURO&quot; estaremos informando cuando deberia ser ingresado. Dpto Computos - 20/10/2016 - Ya esta solucionado la carga de OSDE Online. Dpto Computos - 23/11/2016 -  Se encuentra disponible la version 1.7 del sistema de Facturación, el mismo puede ser descargado desde la pagina del colegio -- http://www.cobituc.org.ar/2016/11/10/actualizacion-de-soft-de-facturacion-1-7/ -- - 25/11/2016 - Desde las 13:30 hs hasta las 14:00 hs no se podrán cargar ordenes debido a una  actualización de aranceles. Dpto Computos - 26/10/2017 - A partir de las 10:20 hasta las 10:45 estaremos actualizando la base de dato del programa, por este motivo estará deshabilitado el periodo. Para que impacten correctamente pedimos cierren el programa en ese transcurso de tiempo. Dpto. Cómputos   - 02/01/2018 - Buenos días estimados, a partir de la hora 10:55 hasta las 11:10 estará inactiva la carga de Ordenes por actualización de aranceles.Les pedimos que durante este tiempo cierren el programa. Dpto. Cómputos - 21/06/2018 NO OLVIDE DE VISITAR LA PAGINA DEL COLEGIO www.cobituc.org.ar - 27/11/2018 - Estimados Colegas, informamos a Uds. que momentáneamente el programa de facturación estará fuera de linea debido a un mantenimiento del servidor.El servicio se estará restableciendo durante el transcurso del día.Sepan disculpar las molestias. - 18/02/2019 - Estimados colegas, momentaneamente estará deshabilitada la opción de validar con Sancor Salud debido al cambio de versión del nomenclador que usa la obra social." GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </center>
+</BorderPane>
