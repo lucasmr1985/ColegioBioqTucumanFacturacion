@@ -1013,7 +1013,7 @@ public class MainL extends javax.swing.JFrame {
                         if (matricula_colegiado.equals("20012") || matricula_colegiado.equals("30012")) {
                             int dialogButton;
                             int opcion = JOptionPane.YES_NO_OPTION;
-                            dialogButton = JOptionPane.showConfirmDialog(null, "Desea el generar el resumen por terminal de carga", "", opcion);
+                            dialogButton = JOptionPane.showConfirmDialog(null, "Desea generar el resumen por terminal de carga", "", opcion);
                             if (dialogButton == 0) {
                                 resumen_ordenes();
                             }
@@ -1717,6 +1717,32 @@ public class MainL extends javax.swing.JFrame {
         alinearIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
     }
 
+    String invertir(String entrada) {
+        if ((null == entrada) || (entrada.length() <= 1)) {
+            return entrada;
+        }
+        String salida = "";
+        int i = 0;
+        /////Año/////
+        for (i = 6; i <= 9; i++) {
+            salida = salida + entrada.charAt(i);
+        }
+        salida = salida + "-";
+        ///Mes///
+        for (i = 3; i <= 4; i++) {
+            salida = salida + entrada.charAt(i);
+        }
+        salida = salida + "-";
+        ////Dia////
+        for (i = 0; i <= 1; i++) {
+            salida = salida + entrada.charAt(i);
+        }
+
+        return salida;
+
+    }
+
+    
     void cargarorden() {
         String sSQL = "";
         String numero = "";
@@ -3839,7 +3865,7 @@ public class MainL extends javax.swing.JFrame {
                 }
             }
         } else {
-            fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtfecha.getText().substring(0, 2);
+            fechaDate =  invertir(txtfecha.getText());
         }
         ///////////////////////////////////////////
         System.out.println("estadoPami " + estadoPami);
@@ -3994,7 +4020,7 @@ public class MainL extends javax.swing.JFrame {
                                 int pos4 = respuestapractica.indexOf("</NroReferencia>");
                                 num_orden = respuestapractica.substring(pos3 + 15, pos4);
 
-                                observacion = respuestapractica.substring(pos + 15, pos2);
+                                observacion = respuestapractica;
                                 if (observacion.length() > 500) {
                                     observacion = observacion.substring(0, 500);
                                 }
@@ -6487,35 +6513,44 @@ public class MainL extends javax.swing.JFrame {
 
         // HTTP GET request
         public void sendGet() throws Exception {
-            ///http://ws.itcsoluciones.com:38080/jSitelServlet/Do?////////////////////////////////////////////bda221f8-a7e3-11e4-b085-000c29a675b5
-            String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajepractica, "UTF-8");
+            BufferedReader in = null;
+            try {
 
-            URL obj = new URL(urlString);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajepractica, "UTF-8");
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                URL obj = new URL(urlString);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+                // optional default is GET
+                con.setRequestMethod("GET");
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + urlString);
-            System.out.println("Response Code : " + responseCode);
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + urlString);
+                System.out.println("Response Code : " + responseCode);
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response.toString());
+                respuestapractica = response.toString();
+            } catch (IOException e) {
+                System.out.println("Error " + e);
+                respuestapractica = e.getMessage();
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
-            respuestapractica = response.toString();
 
         }
     }
@@ -6525,36 +6560,47 @@ public class MainL extends javax.swing.JFrame {
         private final String USER_AGENT = "Mozilla/5.0";
 
         // HTTP GET request
-        public void sendGet() throws Exception {
+        public void sendGet() {
+            BufferedReader in = null;
 
-            String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajepractica, "UTF-8");
+            try {
+                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajepractica, "UTF-8");
 
-            URL obj = new URL(urlString);////////////////////////////////////////////////////////////////////////bda221f8-a7e3-11e4-b085-000c29a675b5
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                URL obj = new URL(urlString);////////////////////////////////////////////////////////////////////////bda221f8-a7e3-11e4-b085-000c29a675b5
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                // optional default is GET
+                con.setRequestMethod("GET");
 
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + urlString);
-            System.out.println("Response Code : " + responseCode);
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + urlString);
+                System.out.println("Response Code : " + responseCode);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
+                in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                //print result
+                System.out.println(response.toString());
+                respuestapractica = response.toString();
+            } catch (IOException e) {
+                System.out.println("Error " + e);
+                respuestapractica = e.getMessage();
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
-            respuestapractica = response.toString();
 
         }
     }
@@ -6565,35 +6611,44 @@ public class MainL extends javax.swing.JFrame {
 
         // HTTP GET request
         public void sendGet() throws Exception {
+            BufferedReader in = null;
+            try {
+                String urlString = "http://sistemasboreal.com.ar:5480/WsBoreal/servlet/awsboreal?wsdl" + URLEncoder.encode(mensajepractica, "UTF-8");
 
-            String urlString = "http://sistemasboreal.com.ar:5480/WsBoreal/servlet/awsboreal?wsdl" + URLEncoder.encode(mensajepractica, "UTF-8");
+                URL obj = new URL(urlString);////////////////////////////////////////////////////////////////////////bda221f8-a7e3-11e4-b085-000c29a675b5
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            URL obj = new URL(urlString);////////////////////////////////////////////////////////////////////////bda221f8-a7e3-11e4-b085-000c29a675b5
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
 
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + urlString);
+                System.out.println("Response Code : " + responseCode);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + urlString);
-            System.out.println("Response Code : " + responseCode);
+                in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                //print result
+                System.out.println(response.toString());
+                respuestapractica = response.toString();
+            } catch (IOException e) {
+                System.out.println("Error " + e);
+                respuestapractica = e.getMessage();
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
-            respuestapractica = response.toString();
 
         }
     }
@@ -6604,34 +6659,43 @@ public class MainL extends javax.swing.JFrame {
 
         // HTTP GET request
         public void sendGet() throws Exception {
+            BufferedReader in = null;
+            try {
+                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
 
-            String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
+                URL obj = new URL(urlString);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            URL obj = new URL(urlString);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
 
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + urlString);
+                System.out.println("Response Code : " + responseCode);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + urlString);
-            System.out.println("Response Code : " + responseCode);
+                in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response.toString());
+                respuestapractica = response.toString();
+            } catch (IOException e) {
+                System.out.println("Error " + e);
+                respuestapractica = e.getMessage();
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            in.close();
-
-            System.out.println(response.toString());
-            respuestaanulacion = response.toString();
 
         }
     }
@@ -6642,34 +6706,43 @@ public class MainL extends javax.swing.JFrame {
 
         // HTTP GET request
         public void sendGet() throws Exception {
+            BufferedReader in = null;
+            try {
+                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
 
-            String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
+                URL obj = new URL(urlString);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            URL obj = new URL(urlString);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
 
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + urlString);
+                System.out.println("Response Code : " + responseCode);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + urlString);
-            System.out.println("Response Code : " + responseCode);
+                in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response.toString());
+                respuestapractica = response.toString();
+            } catch (IOException e) {
+                System.out.println("Error " + e);
+                respuestapractica = e.getMessage();
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            in.close();
-
-            System.out.println(response.toString());
-            respuestaanulacion = response.toString();
 
         }
     }
@@ -6776,7 +6849,7 @@ public class MainL extends javax.swing.JFrame {
             }
         } else {
             if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)") || obra.equals("3102 - OSDE - OFFLINE")) {
-                if (tablapracticas.getRowCount() <= 20) {
+                if (tablapracticas.getRowCount() <= 24) {
                     if (!txtpractica.getText().equals("+")) {
                         DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
                         String cod = "", nom = "", cadena = txtpractica.getText();
@@ -12401,7 +12474,7 @@ public class MainL extends javax.swing.JFrame {
     }//GEN-LAST:event_txtdocumentoActionPerformed
 
     private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtnombreafiliado.setEnabled(true);
             txtnombreafiliado.setEditable(false);
@@ -12493,7 +12566,7 @@ public class MainL extends javax.swing.JFrame {
     }//GEN-LAST:event_txtdocumentoKeyPressed
 
     private void txtdocumentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyReleased
-                if (txtdocumento.getText().equals("")) {
+        if (txtdocumento.getText().equals("")) {
             txtnombreafiliado.setText("");
             txtnumafiliado.setText("");
             txtdocumento.requestFocus();
