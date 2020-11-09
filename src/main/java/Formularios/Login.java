@@ -19,7 +19,7 @@ public class Login extends javax.swing.JFrame {
     public static int contadorobrasocial = 0;
     public static int contadorafiliado = 0, datos = 0;
     public static int contadorpractica = 0;
-    public static int id_usuario, periodo_colegiado;
+    public static int id_usuario, periodo_colegiado, estadopeec;
     public static String nombre_usuario, sociedad;
     public static String contraseña_usuario, matricula_colegiado, nombre_colegiado, cuit;
     public String msj;
@@ -185,7 +185,7 @@ public class Login extends javax.swing.JFrame {
         ConexionMariaDB mysql = new ConexionMariaDB();
         Connection cn = mysql.Conectar();
         int i = 0;
-        String sSQL = "SELECT usuario_laboratorio,nombre_colegiado,cuil_colegiado,contraseña_laboratorio,periodos,id_colegiados,matricula_colegiado, estado_login,validacion_pami,actualizacion_datos,essociedad FROM colegiados WHERE usuario_laboratorio= '" + txtusuarios.getText() + "' and estado_colegiado='ACTIVOF'";
+        String sSQL = "SELECT usuario_laboratorio,nombre_colegiado,cuil_colegiado,contraseña_laboratorio,periodos,id_colegiados,matricula_colegiado, estado_login,validacion_pami,actualizacion_datos,essociedad,estadopeec FROM colegiados WHERE usuario_laboratorio= '" + txtusuarios.getText() + "' and estado_colegiado='ACTIVOF'";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
@@ -209,6 +209,7 @@ public class Login extends javax.swing.JFrame {
                             estadologin = rs.getBoolean("estado_login");
                             validacion_pami = rs.getBoolean("validacion_pami");
                             sociedad = rs.getString("essociedad");
+                            estadopeec=rs.getInt("estadopeec");
                             datos = rs.getInt(10);
                             if (datos == 1) {
                                 if (estadologin == false) {
@@ -216,6 +217,7 @@ public class Login extends javax.swing.JFrame {
                                 } else {
 
                                     if (estado_aviso == 1) {
+                                       JOptionPane.showMessageDialog(null, "Laboratorio sin PEEC los aranceles de las obras sociales pueden variar");
                                         new Aviso(this, true).setVisible(true);
                                         new MainL().setVisible(true);
                                     } else {

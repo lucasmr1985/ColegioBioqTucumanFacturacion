@@ -1827,7 +1827,15 @@ public class MainL extends javax.swing.JFrame {
         Connection cn = cc.Conectar();
         try {
             Statement St = cn.createStatement();
-            ResultSet Rs = St.executeQuery("SELECT codigo_practica, preciototal, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obra_social);
+           ResultSet Rs =null;
+            if (Login.estadopeec==1){
+            Rs = St.executeQuery("SELECT codigo_practica, preciototal, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  "
+                    + "WHERE id_obrasocial=" + id_obra_social);
+            } else {
+             Rs = St.executeQuery("SELECT codigo_practica, precioSinPEEC, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  "
+                    + "WHERE id_obrasocial=" + id_obra_social);
+            }
+            
             while (Rs.next()) {
                 practica[contadorj] = (Rs.getString(1) + " - " + Rs.getString(3));
                 textAutoAcompleter.addItem(practica[contadorj]);
