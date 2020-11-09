@@ -1657,14 +1657,14 @@ public class MainL extends javax.swing.JFrame {
             ///////////////////////////////////////////////////////////
             Map parametros = new HashMap();
             parametros.put("matricula", matricula_colegiado);
-            System.out.println("matricula:" +matricula_colegiado);
+            System.out.println("matricula:" + matricula_colegiado);
             parametros.put("periodo", periododjj);
-            System.out.println("periodo:" +periododjj);
+            System.out.println("periodo:" + periododjj);
             parametros.put("fecha", fecha2);
             parametros.put("obra_social", ObraSocial);
             System.out.println("obra_social:" + ObraSocial);
             parametros.put("num_obra_social", CodObra);
-             System.out.println("num_obra_social:" + CodObra);
+            System.out.println("num_obra_social:" + CodObra);
             parametros.put("laboratorio", nombre_colegiado);
             parametros.put("domicilio_lab", domicilio_lab);
             parametros.put("localidad", localidad_lab);
@@ -1742,7 +1742,6 @@ public class MainL extends javax.swing.JFrame {
 
     }
 
-    
     void cargarorden() {
         String sSQL = "";
         String numero = "";
@@ -3865,7 +3864,7 @@ public class MainL extends javax.swing.JFrame {
                 }
             }
         } else {
-            fechaDate =  invertir(txtfecha.getText());
+            fechaDate = invertir(txtfecha.getText());
         }
         ///////////////////////////////////////////
         System.out.println("estadoPami " + estadoPami);
@@ -6685,10 +6684,10 @@ public class MainL extends javax.swing.JFrame {
                     response.append(inputLine);
                 }
                 System.out.println(response.toString());
-                respuestapractica = response.toString();
+                respuestaanulacion = response.toString();
             } catch (IOException e) {
                 System.out.println("Error " + e);
-                respuestapractica = e.getMessage();
+                respuestaanulacion = e.getMessage();
             } finally {
                 try {
                     in.close();
@@ -6696,7 +6695,6 @@ public class MainL extends javax.swing.JFrame {
                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
         }
     }
 
@@ -6732,10 +6730,10 @@ public class MainL extends javax.swing.JFrame {
                     response.append(inputLine);
                 }
                 System.out.println(response.toString());
-                respuestapractica = response.toString();
+                respuestaanulacion = response.toString();
             } catch (IOException e) {
                 System.out.println("Error " + e);
-                respuestapractica = e.getMessage();
+                respuestaanulacion = e.getMessage();
             } finally {
                 try {
                     in.close();
@@ -10188,28 +10186,12 @@ public class MainL extends javax.swing.JFrame {
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("JERARQUICOS SALUD - EMP. BNA - ONLINE")
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.")
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("IOSFA")) {
-
-                // else {
                 JOptionPane.showMessageDialog(null, "Las ordenes cargadas ONLINE deben ser anuladas...");
-                //}
-
             } else {
-                if ((tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("INSSJYP - PAMI  -AUGL 1 (AMB)")
-                        || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("INSSJYP -PAMI- EN TRANSITO- INTERNADO"))) {
-                    if (validacion_pami) {
-                        hilo3 = new MainL.HiloModificaOrdenes(progreso);
-                        hilo3.start();
-                        hilo3 = null;
-                        banderamodifica = 1;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se puede modificar órdenes de PAMI");
-                    }
-                } else {
-                    hilo3 = new MainL.HiloModificaOrdenes(progreso);
-                    hilo3.start();
-                    hilo3 = null;
-                    banderamodifica = 1;
-                }
+                hilo3 = new MainL.HiloModificaOrdenes(progreso);
+                hilo3.start();
+                hilo3 = null;
+                banderamodifica = 1;
             }
         } else {
             JOptionPane.showMessageDialog(null, "La orden está anulada. No puede ser modificada...");
@@ -10230,7 +10212,7 @@ public class MainL extends javax.swing.JFrame {
             if (rs.getBoolean("estado") == true && rs.getInt("periodo") <= Integer.valueOf(periodo_anula)) {
                 i = 0;
                 //////////////////////////////////////////////////////////////
-                if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK")||tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("AUDITORIA")) {
+                if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("AUDITORIA")) {
 
                     id_orden = Integer.valueOf(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 0).toString());
                     String cod_afiliado = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString();
@@ -10264,10 +10246,11 @@ public class MainL extends javax.swing.JFrame {
                                     JOptionPane.showMessageDialog(null, ex);
 
                                 }
-                                int pos = respuestaanulacion.indexOf("MensajeDisplay");
-                                int pos2 = respuestaanulacion.indexOf("</MensajeDisplay");
+                                System.out.println("2 anulacion");
+                                int pos = respuestaanulacion.indexOf("<NroReferencia>");
+                                int pos2 = respuestaanulacion.indexOf("</NroReferencia>");
                                 cursor2();
-                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 15, pos2));
+                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 18, pos2));
                                 System.out.println("2--");
                             }
                             /////SWISS MEDICAL GROUP S.A.
@@ -12146,6 +12129,10 @@ public class MainL extends javax.swing.JFrame {
             nombre_jasper = "Comprobante_iosfa";
             b = 1;
         }
+        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().toString().equals("DASUTeN  - Direc. Accion Social  U.Tec")) {
+            nombre_jasper = "Comprobante_coseguro";
+            b = 1;
+        }
         if (b == 0) {
             nombre_jasper = "Comprobante";
         }
@@ -12581,7 +12568,7 @@ public class MainL extends javax.swing.JFrame {
     }//GEN-LAST:event_txtdocumentoKeyTyped
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-          try {
+        try {
             Desktop.getDesktop().browse(new URI("http://www.cobituc.org.ar/sistemainformacion/"));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
