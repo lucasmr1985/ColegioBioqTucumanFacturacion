@@ -3369,6 +3369,8 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        txttotal.getAccessibleContext().setAccessibleName("");
+
         btnimprimirdjj.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnimprimirdjj.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728912 - book reading.png"))); // NOI18N
         btnimprimirdjj.setMnemonic('i');

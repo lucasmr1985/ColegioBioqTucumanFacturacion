@@ -182,6 +182,10 @@ public class Login extends javax.swing.JFrame {
 
     private void btnaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptarActionPerformed
         // Selecciono SQL la tabla empleados y todos sus atributos
+        Login_aceptar();
+    }//GEN-LAST:event_btnaceptarActionPerformed
+
+    void Login_aceptar() {
         ConexionMariaDB mysql = new ConexionMariaDB();
         Connection cn = mysql.Conectar();
         int i = 0;
@@ -209,23 +213,28 @@ public class Login extends javax.swing.JFrame {
                             estadologin = rs.getBoolean("estado_login");
                             validacion_pami = rs.getBoolean("validacion_pami");
                             sociedad = rs.getString("essociedad");
-                            estadopeec=rs.getInt("estadopeec");
+                            estadopeec = rs.getInt("estadopeec");
+                            System.out.println("estadopeec:" + estadopeec);
                             datos = rs.getInt(10);
                             if (datos == 1) {
                                 if (estadologin == false) {
                                     new ConfirmaClave().setVisible(true);
                                 } else {
-
+                                    System.out.println("ingresa dato==1:" + estadopeec);
+                                    if (estadopeec == 0) {
+                                        JOptionPane.showMessageDialog(null, "Laboratorio sin PEEC los aranceles de las obras sociales pueden variar");
+                                    }
                                     if (estado_aviso == 1) {
-                                       JOptionPane.showMessageDialog(null, "Laboratorio sin PEEC los aranceles de las obras sociales pueden variar");
+
                                         new Aviso(this, true).setVisible(true);
                                         new MainL().setVisible(true);
                                     } else {
+
                                         new MainL().setVisible(true);
                                     }
                                 }
-                            }else{
-                                 JOptionPane.showMessageDialog(null, "Usted no completó los datos de actualización requeridos, comunicarsé con el depto de computos, 4330508 opción 3");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Usted no completó los datos de actualización requeridos, comunicarsé con el depto de computos, 4330508 opción 3");
                             }
 
                             break;
@@ -249,7 +258,8 @@ public class Login extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_btnaceptarActionPerformed
+
+    }
 
     void cargarversion() {
         ConexionMariaDB mysql = new ConexionMariaDB();
@@ -270,72 +280,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtusuariosActionPerformed
 
     private void txtcontraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcontraseñaActionPerformed
-        // Selecciono SQL la tabla empleados y todos sus atributos
-        ConexionMariaDB mysql = new ConexionMariaDB();
-        Connection cn = mysql.Conectar();
-        int i = 0;
-        String sSQL = "SELECT usuario_laboratorio,nombre_colegiado,cuil_colegiado,contraseña_laboratorio,periodos,id_colegiados,matricula_colegiado, estado_login,validacion_pami, actualizacion_datos ,essociedad FROM colegiados WHERE usuario_laboratorio= '" + txtusuarios.getText() + "' and estado_colegiado='ACTIVOF'";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL);
-            // Recorro y me fijo donde coinciden usuario y contraseña
-            while (rs.next()) {
-                if (txtusuarios.getText().equals(rs.getString("usuario_laboratorio"))) {
-                    if (txtcontraseña.getText().equals(rs.getString("contraseña_laboratorio"))) {
-                        id_usuario = rs.getInt("id_colegiados");
-                        //cargarversion();
-                        if (version_actual.equals(version)) {
-                            this.dispose();
-                            i = 0;
-                            // Cargo las variables para usarlos en el Main
-
-                            nombre_usuario = rs.getString("usuario_laboratorio");
-                            contraseña_usuario = rs.getString("contraseña_laboratorio");
-                            matricula_colegiado = rs.getString("matricula_colegiado");
-                            nombre_colegiado = rs.getString("nombre_colegiado");
-                            periodo_colegiado = rs.getInt("periodos");
-                            cuit = rs.getString("cuil_colegiado");
-                            estadologin = rs.getBoolean("estado_login");
-                            validacion_pami = rs.getBoolean("validacion_pami");
-                            sociedad = rs.getString("essociedad");
-                            datos = rs.getInt(10);
-                            if (datos == 1) {
-                                if (estadologin == false) {
-                                    new ConfirmaClave().setVisible(true);
-                                } else {
-
-                                    if (estado_aviso == 1) {
-                                        new Aviso(this, true).setVisible(true);
-                                        new MainL().setVisible(true);
-                                    } else {
-                                        new MainL().setVisible(true);
-                                    }
-
-                                }
-                            }else{
-                                 JOptionPane.showMessageDialog(null, "Usted no completó los datos de actualización requeridos, comunicarsé con el depto de computos, 4330805 opción 3");
-                            }
-                            break;
-                        } else {
-                            new Actualizacion(this, true).setVisible(true);
-                        }
-                    } else {
-                        i = 2;
-                    }
-                } else {
-                    i = 1;
-                }
-            }
-            if (i == 1) {
-                JOptionPane.showMessageDialog(null, "Nombre de Usuario incorrecto...");
-            }
-            if (i == 2) {
-                JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
-            }
-            cn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+      Login_aceptar();
     }//GEN-LAST:event_txtcontraseñaActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnaceptar;
