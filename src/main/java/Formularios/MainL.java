@@ -8630,6 +8630,8 @@ public class MainL extends javax.swing.JFrame {
                         FileWriter escribir = new FileWriter(archivo, true);
 
                         while (cantidadfila > i) {
+                            j=0;
+                            linea="";
                             while (!String.valueOf(tablaordenes1.getModel().getValueAt(i, j)).equals("null")) {
                                 System.out.println("cantidad elemento: " +String.valueOf(tablaordenes1.getModel().getValueAt(i, j)));
                                 linea =linea+ String.valueOf(tablaordenes1.getModel().getValueAt(i, j)) + ";";
