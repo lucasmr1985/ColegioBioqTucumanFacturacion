@@ -119,6 +119,7 @@ import ClienteSancor.PAWESSAV2AUTORIZACIONResponse;
 import static Formularios.BorealAfiliado.tipo_credencial;
 import static Formularios.JerarquicosAfiliado.NumeroOrden;
 import static Formularios.JerarquicosAfiliado.NumeroSocio;
+import static Formularios.Login.estadopeec;
 import static Formularios.OsdeAfiliado.CSC;
 import java.io.File;
 import java.io.FileWriter;
@@ -583,9 +584,7 @@ public class MainL extends javax.swing.JFrame {
 
     }
 
-    /////////////////////////////////////////Leo archivo Text///////////////////////////////////////////////    
-    void leer_archivo() {
-
+    void creamyModel() {
         myModel = new DefaultTableModel() {
             ////Celdas no editables////////
             public boolean isCellEditable(int row, int column) {
@@ -602,26 +601,18 @@ public class MainL extends javax.swing.JFrame {
         myModel.addColumn("Mat. Presc.");
         myModel.addColumn("DNI");
         myModel.addColumn("Coseguro");
-        myModel.addColumn("P1");
-        myModel.addColumn("P2");
-        myModel.addColumn("P3");
-        myModel.addColumn("P4");
-        myModel.addColumn("P5");
-        myModel.addColumn("P6");
-        myModel.addColumn("P7");
-        myModel.addColumn("P8");
-        myModel.addColumn("P9");
-        myModel.addColumn("P10");
-        myModel.addColumn("P11");
-        myModel.addColumn("P12");
-        myModel.addColumn("P13");
-        myModel.addColumn("P14");
-        myModel.addColumn("P15");
-        myModel.addColumn("P16");
-        myModel.addColumn("P17");
-        myModel.addColumn("P18");
-        myModel.addColumn("P19");
-        myModel.addColumn("P20");
+        int i = 1;
+        while (i <= 100) {
+            myModel.addColumn("P" + String.valueOf(i));
+            i++;
+        }
+
+    }
+
+    /////////////////////////////////////////Leo archivo Text///////////////////////////////////////////////    
+    void leer_archivo() {
+
+        creamyModel();
         tablaordenes1.setModel(myModel);
         BufferedReader br = null;
         try {
@@ -633,6 +624,7 @@ public class MainL extends javax.swing.JFrame {
                     while (line != null) {
                         String[] rowfields = line.split(";");
                         myModel.addRow(rowfields);
+
                         line = br.readLine();
                     }
                 }
@@ -643,66 +635,13 @@ public class MainL extends javax.swing.JFrame {
         tablaordenes1.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaordenes1.getColumnModel().getColumn(0).setMinWidth(0);
         tablaordenes1.getColumnModel().getColumn(0).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(10).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(10).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(10).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(11).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(11).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(11).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(12).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(12).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(12).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(13).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(13).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(13).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(14).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(14).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(14).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(15).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(15).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(15).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(16).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(16).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(16).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(17).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(17).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(17).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(18).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(18).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(18).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(19).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(19).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(19).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(20).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(20).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(20).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(21).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(21).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(21).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(22).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(22).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(22).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(23).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(23).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(23).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(24).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(24).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(24).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(25).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(25).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(28).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(26).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(26).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(26).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(27).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(27).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(27).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(28).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(28).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(28).setPreferredWidth(0);
-        tablaordenes1.getColumnModel().getColumn(29).setMaxWidth(0);
-        tablaordenes1.getColumnModel().getColumn(29).setMinWidth(0);
-        tablaordenes1.getColumnModel().getColumn(29).setPreferredWidth(0);
+        int i = 10;
+        while (i < 110) {
+            tablaordenes1.getColumnModel().getColumn(i).setMaxWidth(0);
+            tablaordenes1.getColumnModel().getColumn(i).setMinWidth(0);
+            tablaordenes1.getColumnModel().getColumn(i).setPreferredWidth(0);
+            i++;
+        }
     }
 
     public class Hiloobrasocial extends Thread {
@@ -1827,15 +1766,15 @@ public class MainL extends javax.swing.JFrame {
         Connection cn = cc.Conectar();
         try {
             Statement St = cn.createStatement();
-           ResultSet Rs =null;
-            if (Login.estadopeec==1){
-            Rs = St.executeQuery("SELECT codigo_practica, preciototal, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  "
-                    + "WHERE id_obrasocial=" + id_obra_social);
+            ResultSet Rs = null;
+            if (Login.estadopeec == 1) {
+                Rs = St.executeQuery("SELECT codigo_practica, preciototal, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  "
+                        + "WHERE id_obrasocial=" + id_obra_social);
             } else {
-             Rs = St.executeQuery("SELECT codigo_practica, precioSinPEEC, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  "
-                    + "WHERE id_obrasocial=" + id_obra_social);
+                Rs = St.executeQuery("SELECT codigo_practica, precioSinPEEC, determinacion, codigo_fac_practicas_obrasocial, id_practicasnbu FROM obrasocial_tiene_practicasnbu  "
+                        + "WHERE id_obrasocial=" + id_obra_social);
             }
-            
+
             while (Rs.next()) {
                 practica[contadorj] = (Rs.getString(1) + " - " + Rs.getString(3));
                 textAutoAcompleter.addItem(practica[contadorj]);
@@ -2100,6 +2039,7 @@ public class MainL extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaordenes1 = new javax.swing.JTable();
+        formatoArchivoBoton = new javax.swing.JButton();
         btnaceptar2 = new javax.swing.JButton();
         btncancelar2 = new javax.swing.JButton();
         btnsalir3 = new javax.swing.JButton();
@@ -2890,6 +2830,11 @@ public class MainL extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtaño3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtaño3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtaño3ActionPerformed(evt);
+            }
+        });
         txtaño3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtaño3KeyPressed(evt);
@@ -2903,15 +2848,16 @@ public class MainL extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progreso3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(progreso3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtmes3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtaño3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtaño3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -2973,6 +2919,14 @@ public class MainL extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tablaordenes1);
 
+        formatoArchivoBoton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        formatoArchivoBoton.setText("Formato de archivo");
+        formatoArchivoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formatoArchivoBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -2983,9 +2937,12 @@ public class MainL extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(btnimportar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(formatoArchivoBoton)
+                        .addGap(15, 15, 15))
                     .addComponent(jSeparator4)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -2993,8 +2950,9 @@ public class MainL extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnimportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(formatoArchivoBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -8128,6 +8086,7 @@ public class MainL extends javax.swing.JFrame {
     private void btnimportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimportarActionPerformed
         if (!txtaño3.getText().equals("") && !txtmes3.getText().equals("") && !txtmes3.getText().equals("  ") && !txtaño3.getText().equals("    ")) {//  
             progreso.setValue(0);
+            JOptionPane.showMessageDialog(null, "Limite de practicas por orden - 60 - ");
             new importar(this, true).setVisible(true);
             if (Importar == 1) {
                 jLabel19.setText(url);
@@ -8141,93 +8100,19 @@ public class MainL extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                myModel = new DefaultTableModel(filas, columna);
+//                myModel = new DefaultTableModel(filas, columna);
                 tablaordenes1.setModel(myModel);
                 ///////////////////////////////////////////////////////////////////////////////
                 tablaordenes1.getColumnModel().getColumn(0).setMaxWidth(0);
                 tablaordenes1.getColumnModel().getColumn(0).setMinWidth(0);
                 tablaordenes1.getColumnModel().getColumn(0).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(10).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(10).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(10).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(11).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(11).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(11).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(12).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(12).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(12).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(13).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(13).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(13).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(14).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(14).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(14).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(15).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(15).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(15).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(16).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(16).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(16).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(17).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(17).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(17).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(18).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(18).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(18).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(19).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(19).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(19).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(20).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(20).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(20).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(21).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(21).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(21).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(22).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(22).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(22).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(23).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(23).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(23).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(24).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(24).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(24).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(25).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(25).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(28).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(26).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(26).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(26).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(27).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(27).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(27).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(28).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(28).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(28).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
-                tablaordenes1.getColumnModel().getColumn(29).setMaxWidth(0);
-                tablaordenes1.getColumnModel().getColumn(29).setMinWidth(0);
-                tablaordenes1.getColumnModel().getColumn(29).setPreferredWidth(0);
-                ///////////////////////////////////////////////////////////////////////////////////
+                int i = 10;
+                while (i < 110) {
+                    tablaordenes1.getColumnModel().getColumn(i).setMaxWidth(0);
+                    tablaordenes1.getColumnModel().getColumn(i).setMinWidth(0);
+                    tablaordenes1.getColumnModel().getColumn(i).setPreferredWidth(0);
+                    i++;
+                }
                 cargatotalesordenes();
             }
         } else {
@@ -8237,14 +8122,15 @@ public class MainL extends javax.swing.JFrame {
 
     public void CrearTabla(File file) throws IOException {
         Workbook workbook = null;
+
         try {
             workbook = Workbook.getWorkbook(file);
             Sheet sheet = workbook.getSheet(0);
-            columna.clear();
-            for (int i = 0; i < sheet.getColumns(); i++) {
-                Cell cell1 = sheet.getCell(i, 0);
-                columna.add(cell1.getContents());
-            }
+//            columna.clear();
+//            for (int i = 0; i < sheet.getColumns(); i++) {
+//                Cell cell1 = sheet.getCell(i, 0);
+//                columna.add(cell1.getContents());
+//            }
             filas.clear();
             for (int j = 1; j < sheet.getRows(); j++) {
                 Vector d = new Vector();
@@ -8491,7 +8377,7 @@ public class MainL extends javax.swing.JFrame {
                                     if (fecha_orden.length() < 10) {
                                         bandera = 2;
                                     }
-                                    if (dni_afiliado.length() > 8) {
+                                    if (dni_afiliado.length() > 8 ) {
                                         bandera = 3;
                                     }
                                     if (bandera == 0) {
@@ -8511,7 +8397,7 @@ public class MainL extends javax.swing.JFrame {
                                                     j = 10;
                                                     n2 = 0;
                                                     cantidad = 0;
-                                                    while (j <= 29) {
+                                                    while (j <= 110) {
                                                         if (Importar == 1) {
                                                             if (temp.getValueAt(i4, j) != null) {
                                                                 int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
@@ -8519,15 +8405,10 @@ public class MainL extends javax.swing.JFrame {
                                                                 System.out.println(cod);
                                                                 System.out.println(id_obra_social);
                                                                 System.out.println(nbu);
-                                                                String sSQL5 = "SELECT round(preciototal,2) FROM obrasocial_tiene_practicasnbu WHERE (id_obrasocial=" + id_obra_social + "  AND añonbu=" + nbu + "  AND codigo_practica=" + cod + " )";
+                                                               String sSQL5 = "SELECT codigo_practica FROM obrasocial_tiene_practicasnbu WHERE (id_obrasocial=" + id_obra_social + " AND codigo_practica=" + cod + " )";
                                                                 Statement st5 = cn.createStatement();
                                                                 ResultSet rs5 = st5.executeQuery(sSQL5);
                                                                 try {
-                                                                    //System.out.println("paso 1");
-                                                                    rs5.next();
-                                                                    //System.out.println("paso 2");
-                                                                    total = Double.valueOf(rs5.getString(1));
-                                                                    ///System.out.println("paso 3");
                                                                     cod_practica = cod_practica + cod;
                                                                     ///System.out.println("paso 4");
                                                                     totalordenes = totalordenes + total;
@@ -8596,7 +8477,7 @@ public class MainL extends javax.swing.JFrame {
                                                         ///System.out.println("e " + 8);
                                                         SP_cargar_orden.setString(7, fecha_orden);
                                                         ///System.out.println("e " + 9);
-                                                        SP_cargar_orden.setDouble(8, Redondear(totalordenes));
+                                                        SP_cargar_orden.setDouble(8, 0.00);
                                                         ///System.out.println("e " + 10);
                                                         SP_cargar_orden.setString(9, "1");
                                                         ///System.out.println("e " + 11);
@@ -8626,9 +8507,9 @@ public class MainL extends javax.swing.JFrame {
                                                         ///System.out.println("e " + 23);
                                                         SP_cargar_orden.setString(22, observacion);
                                                         //System.out.println("e " + 24);
-                                                        SP_cargar_orden.setString(23, "");
+                                                        SP_cargar_orden.setString(23, "1");
                                                         //System.out.println("e " + 25);
-                                                        SP_cargar_orden.setString(24, "");
+                                                        SP_cargar_orden.setString(24, "0");
                                                         // System.out.println("e " + 26);
                                                         SP_cargar_orden.execute();
                                                         //System.out.println("e " + 27);
@@ -8718,7 +8599,7 @@ public class MainL extends javax.swing.JFrame {
                 }
                 System.out.println(errores);
                 if (bandera_orden == 1) {
-                    JOptionPane.showMessageDialog(null, "Proceso realizado con exito...");
+                    JOptionPane.showMessageDialog(null, "Proceso realizado con exito...\r\nPor favor Verifique que todas las cargas sean correctas antes de cerrar el periodo");
                     cargatotalesordenes();
                     ///////////////////////////////////////////////////
                     try {
@@ -8734,17 +8615,44 @@ public class MainL extends javax.swing.JFrame {
                     }
                     ///////////////////////////////////////////////////                    
                     try {
-                        List<JTable> tb = new ArrayList<JTable>();
-                        tb.add(tablaordenes1);
-                        export_excel excelExporter = new export_excel(tb, new File(ruta + "Errores Transferencia" + ".xls"));
-                        if (excelExporter.export()) {
-                            // JOptionPane.showMessageDialog(null, "TABLAS EXPORTADOS CON EXITOS!");
+                        ///Ver el excel        
+                        int cantidadfila = tablaordenes1.getRowCount();
+                        int i = 0, j = 0;
+                        String linea="";
+                        
+                        System.out.println("cantidad de fila: "+cantidadfila);
+                      System.out.println("elemento: " +String.valueOf(tablaordenes1.getModel().getValueAt(j, i)));
+                        File archivo = new File(ruta + "OrdenesConError-.txt");
+                        /////////// Verifico si existe el Archivo y si existe lo elimino
+                        if (archivo.exists()) {
+                            archivo.delete();
                         }
+                        FileWriter escribir = new FileWriter(archivo, true);
+
+                        while (cantidadfila > i) {
+                            while (!String.valueOf(tablaordenes1.getModel().getValueAt(i, j)).equals("null")) {
+                                System.out.println("cantidad elemento: " +String.valueOf(tablaordenes1.getModel().getValueAt(i, j)));
+                                linea =linea+ String.valueOf(tablaordenes1.getModel().getValueAt(i, j)) + ";";
+                                j++;
+                            }
+//                            linea=linea+"\r\n";
+                            escribir.write(linea+"\r\n");
+                            i++;
+                        }
+                        escribir.close();
+                        Desktop.getDesktop().open(new File(ruta + "OrdenesConError-.txt"));
+                        
+//                        List<JTable> tb = new ArrayList<JTable>();
+//                        tb.add(tablaordenes1);
+//                        export_excel excelExporter = new export_excel(tb, new File(ruta + "Errores Transferencia" + ".xls"));
+//                        if (excelExporter.export()) {
+//                            // JOptionPane.showMessageDialog(null, "TABLAS EXPORTADOS CON EXITOS!");
+//                        }
                     } catch (Exception ex) {
                         System.out.println("error 7: " + ex);
                         ex.printStackTrace();
                     }
-                    llama_excel();
+//                    llama_excel();
                     ///////////////////////////////////////////////////
                 } else {
                     JOptionPane.showMessageDialog(null, "Período finalizado. Debe verificar que Período desea cargar");
@@ -9767,7 +9675,7 @@ public class MainL extends javax.swing.JFrame {
     private void txtaño3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtaño3KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (isNumeric(txtaño3.getText())) {//if (isNumeric(txtaño1.getText()) && isNumeric(txtmes1.getText())) {
-                txtaño3.transferFocus();
+                jButton4.transferFocus();
             }
         }
         if (evt.getKeyCode() == KeyEvent.VK_F1) {
@@ -12586,6 +12494,19 @@ public class MainL extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void txtaño3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtaño3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtaño3ActionPerformed
+
+    private void formatoArchivoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatoArchivoBotonActionPerformed
+        try {
+            Desktop.getDesktop().open(new File("C:\\Facturacion Laboratorios\\FTO.PDF"));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se encontro el archivo");
+        }
+       
+    }//GEN-LAST:event_formatoArchivoBotonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;
     private javax.swing.JPanel Facturacion;
@@ -12621,6 +12542,7 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JButton btnsalir5;
     private javax.swing.JComboBox<String> cbotipo;
     private javax.swing.JCheckBox chkcoseguro;
+    private javax.swing.JButton formatoArchivoBoton;
     private javax.swing.ButtonGroup grupoBoton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
