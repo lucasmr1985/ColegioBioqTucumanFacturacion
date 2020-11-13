@@ -8513,7 +8513,7 @@ public class MainL extends javax.swing.JFrame {
                                                     ///System.out.println("e " + 10);
                                                     SP_cargar_orden.setString(9, "1");
                                                     ///System.out.println("e " + 11);
-                                                    SP_cargar_orden.setString(10, fecha_orden);
+                                                    SP_cargar_orden.setString(10, fecha);
                                                     ///System.out.println("e " + 12);
                                                     SP_cargar_orden.setString(11, hora);
                                                     ///System.out.println("e " + 13);
@@ -10218,6 +10218,7 @@ public class MainL extends javax.swing.JFrame {
                                 cursor2();
                                 JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 18, pos2));
                                 System.out.println("2--");
+                            
                             }
                             /////SWISS MEDICAL GROUP S.A.
                             if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SWISS MEDICAL GROUP S.A. - ONLINE")) {
