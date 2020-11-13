@@ -121,10 +121,14 @@ import static Formularios.JerarquicosAfiliado.NumeroOrden;
 import static Formularios.JerarquicosAfiliado.NumeroSocio;
 import static Formularios.Login.estadopeec;
 import static Formularios.OsdeAfiliado.CSC;
+import controlador.Funciones;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -8276,6 +8280,43 @@ public class MainL extends javax.swing.JFrame {
         jTabbedPane2.enable(true);
     }
 
+    int fecha_compara(String fecha) {
+        int bandera_ok = 2;
+        if (Integer.valueOf(txtaño3.getText()) == Integer.valueOf(fecha.substring(6, 10))
+                || Integer.valueOf(txtaño3.getText()) - 1 == Integer.valueOf(fecha.substring(6, 10))) {
+
+            if (Integer.valueOf(fecha.substring(0, 2)) <= 31 && Integer.valueOf(fecha.substring(0, 2)) >= 1) {
+                if (Integer.valueOf(fecha.substring(3, 5)) <= 12 && Integer.valueOf(fecha.substring(3, 5)) >= 1) {
+                    if (Integer.valueOf(fecha.substring(3, 5)) == 1 || Integer.valueOf(fecha.substring(3, 5)) == 3 || Integer.valueOf(fecha.substring(3, 5)) == 5 || Integer.valueOf(fecha.substring(3, 5)) == 7 || Integer.valueOf(fecha.substring(3, 5)) == 8 || Integer.valueOf(fecha.substring(3, 5)) == 10 || Integer.valueOf(fecha.substring(3, 5)) == 12) {
+                        bandera_ok = 0;
+                    } else {
+                        if (Integer.valueOf(fecha.substring(3, 5)) == 4 || Integer.valueOf(fecha.substring(3, 5)) == 6 || Integer.valueOf(fecha.substring(3, 5)) == 9 || Integer.valueOf(fecha.substring(3, 5)) == 11) {
+                            if (Integer.valueOf(fecha.substring(0, 2)) <= 30) {
+                                bandera_ok = 0;
+                            }
+                        } else {
+                            if (Integer.valueOf(fecha.substring(3, 5)) == 2) {
+                                if (Integer.valueOf(fecha.substring(6, 10)) % 4 == 0) {
+                                    if (Integer.valueOf(fecha.substring(0, 2)) <= 29) {
+                                        bandera_ok = 0;
+                                    }
+                                } else {
+                                    if (Integer.valueOf(fecha.substring(0, 2)) <= 28) {
+                                        bandera_ok = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return bandera_ok;
+
+    }
+
     public class HiloOrdenesImportar extends Thread {
 
         JProgressBar progreso3;
@@ -8291,12 +8332,12 @@ public class MainL extends javax.swing.JFrame {
             Connection cn = mysql.Conectar();
             Connection cn2 = mysql.Conectar();
             int cantidad = 0, contador_errores = 0, fila_error = 0;
-            String errores = "";
+            String errores = "", fecha_orden = "";
             String[] errores_practicas = new String[100];
             ////////////////////////////////////////////
             int indice = 1; //indice contara los numeros primos que vamos encontrando    
             DefaultTableModel temp = (DefaultTableModel) MainL.myModel;
-            int i2 = 0, nbu;
+            int i2 = 0, nbu, error_cod;
 
             int p = 0, i4 = 0, bandera_orden;
             int n4 = temp.getRowCount();
@@ -8304,6 +8345,7 @@ public class MainL extends javax.swing.JFrame {
 
             progreso3.setValue(1);
             //cantidad = 1000 / n4;
+
             if (n4 != 0) {
                 btnaceptar2.setEnabled(false);
                 btncancelar2.setEnabled(false);
@@ -8333,7 +8375,7 @@ public class MainL extends javax.swing.JFrame {
                                         k++;
                                     }
                                     double total = 0.0, totalordenes = 0.0;
-                                    String num_afiliado, precio, nom_afiliado, dni_afiliado, fecha_orden, matricula_presc, mes, año, num_orden, coseguro;
+                                    String num_afiliado, precio, nom_afiliado, dni_afiliado, matricula_presc, mes, año, num_orden, coseguro;
                                     String sSQL = "", ssQL = "", nombre_practca, cod_practica = "";
                                     int n, n2 = 0, n3, i, j = 0, bandera = 0, obra_social, bandera_errores = 0;
                                     ////////////////////////////////
@@ -8347,11 +8389,17 @@ public class MainL extends javax.swing.JFrame {
                                     nom_afiliado = temp.getValueAt(i4, 3).toString();
                                     System.out.println(nom_afiliado);
                                     num_afiliado = temp.getValueAt(i4, 4).toString();
-                                    System.out.println(num_afiliado);
-                                    num_orden = temp.getValueAt(i4, 5).toString();
-                                    System.out.println(num_orden);
+                                    System.out.println("numero Afiliado: " + num_afiliado);
+                                    if (!temp.getValueAt(i4, 5).toString().equals("")) {
+                                        num_orden = temp.getValueAt(i4, 5).toString();
+                                        System.out.println(num_orden);
+                                    } else {
+                                        num_orden = " ";
+                                        bandera = 5;
+                                    }
                                     fecha_orden = temp.getValueAt(i4, 6).toString();
                                     System.out.println(fecha_orden);
+
                                     if (!temp.getValueAt(i4, 7).toString().equals("")) {
                                         matricula_presc = temp.getValueAt(i4, 7).toString();
                                     } else {
@@ -8362,7 +8410,7 @@ public class MainL extends javax.swing.JFrame {
                                     if (!temp.getValueAt(i4, 8).toString().equals("")) {
                                         dni_afiliado = temp.getValueAt(i4, 8).toString();
                                     } else {
-                                        dni_afiliado = "1";
+                                        dni_afiliado = "11111111";
                                     }
                                     System.out.println(dni_afiliado);
                                     if (!temp.getValueAt(i4, 9).toString().equals("")) {
@@ -8374,194 +8422,178 @@ public class MainL extends javax.swing.JFrame {
                                     /////////////////////////////////////
                                     i = 0;
 
-                                    if (fecha_orden.length() < 10) {
-                                        bandera = 2;
-                                    }
-                                    if (dni_afiliado.length() > 8 ) {
+                                    bandera = fecha_compara(fecha_orden);
+
+                                    if (dni_afiliado.length() > 8) {
                                         bandera = 3;
                                     }
+                                    if (num_afiliado.equals("")) {
+                                        bandera = 6;
+                                    }
+
                                     if (bandera == 0) {
                                         if (obra_social != 13800 && obra_social != 3101 && obra_social != 10700 && obra_social != 50015 && obra_social != 9000 && obra_social != 1806 && obra_social != 1805 && obra_social != 9000 && obra_social != 1807
                                                 && obra_social != 2601 && obra_social != 40813 && obra_social != 512 && obra_social != 37701) {
 
-                                            String sSQL3 = "SELECT id_obrasocial,nbu.añonbu FROM obrasocial inner join nbu on obrasocial.añonbu = nbu.id_nbu WHERE Int_codigo_obrasocial=" + obra_social + " and estado_obrasocial=1";
+                                            String sSQL3 = "SELECT id_obrasocial, obrasocial.añonbu FROM obrasocial inner join nbu on obrasocial.añonbu = nbu.id_nbu WHERE Int_codigo_obrasocial=" + obra_social + " and estado_obrasocial=1";
                                             Statement st3 = cn.createStatement();
                                             ResultSet rs3 = st3.executeQuery(sSQL3);
                                             try {
-                                                if (rs3.next()) {
-                                                    ///System.out.println("Formularios.MainL.HiloOrdenesImportar.run()" + errores_practicas);
-                                                    ///errores_practicas = null;
-                                                    id_obra_social = rs3.getInt("id_obrasocial");
-                                                    i = 0;
-                                                    nbu = rs3.getInt("añonbu");
-                                                    j = 10;
-                                                    n2 = 0;
-                                                    cantidad = 0;
-                                                    while (j <= 110) {
-                                                        if (Importar == 1) {
-                                                            if (temp.getValueAt(i4, j) != null) {
-                                                                int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
-                                                                System.out.println(cod_practica);
-                                                                System.out.println(cod);
-                                                                System.out.println(id_obra_social);
-                                                                System.out.println(nbu);
-                                                               String sSQL5 = "SELECT codigo_practica FROM obrasocial_tiene_practicasnbu WHERE (id_obrasocial=" + id_obra_social + " AND codigo_practica=" + cod + " )";
-                                                                Statement st5 = cn.createStatement();
-                                                                ResultSet rs5 = st5.executeQuery(sSQL5);
-                                                                try {
-                                                                    cod_practica = cod_practica + cod;
-                                                                    ///System.out.println("paso 4");
-                                                                    totalordenes = totalordenes + total;
-                                                                    ///System.out.println("paso 5");
-                                                                    cantidad++;
-                                                                } catch (Exception e) {
-                                                                    errores_practicas[i] = temp.getValueAt(i4, j).toString();
-                                                                    bandera_errores = 1;
-                                                                    System.out.println("error 1: practica" + errores_practicas[i] + " " + e);
-                                                                    contador_errores++;
-                                                                    i++;
-                                                                }
+                                                // if (rs3.next()) {
+                                                ///System.out.println("Formularios.MainL.HiloOrdenesImportar.run()" + errores_practicas);
+                                                ///errores_practicas = null;
+                                                rs3.next();
+                                                id_obra_social = rs3.getInt("id_obrasocial");
+                                                i = 0;
+                                                nbu = rs3.getInt("añonbu");
+                                                j = 10;
+                                                n2 = 0;
+                                                cantidad = 0;
 
-                                                            } else {
-                                                                break;
+                                                while (j <= 110) {
+                                                    if (Importar == 1) {
+                                                        if (temp.getValueAt(i4, j) != null) {
+                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
+                                                            System.out.println(cod_practica);
+                                                            System.out.println(cod);
+                                                            System.out.println(id_obra_social);
+                                                            System.out.println(nbu);
+                                                            String sSQL5 = "SELECT codigo_practica FROM obrasocial_tiene_practicasnbu WHERE (id_obrasocial=" + id_obra_social + " AND codigo_practica=" + cod + " )";
+                                                            Statement st5 = cn.createStatement();
+                                                            ResultSet rs5 = st5.executeQuery(sSQL5);
+                                                            try {
+                                                                rs5.next();
+                                                                error_cod = rs5.getInt(1);
+                                                                System.out.println("error en codigo: " + cod);
+                                                                cod_practica = cod_practica + cod;
+                                                                ///System.out.println("paso 4");
+                                                                totalordenes = totalordenes + total;
+                                                                ///System.out.println("paso 5");
+                                                                cantidad++;
+                                                            } catch (Exception e) {
+
+                                                                errores_practicas[i] = temp.getValueAt(i4, j).toString();
+                                                                bandera_errores = 1;
+                                                                System.out.println("error 1: practica" + errores_practicas[i] + " " + e);
+                                                                contador_errores++;
+                                                                i++;
                                                             }
+
                                                         } else {
-                                                            if (temp.getValueAt(i4, j).toString().equals("null")) {
-                                                                int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
-                                                                //int cod = Integer.valueOf(temp.getValueAt(i4, j).toString());    
-                                                                String sSQL5 = "SELECT round(preciototal,2) FROM obrasocial_tiene_practicasnbu WHERE (id_obrasocial=" + id_obra_social + "  AND añonbu=" + nbu + "  AND codigo_practica=" + cod + " )";
-                                                                Statement st5 = cn.createStatement();
-                                                                ResultSet rs5 = st5.executeQuery(sSQL5);
-                                                                try {
-                                                                    rs5.next();
-                                                                    total = Double.valueOf(rs5.getString(1));
-                                                                    cod_practica = cod_practica + cod;
-                                                                    totalordenes = totalordenes + total;
-                                                                    cantidad++;
-                                                                } catch (Exception e) {
-                                                                    /// System.out.println("error 2: " + e);
-                                                                    errores_practicas[i] = temp.getValueAt(i4, j).toString();
-                                                                    bandera_errores = 1;
-                                                                    System.out.println("error 2: practica" + errores_practicas[i] + " " + e);
-                                                                    contador_errores++;
-                                                                    i++;
-                                                                }
-
-                                                            } else {
-                                                                break;
-                                                            }
+                                                            break;
                                                         }
-                                                        j++;
-                                                        n2++;
+                                                    }
+                                                    j++;
+                                                    n2++;
+                                                }
+
+                                                /////////////////////////////////////////////                                                    
+                                                try {
+
+                                                    //////////////////////////////////////////////////////////////////////////////
+                                                    CallableStatement SP_cargar_orden = null;
+                                                    //System.out.println("e " + 1);
+                                                    SP_cargar_orden = cn2.prepareCall("{CALL cargar_orden2 (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+                                                    ///System.out.println("e " + 2);
+                                                    SP_cargar_orden.setString(1, MainL.año + MainL.mes);
+                                                    ///System.out.println("e " + 3);
+                                                    SP_cargar_orden.setString(2, nom_afiliado);
+                                                    /// System.out.println("e " + 4);
+                                                    SP_cargar_orden.setString(3, dni_afiliado);
+                                                    ///System.out.println("e " + 5);
+                                                    SP_cargar_orden.setString(4, num_afiliado);
+                                                    /// System.out.println("e " + 6);
+                                                    SP_cargar_orden.setString(5, matricula_presc);
+                                                    /// System.out.println("e " + 7);
+                                                    SP_cargar_orden.setString(6, num_orden);
+                                                    ///System.out.println("e " + 8);
+                                                    SP_cargar_orden.setString(7, fecha_orden);
+                                                    ///System.out.println("e " + 9);
+                                                    SP_cargar_orden.setDouble(8, 0.00);
+                                                    ///System.out.println("e " + 10);
+                                                    SP_cargar_orden.setString(9, "1");
+                                                    ///System.out.println("e " + 11);
+                                                    SP_cargar_orden.setString(10, fecha_orden);
+                                                    ///System.out.println("e " + 12);
+                                                    SP_cargar_orden.setString(11, hora);
+                                                    ///System.out.println("e " + 13);
+                                                    SP_cargar_orden.setString(12, ip2);
+                                                    ///System.out.println("e " + 14);
+                                                    SP_cargar_orden.setInt(13, id_obra_social);
+                                                    //System.out.println("e " + 15);
+                                                    SP_cargar_orden.setInt(14, id_usuario);
+                                                    //System.out.println("e " + 16);
+                                                    SP_cargar_orden.setString(15, null);
+                                                    //System.out.println("e " + 17);
+                                                    SP_cargar_orden.setInt(16, cantidad);
+                                                    //System.out.println("e " + 18);
+                                                    SP_cargar_orden.setString(17, cod_practica);
+                                                    //System.out.println("e " + 19);
+                                                    SP_cargar_orden.registerOutParameter(18, java.sql.Types.INTEGER);
+                                                    //System.out.println("e " + 20);
+                                                    SP_cargar_orden.setString(19, coseguro);
+                                                    //System.out.println("e " + 21);
+                                                    SP_cargar_orden.setString(20, "");
+                                                    //System.out.println("e " + 22);
+                                                    SP_cargar_orden.setInt(21, tipo_orden);
+                                                    ///System.out.println("e " + 23);
+                                                    SP_cargar_orden.setString(22, observacion);
+                                                    //System.out.println("e " + 24);
+                                                    SP_cargar_orden.setString(23, "1");
+                                                    //System.out.println("e " + 25);
+                                                    SP_cargar_orden.setString(24, "0");
+                                                    // System.out.println("e " + 26);
+                                                    SP_cargar_orden.execute();
+                                                    //System.out.println("e " + 27);
+                                                    id_orden = SP_cargar_orden.getInt(18);
+                                                    //System.out.println("e " + 28);
+                                                    ///////////////////////////////////////////////////////////////////////
+                                                    if (bandera_errores == 1) {
+                                                        int i3 = 0;
+                                                        while (i3 < errores_practicas.length) {
+                                                            if (!errores_practicas[i3].equals("")) {
+                                                                System.out.println("contador de errores practicas " + i3);
+                                                                errores = errores + "Orden: " + id_orden + " Practica Inexistente:" + errores_practicas[i3] + "\r\n";
+                                                                System.out.println(" Practica Inexistente:" + errores_practicas[i3]);
+                                                            }
+                                                            i3++;
+                                                        }
+                                                        bandera_errores = 0;
+                                                    }
+                                                    temp.removeRow(i4);
+                                                    i4--;
+                                                    n4--;
+                                                    cargatotalesordenes();
+                                                    ///////////////////////////////////////////////////////////
+                                                } catch (Exception e) {
+                                                    System.out.println("error 3: " + e);
+                                                    if (e.getMessage().indexOf("numero_afiliado") != -1) {
+                                                        errores = errores + "Fila: " + (i4 + 1) + " Numero de afiliado erroneo:" + num_afiliado + "\r\n";
+                                                        contador_errores++;
                                                     }
 
-                                                    /////////////////////////////////////////////                                                    
-                                                    try {
-
-                                                        //////////////////////////////////////////////////////////////////////////////
-                                                        CallableStatement SP_cargar_orden = null;
-                                                        //System.out.println("e " + 1);
-                                                        SP_cargar_orden = cn2.prepareCall("{CALL cargar_orden2 (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-                                                        ///System.out.println("e " + 2);
-                                                        SP_cargar_orden.setString(1, MainL.año + MainL.mes);
-                                                        ///System.out.println("e " + 3);
-                                                        SP_cargar_orden.setString(2, nom_afiliado);
-                                                        /// System.out.println("e " + 4);
-                                                        SP_cargar_orden.setString(3, dni_afiliado);
-                                                        ///System.out.println("e " + 5);
-                                                        SP_cargar_orden.setString(4, num_afiliado);
-                                                        /// System.out.println("e " + 6);
-                                                        SP_cargar_orden.setString(5, matricula_presc);
-                                                        /// System.out.println("e " + 7);
-                                                        SP_cargar_orden.setString(6, num_orden);
-                                                        ///System.out.println("e " + 8);
-                                                        SP_cargar_orden.setString(7, fecha_orden);
-                                                        ///System.out.println("e " + 9);
-                                                        SP_cargar_orden.setDouble(8, 0.00);
-                                                        ///System.out.println("e " + 10);
-                                                        SP_cargar_orden.setString(9, "1");
-                                                        ///System.out.println("e " + 11);
-                                                        SP_cargar_orden.setString(10, fecha);
-                                                        ///System.out.println("e " + 12);
-                                                        SP_cargar_orden.setString(11, hora);
-                                                        ///System.out.println("e " + 13);
-                                                        SP_cargar_orden.setString(12, ip2);
-                                                        ///System.out.println("e " + 14);
-                                                        SP_cargar_orden.setInt(13, id_obra_social);
-                                                        //System.out.println("e " + 15);
-                                                        SP_cargar_orden.setInt(14, id_usuario);
-                                                        //System.out.println("e " + 16);
-                                                        SP_cargar_orden.setString(15, null);
-                                                        //System.out.println("e " + 17);
-                                                        SP_cargar_orden.setInt(16, cantidad);
-                                                        //System.out.println("e " + 18);
-                                                        SP_cargar_orden.setString(17, cod_practica);
-                                                        //System.out.println("e " + 19);
-                                                        SP_cargar_orden.registerOutParameter(18, java.sql.Types.INTEGER);
-                                                        //System.out.println("e " + 20);
-                                                        SP_cargar_orden.setString(19, coseguro);
-                                                        //System.out.println("e " + 21);
-                                                        SP_cargar_orden.setString(20, "");
-                                                        //System.out.println("e " + 22);
-                                                        SP_cargar_orden.setInt(21, tipo_orden);
-                                                        ///System.out.println("e " + 23);
-                                                        SP_cargar_orden.setString(22, observacion);
-                                                        //System.out.println("e " + 24);
-                                                        SP_cargar_orden.setString(23, "1");
-                                                        //System.out.println("e " + 25);
-                                                        SP_cargar_orden.setString(24, "0");
-                                                        // System.out.println("e " + 26);
-                                                        SP_cargar_orden.execute();
-                                                        //System.out.println("e " + 27);
-                                                        id_orden = SP_cargar_orden.getInt(18);
-                                                        //System.out.println("e " + 28);
-                                                        ///////////////////////////////////////////////////////////////////////
-                                                        if (bandera_errores == 1) {
-                                                            int i3 = 0;
-                                                            while (i3 < errores_practicas.length) {
-                                                                if (!errores_practicas[i3].equals("")) {
-                                                                    System.out.println("contador de errores practicas " + i3);
-                                                                    errores = errores + "Orden: " + id_orden + " Practica Inexistente:" + errores_practicas[i3] + "\r\n";
-                                                                    System.out.println(" Practica Inexistente:" + errores_practicas[i3]);
-                                                                }
-                                                                i3++;
-                                                            }
-                                                            bandera_errores = 0;
-                                                        }
-                                                        temp.removeRow(i4);
-                                                        i4--;
-                                                        n4--;
-                                                        cargatotalesordenes();
-                                                        ///////////////////////////////////////////////////////////
-                                                    } catch (Exception e) {
-                                                        System.out.println("error 3: " + e);
-                                                        if (e.getMessage().indexOf("numero_afiliado") != -1) {
-                                                            errores = errores + "Fila: " + (i4 + 1) + " Numero de afiliado erroneo:" + num_afiliado + "\r\n";
-                                                            contador_errores++;
-                                                        }
-
-                                                        if (e.getMessage().indexOf("fecha_orden") != -1) {
-                                                            errores = errores + "Fila: " + (i4 + 1) + " Fecha de orden erroneo:" + fecha_orden + "\r\n";
-                                                            contador_errores++;
-                                                        }
-                                                        if (e.getMessage().indexOf("dni_afiliado") != -1) {
-                                                            errores = errores + "Fila: " + (i4 + 1) + " numero de documento erroneo:" + dni_afiliado + "\r\n";
-                                                            contador_errores++;
-                                                        }
-                                                        if (e.getMessage().indexOf("matricula_prescripcion") != -1) {//
-                                                            errores = errores + "Fila: " + (i4 + 1) + " numero de matricula de Prescripción erroneo:" + matricula_presc + "\r\n";
-                                                            contador_errores++;
-                                                        }
+                                                    if (e.getMessage().indexOf("fecha_orden") != -1) {
+                                                        errores = errores + "Fila: " + (i4 + 1) + " Fecha de orden erroneo:" + fecha_orden + "\r\n";
+                                                        contador_errores++;
+                                                    }
+                                                    if (e.getMessage().indexOf("dni_afiliado") != -1) {
+                                                        errores = errores + "Fila: " + (i4 + 1) + " numero de documento erroneo:" + dni_afiliado + "\r\n";
+                                                        contador_errores++;
+                                                    }
+                                                    if (e.getMessage().indexOf("matricula_prescripcion") != -1) {//
+                                                        errores = errores + "Fila: " + (i4 + 1) + " numero de matricula de Prescripción erroneo:" + matricula_presc + "\r\n";
+                                                        contador_errores++;
                                                     }
                                                 }
+                                                //}
                                             } catch (Exception e) {
                                                 System.out.println("---->error 4: " + e);
                                                 ////errores + "Fila: " + fila_error +" Columna: "+j+ " del archivo Practica Inexistente:" ++ "\r\n" 
-                                                errores = errores + " Obra Social Inexistente:" + obra_social + "\r\n";
+                                                errores = errores + "Fila: " + (i4 + 1) + " Obra Social Inexistente:" + obra_social + "\r\n";
                                                 contador_errores++;
                                             }
                                         } else {
-                                            errores = errores + " Obra Social Online:" + obra_social + "\r\n";
+                                            errores = errores + "Fila: " + (i4 + 1) + " Obra Social Online:" + obra_social + "\r\n";
                                             contador_errores++;
                                         }
                                     }
@@ -8581,6 +8613,14 @@ public class MainL extends javax.swing.JFrame {
                                         errores = errores + "Fila: " + (i4 + 1) + " Orden de SUBSIDIO erronea:" + num_orden + "\r\n";
                                         contador_errores++;
                                     }
+                                    if (bandera == 5) {
+                                        errores = errores + "Fila: " + (i4 + 1) + " Orden de SUBSIDIO erronea:" + num_orden + "\r\n";
+                                        contador_errores++;
+                                    }
+                                    if (bandera == 6) {
+                                        errores = errores + "Fila: " + (i4 + 1) + " Numero de Afiliado vacio:" + num_afiliado + "\r\n";
+                                        contador_errores++;
+                                    }
                                     System.out.println("------------------------------------------------------------------");
                                 } else {
                                     JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
@@ -8588,8 +8628,10 @@ public class MainL extends javax.swing.JFrame {
                                 }
                             }
                         } catch (Exception e) {
+                            errores = errores + "Fila: " + (i4 + 1) + " Verificar :" + fecha_orden + "\r\n";
+                            contador_errores++;
                             System.out.println("error 5: " + e);
-                            JOptionPane.showMessageDialog(null, "Error en la base de datos");
+                            //JOptionPane.showMessageDialog(null, "Error en la base de datos");
                         }
                         bandera_orden = 1;
                     }
@@ -8597,8 +8639,11 @@ public class MainL extends javax.swing.JFrame {
                     indice++;
                     i4++;
                 }
-                System.out.println(errores);
+
+                System.out.println("Todos los errores: " + errores);
+
                 if (bandera_orden == 1) {
+
                     JOptionPane.showMessageDialog(null, "Proceso realizado con exito...\r\nPor favor Verifique que todas las cargas sean correctas antes de cerrar el periodo");
                     cargatotalesordenes();
                     ///////////////////////////////////////////////////
@@ -8610,6 +8655,7 @@ public class MainL extends javax.swing.JFrame {
                             EscribeTxt("Transferencia.txt", numeros);
                         }
                         Desktop.getDesktop().open(new File(ruta + "Transferencia.txt"));
+
                     } catch (Exception e) {
                         System.out.println("error 6: " + e);
                     }
@@ -8618,10 +8664,10 @@ public class MainL extends javax.swing.JFrame {
                         ///Ver el excel        
                         int cantidadfila = tablaordenes1.getRowCount();
                         int i = 0, j = 0;
-                        String linea="";
-                        
-                        System.out.println("cantidad de fila: "+cantidadfila);
-                      System.out.println("elemento: " +String.valueOf(tablaordenes1.getModel().getValueAt(j, i)));
+                        String linea = "";
+
+                        System.out.println("cantidad de fila: " + cantidadfila);
+                        System.out.println("elemento: " + String.valueOf(tablaordenes1.getModel().getValueAt(j, i)));
                         File archivo = new File(ruta + "OrdenesConError-.txt");
                         /////////// Verifico si existe el Archivo y si existe lo elimino
                         if (archivo.exists()) {
@@ -8630,20 +8676,20 @@ public class MainL extends javax.swing.JFrame {
                         FileWriter escribir = new FileWriter(archivo, true);
 
                         while (cantidadfila > i) {
-                            j=0;
-                            linea="";
+                            j = 0;
+                            linea = "";
                             while (!String.valueOf(tablaordenes1.getModel().getValueAt(i, j)).equals("null")) {
-                                System.out.println("cantidad elemento: " +String.valueOf(tablaordenes1.getModel().getValueAt(i, j)));
-                                linea =linea+ String.valueOf(tablaordenes1.getModel().getValueAt(i, j)) + ";";
+//                                System.out.println("cantidad elemento: " + String.valueOf(tablaordenes1.getModel().getValueAt(i, j)));
+                                linea = linea + String.valueOf(tablaordenes1.getModel().getValueAt(i, j)) + ";";
                                 j++;
                             }
 //                            linea=linea+"\r\n";
-                            escribir.write(linea+"\r\n");
+                            escribir.write(linea + "\r\n");
                             i++;
                         }
                         escribir.close();
                         Desktop.getDesktop().open(new File(ruta + "OrdenesConError-.txt"));
-                        
+
 //                        List<JTable> tb = new ArrayList<JTable>();
 //                        tb.add(tablaordenes1);
 //                        export_excel excelExporter = new export_excel(tb, new File(ruta + "Errores Transferencia" + ".xls"));
@@ -12506,7 +12552,7 @@ public class MainL extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se encontro el archivo");
         }
-       
+
     }//GEN-LAST:event_formatoArchivoBotonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
