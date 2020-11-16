@@ -1,0 +1,119 @@
+package controlador;
+
+import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.KeyStroke;
+
+public class Funciones {
+
+    SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat Formatook = new SimpleDateFormat("dd-MM-yyyy");
+
+    public static boolean isNumeric(String str) {
+        try {
+            int d = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public double Redondear(double numero) {
+        return Math.rint(numero * 100) / 100;
+    }
+
+    public String getFecha(JDateChooser jd) {
+        if (jd.getDate() != null) {
+            return Formato.format(jd.getDate());
+        } else {
+            return null;
+        }
+    }
+
+    public String getfechaok(JDateChooser jd) {
+        if (jd.getDate() != null) {
+            return Formatook.format(jd.getDate());
+        } else {
+            return null;
+        }
+    }
+
+    public java.util.Date stringAdateok(String fecha) {
+
+        SimpleDateFormat formato_de_texto = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date fechaE;
+
+        try {
+            fechaE = formato_de_texto.parse(fecha);
+
+            return fechaE;
+
+        } catch (ParseException ex) {
+            return null;
+        }
+
+    }
+
+    public String dateastring(Date fecha) {
+        String fechacadena, año, mes, dia;
+        SimpleDateFormat formato_de_texto = new SimpleDateFormat("yyyy-MM-dd");
+        //2017-08-31
+        fechacadena = formato_de_texto.format(fecha);
+        año = fechacadena.substring(0, 4);
+        mes = fechacadena.substring(5, 7);
+        dia = fechacadena.substring(8, 10);
+        fechacadena = dia + "-" + mes + "-" + año;
+        return fechacadena;
+    }
+
+   public static java.util.Date stringAdate(String fecha) {
+
+        SimpleDateFormat formato_de_texto = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date fechaE;
+
+        try {
+            fechaE = formato_de_texto.parse(fecha);
+
+            return fechaE;
+
+        } catch (ParseException ex) {
+
+            return null;
+
+        }
+
+    }
+
+    public static String dateastringok(Date fecha) {
+        String fechacadena, año, mes, dia;
+        SimpleDateFormat formato_de_texto = new SimpleDateFormat("dd-MM-yyyy");
+        //2017-08-31
+        fechacadena = formato_de_texto.format(fecha);
+        año = fechacadena.substring(6, 10);
+        mes = fechacadena.substring(3, 5);
+        dia = fechacadena.substring(0, 2);
+        fechacadena = dia + "-" + mes + "-" + año;
+        return fechacadena;
+    }
+    
+     public static void funcionescape(final JDialog windowDialog) {
+        ActionListener escAction = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                windowDialog.dispose();
+            }
+        };
+        windowDialog.getRootPane().registerKeyboardAction(escAction,
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
+    }
+
+}
