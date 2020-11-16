@@ -6631,8 +6631,10 @@ public class MainL extends javax.swing.JFrame {
         // HTTP GET request
         public void sendGet() throws Exception {
             BufferedReader in = null;
+            String urlString = null;
+            String inputLine = null;
             try {
-                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
+                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
 
                 URL obj = new URL(urlString);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -6649,7 +6651,7 @@ public class MainL extends javax.swing.JFrame {
 
                 in = new BufferedReader(
                         new InputStreamReader(con.getInputStream()));
-                String inputLine;
+//                String inputLine;
                 StringBuffer response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != null) {
@@ -6677,8 +6679,10 @@ public class MainL extends javax.swing.JFrame {
         // HTTP GET request
         public void sendGet() throws Exception {
             BufferedReader in = null;
+            String urlString = null;
+            String inputLine = null;
             try {
-                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
+                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
 
                 URL obj = new URL(urlString);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -6695,7 +6699,7 @@ public class MainL extends javax.swing.JFrame {
 
                 in = new BufferedReader(
                         new InputStreamReader(con.getInputStream()));
-                String inputLine;
+//                String inputLine;
                 StringBuffer response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != null) {
@@ -10167,6 +10171,9 @@ public class MainL extends javax.swing.JFrame {
 
     private void AnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnularActionPerformed
         int i = 0;
+        String observacion_anulacion = "";
+        mensajeanulacion = "";
+        respuestaanulacion = "";
         try {
             ConexionMariaDB mysql = new ConexionMariaDB();
             Connection cn = mysql.Conectar();
@@ -10174,303 +10181,345 @@ public class MainL extends javax.swing.JFrame {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
             rs.next();
-            int periodo_anula = Integer.valueOf(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 1).toString());
+
+            int periodo_anula = Integer.valueOf(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 1).toString()),
+                    bandera_anulacion = 0;
             if (rs.getBoolean("estado") == true && rs.getInt("periodo") <= Integer.valueOf(periodo_anula)) {
                 i = 0;
+
                 //////////////////////////////////////////////////////////////
                 if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("OK") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 10).toString().equals("AUDITORIA")) {
 
                     id_orden = Integer.valueOf(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 0).toString());
                     String cod_afiliado = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString();
                     String fecha = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 7).toString();
+
+                    System.out.println("codigo Afiliado: " + cod_afiliado);
+                    System.out.println("fecha Afiliado: " + fecha);
+
                     /// String num_orden = "5690075";
                     String num_orden = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 6).toString();
                     try {
-                        String sSQL2 = "UPDATE ordenes SET estado_orden=? WHERE id_orden=" + id_orden;
-                        PreparedStatement pst = cn.prepareStatement(sSQL2);
-                        pst.setInt(1, 0);
                         cursor();
-                        int n = pst.executeUpdate();
-                        System.out.println("1");
 
-                        if (n > 0) {
+                        /////////OSDE////////////////////////////////////////////////////
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE  ( RESPONSABLES INSCRIPTOS)")) {
+                            System.out.println("Anulacion Osde");
+                            System.out.println("codigo Afiliado osde: " + cod_afiliado);
+                            System.out.println("fecha Afiliado osde : " + fecha);
+                            System.out.println("fecha numero de orden osde : " + num_orden);
+
+                            mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+
+                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
+                            System.out.println("Testing 3 - Send Http GET request");
+                            try {
+                                http.sendGet();
+                            } catch (Exception ex) {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, ex);
+                                bandera_anulacion = 1;
+                                observacion_anulacion = ex.toString();
+                            }
+                            System.out.println("2 anulacion");
+                            int pos = respuestaanulacion.indexOf("<NroReferencia>");
+                            int pos2 = respuestaanulacion.indexOf("</NroReferencia>");
                             cursor2();
-                            JOptionPane.showMessageDialog(null, "La orden fué anulada en nuestro servidor...");
-                            cursor();
-                            /////////OSDE////////////////////////////////////////////////////
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE  ( RESPONSABLES INSCRIPTOS)")) {
-                                System.out.println("Anulacion Osde");
+                            JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 18, pos2));
+                            System.out.println("2--");
 
-                                mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-
-                                HttpOsdeAnulacion http = new HttpOsdeAnulacion();
-                                System.out.println("Testing 3 - Send Http GET request");
-                                try {
-                                    http.sendGet();
-                                } catch (Exception ex) {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, ex);
-
-                                }
-                                System.out.println("2 anulacion");
-                                int pos = respuestaanulacion.indexOf("<NroReferencia>");
-                                int pos2 = respuestaanulacion.indexOf("</NroReferencia>");
-                                cursor2();
-                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 18, pos2));
-                                System.out.println("2--");
-                            
-                            }
-                            /////SWISS MEDICAL GROUP S.A.
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SWISS MEDICAL GROUP S.A. - ONLINE")) {
-                                System.out.println("Anulacion sw");
-                                mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                                HttpSwAnulacion http = new HttpSwAnulacion();
-                                System.out.println("Testing 3 - Send Http GET request");
-                                try {
-                                    http.sendGet();
-                                } catch (Exception ex) {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, ex);
-                                }
-
-                                int pos = respuestaanulacion.indexOf("CodAutorizacion");
-                                int pos2 = respuestaanulacion.indexOf("</CodAutorizacion");
-                                cursor2();
-                                if (pos > 0) {
-                                    JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 16, pos2));
-                                    System.out.println("3---");
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Error de comunicación");
-                                }
-
-                            }
-                            ////////////////////////BOREAL//////////////
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("BOREAL")) {
-                                //////////////////////////////////////////////////////////////
-                                System.out.println("4");
-                                String emisor = "CBT" + completarceros(matricula_colegiado, 9);
-                                Contraseña_Boreal contraseña = new Contraseña_Boreal();
-                                String clave = contraseña.Boreal_Contraseña();
-                                /////////////////////////////////////////////////////////////////////////////////
-                                mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
-                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////            
-                                System.out.println("Testing 1 - Send Http GET request");
-                                System.out.println(mensajepractica);
-                                ///////////////////////////////////////////////////////////////////////////////////////////////
-                                ClienteBoreal.WsBorealExecute servicio = new ClienteBoreal.WsBorealExecute();
-                                servicio.setIngresoxml(mensajepractica);
-                                respuestapractica = execute(servicio).getEgresoxml();
-                                ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                System.out.println("Testing 2 - Get Http GET request");
-                                System.out.println(respuestapractica);
-                                ////////////////////////////////////////////////////////////////////////////////////////////////
-                                int pos = respuestapractica.indexOf("<AutEstadoId>");
-                                int pos2 = respuestapractica.indexOf("</AutEstadoId>");
-                                /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
-                                if (respuestapractica.substring(pos + 13, pos2).equals("B000")) {
-                                    int pos3 = respuestapractica.indexOf("<AutCod>");
-                                    int pos4 = respuestapractica.indexOf("</AutCod>");
-                                    num_orden = respuestapractica.substring(pos3 + 8, pos4);
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "Numero de Anulación:" + num_orden);
-                                    ///tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
-                                    // cargatotales();
-                                    ////cargatotalesordenesfacturacion();
-                                }
-                                if (respuestapractica.substring(pos + 13, pos2).equals("M054")) {
-                                    habilitado = "ERROR";
-                                    int pos3 = respuestapractica.indexOf("<AutObs>");
-                                    int pos4 = respuestapractica.indexOf("</AutObs>");
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, respuestapractica.substring(pos3 + 8, pos4));
-                                    // bandera_boreal = 0;
-                                }
-                                System.out.println("4----");
-                                //hilo91.stop();
-                            }
-                            //////////////////////SANCOR
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("ASOCIACION MUTUAL SANCOR")) {
-                                System.out.println("5");
-                                //////////////////////////////////////////////////////////
-                                ClienteSancor.PAWESSAV2ANULACION servicio = new ClienteSancor.PAWESSAV2ANULACION();
-                                servicio.setModo("P");
-                                servicio.setEntidad(8999);
-                                servicio.setNroautorizacion(Integer.valueOf(num_orden));
-                                servicio.setUsuario("WSRVSSA");
-                                servicio.setClave("15WSSA08");
-                                PAWESSAV2ANULACIONResponse anulacion_sancor = anulacion(servicio);
-                                //System.out.println(anulacion_sancor);
-                                if (anulacion_sancor.getCodigorespuesta() == 35) {
-                                    habilitado = "AUTORIZADO";
-                                    num_orden = String.valueOf(anulacion_sancor.getNroordenrta());
-                                    txtnumorden.setText(num_orden);
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "Numero de Anulación:" + num_orden);
-                                    ///////////////////////    tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
-                                    ///  cargatotales();
-                                    /// cargatotalesordenesfacturacion();
-                                } else {
-                                    habilitado = "ERROR";
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, anulacion(servicio).getDescripcionrespuesta());
-                                }
-                                System.out.println("5-----");
-                                //hilo91.stop();
-                            }
-                            /////////////////////////////////SUBSIDIOasd
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SUBSIDIO DE SALUD - ONLINE")) {
-                                System.out.println("6");
-                                //////////////// http://186.122.150.144/ServiciosIpsstBioq/aordendevolver.aspx?wsdl //////////////////////////////////////////
-                                ClienteIPSST5.OrdenDevolverExecute servicio = new ClienteIPSST5.OrdenDevolverExecute();
-                                servicio.setAficuil(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString());
-                                servicio.setOrdtipo("B");
-                                servicio.setPrestador(Integer.valueOf(Login.matricula_colegiado));
-                                servicio.setUsuario(2);//
-                                servicio.setToken("iq12Ii35o");
-                                servicio.setOrdnumero(Integer.valueOf(num_orden));
-                                OrdenDevolverExecuteResponse respuesta_devolucion = execute_2(servicio);
-                                if (respuesta_devolucion.getEstadoactual().equals("DEVUELTA")) {
-                                    habilitado = "AUTORIZADO";
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "Orden anulala del servidor de Subsidio");
-                                } else {
-                                    habilitado = "ERROR";
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, respuesta_devolucion.getMotivo());
-                                }
-                                System.out.println("6------");
-                            }
-                            ///////////////////subsidio 1806//////////////////////////////////////////////////////
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
-                                System.out.println("7");
-                                //////////////// http://186.122.150.144/ServiciosIpsstBioq/aordendevolver.aspx?wsdl //////////////////////////////////////////
-                                ClienteIPSST6.OrdenValidadaAnularExecute servicio = new ClienteIPSST6.OrdenValidadaAnularExecute();
-                                servicio.setAficuil(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString());
-                                servicio.setPrestador(Login.matricula_colegiado);
-                                servicio.setUsuario(2);//
-                                servicio.setToken("iq12Ii35o");
-                                servicio.setOrdnumero(Integer.valueOf(num_orden));
-
-                                OrdenValidadaAnularExecuteResponse respuesta_devuelve = execute_3(servicio);
-                                //System.out.println(anulacion_sancor);
-                                if (respuesta_devuelve.getOrdenanuladada() == 1) {
-                                    habilitado = "AUTORIZADO";
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "Orden anulala del servidor de Subsidio");
-                                    //  cargatotales();
-                                    //// cargatotalesordenesfacturacion();
-                                } else {
-                                    habilitado = "ERROR";
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, respuesta_devuelve.getMotivo());
-                                }
-                                ///hilo91.stop();
-                                System.out.println("7------");
-                            }
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.")) {
-                                //////MEDIFE ANULACION
-                                System.out.println("Anulacion medife");
-                                System.out.println("9----");
-                                TripleDes tpDatos = new TripleDes();
-                                String codigo_respuesta = "";
-                                String Anulacion = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z04^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
-                                        + "ZAU||" + num_orden + "\r\n"
-                                        + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
-                                        + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
-                                        + "PID|||" + tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString() + "^^^MEDIFE^HC^MEDIFE||UNKNOWN";
-                                String clave = "IA007526";
-                                String usuario = "IA007526";
-                                String tipo = "SI";
-                                String llave = "1234567890123456ABCDEFGH";
-
-                                String pszMsg = tpDatos.EncriptarStr(Anulacion, llave);
-
-                                try { // Call Web Service Operation
-                                    WebServiceIA service2 = new WebServiceIA();
-                                    WebServiceIASoap port2 = service2.getWebServiceIASoap();
-                                    // TODO initialize WS operation arguments here
-                                    String pszUser = tpDatos.EncriptarStr(usuario, llave);
-                                    String pszPwd = tpDatos.EncriptarStr(clave, llave);
-                                    String pszMsgType = tpDatos.EncriptarStr(tipo, llave);
-
-                                    // TODO process result here
-                                    String result = port2.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
-                                    System.out.println("Respuesta = " + result);
-                                    ///busco la respuesta
-                                    i = result.indexOf("ZAU");
-                                    int pipe = 0;
-                                    while (i < result.indexOf("PRD")) {
-                                        if (pipe == 3) {
-                                            mensaje = mensaje + result.charAt(i);
-                                        }
-                                        if (result.charAt(i) == '|') {
-                                            pipe++;
-                                        }
-                                        i++;
-                                    }
-                                    ////busco numero de respuesta
-                                    i = result.indexOf("ZAU");
-                                    pipe = 0;
-                                    while (i < result.indexOf("PRD")) {
-                                        if (pipe == 2) {
-                                            num_orden = num_orden + result.charAt(i);
-                                        }
-                                        if (result.charAt(i) == '|') {
-                                            pipe++;
-                                        }
-                                        i++;
-                                    }
-                                    mensaje = mensaje.replace("^", " ");
-                                    codigo_respuesta = mensaje.substring(0, 4);
-                                    System.out.println(num_orden + " " + mensaje);
-                                } catch (Exception ex) {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, ex);
-                                }
-                                if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
-                                    JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de MEDIFE");
-                                } else {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, mensaje);
-                                }
-                            }//("37700 - JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL")("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
-                            if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
-
-                                ObjectFactory factory = new ObjectFactory();
-
-                                ClienteJerarquicos.CriterioAnulacionConsumoWeb autorizacion = new ClienteJerarquicos.CriterioAnulacionConsumoWeb();
-                                autorizacion.setIdConvenio(451);
-                                autorizacion.setIdTransaccion(Integer.valueOf(num_orden));
-
-                                JAXBElement<CriterioAnulacionConsumoWeb> criterio = factory.createSolicitudAnulacionConsumoWebCriterioAnulacionConsumoWeb(autorizacion);
-
-                                ClienteJerarquicos.SolicitudAnulacionConsumoWeb solicitud = new ClienteJerarquicos.SolicitudAnulacionConsumoWeb();
-                                solicitud.setCriterioAnulacionConsumoWeb(criterio);
-
-                                ClienteJerarquicos.Servicio service = new ClienteJerarquicos.Servicio();
-
-                                ClienteJerarquicos.IServicioPublico port = service.getBasicHttpBindingIServicioPublico();
-
-                                ClienteJerarquicos.RespuestaBase result = port.anularAutorizacionConsumo(solicitud);
-                                String respuesta = result.getDTOSerializado().getValue();
-                                System.out.println("Anulacion jerarquicos " + respuesta);
-                                int pos_ok = respuesta.indexOf("\"Nombre\":\"EXITO\"");
-                                if (pos_ok > 0) {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Jerarquicos Salud");
-                                } else {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, respuesta);
-                                }
-                            }
-                            cursor();
-                            cargatotales();
-                            tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
-                            cargatotalesordenesfacturacion();
                         }
-                        System.out.println("1-");
-                        cursor2();
+                        /////SWISS MEDICAL GROUP S.A.
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SWISS MEDICAL GROUP S.A. - ONLINE")) {
+                            System.out.println("Anulacion sw");
+                            mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+                            HttpSwAnulacion http = new HttpSwAnulacion();
+                            System.out.println("Testing 3 - Send Http GET request");
+                            try {
+                                http.sendGet();
+                            } catch (Exception ex) {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, ex);
+                                bandera_anulacion = 1;
+                                observacion_anulacion = ex.toString();
+                            }
 
+                            int pos = respuestaanulacion.indexOf("CodAutorizacion");
+                            int pos2 = respuestaanulacion.indexOf("</CodAutorizacion");
+                            cursor2();
+                            if (pos > 0) {
+                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 16, pos2));
+                                System.out.println("3---");
+                            } else {
+                                bandera_anulacion = 1;
+                                JOptionPane.showMessageDialog(null, "Error de comunicación");
+                            }
+
+                        }
+                        ////////////////////////BOREAL//////////////
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("BOREAL")) {
+                            //////////////////////////////////////////////////////////////
+                            System.out.println("4");
+                            String emisor = "CBT" + completarceros(matricula_colegiado, 9);
+                            Contraseña_Boreal contraseña = new Contraseña_Boreal();
+                            String clave = contraseña.Boreal_Contraseña();
+                            /////////////////////////////////////////////////////////////////////////////////
+                            mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////            
+                            System.out.println("Testing 1 - Send Http GET request");
+                            System.out.println(mensajepractica);
+                            ///////////////////////////////////////////////////////////////////////////////////////////////
+                            ClienteBoreal.WsBorealExecute servicio = new ClienteBoreal.WsBorealExecute();
+                            servicio.setIngresoxml(mensajepractica);
+                            respuestapractica = execute(servicio).getEgresoxml();
+                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            System.out.println("Testing 2 - Get Http GET request");
+                            System.out.println(respuestapractica);
+                            ////////////////////////////////////////////////////////////////////////////////////////////////
+                            int pos = respuestapractica.indexOf("<AutEstadoId>");
+                            int pos2 = respuestapractica.indexOf("</AutEstadoId>");
+                            /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
+                            if (respuestapractica.substring(pos + 13, pos2).equals("B000")) {
+                                int pos3 = respuestapractica.indexOf("<AutCod>");
+                                int pos4 = respuestapractica.indexOf("</AutCod>");
+                                num_orden = respuestapractica.substring(pos3 + 8, pos4);
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + num_orden);
+                                ///tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
+                                // cargatotales();
+                                ////cargatotalesordenesfacturacion();
+                            }
+                            if (respuestapractica.substring(pos + 13, pos2).equals("M054")) {
+                                habilitado = "ERROR";
+                                int pos3 = respuestapractica.indexOf("<AutObs>");
+                                int pos4 = respuestapractica.indexOf("</AutObs>");
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, respuestapractica.substring(pos3 + 8, pos4));
+                                observacion_anulacion = respuestapractica.substring(pos3 + 8, pos4);
+                                bandera_anulacion = 1;
+//                              bandera_boreal = 0;
+                            }
+                            System.out.println("4----");
+                            //hilo91.stop();
+                        }
+                        //////////////////////SANCOR
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("ASOCIACION MUTUAL SANCOR")) {
+                            System.out.println("5");
+                            //////////////////////////////////////////////////////////
+                            ClienteSancor.PAWESSAV2ANULACION servicio = new ClienteSancor.PAWESSAV2ANULACION();
+                            servicio.setModo("P");
+                            servicio.setEntidad(8999);
+                            servicio.setNroautorizacion(Integer.valueOf(num_orden));
+                            servicio.setUsuario("WSRVSSA");
+                            servicio.setClave("15WSSA08");
+                            PAWESSAV2ANULACIONResponse anulacion_sancor = anulacion(servicio);
+                            //System.out.println(anulacion_sancor);
+                            if (anulacion_sancor.getCodigorespuesta() == 35) {
+                                habilitado = "AUTORIZADO";
+                                num_orden = String.valueOf(anulacion_sancor.getNroordenrta());
+                                txtnumorden.setText(num_orden);
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + num_orden);
+                                ///////////////////////    tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
+                                ///  cargatotales();
+                                /// cargatotalesordenesfacturacion();
+                            } else {
+                                habilitado = "ERROR";
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, anulacion(servicio).getDescripcionrespuesta());
+                                bandera_anulacion = 1;
+                                observacion_anulacion = anulacion(servicio).getDescripcionrespuesta();
+                            }
+                            System.out.println("5-----");
+                            //hilo91.stop();
+                        }
+                        /////////////////////////////////SUBSIDIOasd
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SUBSIDIO DE SALUD - ONLINE")) {
+                            System.out.println("6");
+                            //////////////// http://186.122.150.144/ServiciosIpsstBioq/aordendevolver.aspx?wsdl //////////////////////////////////////////
+                            ClienteIPSST5.OrdenDevolverExecute servicio = new ClienteIPSST5.OrdenDevolverExecute();
+                            servicio.setAficuil(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString());
+                            servicio.setOrdtipo("B");
+                            servicio.setPrestador(Integer.valueOf(Login.matricula_colegiado));
+                            servicio.setUsuario(2);//
+                            servicio.setToken("iq12Ii35o");
+                            servicio.setOrdnumero(Integer.valueOf(num_orden));
+                            OrdenDevolverExecuteResponse respuesta_devolucion = execute_2(servicio);
+                            if (respuesta_devolucion.getEstadoactual().equals("DEVUELTA")) {
+                                habilitado = "AUTORIZADO";
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "Orden anulala del servidor de Subsidio");
+                            } else {
+                                habilitado = "ERROR";
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, respuesta_devolucion.getMotivo());
+                                bandera_anulacion = 1;
+                                observacion_anulacion = respuesta_devolucion.getMotivo();
+                            }
+                            System.out.println("6------");
+                        }
+                        ///////////////////subsidio 1806//////////////////////////////////////////////////////
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
+                            System.out.println("7");
+                            //////////////// http://186.122.150.144/ServiciosIpsstBioq/aordendevolver.aspx?wsdl //////////////////////////////////////////
+                            ClienteIPSST6.OrdenValidadaAnularExecute servicio = new ClienteIPSST6.OrdenValidadaAnularExecute();
+                            servicio.setAficuil(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString());
+                            servicio.setPrestador(Login.matricula_colegiado);
+                            servicio.setUsuario(2);//
+                            servicio.setToken("iq12Ii35o");
+                            servicio.setOrdnumero(Integer.valueOf(num_orden));
+
+                            OrdenValidadaAnularExecuteResponse respuesta_devuelve = execute_3(servicio);
+                            //System.out.println(anulacion_sancor);
+                            if (respuesta_devuelve.getOrdenanuladada() == 1) {
+                                habilitado = "AUTORIZADO";
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "Orden anulala del servidor de Subsidio");
+                                //  cargatotales();
+                                //// cargatotalesordenesfacturacion();
+                            } else {
+                                habilitado = "ERROR";
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, respuesta_devuelve.getMotivo());
+                                bandera_anulacion = 1;
+                                observacion_anulacion = respuesta_devuelve.getMotivo();
+                            }
+                            ///hilo91.stop();
+                            System.out.println("7------");
+                        }
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("MEDIFE - ONLINE- PRE PAGA C.M.C.  S.A.")) {
+                            //////MEDIFE ANULACION
+                            System.out.println("Anulacion medife");
+                            System.out.println("9----");
+                            TripleDes tpDatos = new TripleDes();
+                            String codigo_respuesta = "";
+                            String Anulacion = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z04^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
+                                    + "ZAU||" + num_orden + "\r\n"
+                                    + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
+                                    + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
+                                    + "PID|||" + tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString() + "^^^MEDIFE^HC^MEDIFE||UNKNOWN";
+                            String clave = "IA007526";
+                            String usuario = "IA007526";
+                            String tipo = "SI";
+                            String llave = "1234567890123456ABCDEFGH";
+
+                            String pszMsg = tpDatos.EncriptarStr(Anulacion, llave);
+
+                            try { // Call Web Service Operation
+                                WebServiceIA service2 = new WebServiceIA();
+                                WebServiceIASoap port2 = service2.getWebServiceIASoap();
+                                // TODO initialize WS operation arguments here
+                                String pszUser = tpDatos.EncriptarStr(usuario, llave);
+                                String pszPwd = tpDatos.EncriptarStr(clave, llave);
+                                String pszMsgType = tpDatos.EncriptarStr(tipo, llave);
+
+                                // TODO process result here
+                                String result = port2.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
+                                System.out.println("Respuesta = " + result);
+                                ///busco la respuesta
+                                i = result.indexOf("ZAU");
+                                int pipe = 0;
+                                while (i < result.indexOf("PRD")) {
+                                    if (pipe == 3) {
+                                        mensaje = mensaje + result.charAt(i);
+                                    }
+                                    if (result.charAt(i) == '|') {
+                                        pipe++;
+                                    }
+                                    i++;
+                                }
+                                ////busco numero de respuesta
+                                i = result.indexOf("ZAU");
+                                pipe = 0;
+                                while (i < result.indexOf("PRD")) {
+                                    if (pipe == 2) {
+                                        num_orden = num_orden + result.charAt(i);
+                                    }
+                                    if (result.charAt(i) == '|') {
+                                        pipe++;
+                                    }
+                                    i++;
+                                }
+                                mensaje = mensaje.replace("^", " ");
+                                codigo_respuesta = mensaje.substring(0, 4);
+                                System.out.println(num_orden + " " + mensaje);
+                            } catch (Exception ex) {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, ex);
+                            }
+                            if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
+                                JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de MEDIFE");
+                            } else {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, mensaje);
+                                bandera_anulacion = 1;
+
+                                observacion_anulacion = mensaje;
+                            }
+                        }//("37700 - JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL")("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
+
+                            ObjectFactory factory = new ObjectFactory();
+
+                            ClienteJerarquicos.CriterioAnulacionConsumoWeb autorizacion = new ClienteJerarquicos.CriterioAnulacionConsumoWeb();
+                            autorizacion.setIdConvenio(451);
+                            autorizacion.setIdTransaccion(Integer.valueOf(num_orden));
+
+                            JAXBElement<CriterioAnulacionConsumoWeb> criterio = factory.createSolicitudAnulacionConsumoWebCriterioAnulacionConsumoWeb(autorizacion);
+
+                            ClienteJerarquicos.SolicitudAnulacionConsumoWeb solicitud = new ClienteJerarquicos.SolicitudAnulacionConsumoWeb();
+                            solicitud.setCriterioAnulacionConsumoWeb(criterio);
+
+                            ClienteJerarquicos.Servicio service = new ClienteJerarquicos.Servicio();
+
+                            ClienteJerarquicos.IServicioPublico port = service.getBasicHttpBindingIServicioPublico();
+
+                            ClienteJerarquicos.RespuestaBase result = port.anularAutorizacionConsumo(solicitud);
+                            String respuesta = result.getDTOSerializado().getValue();
+                            System.out.println("Anulacion jerarquicos " + respuesta);
+                            int pos_ok = respuesta.indexOf("\"Nombre\":\"EXITO\"");
+                            if (pos_ok > 0) {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Jerarquicos Salud");
+                            } else {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, respuesta);
+                                bandera_anulacion = 1;
+                                observacion_anulacion = mensaje;
+                            }
+                        }
+                        cursor();
+                        cargatotales();
+                        tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
+                        cargatotalesordenesfacturacion();
+                        //     }
+                        System.out.println("1-");
+                        //  cursor2();
+                        String sSQL2 = null;
+
+                        if (bandera_anulacion == 0) {
+
+                            sSQL2 = "UPDATE ordenes SET estado_orden=? WHERE id_orden=" + id_orden;
+                            PreparedStatement pst = cn.prepareStatement(sSQL2);
+                            pst.setInt(1, 0);
+
+                            int n = pst.executeUpdate();
+                            System.out.println("1");
+
+                            if (n > 0) {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "La orden fué anulada en nuestro servidor...");
+                            }
+                        } else {
+                            cursor2();
+                            JOptionPane.showMessageDialog(null, "La orden no pudo ser anulada");
+                            cursor();
+                            sSQL2 = "UPDATE ordenes SET observacion=? WHERE id_orden=" + id_orden;
+                            PreparedStatement pst = cn.prepareStatement(sSQL2);
+                            pst.setString(1, observacion_anulacion);
+                            System.out.println("Anulacion");
+                            int n = pst.executeUpdate();
+                        }
                     } catch (Exception e) {
                         cursor2();
                         JOptionPane.showMessageDialog(null, e);
