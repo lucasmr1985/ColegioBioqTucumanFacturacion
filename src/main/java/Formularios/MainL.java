@@ -800,7 +800,7 @@ public class MainL extends javax.swing.JFrame {
                             ResultSet rs = null;
                             if (idobraimprime == 11 || idobraimprime == 12
                                     || idobraimprime == 14 || idobraimprime == 90 || idobraimprime == 100
-                                    || idobraimprime == 103 || idobraimprime == 15) {
+                                    || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113  ) {
 
                                 String sql = "SELECT  detalle_ordenes.*, ordenes.*, colegiados.matricula_colegiado,obrasocial.int_codigo_obrasocial,obrasocial.id_obrasocial,obrasocial.id_obrasocial,round(detalle_ordenes.precio_practica/obrasocial.importeunidaddearancel_obrasocial,1) as UB\n"
                                         + "FROM ordenes\n"
@@ -845,12 +845,12 @@ public class MainL extends javax.swing.JFrame {
                                     camposordenes_ss tipo_ss;
                                     //System.out.println(rs.getString("id_orden"));
                                     if (id_ordenes == 0) {
-                                        tipo_ss = new camposordenes_ss(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado"), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"), df.format(rs.getDouble("UB")), df.format(rs.getDouble("detalle_ordenes.coseguro")));
+                                        tipo_ss = new camposordenes_ss(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado").trim(), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"), df.format(rs.getDouble("UB")), df.format(rs.getDouble("detalle_ordenes.coseguro")));
                                         id_ordenes = rs.getInt("id_orden");
                                         pacientes = pacientes + 1;
                                     } else {
                                         if (id_ordenes != rs.getInt("id_orden")) {
-                                            tipo_ss = new camposordenes_ss(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado"), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"), df.format(rs.getDouble("UB")), df.format(rs.getDouble("detalle_ordenes.coseguro")));
+                                            tipo_ss = new camposordenes_ss(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado").trim(), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"), df.format(rs.getDouble("UB")), df.format(rs.getDouble("detalle_ordenes.coseguro")));
                                             band = 1;
                                             id_ordenes = rs.getInt("id_orden");
                                             pacientes = pacientes + 1;
@@ -868,12 +868,12 @@ public class MainL extends javax.swing.JFrame {
                                 } else {
                                     camposordenes_osde tipo;
                                     if (id_ordenes == 0) {
-                                        tipo = new camposordenes_osde(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado"), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"));
+                                        tipo = new camposordenes_osde(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado").trim(), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"));
                                         id_ordenes = rs.getInt("id_orden");
                                         pacientes = pacientes + 1;
                                     } else {
                                         if (id_ordenes != rs.getInt("id_orden")) {
-                                            tipo = new camposordenes_osde(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado"), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"));
+                                            tipo = new camposordenes_osde(rs.getString("numero_afiliado"), rs.getString("nombre_afiliado").trim(), rs.getString("numero_orden"), rs.getString("cod_practica"), rs.getString("nombre_practica"), df.format(rs.getDouble("precio_practica")), rs.getString("cod_practica_fac"), rs.getString("fecha_orden"));
                                             band = 1;
                                             id_ordenes = rs.getInt("id_orden");
                                             pacientes = pacientes + 1;
