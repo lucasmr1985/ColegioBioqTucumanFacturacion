@@ -800,7 +800,7 @@ public class MainL extends javax.swing.JFrame {
                             ResultSet rs = null;
                             if (idobraimprime == 11 || idobraimprime == 12
                                     || idobraimprime == 14 || idobraimprime == 90 || idobraimprime == 100
-                                    || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113  ) {
+                                    || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113) {
 
                                 String sql = "SELECT  detalle_ordenes.*, ordenes.*, colegiados.matricula_colegiado,obrasocial.int_codigo_obrasocial,obrasocial.id_obrasocial,obrasocial.id_obrasocial,round(detalle_ordenes.precio_practica/obrasocial.importeunidaddearancel_obrasocial,1) as UB\n"
                                         + "FROM ordenes\n"
@@ -8285,17 +8285,27 @@ public class MainL extends javax.swing.JFrame {
     }
 
     int fecha_compara(String fecha) {
-        int bandera_ok = 2;
-        if (Integer.valueOf(txtaño3.getText()) == Integer.valueOf(fecha.substring(6, 10))
-                || Integer.valueOf(txtaño3.getText()) - 1 == Integer.valueOf(fecha.substring(6, 10))) {
-
+        int bandera_ok = 2, año_1=0;
+        System.out.println("va a ingresar a año:"+Integer.valueOf(txtaño3.getText()));
+        System.out.println("va a ingresar a año:"+Integer.valueOf(fecha.substring(6, 10)));
+        año_1=Integer.valueOf(txtaño3.getText());
+         if (año_1 == Integer.valueOf(fecha.substring(6, 10))
+                || (año_1-1) == Integer.valueOf(fecha.substring(6, 10)) )
+        {
+            System.out.println("va a ingresar a mes:" );
             if (Integer.valueOf(fecha.substring(0, 2)) <= 31 && Integer.valueOf(fecha.substring(0, 2)) >= 1) {
+                System.out.println("mes:" );
+
                 if (Integer.valueOf(fecha.substring(3, 5)) <= 12 && Integer.valueOf(fecha.substring(3, 5)) >= 1) {
+                    System.out.println("entra a mes:" );
+
                     if (Integer.valueOf(fecha.substring(3, 5)) == 1 || Integer.valueOf(fecha.substring(3, 5)) == 3 || Integer.valueOf(fecha.substring(3, 5)) == 5 || Integer.valueOf(fecha.substring(3, 5)) == 7 || Integer.valueOf(fecha.substring(3, 5)) == 8 || Integer.valueOf(fecha.substring(3, 5)) == 10 || Integer.valueOf(fecha.substring(3, 5)) == 12) {
                         bandera_ok = 0;
                     } else {
                         if (Integer.valueOf(fecha.substring(3, 5)) == 4 || Integer.valueOf(fecha.substring(3, 5)) == 6 || Integer.valueOf(fecha.substring(3, 5)) == 9 || Integer.valueOf(fecha.substring(3, 5)) == 11) {
                             if (Integer.valueOf(fecha.substring(0, 2)) <= 30) {
+                                System.out.println("ingresa a 30 dias:");
+
                                 bandera_ok = 0;
                             }
                         } else {
@@ -8427,6 +8437,8 @@ public class MainL extends javax.swing.JFrame {
                                     i = 0;
 
                                     bandera = fecha_compara(fecha_orden);
+                                    
+                                    System.out.println(bandera);
 
                                     if (dni_afiliado.length() > 8) {
                                         bandera = 3;
