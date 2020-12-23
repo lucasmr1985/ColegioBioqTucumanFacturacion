@@ -26,7 +26,7 @@ public class HiloInicio extends Thread {
     public static String[] practicaconobra = new String[150000];
     public static String[] analisis = new String[50000];
     public static String novedad = "", version = "", aviso = "", link = "", link_descarga = "";
-    public static String version_actual = "219";
+    public static String version_actual = "2110";
     public static int[] idobra = new int[150000];
     public static String[] precio_practica = new String[150000];
     public static int contadorpractica = 0;

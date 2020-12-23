@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 public class OsdeAfiliado extends javax.swing.JDialog {
 
-    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "",CSC="";
+    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "",CSC_OS="";
 
     String hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
 
@@ -154,19 +154,16 @@ public class OsdeAfiliado extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtafiliado, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                            .addComponent(cbotipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtcsc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cbotipo, 0, 129, Short.MAX_VALUE)
+                    .addComponent(txtafiliado))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -230,12 +227,12 @@ public class OsdeAfiliado extends javax.swing.JDialog {
         cargarfecha();
         respuesta = "";
         String numero_afiliado = txtafiliado.getText();
-        CSC = txtcsc.getText();
+        CSC_OS = txtcsc.getText();
         if (numero_afiliado.length() > 11) {
             numero_afiliado = numero_afiliado.substring(numero_afiliado.length() - 11, numero_afiliado.length());
         }
         System.out.println("numero_afiliado " + numero_afiliado);
-        mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>01A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Terminal><TipoTerminal>PC</TipoTerminal><NumeroTerminal>1</NumeroTerminal></Terminal><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + numero_afiliado + "</NumeroCredencial><VersionCredencial>" + CSC + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion><DetalleProcedimientos/></Mensaje>";
+        mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>01A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Terminal><TipoTerminal>PC</TipoTerminal><NumeroTerminal>1</NumeroTerminal></Terminal><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + numero_afiliado + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion><DetalleProcedimientos/></Mensaje>";
 
         HttpURLConnectionExample http = new HttpURLConnectionExample();
 
