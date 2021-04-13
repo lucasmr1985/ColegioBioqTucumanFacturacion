@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 public class LoginAdmin extends javax.swing.JDialog {
 
       public static boolean estadologinadmin = false;
+      public static boolean estadologisecretaria = false;
 
     public LoginAdmin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -124,21 +125,23 @@ public class LoginAdmin extends javax.swing.JDialog {
         ConexionMariaDB mysql = new ConexionMariaDB();
         Connection cn = mysql.Conectar();
         int i = 0;
-        String sSQL = "SELECT usuario_admin FROM colegiados WHERE matricula_colegiado= '" + matricula_colegiado + "'";
+        String sSQL = "SELECT usuario_admin, usuario_secretaria  FROM colegiados WHERE matricula_colegiado= '" + matricula_colegiado + "'";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
             // Recorro y me fijo donde coinciden usuario y contraseña
-            while (rs.next()) {
+           if (rs.next()) {
                 if (txtcontraseña.getText().equals(rs.getString("usuario_admin"))) {
                     this.dispose();
                     estadologinadmin = true;
-                    break;
-                } else {
-                    i = 2;
+
                 }
-            }
-            if (i == 2) {
+                if (txtcontraseña.getText().equals(rs.getString("usuario_secretaria"))) {
+                    this.dispose();
+                    estadologisecretaria = true;
+                }
+            } else {
+                i = 2;
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
                 estadologinadmin = false;
             }

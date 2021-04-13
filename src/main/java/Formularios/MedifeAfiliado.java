@@ -33,7 +33,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtafiliado = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        btnaceptar = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -43,13 +43,13 @@ public class MedifeAfiliado extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Numero:");
+        jLabel1.setText("Número:");
 
         txtafiliado.setForeground(new java.awt.Color(0, 102, 204));
         txtafiliado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("##############"))));
         txtafiliado.setToolTipText("Completar con los 15 digitos");
-        txtafiliado.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        txtafiliado.setNextFocusableComponent(jButton1);
+        txtafiliado.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtafiliado.setNextFocusableComponent(btnaceptar);
         txtafiliado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtafiliadoActionPerformed(evt);
@@ -77,12 +77,12 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728951 - electricity lightning.png"))); // NOI18N
-        jButton1.setText("Validar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnaceptar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnaceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728951 - electricity lightning.png"))); // NOI18N
+        btnaceptar.setText("Validar");
+        btnaceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnaceptarActionPerformed(evt);
             }
         });
 
@@ -96,7 +96,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnaceptar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -104,9 +104,9 @@ public class MedifeAfiliado extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnaceptar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,7 +165,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
         System.out.println(codigo_seguridad);
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptarActionPerformed
         mensaje = "";
         habilitado = "";
         nombreafiliado = "";
@@ -277,7 +277,8 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                         pipe++;
                     }
                     i++;
-                }
+                }//GRAV^VOLUNTARIO
+                System.out.println("plan:"+plan);
                 if (plan.equals("GRAV^VOLUNTARIO")) {
                     MainL.tipo_orden = 0;
                 } else {
@@ -292,14 +293,14 @@ public class MedifeAfiliado extends javax.swing.JDialog {
             cursor2();
             JOptionPane.showMessageDialog(null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnaceptarActionPerformed
 
     private void txtafiliadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtafiliadoActionPerformed
         txtafiliado.transferFocus();
     }//GEN-LAST:event_txtafiliadoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnaceptar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
