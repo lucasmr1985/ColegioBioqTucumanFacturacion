@@ -339,7 +339,7 @@ public class MainL extends javax.swing.JFrame {
             btnsalir1.setEnabled(true);
             txttotal.setText("------");
         }
-
+        return;
     }
 
     void habilitacionPanelUno() {
@@ -353,6 +353,7 @@ public class MainL extends javax.swing.JFrame {
         btnaceptar2.setEnabled(false);
         btncancelar2.setEnabled(false);
         btnsalir3.setEnabled(false);
+
         if (estadologinadmin == true) {
             jPanel7.setEnabled(true);
             txtmes3.setEnabled(true);
@@ -363,11 +364,14 @@ public class MainL extends javax.swing.JFrame {
             btncancelar2.setEnabled(true);
             btnsalir3.setEnabled(true);
             txtmes1.requestFocus();
+            return;
         }
         if (estadologinsecretaria == true) {
+            System.out.println(estadologinsecretaria);
             JOptionPane.showMessageDialog(null, "EL usuario no posee permisos para realizar Transferencias de ordenes");
-            
+            return;
         }
+        
     }
 
     void habilitartabla() {
@@ -2830,6 +2834,9 @@ public class MainL extends javax.swing.JFrame {
         jPanel7.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPanel7KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPanel7KeyReleased(evt);
             }
         });
 
@@ -8903,7 +8910,7 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            habilitacionPanelUno();
+            jTabbedPane2.setSelectedIndex(1);
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
@@ -11508,6 +11515,10 @@ public class MainL extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
         }
     }//GEN-LAST:event_btnSubsidio1ActionPerformed
+
+    private void jPanel7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel7KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;

@@ -133,17 +133,20 @@ public class LoginAdmin extends javax.swing.JDialog {
             // Recorro y me fijo donde coinciden usuario y contraseña
             if (rs.next()) {
                 if (txtcontraseña.getText().equals(rs.getString("usuario_admin"))) {
-                    this.dispose();
+
                     estadologinadmin = true;
+                    this.dispose();
                 }
                 if (txtcontraseña.getText().equals(rs.getString("usuario_secretaria"))) {
-                    this.dispose();
+
                     estadologinsecretaria = true;
+                    this.dispose();
                 }
             } else {
                 i = 2;
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
                 estadologinadmin = false;
+                estadologinsecretaria = false;
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
