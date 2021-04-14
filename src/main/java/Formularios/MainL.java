@@ -37,7 +37,7 @@ import static Formularios.Login.matricula_colegiado;
 import static Formularios.Login.nombre_colegiado;
 import static Formularios.Login.periodo_colegiado;
 import static Formularios.LoginAdmin.estadologinadmin;
-import static Formularios.LoginAdmin.estadologisecretaria;
+import static Formularios.LoginAdmin.estadologinsecretaria;
 import static Formularios.OsdeAfiliado.habilitado;
 import static Formularios.importar.Importar;
 import static Formularios.importar.archivo;
@@ -266,86 +266,16 @@ public class MainL extends javax.swing.JFrame {
     public void mensaje(ChangeEvent evt) {
         // Ultima pestaña
         JTabbedPane seleccion = (JTabbedPane) evt.getSource();
+
         if (jTabbedPane2.getSelectedIndex() == 1) {
             txtordenes.setText("");
             new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                txtmes3.setEditable(true);
-                txtaño3.setEditable(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btncancelar1.doClick();
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btncancelar1.doClick();
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (seleccion.getSelectedIndex() == 2) {
-            txtordenes.setText("");
             new LoginAdmin(this, true).setVisible(true);
-             if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                txtordenes.setEnabled(true);
-                txtmes1.setEditable(true);
-                txtaño1.setEditable(true);
-                txtordenes.setEditable(true);
-                btnbuscar.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btncancelar1.doClick();
-                btnsalir1.setEnabled(true);
-            }
-            if (estadologisecretaria == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                txtordenes.setEnabled(true);
-                txtmes1.setEditable(true);
-                txtaño1.setEditable(true);
-                txtordenes.setEditable(true);
-                btnbuscar.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(true);
-                btncancelar1.doClick();
-                btnsalir1.setEnabled(true);
-                txttotal.setText("------");
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.doClick();
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
     }
 
@@ -355,6 +285,93 @@ public class MainL extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void habilitacionPanelDos() {
+
+        jTabbedPane2.setSelectedIndex(2);
+        txtordenes.setText("");
+        Facturacion.setEnabled(false);
+        txtmes1.setEnabled(false);
+        txtaño1.setEnabled(false);
+        btnbuscar.setEnabled(false);
+        txtordenes.setEnabled(false);
+        tablaordenes.setEnabled(false);
+        btnimprimirdjj.setEnabled(false);
+        btnimprimirobra.setEnabled(false);
+        btncancelar3.setEnabled(false);
+        btncancelar1.doClick();
+        btncancelar1.setEnabled(false);
+        btnsalir1.setEnabled(false);
+
+        if (estadologinadmin == true) {
+            Facturacion.setEnabled(true);
+            txtmes1.setEnabled(true);
+            txtaño1.setEnabled(true);
+            txtordenes.setEnabled(true);
+            txtmes1.setEditable(true);
+            txtaño1.setEditable(true);
+            txtordenes.setEditable(true);
+            btnbuscar.setEnabled(true);
+            tablaordenes.setEnabled(true);
+            btnimprimirdjj.setEnabled(true);
+            btnimprimirobra.setEnabled(true);
+            btncancelar3.setEnabled(true);
+            btncancelar1.setEnabled(true);
+            btncancelar1.doClick();
+            btnsalir1.setEnabled(true);
+        }
+        if (estadologinsecretaria == true) {
+            Facturacion.setEnabled(true);
+            txtmes1.setEnabled(true);
+            txtaño1.setEnabled(true);
+            txtordenes.setEnabled(true);
+            txtmes1.setEditable(true);
+            txtaño1.setEditable(true);
+            txtordenes.setEditable(true);
+            btnbuscar.setEnabled(true);
+            tablaordenes.setEnabled(true);
+            btnimprimirdjj.setEnabled(true);
+            btnimprimirobra.setEnabled(false);
+            btncancelar3.setEnabled(false);
+            btncancelar1.setEnabled(true);
+            btncancelar1.doClick();
+            btnsalir1.setEnabled(true);
+            txttotal.setText("------");
+        }
+        return;
+    }
+
+    void habilitacionPanelUno() {
+        jTabbedPane2.setSelectedIndex(1);
+        txtordenes.setText("");
+        jPanel7.setEnabled(false);
+        txtmes3.setEnabled(false);
+        txtaño3.setEnabled(false);
+        btnimportar.setEnabled(false);
+        tablaordenes1.setEnabled(false);
+        btnaceptar2.setEnabled(false);
+        btncancelar2.setEnabled(false);
+        btnsalir3.setEnabled(false);
+
+        if (estadologinadmin == true) {
+            jPanel7.setEnabled(true);
+            txtmes3.setEnabled(true);
+            txtaño3.setEnabled(true);
+            btnimportar.setEnabled(true);
+            tablaordenes1.setEnabled(true);
+            btnaceptar2.setEnabled(true);
+            btncancelar2.setEnabled(true);
+            btnsalir3.setEnabled(true);
+            txtmes1.requestFocus();
+            return;
+        }
+        if (estadologinsecretaria == true) {
+            System.out.println(estadologinsecretaria);
+            JOptionPane.showMessageDialog(null, "EL usuario no posee permisos para realizar Transferencias de ordenes");
+            return;
+        }
+        
     }
 
     void habilitartabla() {
@@ -2817,6 +2834,9 @@ public class MainL extends javax.swing.JFrame {
         jPanel7.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPanel7KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPanel7KeyReleased(evt);
             }
         });
 
@@ -7438,29 +7458,7 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
             jTabbedPane2.setSelectedIndex(3);
@@ -7744,9 +7742,10 @@ public class MainL extends javax.swing.JFrame {
         }
         ///   System.out.println("Formularios.MainL.cargatotales() 5");
         //txttotalordenes.setText((String.valueOf(totalRow + 1)));
-
-        txttotal.setText((String.valueOf(Redondear(total))));
-        /// System.out.println("Formularios.MainL.cargatotales() 6");
+        if (estadologinadmin == true) {
+            txttotal.setText((String.valueOf(Redondear(total))));
+            /// System.out.println("Formularios.MainL.cargatotales() 6");
+        }
     }
 
     /*void cargatotales_obra_social() {
@@ -7896,28 +7895,7 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
 
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
@@ -8272,63 +8250,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -8984,62 +8911,11 @@ public class MainL extends javax.swing.JFrame {
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
             jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -9124,66 +9000,11 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                txtmes3.setEditable(true);
-                txtaño3.setEditable(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                txtmes1.setEditable(true);
-                txtaño1.setEditable(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                txtordenes.setEditable(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
             jTabbedPane2.setSelectedIndex(3);
@@ -9311,61 +9132,10 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -9449,63 +9219,12 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -9742,63 +9461,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -9820,63 +9488,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -9906,63 +9523,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -9984,63 +9550,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -10068,63 +9583,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -10717,64 +10181,11 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes3.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
-
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.requestFocus();
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -10955,63 +10366,12 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11031,61 +10391,12 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
             jTabbedPane2.setSelectedIndex(3);
@@ -11098,61 +10409,13 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
+
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11169,61 +10432,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11240,61 +10454,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11311,61 +10476,11 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
-
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11384,61 +10499,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11455,60 +10521,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11524,61 +10542,12 @@ public class MainL extends javax.swing.JFrame {
 
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -11594,60 +10563,12 @@ public class MainL extends javax.swing.JFrame {
 
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
+            habilitacionPanelDos();
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
 
@@ -12107,64 +11028,12 @@ public class MainL extends javax.swing.JFrame {
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btncancelar1.doClick();
-                btnsalir3.setEnabled(true);
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
 
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.doClick();
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btncancelar1.doClick();
-                btnsalir1.setEnabled(false);
-            }
-
+            habilitacionPanelDos();
         }
     }//GEN-LAST:event_txtnumafiliadoKeyPressed
 
@@ -12589,61 +11458,11 @@ public class MainL extends javax.swing.JFrame {
             jTabbedPane2.setSelectedIndex(0);
         }
         if (evt.getKeyCode() == KeyEvent.VK_F2) {
-            jTabbedPane2.setSelectedIndex(1);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                jPanel7.setEnabled(true);
-                txtmes3.setEnabled(true);
-                txtaño3.setEnabled(true);
-                btnimportar.setEnabled(true);
-                tablaordenes1.setEnabled(true);
-                btnaceptar2.setEnabled(true);
-                btncancelar2.setEnabled(true);
-                btnsalir3.setEnabled(true);
-                txtmes1.requestFocus();
-            } else {
-                jPanel7.setEnabled(false);
-                txtmes3.setEnabled(false);
-                txtaño3.setEnabled(false);
-                btnimportar.setEnabled(false);
-                tablaordenes1.setEnabled(false);
-                btnaceptar2.setEnabled(false);
-                btncancelar2.setEnabled(false);
-                btnsalir3.setEnabled(false);
-            }
+            habilitacionPanelUno();
         }
 
         if (evt.getKeyCode() == KeyEvent.VK_F3) {
-
-            jTabbedPane2.setSelectedIndex(2);
-            txtordenes.setText("");
-            new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
-                Facturacion.setEnabled(true);
-                txtmes1.setEnabled(true);
-                txtaño1.setEnabled(true);
-                btnbuscar.setEnabled(true);
-                txtordenes.setEnabled(true);
-                tablaordenes.setEnabled(true);
-                btnimprimirdjj.setEnabled(true);
-                btnimprimirobra.setEnabled(true);
-                btncancelar3.setEnabled(true);
-                btncancelar1.setEnabled(true);
-                btnsalir1.setEnabled(true);
-            } else {
-                Facturacion.setEnabled(false);
-                txtmes1.setEnabled(false);
-                txtaño1.setEnabled(false);
-                btnbuscar.setEnabled(false);
-                txtordenes.setEnabled(false);
-                tablaordenes.setEnabled(false);
-                btnimprimirdjj.setEnabled(false);
-                btnimprimirobra.setEnabled(false);
-                btncancelar3.setEnabled(false);
-                btncancelar1.setEnabled(false);
-                btnsalir1.setEnabled(false);
-            }
+            habilitacionPanelDos();
 
         }
         if (evt.getKeyCode() == KeyEvent.VK_F4) {
@@ -12696,6 +11515,10 @@ public class MainL extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
         }
     }//GEN-LAST:event_btnSubsidio1ActionPerformed
+
+    private void jPanel7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel7KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;

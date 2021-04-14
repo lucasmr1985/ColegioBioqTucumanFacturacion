@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 
 public class LoginAdmin extends javax.swing.JDialog {
 
-      public static boolean estadologinadmin = false;
-      public static boolean estadologisecretaria = false;
+    public static boolean estadologinadmin = false;
+    public static boolean estadologinsecretaria = false;
 
     public LoginAdmin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -21,7 +21,8 @@ public class LoginAdmin extends javax.swing.JDialog {
         this.setTitle("Login");
         this.setLocationRelativeTo(null);
     }
-   @SuppressWarnings("unchecked")
+
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -130,20 +131,22 @@ public class LoginAdmin extends javax.swing.JDialog {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
             // Recorro y me fijo donde coinciden usuario y contraseña
-           if (rs.next()) {
+            if (rs.next()) {
                 if (txtcontraseña.getText().equals(rs.getString("usuario_admin"))) {
-                    this.dispose();
-                    estadologinadmin = true;
 
+                    estadologinadmin = true;
+                    this.dispose();
                 }
                 if (txtcontraseña.getText().equals(rs.getString("usuario_secretaria"))) {
+
+                    estadologinsecretaria = true;
                     this.dispose();
-                    estadologisecretaria = true;
                 }
             } else {
                 i = 2;
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
                 estadologinadmin = false;
+                estadologinsecretaria = false;
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -152,34 +155,12 @@ public class LoginAdmin extends javax.swing.JDialog {
 
     private void btnaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptarActionPerformed
         // Selecciono SQL la tabla empleados y todos sus atributos
-        ConexionMariaDB mysql = new ConexionMariaDB();
-        Connection cn = mysql.Conectar();
-        int i = 0;
-        String sSQL = "SELECT usuario_admin FROM colegiados WHERE matricula_colegiado= '" + matricula_colegiado + "'";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL);
-            // Recorro y me fijo donde coinciden usuario y contraseña
-            while (rs.next()) {
-                if (txtcontraseña.getText().equals(rs.getString("usuario_admin"))) {
-                    this.dispose();
-                    estadologinadmin = true;
-                    break;
-                } else {
-                    i = 2;
-                }
-            }
-            if (i == 2) {
-                JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
-                estadologinadmin = false;
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        txtcontraseñaActionPerformed(evt);
     }//GEN-LAST:event_btnaceptarActionPerformed
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
         estadologinadmin = false;
+        estadologinsecretaria = false;
         this.dispose();
     }//GEN-LAST:event_btncancelarActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
