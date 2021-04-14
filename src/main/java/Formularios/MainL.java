@@ -120,7 +120,8 @@ import static Formularios.BorealAfiliado.tipo_credencial;
 import static Formularios.JerarquicosAfiliado.NumeroOrden;
 import static Formularios.JerarquicosAfiliado.NumeroSocio;
 import static Formularios.Login.estadopeec;
-import static Formularios.OsdeAfiliado.CSC;
+import static Formularios.OsdeAfiliado.CSC_OS;
+import static Formularios.SwissAfiliado.CSC_SW;
 import controlador.Funciones;
 import java.io.File;
 import java.io.FileWriter;
@@ -2096,6 +2097,7 @@ public class MainL extends javax.swing.JFrame {
         btnsalir4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        btnSubsidio1 = new javax.swing.JButton();
         lblcolegiado3 = new javax.swing.JLabel();
         btnsalir5 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -3474,6 +3476,7 @@ public class MainL extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Utilitarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
 
+        jButton3.setBackground(new java.awt.Color(0, 0, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728979 - info.png"))); // NOI18N
         jButton3.setText("Versión");
@@ -3483,6 +3486,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnobrasociales.setBackground(new java.awt.Color(0, 0, 204));
         btnobrasociales.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnobrasociales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728922 - apartment building city.png"))); // NOI18N
         btnobrasociales.setMnemonic('o');
@@ -3499,6 +3503,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnnomenclador.setBackground(new java.awt.Color(0, 0, 204));
         btnnomenclador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnnomenclador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728959 - announcement flyer news newspaper .png"))); // NOI18N
         btnnomenclador.setMnemonic('n');
@@ -3515,6 +3520,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnnbu.setBackground(new java.awt.Color(0, 0, 204));
         btnnbu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnnbu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728933 - document edit.png"))); // NOI18N
         btnnbu.setMnemonic('o');
@@ -3573,6 +3579,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnsalir4.setBackground(new java.awt.Color(0, 0, 204));
         btnsalir4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnsalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728983 - folder.png"))); // NOI18N
         btnsalir4.setMnemonic('c');
@@ -3604,6 +3611,16 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
+        btnSubsidio1.setBackground(new java.awt.Color(0, 0, 204));
+        btnSubsidio1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSubsidio1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/logo_pami.png"))); // NOI18N
+        btnSubsidio1.setText("Padrón PAMI");
+        btnSubsidio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubsidio1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -3612,22 +3629,23 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnbu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnSubsidio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnobrasociales, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnobrasociales, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(btnSubsidio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSubsidio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnIosfa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnomenclador, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnnomenclador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -3636,21 +3654,24 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnnomenclador)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnIosfa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnobrasociales)
-                            .addComponent(btnnomenclador)
                             .addComponent(jButton3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnsalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnSubsidio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnIosfa)))
+                            .addComponent(btnSubsidio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnsalir4)))
+                            .addComponent(btnsalir4)
+                            .addComponent(btnSubsidio1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(btnnbu)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -3834,6 +3855,38 @@ public class MainL extends javax.swing.JFrame {
                     estadoPami = 0;
                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else {
+                estado_orden = 3;
+                if (!txtnumafiliado.getText().equals("")
+                        && txtnumafiliado.getText().length() == 14
+                        && !txtnombreafiliado.getText().equals("")
+                        && isNumeric(txtDiaOrden.getText())
+                        && txtDiaOrden.getText().length() == 2) {
+                    if ((txtnumorden.getText().substring(0, 4).equals("33" + txtaño.getText().substring(2))
+                            || txtnumorden.getText().substring(0, 4).equals("33" + (Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                            && txtnumorden.getText().length() == 13
+                            && cbotipo.getSelectedIndex() == 0) {
+                        System.out.println("pami 1");
+                        estadoPami = 1;
+
+                    } else if ((txtnumorden.getText().substring(2, 4).equals(txtaño.getText().substring(2))
+                            || txtnumorden.getText().substring(2, 4).equals(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                            && txtnumorden.getText().length() == 11
+                            && cbotipo.getSelectedIndex() == 1) {
+                        System.out.println("pami 2");
+                        estadoPami = 1;
+                    } else if (cbotipo.getSelectedIndex() == 2) {
+                        System.out.println("pami 3");
+                        estadoPami = 1;
+                    } else {
+                        estadoPami = 0;
+                        JOptionPane.showMessageDialog(null, "Número de orden incorrecto");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios");
+                    txtnumafiliado.requestFocus();
+                    estadoPami = 0;
+                }
             }
         } else {
             fechaDate = invertir(txtfecha.getText());
@@ -3917,7 +3970,7 @@ public class MainL extends javax.swing.JFrame {
                             }
                         }
                         /////////////////////////////////////////////////////////////////////////////////
-                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
                         HttpOsdePractica http2 = new HttpOsdePractica();
                         System.out.println("Testing 2 - Send Http GET request");
                         try {
@@ -4072,7 +4125,7 @@ public class MainL extends javax.swing.JFrame {
                             }
                         }
                         ///////////////////////////////////////////////////////////////////////////////////////
-                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_SW + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
                         Httpswmpractica http2 = new Httpswmpractica();
                         System.out.println("Testing 2 - Send Http GET request");
                         try {
@@ -8285,19 +8338,18 @@ public class MainL extends javax.swing.JFrame {
     }
 
     int fecha_compara(String fecha) {
-        int bandera_ok = 2, año_1=0;
-        System.out.println("va a ingresar a año:"+Integer.valueOf(txtaño3.getText()));
-        System.out.println("va a ingresar a año:"+Integer.valueOf(fecha.substring(6, 10)));
-        año_1=Integer.valueOf(txtaño3.getText());
-         if (año_1 == Integer.valueOf(fecha.substring(6, 10))
-                || (año_1-1) == Integer.valueOf(fecha.substring(6, 10)) )
-        {
-            System.out.println("va a ingresar a mes:" );
+        int bandera_ok = 2, año_1 = 0;
+        System.out.println("va a ingresar a año:" + Integer.valueOf(txtaño3.getText()));
+        System.out.println("va a ingresar a año:" + Integer.valueOf(fecha.substring(6, 10)));
+        año_1 = Integer.valueOf(txtaño3.getText());
+        if (año_1 == Integer.valueOf(fecha.substring(6, 10))
+                || (año_1 - 1) == Integer.valueOf(fecha.substring(6, 10))) {
+            System.out.println("va a ingresar a mes:");
             if (Integer.valueOf(fecha.substring(0, 2)) <= 31 && Integer.valueOf(fecha.substring(0, 2)) >= 1) {
-                System.out.println("mes:" );
+                System.out.println("mes:");
 
                 if (Integer.valueOf(fecha.substring(3, 5)) <= 12 && Integer.valueOf(fecha.substring(3, 5)) >= 1) {
-                    System.out.println("entra a mes:" );
+                    System.out.println("entra a mes:");
 
                     if (Integer.valueOf(fecha.substring(3, 5)) == 1 || Integer.valueOf(fecha.substring(3, 5)) == 3 || Integer.valueOf(fecha.substring(3, 5)) == 5 || Integer.valueOf(fecha.substring(3, 5)) == 7 || Integer.valueOf(fecha.substring(3, 5)) == 8 || Integer.valueOf(fecha.substring(3, 5)) == 10 || Integer.valueOf(fecha.substring(3, 5)) == 12) {
                         bandera_ok = 0;
@@ -8437,7 +8489,7 @@ public class MainL extends javax.swing.JFrame {
                                     i = 0;
 
                                     bandera = fecha_compara(fecha_orden);
-                                    
+
                                     System.out.println(bandera);
 
                                     if (dni_afiliado.length() > 8) {
@@ -12617,6 +12669,14 @@ public class MainL extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formatoArchivoBotonActionPerformed
 
+    private void btnSubsidio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubsidio1ActionPerformed
+        try {
+            Desktop.getDesktop().browse(new URI("https://prestadores.pami.org.ar/result.php?c=6-2&vm=2"));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
+        }
+    }//GEN-LAST:event_btnSubsidio1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Anular;
     private javax.swing.JPanel Facturacion;
@@ -12629,6 +12689,7 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JButton btnIosfa;
     private javax.swing.JButton btnPrensa;
     private javax.swing.JButton btnSubsidio;
+    private javax.swing.JButton btnSubsidio1;
     private javax.swing.JButton btnaceptar;
     private javax.swing.JButton btnaceptar2;
     private javax.swing.JButton btnborrar;
