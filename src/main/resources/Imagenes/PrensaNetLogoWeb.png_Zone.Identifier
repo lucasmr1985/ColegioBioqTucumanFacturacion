@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=http://prensanet.osppt.org.ar:8080/PrensaNet/servlet/com.prensanet.login
+HostUrl=http://prensanet.osppt.org.ar:8080/PrensaNet/static/Resources/PrensaNetLogoWeb.png

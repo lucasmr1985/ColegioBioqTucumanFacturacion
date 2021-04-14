@@ -37,6 +37,7 @@ import static Formularios.Login.matricula_colegiado;
 import static Formularios.Login.nombre_colegiado;
 import static Formularios.Login.periodo_colegiado;
 import static Formularios.LoginAdmin.estadologinadmin;
+import static Formularios.LoginAdmin.estadologisecretaria;
 import static Formularios.OsdeAfiliado.habilitado;
 import static Formularios.importar.Importar;
 import static Formularios.importar.archivo;
@@ -296,7 +297,7 @@ public class MainL extends javax.swing.JFrame {
         if (seleccion.getSelectedIndex() == 2) {
             txtordenes.setText("");
             new LoginAdmin(this, true).setVisible(true);
-            if (estadologinadmin == true) {
+             if (estadologinadmin == true) {
                 Facturacion.setEnabled(true);
                 txtmes1.setEnabled(true);
                 txtaño1.setEnabled(true);
@@ -312,6 +313,24 @@ public class MainL extends javax.swing.JFrame {
                 btncancelar1.setEnabled(true);
                 btncancelar1.doClick();
                 btnsalir1.setEnabled(true);
+            }
+            if (estadologisecretaria == true) {
+                Facturacion.setEnabled(true);
+                txtmes1.setEnabled(true);
+                txtaño1.setEnabled(true);
+                txtordenes.setEnabled(true);
+                txtmes1.setEditable(true);
+                txtaño1.setEditable(true);
+                txtordenes.setEditable(true);
+                btnbuscar.setEnabled(true);
+                tablaordenes.setEnabled(true);
+                btnimprimirdjj.setEnabled(true);
+                btnimprimirobra.setEnabled(false);
+                btncancelar3.setEnabled(false);
+                btncancelar1.setEnabled(true);
+                btncancelar1.doClick();
+                btnsalir1.setEnabled(true);
+                txttotal.setText("------");
             } else {
                 Facturacion.setEnabled(false);
                 txtmes1.setEnabled(false);
@@ -954,7 +973,7 @@ public class MainL extends javax.swing.JFrame {
                         ////////////////////////////////////////////////////////////////////////////////////////////////
 
                         //////////////////////////////Resumen //////////////////////////////////////
-                        if (matricula_colegiado.equals("20012") || matricula_colegiado.equals("30012")) {
+                        if (matricula_colegiado.equals("20012") || matricula_colegiado.equals("30012") || matricula_colegiado.equals("31360")) {
                             int dialogButton;
                             int opcion = JOptionPane.YES_NO_OPTION;
                             dialogButton = JOptionPane.showConfirmDialog(null, "Desea generar el resumen por terminal de carga", "", opcion);
@@ -8235,7 +8254,7 @@ public class MainL extends javax.swing.JFrame {
             if (tablaordenes.getValueAt(i, 10).toString().equals("ANULADA")) {
                 contador2++;
             }
-            if (tablaordenes.getValueAt(i, 10).toString().equals("OBSERVADA")) {
+            if (tablaordenes.getValueAt(i, 10).toString().equals("OBSERVADA") && tablaordenes.getValueAt(i, 10).toString().equals("AUDITORIA")) {
                 contador3++;
             }
         }
@@ -10274,6 +10293,7 @@ public class MainL extends javax.swing.JFrame {
                             System.out.println("fecha numero de orden osde : " + num_orden);
 
                             mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+                            //mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>236029525</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>62684577601</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
 
                             HttpOsdeAnulacion http = new HttpOsdeAnulacion();
                             System.out.println("Testing 3 - Send Http GET request");
