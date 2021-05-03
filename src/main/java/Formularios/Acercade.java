@@ -42,7 +42,7 @@ public class Acercade extends javax.swing.JDialog {
 
         jLabel3.setFont(new java.awt.Font("Bauhaus 93", 0, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Versión 2.1.10");
+        jLabel3.setText("Versión 2.1.11");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
