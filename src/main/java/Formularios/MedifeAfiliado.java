@@ -5,6 +5,7 @@ import ClienteMedife.WebServiceIA;
 import ClienteMedife.WebServiceIASoap;
 import static Formularios.Login.cuit;
 import static Formularios.Login.matricula_colegiado;
+import static Formularios.MainL.idObraSocialOnline;
 import java.awt.Cursor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -216,7 +217,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
             System.out.println(plan);
 
             System.out.println(codigo_respuesta);
-            JOptionPane.showMessageDialog(null, mensaje);
+            
 
             if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
                 habilitado = "OK";
@@ -269,7 +270,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                 //////////busco el plan/////////////////////////////////////////////
                 i = result.indexOf("ZIN");
                 pipe = 0;
-                while (i < result.length()) {
+                while (i < result.indexOf("NTE")-1) {
                     if (pipe == 2) {
                         plan = plan + result.charAt(i);
                     }
@@ -277,14 +278,24 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                         pipe++;
                     }
                     i++;
-                }//GRAV^VOLUNTARIO
-                System.out.println("plan:"+plan);
-                if (plan.equals("GRAV^VOLUNTARIO")) {
-                    MainL.tipo_orden = 0;
-                } else {
-                    MainL.tipo_orden = 1;
-                }
-                this.dispose();
+                }//GRAV^VOLUNTARIO ////NTE
+                System.out.println("plan:"+plan);     
+                 if (idObraSocialOnline==107) {
+                     if(plan.equals("EXNT^OBLIGATORIO")){
+                         JOptionPane.showMessageDialog(null, mensaje);
+                         this.dispose();
+                     }else{
+                         JOptionPane.showMessageDialog(null, "El paciente no posee plan OBLIGATORIO, debe ingresarlo en el código de la obra social 513");
+                     }
+                 }else{
+                     if(plan.equals("GRAV^VOLUNTARIO")){
+                         JOptionPane.showMessageDialog(null, mensaje);
+                         this.dispose();
+                     }else{
+                         JOptionPane.showMessageDialog(null, "El paciente no posee plan VOLUNTARIO, debe ingresarlo en el código de la obra social 512");
+                     }
+                 }
+                
             } else {
                 habilitado = "NO";
             }
@@ -293,6 +304,12 @@ public class MedifeAfiliado extends javax.swing.JDialog {
             cursor2();
             JOptionPane.showMessageDialog(null, ex);
         }
+        
+        /*
+        IN1|1|BRONCE|222222
+ZIN|Y|GRAV^VOLUNTARIO
+NTE|1||F.A.P.: 2021/4/26
+        */
     }//GEN-LAST:event_btnaceptarActionPerformed
 
     private void txtafiliadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtafiliadoActionPerformed
