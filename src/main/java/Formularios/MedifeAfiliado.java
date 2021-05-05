@@ -285,19 +285,23 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                          JOptionPane.showMessageDialog(null, mensaje);
                          this.dispose();
                      }else{
+                         habilitado = "!OK";
                          JOptionPane.showMessageDialog(null, "El paciente no posee plan OBLIGATORIO, debe ingresarlo en el código de la obra social 513");
+                         this.dispose();
                      }
                  }else{
                      if(plan.equals("GRAV^VOLUNTARIO")){
                          JOptionPane.showMessageDialog(null, mensaje);
                          this.dispose();
                      }else{
+                         habilitado = "!OK";
                          JOptionPane.showMessageDialog(null, "El paciente no posee plan VOLUNTARIO, debe ingresarlo en el código de la obra social 512");
+                         this.dispose();
                      }
                  }
                 
             } else {
-                habilitado = "NO";
+                habilitado = "!OK";
             }
             cursor2();
         } catch (Exception ex) {
