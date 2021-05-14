@@ -217,7 +217,6 @@ public class MedifeAfiliado extends javax.swing.JDialog {
             System.out.println(plan);
 
             System.out.println(codigo_respuesta);
-            
 
             if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
                 habilitado = "OK";
@@ -270,7 +269,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                 //////////busco el plan/////////////////////////////////////////////
                 i = result.indexOf("ZIN");
                 pipe = 0;
-                while (i < result.indexOf("NTE")-1) {
+                while (i < result.indexOf("NTE") - 1) {
                     if (pipe == 2) {
                         plan = plan + result.charAt(i);
                     }
@@ -279,28 +278,40 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                     }
                     i++;
                 }//GRAV^VOLUNTARIO ////NTE
-                System.out.println("plan:"+plan);     
-                 if (idObraSocialOnline==107) {
-                     if(plan.equals("EXNT^OBLIGATORIO")){
-                         JOptionPane.showMessageDialog(null, mensaje);
-                         this.dispose();
-                     }else{
-                         habilitado = "!OK";
-                         JOptionPane.showMessageDialog(null, "El paciente no posee plan OBLIGATORIO, debe ingresarlo en el código de la obra social 513");
-                         this.dispose();
-                     }
-                 }else{
-                     if(plan.equals("GRAV^VOLUNTARIO")){
-                         JOptionPane.showMessageDialog(null, mensaje);
-                         this.dispose();
-                     }else{
-                         habilitado = "!OK";
-                         JOptionPane.showMessageDialog(null, "El paciente no posee plan VOLUNTARIO, debe ingresarlo en el código de la obra social 512");
-                         this.dispose();
-                     }
-                 }
-                
+                System.out.println("plan:" + plan);
+                if (idObraSocialOnline == 107) {
+                    if (plan.equals("EXNT^OBLIGATORIO")) {
+                        JOptionPane.showMessageDialog(null, mensaje);
+                        this.dispose();
+                    } else {
+                        habilitado = "!OK";
+                        JOptionPane.showMessageDialog(null, "El paciente no posee plan OBLIGATORIO, debe ingresarlo en el código de la obra social 513");
+                        this.dispose();
+                    }
+                } else {
+                    if (plan.equals("GRAV^VOLUNTARIO")) {
+                        JOptionPane.showMessageDialog(null, mensaje);
+                        this.dispose();
+                    } else {
+                        habilitado = "!OK";
+                        JOptionPane.showMessageDialog(null, "El paciente no posee plan VOLUNTARIO, debe ingresarlo en el código de la obra social 512");
+                        this.dispose();
+                    }
+                }
+
             } else {
+       
+                if (codigo_respuesta.equals("M001") || codigo_respuesta.equals("M003")) {
+                    JOptionPane.showMessageDialog(null, "AFILIADO INEXISTENTE - Por Favor Verifique el Numero ingresado");
+                }
+                if (codigo_respuesta.equals("M004")) {
+                    JOptionPane.showMessageDialog(null, "-AFILIADO DADO DE BAJA-");
+                }
+                 if (codigo_respuesta.equals("M005")) {
+                    JOptionPane.showMessageDialog(null, "-AFILIADO MOROSO-");
+                }
+                 
+
                 habilitado = "!OK";
             }
             cursor2();
@@ -308,12 +319,12 @@ public class MedifeAfiliado extends javax.swing.JDialog {
             cursor2();
             JOptionPane.showMessageDialog(null, ex);
         }
-        
+
         /*
         IN1|1|BRONCE|222222
 ZIN|Y|GRAV^VOLUNTARIO
 NTE|1||F.A.P.: 2021/4/26
-        */
+         */
     }//GEN-LAST:event_btnaceptarActionPerformed
 
     private void txtafiliadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtafiliadoActionPerformed
