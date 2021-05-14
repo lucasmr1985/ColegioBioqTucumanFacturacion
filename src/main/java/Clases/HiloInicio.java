@@ -25,8 +25,9 @@ public class HiloInicio extends Thread {
     public static Double[] arancel = new Double[500];
     public static String[] practicaconobra = new String[150000];
     public static String[] analisis = new String[50000];
+    public static ArrayList <Clases.MedicosAutorizados> listaMedicos;
     public static String novedad = "", version = "", aviso = "", link = "", link_descarga = "";
-    public static String version_actual = "2110";
+    public static String version_actual = "2111";
     public static int[] idobra = new int[150000];
     public static String[] precio_practica = new String[150000];
     public static int contadorpractica = 0;
@@ -57,6 +58,7 @@ public class HiloInicio extends Thread {
             //pausa(1);
         }
         cargaractualizacion();
+        cargarMedicos();
         while (i <= 70) {
             progreso.setValue(i);
             i++;
@@ -93,6 +95,15 @@ public class HiloInicio extends Thread {
             ex.printStackTrace();
         }
         return fecha;
+    }
+ void cargarMedicos(){
+        
+        ConexionMariaDB conexion = new ConexionMariaDB();
+        conexion.EstablecerConexion();
+        listaMedicos = new ArrayList<Clases.MedicosAutorizados>();
+        Clases.MedicosAutorizados.cargarMedicosAutorizados(conexion.getConnection(), listaMedicos);
+        conexion.cerrarConexion();
+        
     }
 
     void cargarnovedad() {
