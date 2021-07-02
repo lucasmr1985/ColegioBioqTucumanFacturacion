@@ -267,9 +267,10 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                 }
                 nombreafiliado = nombreafiliado.replace("^", " ");
                 //////////busco el plan/////////////////////////////////////////////
-                i = result.indexOf("ZIN");
+                i = result.indexOf("ZIN|");                
                 pipe = 0;
-                while (i < result.indexOf("NTE") - 1) {
+                while (i < (result.indexOf("NTE|") - 1)) {
+                    System.out.println("char:"+result.charAt(i));
                     if (pipe == 2) {
                         plan = plan + result.charAt(i);
                     }
@@ -288,7 +289,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "El paciente no posee plan OBLIGATORIO, debe ingresarlo en el código de la obra social 513");
                         this.dispose();
                     }
-                } else {
+                } else {//GRAV^VOLUNTARIO
                     if (plan.equals("GRAV^VOLUNTARIO")) {
                         JOptionPane.showMessageDialog(null, mensaje);
                         this.dispose();
