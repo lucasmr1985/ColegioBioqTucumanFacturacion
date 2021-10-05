@@ -44,7 +44,7 @@
 	</binding>
 	<service name="WsBoreal">
 		<port name="WsBorealSoapPort" binding="wsdlns:WsBorealSoapBinding">
-			<soap:address location="http://181.13.142.59:5480/WsBoreal/servlet/awsboreal"/>
+			<soap:address location="http://sistemasboreal.dyndns.biz:5480/WsBoreal/servlet/awsboreal"/>
 		</port>
 	</service>
 </definitions>

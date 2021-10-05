@@ -16,7 +16,7 @@ public class Inicio extends javax.swing.JFrame {
         iniciarSplash();
         hilo = new HiloInicio(progreso);
         hilo.start();
-        hilo = null;
+        hilo = null;        
     }
 
     @SuppressWarnings("unchecked")

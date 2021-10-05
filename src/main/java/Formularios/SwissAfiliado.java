@@ -1,23 +1,33 @@
 package Formularios;
 
-import static Formularios.Login.cuit;
+import static Formularios.MainL.ipLocal;
+import static Formularios.MainL.hostLocal;
+import com.google.gson.Gson;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import ClienteSwissMedicalApi.Login;
+import ClienteSwissMedicalApi.Device;
+import ClienteSwissMedicalApi.ElegibiliadadResponse;
+import ClienteSwissMedicalApi.Elegibilidad;
+import javax.ws.rs.client.Entity;
+import ClienteSwissMedicalApi.LoginResponse;
+import ClienteSwissMedicalApi.LoginError;
+import static Formularios.Login.id_usuario;
 
 public class SwissAfiliado extends javax.swing.JDialog {
 
-    String hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
-    public static String habilitado = "", nombreafiliado = "", Codigo_afiliado = "",CSC_SW="";
+    String hora = "", fechasw = "";
+    public static String habilitado = "", nombreafiliado = "", Codigo_afiliado = "", CSC_SW = "", apiKey = "";
 
     public SwissAfiliado(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -41,7 +51,7 @@ public class SwissAfiliado extends javax.swing.JDialog {
         java.util.Date currentDate = new java.util.Date();
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(currentDate);
-        fechaosde = formato.format(currentDate);
+        fechasw = formato.format(currentDate);
     }
 
     @SuppressWarnings("unchecked")
@@ -199,83 +209,157 @@ public class SwissAfiliado extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_cbotipoKeyPressed
 
-    public class HttpURLConnectionExample {
+    public class apiSwElegibilidad {
 
         private final String USER_AGENT = "Mozilla/5.0";
 
-        // HTTP GET request
-        public void sendGet() throws Exception {
-            ///http://ws.itcsoluciones.com:38080/jSitelServlet/Do?
-            String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensaje, "UTF-8");
+        // HTTP post request
+        public void sendPost() throws Exception {
+            String resJson = "";
+            String uriLogin = "https://mobile.swissmedical.com.ar/pre/api-smg/v0/auth-login";
+            String uriElegibilidad = "https://mobile.swissmedical.com.ar/pre/api-smg/v1.0/prestadores/hl7/elegibilidad";
+            String jsonString;
+            Gson gsonEnvio = new Gson();
+            Gson gsonRespuesta = new Gson();
+            Gson gsonError = new Gson();
+            try {
+                System.out.println("/////////////////////////////// LOGIN   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                //Creamos el cliente de conexión al API Restful
+                Client client = ClientBuilder.newClient();
 
-            URL obj = new URL(urlString);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                //Creamos el target lo cuál es nuestra URL junto con el nombre del método a llamar
+                WebTarget targetLogin = client.target(uriLogin);
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                //Creamos nuestra solicitud que realizará el request
+                Invocation.Builder solicitud = targetLogin.request();
 
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+                Login req = new Login();
+                req.setApiKey("06715fdb87c4adb2c176");
+                req.setUsrLoginName("hl7ApiUser");
+                req.setPassword("Swiss1234");
+                req.setCuit("30522483881");
+                Device dev = new Device();
+                dev.setMessagingid(id_usuario+"B"+hora);
+                dev.setDeviceid(ipLocal);
+                dev.setDevicename(hostLocal);
+                dev.setBloqueado(0);
+                dev.setRecordar(0);
+                req.setDevice(dev);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + urlString);
-            System.out.println("Response Code : " + responseCode);
+                //Convertimos el objeto req a un json
+                jsonString = gsonEnvio.toJson(req);
+                System.out.println(jsonString);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
+                //Enviamos nuestro json vía post al API Restful
+                Response post = solicitud.post(Entity.json(jsonString));
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                //Recibimos la respuesta y la leemos en una clase de tipo String, en caso de que el json sea tipo json y no string, debemos usar la clase de tipo JsonObject.class en lugar de String.class
+                String responseJson = post.readEntity(String.class);
+                resJson = responseJson;
+
+                //Imprimimos el status de la solicitud
+                System.out.println("Estatus: " + post.getStatus());
+
+                switch (post.getStatus()) {
+                    case 200:
+                        resJson = responseJson;
+                        System.out.println("/////////////////////////////// Respuesta Login   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                        //Imprimimos la respuesta del API Restful
+                        System.out.println(resJson);
+                        LoginResponse respuestaLogin = gsonRespuesta.fromJson(resJson, LoginResponse.class);
+                        respuestaLogin.muestraRespuesta();
+                        System.out.println("/////////////////////////////// Elegibilidad   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                        WebTarget targetElegibilidad = client.target(uriElegibilidad);
+
+                        //Creamos nuestra solicitud que realizará el request
+                        Invocation.Builder solicitudElegibilidad = targetElegibilidad.request();
+
+                        //Creamos y llenamos nuestro objeto BaseReq con los datos que solicita el API
+                        Elegibilidad afiliado = new Elegibilidad();
+                        afiliado.setCreden(Codigo_afiliado);
+                        afiliado.setAlta(fechasw);
+                        afiliado.setFecdif(fechasw);
+
+                        //Convertimos el objeto req a un json
+                        jsonString = gsonEnvio.toJson(afiliado);
+                        System.out.println(jsonString);
+
+                        //Enviamos nuestro json vía post al API Restful
+                        Object appToken = "Bearer " + respuestaLogin.getToken();
+                        Object Type = "application/json";
+                        Object Accept = "application/json";
+
+                        solicitudElegibilidad.header("Content-Type", Type).head();
+                        solicitudElegibilidad.header("Accept", Accept).head();
+                        solicitudElegibilidad.header("Authorization", appToken).head();
+
+                        Response postE = solicitudElegibilidad.post(Entity.json(jsonString));
+
+                        //Recibimos la respuesta y la leemos en una clase de tipo String, en caso de que el json sea tipo json y no string, debemos usar la clase de tipo JsonObject.class en lugar de String.class
+                        String responseJsonElegibilidad = postE.readEntity(String.class);
+                        resJson = responseJsonElegibilidad;
+
+                        //Imprimimos el status de la solicitud
+                        System.out.println("Estatus elegibilidad: " + postE.getStatus());
+
+                        switch (postE.getStatus()) {
+                            case 200:
+                                resJson = responseJsonElegibilidad;
+                                
+                                System.out.println("/////////////////////////////// Respuesta Elegibilidad   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                                //Imprimimos la respuesta del API Restful
+                                System.out.println(resJson);
+                                ElegibiliadadResponse respuestaElegibilidad = gsonRespuesta.fromJson(resJson, ElegibiliadadResponse.class);
+                                if(respuestaElegibilidad.getRechaCabecera()==0){
+                                    JOptionPane.showMessageDialog(null, "Afiliado habilitado");
+                                    nombreafiliado = respuestaElegibilidad.getApeNom();   
+                                    apiKey = "Bearer " +respuestaLogin.getToken();
+                                    habilitado = "OK";
+                                    dispose();
+                                }else{
+                                    JOptionPane.showMessageDialog(null, respuestaElegibilidad.getRechaCabecera() +" - " + respuestaElegibilidad.getRechaCabeDeno());
+                                    txtafiliado.requestFocus();
+                                    habilitado = "Error";
+                                }                                
+                                respuestaElegibilidad.muestraRespuesta();
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                break;
+                            default:
+                                resJson = "Error";
+                                habilitado = "Error";
+                                System.out.println("Error de elegibilidad");
+                                JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Swiss Medical: "+postE.getStatusInfo().toString()+": "+postE.getStatus());
+                                break;
+                        }
+
+                        break;
+                    default:
+                        System.out.println("/////////////////////////////// Respuesta Login  error  /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                        resJson = "Error";     
+                        System.out.println("Error "+post.getStatusInfo().toString()+": "+post.getStatus());
+                        JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Swiss Medical: "+post.getStatusInfo().toString()+": "+post.getStatus());
+                        break;
+
+                }
+
+            } catch (Exception e) {
+                //En caso de un error en la solicitud, llenaremos res con la exceptión para verificar que sucedió
+                resJson = e.toString();
             }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
-            respuesta = response.toString();
-
         }
     }
 
     private void btnaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptarActionPerformed
-        cargarfecha();
-        respuesta = "";
-        String numero_afiliado = txtafiliado.getText();
         CSC_SW = txtcsc.getText();
-        if (numero_afiliado.length() > 19) {
-            numero_afiliado = numero_afiliado.substring(numero_afiliado.length() - 11, numero_afiliado.length());
-        }
-        System.out.println("numero_afiliado " + numero_afiliado);
-        mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>01A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Terminal><TipoTerminal>PC</TipoTerminal><NumeroTerminal>1</NumeroTerminal></Terminal><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + numero_afiliado + "</NumeroCredencial><VersionCredencial>" + CSC_SW + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion><DetalleProcedimientos/></Mensaje>";
-        // mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>000098351394</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>3354</IdMsj><InicioTrx><FechaTrx>20091005</FechaTrx><HoraTrx>193020</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>30708402911</CuitPrestador></Prestador>"+Login.cuit+"</EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>60671956201</NumeroCredencial></Credencial><Atencion><FechaAtencion>20091001</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+        Codigo_afiliado = txtafiliado.getText();
+        apiSwElegibilidad post = new apiSwElegibilidad();
 
-        HttpURLConnectionExample http = new HttpURLConnectionExample();
-
-        System.out.println("Testing 1 - Send Http GET request");
+        System.out.println("Testing 1 - Send Http post request");
         try {
-            http.sendGet();
+            post.sendPost();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Swiss Medical");
             Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int pos = respuesta.indexOf("MensajeDisplay");
-        int pos2 = respuesta.indexOf("</MensajeDisplay");
-
-        int pos3 = respuesta.indexOf("Nombre:");
-        int pos4 = respuesta.indexOf("Plan:");
-        if (respuesta.substring(pos + 15, pos + 17).equals("OK")) {
-            habilitado = "OK";
-            //JOptionPane.showMessageDialog(null, "El Afiliado esta habilitado");
-            nombreafiliado = respuesta.substring(pos3 + 8, pos3 + 38);
-            int pos0 = respuesta.indexOf("Afiliado : ") + 11;
-            int pos1 = pos0 + 19;
-            System.out.println(respuesta.substring(pos0, pos1));
-            Codigo_afiliado = respuesta.substring(pos0, pos1);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, respuesta.substring(pos + 15, pos2));
-            txtafiliado.requestFocus();
         }
     }//GEN-LAST:event_btnaceptarActionPerformed
 

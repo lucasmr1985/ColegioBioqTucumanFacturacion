@@ -72,7 +72,7 @@
 	</binding>
 	<service name="AfiliadoDatosTraer">
 		<port name="AfiliadoDatosTraerSoapPort" binding="wsdlns:AfiliadoDatosTraerSoapBinding">
-			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx" />
+			<soap:address location="http://186.122.150.144/ws_expendio/aafiliadodatostraer.aspx" />
 		</port>
 	</service>
 </definitions>

@@ -49,7 +49,7 @@
 	</binding>
 	<service name="OrdenValidadaAnular">
 		<port name="OrdenValidadaAnularSoapPort" binding="wsdlns:OrdenValidadaAnularSoapBinding">
-			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx" />
+			<soap:address location="http://186.122.150.144/ws_expendio/aordenvalidadaanular.aspx" />
 		</port>
 	</service>
 </definitions>

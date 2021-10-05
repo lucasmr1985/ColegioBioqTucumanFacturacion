@@ -119,6 +119,13 @@ import ClienteMedife.WebServiceIA;
 import ClienteMedife.WebServiceIASoap;
 import ClienteSancor.PAWESSAV2ANULACIONResponse;
 import ClienteSancor.PAWESSAV2AUTORIZACIONResponse;
+import ClienteSwissMedicalApi.Cancelacion;
+import ClienteSwissMedicalApi.CancelacionResponse;
+import ClienteSwissMedicalApi.Registracion;
+import ClienteSwissMedicalApi.RegistracionResponse;
+import ClienteSwissMedicalApi.Device;
+import ClienteSwissMedicalApi.LoginResponse;
+import ClienteSwissMedicalApi.LoginError;
 import static Formularios.BorealAfiliado.tipo_credencial;
 import static Formularios.JerarquicosAfiliado.NumeroOrden;
 import static Formularios.JerarquicosAfiliado.NumeroSocio;
@@ -126,6 +133,8 @@ import static Formularios.Login.estadopeec;
 import static Formularios.MedifeAfiliado.plan;
 import static Formularios.OsdeAfiliado.CSC_OS;
 import static Formularios.SwissAfiliado.CSC_SW;
+import static Formularios.SwissAfiliado.Codigo_afiliado;
+import static Formularios.SwissAfiliado.apiKey;
 import controlador.Funciones;
 import java.io.File;
 import java.io.FileWriter;
@@ -140,6 +149,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.RowFilter;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableRowSorter;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -156,6 +166,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import com.google.gson.Gson;
 
 public class MainL extends javax.swing.JFrame {
 
@@ -188,6 +204,7 @@ public class MainL extends javax.swing.JFrame {
     TextAutoCompleter textAutoAcompleter2;
     public static String ruta = "C:\\Descargas-CBT\\";
     String obra = "", mensajepractica = "", mensajeanulacion = "", respuestapractica = "", respuestaafiliado = "", respuestaanulacion = "";
+    public static String ipLocal = "", hostLocal = "";
     String ip2 = "";
     XMLGregorianCalendar date_jerarquicos;
     String fechahora_medife = "", codigo_seguridad_medife = "", fecha_txt = "";
@@ -1015,7 +1032,7 @@ public class MainL extends javax.swing.JFrame {
                         parametros.put("pacientes", String.valueOf(pacientes));
                         parametros.put("practicas", String.valueOf(practicas));
 
-                        if (CodObra.equals("513")|| CodObra.equals("511")) {  ////////comparo para saber que pdf realizar 511 - MEDIFE
+                        if (CodObra.equals("513") || CodObra.equals("511")) {  ////////comparo para saber que pdf realizar 511 - MEDIFE
                             try {
                                 pesos = pesos * 1.105;
                                 centavos = Redondearcentavos(pesos);
@@ -1862,8 +1879,11 @@ public class MainL extends javax.swing.JFrame {
         ////////////////////////////////////////////////////////////////////////
         try {
             String thisIp = InetAddress.getLocalHost().getHostAddress();
+            String thisIpPublic = InetAddress.getLocalHost().getHostAddress();
             String thisname = InetAddress.getLocalHost().getHostName();
             ip2 = thisIp + "-" + thisname;
+            ipLocal = thisIp;
+            hostLocal = thisname;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2534,7 +2554,7 @@ public class MainL extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txttotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txttotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(chkcoseguro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2795,13 +2815,13 @@ public class MainL extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(OrdenesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(OrdenesLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblcolegiado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(OrdenesLayout.createSequentialGroup()
                                 .addGap(111, 111, 111)
                                 .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OrdenesLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                .addComponent(lblcolegiado, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)))
                         .addComponent(jLabel3)))
                 .addContainerGap())
         );
@@ -2968,6 +2988,7 @@ public class MainL extends javax.swing.JFrame {
         jScrollPane4.setViewportView(tablaordenes1);
 
         formatoArchivoBoton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        formatoArchivoBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728899 - alarm bell.png"))); // NOI18N
         formatoArchivoBoton.setText("Formato de archivo");
         formatoArchivoBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2987,10 +3008,9 @@ public class MainL extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(formatoArchivoBoton)
-                        .addGap(15, 15, 15))
+                        .addComponent(formatoArchivoBoton))
                     .addComponent(jSeparator4)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -3001,11 +3021,11 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnimportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(formatoArchivoBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnaceptar2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -3076,18 +3096,17 @@ public class MainL extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblcolegiado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(1, 1, 1))
+                                .addComponent(lblcolegiado1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addGap(104, 104, 104)
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jButton4)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txttotalordenes1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnaceptar2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btncancelar2)
@@ -3441,18 +3460,18 @@ public class MainL extends javax.swing.JFrame {
                         .addComponent(btnimprimirobra)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btncancelar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addComponent(btnsalir1))
                     .addGroup(FacturacionLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(FacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(FacturacionLayout.createSequentialGroup()
-                                .addComponent(lblcolegiado2, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FacturacionLayout.createSequentialGroup()
-                                .addComponent(jButton6)
-                                .addGap(70, 70, 70)))
+                                .addGap(78, 78, 78)
+                                .addComponent(jButton6))
+                            .addGroup(FacturacionLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblcolegiado2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(15, 15, 15)
                         .addComponent(jLabel13)))
                 .addContainerGap())
         );
@@ -3626,7 +3645,7 @@ public class MainL extends javax.swing.JFrame {
         btnsalir4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnsalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728983 - folder.png"))); // NOI18N
         btnsalir4.setMnemonic('c');
-        btnsalir4.setText("Carpeta descagas");
+        btnsalir4.setText("Carpeta de descargas");
         btnsalir4.setToolTipText("[Alt + c]");
         btnsalir4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3686,7 +3705,7 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -3756,18 +3775,18 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                                .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                                        .addComponent(lblcolegiado3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                                        .addComponent(jButton5)
-                                        .addGap(94, 94, 94)))
-                                .addComponent(jLabel15))
-                            .addComponent(btnsalir5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 664, Short.MAX_VALUE)
+                        .addComponent(btnsalir5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
+                        .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(UtilitariosLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton5)
+                                .addGap(94, 94, 94))
+                            .addGroup(UtilitariosLayout.createSequentialGroup()
+                                .addComponent(lblcolegiado3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)))
+                        .addComponent(jLabel15)))
                 .addContainerGap())
         );
         UtilitariosLayout.setVerticalGroup(
@@ -3784,7 +3803,7 @@ public class MainL extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnsalir5)
                 .addContainerGap())
         );
@@ -3845,227 +3864,388 @@ public class MainL extends javax.swing.JFrame {
         int estado_orden;
         String fechaDate = "";
         /////////////////PAMO//////////////////////
-        if (id_obra_social == 58) {
-            ConexionMariaDB mysqlpAMI = new ConexionMariaDB();
-            Connection cnPAMI = mysqlpAMI.Conectar();
-            String num_orden_PAMI = txtnumorden.getText();
-            txtfecha.setText(txtDiaOrden.getText() + "/" + txtmes.getText() + "/" + txtaño.getText());
-            fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtDiaOrden.getText();
+        if (tablapracticas.getRowCount() > 0) {
+            if (id_obra_social == 58) {
+                ConexionMariaDB mysqlpAMI = new ConexionMariaDB();
+                Connection cnPAMI = mysqlpAMI.Conectar();
+                String num_orden_PAMI = txtnumorden.getText();
+                txtfecha.setText(txtDiaOrden.getText() + "/" + txtmes.getText() + "/" + txtaño.getText());
+                fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtDiaOrden.getText();
 
-            if (banderamodifica == 0) {
-                try {
-                    String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
-                    Statement stControl = cnPAMI.createStatement();
-                    ResultSet rsControl = stControl.executeQuery(controlOrden);
-                    rsControl.next();
-                    banderaControl = rsControl.getInt(1);
-                    if (banderaControl == 0) {
-                        estado_orden = 3;
-                        if (!txtnumafiliado.getText().equals("")
-                                && txtnumafiliado.getText().length() == 14
-                                && !txtnombreafiliado.getText().equals("")
-                                && isNumeric(txtDiaOrden.getText())
-                                && txtDiaOrden.getText().length() == 2) {
-                            if ((txtnumorden.getText().substring(0, 4).equals("33" + txtaño.getText().substring(2))
-                                    || txtnumorden.getText().substring(0, 4).equals("33" + (Integer.valueOf(txtaño.getText().substring(2)) - 1)))
-                                    && txtnumorden.getText().length() == 13
-                                    && cbotipo.getSelectedIndex() == 0) {
-                                System.out.println("pami 1");
-                                estadoPami = 1;
+                if (banderamodifica == 0) {
+                    try {
+//                    String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+                        Statement stControl = cnPAMI.createStatement();
+                        ResultSet rsControl = stControl.executeQuery(controlOrden);
+                        rsControl.next();
+                        banderaControl = rsControl.getInt(1);
+                        if (banderaControl == 0) {
+                            estado_orden = 3;
+                            if (!txtnumafiliado.getText().equals("")
+                                    && txtnumafiliado.getText().length() == 14
+                                    && !txtnombreafiliado.getText().equals("")
+                                    && isNumeric(txtDiaOrden.getText())
+                                    && txtDiaOrden.getText().length() == 2) {
+                                if ((txtnumorden.getText().substring(0, 4).equals("33" + txtaño.getText().substring(2))
+                                        || txtnumorden.getText().substring(0, 4).equals("33" + (Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                                        && txtnumorden.getText().length() == 13
+                                        && cbotipo.getSelectedIndex() == 0) {
+                                    System.out.println("pami 1");
+                                    estadoPami = 1;
 
-                            } else if ((txtnumorden.getText().substring(2, 4).equals(txtaño.getText().substring(2))
-                                    || txtnumorden.getText().substring(2, 4).equals(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1)))
-                                    && txtnumorden.getText().length() == 11
-                                    && cbotipo.getSelectedIndex() == 1) {
-                                System.out.println("pami 2");
-                                estadoPami = 1;
-                            } else if (cbotipo.getSelectedIndex() == 2) {
-                                System.out.println("pami 3");
-                                estadoPami = 1;
+                                } else if ((txtnumorden.getText().substring(2, 4).equals(txtaño.getText().substring(2))
+                                        || txtnumorden.getText().substring(2, 4).equals(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                                        && txtnumorden.getText().length() == 11
+                                        && cbotipo.getSelectedIndex() == 1) {
+                                    System.out.println("pami 2");
+                                    estadoPami = 1;
+                                } else if (cbotipo.getSelectedIndex() == 2) {
+                                    System.out.println("pami 3");
+                                    estadoPami = 1;
+                                } else {
+                                    estadoPami = 0;
+                                    JOptionPane.showMessageDialog(null, "Número de orden incorrecto");
+                                }
                             } else {
+                                JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios");
+                                txtnumafiliado.requestFocus();
                                 estadoPami = 0;
-                                JOptionPane.showMessageDialog(null, "Número de orden incorrecto");
                             }
                         } else {
-                            JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios");
-                            txtnumafiliado.requestFocus();
                             estadoPami = 0;
+                            JOptionPane.showMessageDialog(null, "La orden ya se encuentra cargada. Separar bono");
                         }
-                    } else {
+                    } catch (SQLException ex) {
                         estadoPami = 0;
-                        JOptionPane.showMessageDialog(null, "La orden ya se encuentra cargada. Separar bono");
-                    }
-                } catch (SQLException ex) {
-                    estadoPami = 0;
-                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                estado_orden = 3;
-                if (!txtnumafiliado.getText().equals("")
-                        && txtnumafiliado.getText().length() == 14
-                        && !txtnombreafiliado.getText().equals("")
-                        && isNumeric(txtDiaOrden.getText())
-                        && txtDiaOrden.getText().length() == 2) {
-                    if ((txtnumorden.getText().substring(0, 4).equals("33" + txtaño.getText().substring(2))
-                            || txtnumorden.getText().substring(0, 4).equals("33" + (Integer.valueOf(txtaño.getText().substring(2)) - 1)))
-                            && txtnumorden.getText().length() == 13
-                            && cbotipo.getSelectedIndex() == 0) {
-                        System.out.println("pami 1");
-                        estadoPami = 1;
-
-                    } else if ((txtnumorden.getText().substring(2, 4).equals(txtaño.getText().substring(2))
-                            || txtnumorden.getText().substring(2, 4).equals(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1)))
-                            && txtnumorden.getText().length() == 11
-                            && cbotipo.getSelectedIndex() == 1) {
-                        System.out.println("pami 2");
-                        estadoPami = 1;
-                    } else if (cbotipo.getSelectedIndex() == 2) {
-                        System.out.println("pami 3");
-                        estadoPami = 1;
-                    } else {
-                        estadoPami = 0;
-                        JOptionPane.showMessageDialog(null, "Número de orden incorrecto");
+                        Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios");
-                    txtnumafiliado.requestFocus();
-                    estadoPami = 0;
+                    estado_orden = 3;
+                    if (!txtnumafiliado.getText().equals("")
+                            && txtnumafiliado.getText().length() == 14
+                            && !txtnombreafiliado.getText().equals("")
+                            && isNumeric(txtDiaOrden.getText())
+                            && txtDiaOrden.getText().length() == 2) {
+                        if ((txtnumorden.getText().substring(0, 4).equals("33" + txtaño.getText().substring(2))
+                                || txtnumorden.getText().substring(0, 4).equals("33" + (Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                                && txtnumorden.getText().length() == 13
+                                && cbotipo.getSelectedIndex() == 0) {
+                            System.out.println("pami 1");
+                            estadoPami = 1;
+
+                        } else if ((txtnumorden.getText().substring(2, 4).equals(txtaño.getText().substring(2))
+                                || txtnumorden.getText().substring(2, 4).equals(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1)))
+                                && txtnumorden.getText().length() == 11
+                                && cbotipo.getSelectedIndex() == 1) {
+                            System.out.println("pami 2");
+                            estadoPami = 1;
+                        } else if (cbotipo.getSelectedIndex() == 2) {
+                            System.out.println("pami 3");
+                            estadoPami = 1;
+                        } else {
+                            estadoPami = 0;
+                            JOptionPane.showMessageDialog(null, "Número de orden incorrecto");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios");
+                        txtnumafiliado.requestFocus();
+                        estadoPami = 0;
+                    }
                 }
+            } else {
+                fechaDate = invertir(txtfecha.getText());
             }
-        } else {
-            fechaDate = invertir(txtfecha.getText());
-        }
-        ///////////////////////////////////////////
-        System.out.println("estadoPami " + estadoPami);
-        cargarip();
-        try {
-            cargar_fecha_jerarquicos();
-        } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        habilitado = "";
-        respuestapractica = "";
-        String plan_ss = "";
-        String coseguro_ss = "";
-        int respuesta = 0;
-        int banderaControlMedico = 0;
-        cargarfecha();
-        int banderaEstadoOffline = 1, bandera_periodo = 0,  bandera_medife = 1, bandera_obra_social_comun = 1, bandera_osde = 1, bandera_boreal = 1, bandera_sw = 1, bandera_sancor = 1, bandera_subsidio = 1, bandera_actualizacion = 0, bandera_jerarquicos = 1, bandera_iosfa = 1;
-        ConexionMariaDB mysql = new ConexionMariaDB();
-        double COSEGURO = 0.0;
-        Connection cn = mysql.Conectar();
-        String num_orden = txtnumorden.getText(), nom_afiliado = txtnombreafiliado.getText(), coseguro = "", fecha_servidor;
-        String sSQL2 = "SELECT usuario_laboratorio,periodos FROM colegiados ";
+            ///////////////////////////////////////////
+            System.out.println("estadoPami " + estadoPami);
+            cargarip();
+            try {
+                cargar_fecha_jerarquicos();
+            } catch (DatatypeConfigurationException ex) {
+                Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            habilitado = "";
+            respuestapractica = "";
+            String plan_ss = "";
+            String coseguro_ss = "";
+            int respuesta = 0;
+            int banderaControlMedico = 0;
+            cargarfecha();
+            int banderaEstadoOffline = 1, bandera_periodo = 0, bandera_medife = 1, bandera_obra_social_comun = 1, bandera_osde = 1, bandera_boreal = 1, bandera_sw = 1, bandera_sancor = 1, bandera_subsidio = 1, bandera_actualizacion = 0, bandera_jerarquicos = 1, bandera_iosfa = 1;
+            ConexionMariaDB mysql = new ConexionMariaDB();
+            double COSEGURO = 0.0;
+            Connection cn = mysql.Conectar();
+            String num_orden = txtnumorden.getText(), nom_afiliado = txtnombreafiliado.getText(), coseguro = "", fecha_servidor;
+            String sSQL2 = "SELECT usuario_laboratorio,periodos FROM colegiados ";
 
-        String sSQL9 = "SELECT ADDTIME(now(), '00:10:00');";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL2);
-            Statement st1 = cn.createStatement();
-            //////////////////////////// Verifico el mes
-            ResultSet rs9 = st1.executeQuery(sSQL9);
-            rs9.next();
-            fecha_servidor = rs9.getString(1).substring(0, 4) + rs9.getString(1).substring(5, 7);
-            /////////////////////////////////VERIFICAMOS PERIODO
-            bandera_periodo = 0;
-            banderaControlMedico = comprobar_medico(Integer.valueOf(txtmatricula.getText()));
-            cargaractualizacion();
-            if (!version.equals(version_actual)) {
-                bandera_actualizacion = 1;
-                new Actualizacion(this, true).setVisible(true);
-            }
-            if (!(txtaño.getText() + txtmes.getText()).equals(fecha_servidor)) {
-                if (obra.equals("50015 - BOREAL") || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") || obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)") || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE") || obra.equals("9000 - ASOCIACION MUTUAL SANCOR") || obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
-                    JOptionPane.showMessageDialog(null, "El periodo es diferente al que desea Validar ");
-                    bandera_periodo = 1;
+            String sSQL9 = "SELECT ADDTIME(now(), '00:10:00');";
+            try {
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sSQL2);
+                Statement st1 = cn.createStatement();
+                //////////////////////////// Verifico el mes
+                ResultSet rs9 = st1.executeQuery(sSQL9);
+                rs9.next();
+                fecha_servidor = rs9.getString(1).substring(0, 4) + rs9.getString(1).substring(5, 7);
+                /////////////////////////////////VERIFICAMOS PERIODO
+                bandera_periodo = 0;
+                banderaControlMedico = comprobar_medico(Integer.valueOf(txtmatricula.getText()));
+                cargaractualizacion();
+                if (!version.equals(version_actual)) {
+                    bandera_actualizacion = 1;
+                    new Actualizacion(this, true).setVisible(true);
                 }
-            }
-            while (rs.next()) {
-                if (Login.nombre_usuario.equals(rs.getString("usuario_laboratorio"))) {
-                    periodo_colegiado = rs.getInt("periodos");
-                    break;
+                if (!(txtaño.getText() + txtmes.getText()).equals(fecha_servidor)) {
+                    if (obra.equals("50015 - BOREAL") || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") || obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)") || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE") || obra.equals("9000 - ASOCIACION MUTUAL SANCOR") || obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
+                        JOptionPane.showMessageDialog(null, "El periodo es diferente al que desea Validar ");
+                        bandera_periodo = 1;
+                    }
                 }
+                while (rs.next()) {
+                    if (Login.nombre_usuario.equals(rs.getString("usuario_laboratorio"))) {
+                        periodo_colegiado = rs.getInt("periodos");
+                        break;
+                    }
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        System.out.println("bandera_periodo:"+bandera_periodo);
-        System.out.println("bandera_actualizacion:"+bandera_actualizacion);
-        System.out.println("banderaControlMedico:"+banderaControlMedico);
-        if (bandera_periodo == 0 && bandera_actualizacion == 0 && banderaControlMedico == 0 && estadoPami == 1) {
-            if (obra.equals("50015 - BOREAL")
-                    || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")
-                    || obra.equals("3100 - OSDE")
-                    || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")
-                    || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")
-                    || obra.equals("9000 - ASOCIACION MUTUAL SANCOR")
-                    || obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")
-                    || obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
-                    || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")
-                    || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
-                    || obra.equals("40813 - IOSFA")) {
-                if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
+            System.out.println("bandera_periodo:" + bandera_periodo);
+            System.out.println("bandera_actualizacion:" + bandera_actualizacion);
+            System.out.println("banderaControlMedico:" + banderaControlMedico);
+            if (bandera_periodo == 0 && bandera_actualizacion == 0 && banderaControlMedico == 0 && estadoPami == 1) {
+                if (obra.equals("50015 - BOREAL")
+                        || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")
+                        || obra.equals("3100 - OSDE")
+                        || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")
+                        || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")
+                        || obra.equals("9000 - ASOCIACION MUTUAL SANCOR")
+                        || obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")
+                        || obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
+                        || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")
+                        || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
+                        || obra.equals("40813 - IOSFA")) {
+                    if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
 
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    cursor();
-                    String mensajenuevo = "";
-                    //////////////////////////////////////////////////////////////
-                    if (tablapracticas.getRowCount() != 0) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        cursor();
+                        String mensajenuevo = "";
+                        //////////////////////////////////////////////////////////////
+                        if (tablapracticas.getRowCount() != 0) {
 
-                        int n2, i = 0;
-                        String cod_practca, nombre_practca, practicas = "", id_practicas = "";
-                        n2 = tablapracticas.getRowCount();
+                            int n2, i = 0;
+                            String cod_practca, nombre_practca, practicas = "", id_practicas = "";
+                            n2 = tablapracticas.getRowCount();
 
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString());
-                                plan_ss = plan_ss + "00";
-                                coseguro_ss = coseguro_ss + "00000.0";
-                                cod_practca = tablapracticas.getValueAt(i, 4).toString();
-                                // Verificacion de Practicas
-                                if (cod_practca.equals("664418")) {
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString());
+                                    plan_ss = plan_ss + "00";
+                                    coseguro_ss = coseguro_ss + "00000.0";
+                                    cod_practca = tablapracticas.getValueAt(i, 4).toString();
+                                    // Verificacion de Practicas
+                                    if (cod_practca.equals("664418")) {
 //                                    JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
 //                                    banderaMedicoAutorizado = 0;
 //                                    bandera_osde = 0;
 //                                    break;
-                                    if (MedicosAutorizados.buscarMedicosAutorizados(Integer.valueOf(txtmatricula.getText()), listaMedicos)) {
-                                     //   banderaMedicoAutorizado = 1;
-                                        bandera_osde = 1;
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
-                                        banderaMedicoAutorizado = 0;
-                                        bandera_osde = 0;
-                                        break;
+                                        if (MedicosAutorizados.buscarMedicosAutorizados(Integer.valueOf(txtmatricula.getText()), listaMedicos)) {
+                                            //   banderaMedicoAutorizado = 1;
+                                            bandera_osde = 1;
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
+                                            banderaMedicoAutorizado = 0;
+                                            bandera_osde = 0;
+                                            break;
+                                        }
                                     }
+                                    nombre_practca = tablapracticas.getValueAt(i, 2).toString();
+                                    mensajenuevo = mensajenuevo + "<DetalleProcedimientos><NroItem>" + (i + 1) + "</NroItem><CodPrestacion>" + cod_practca + "</CodPrestacion><CodAlternativo></CodAlternativo><TipoPrestacion>" + tipo_orden + "</TipoPrestacion><ArancelPrestacion>0</ArancelPrestacion><CantidadSolicitada>1</CantidadSolicitada><DescripcionPrestacion>" + nombre_practca + "</DescripcionPrestacion></DetalleProcedimientos>";
+                                    i++;
                                 }
-                                nombre_practca = tablapracticas.getValueAt(i, 2).toString();
-                                mensajenuevo = mensajenuevo + "<DetalleProcedimientos><NroItem>" + (i + 1) + "</NroItem><CodPrestacion>" + cod_practca + "</CodPrestacion><CodAlternativo></CodAlternativo><TipoPrestacion>" + tipo_orden + "</TipoPrestacion><ArancelPrestacion>0</ArancelPrestacion><CantidadSolicitada>1</CantidadSolicitada><DescripcionPrestacion>" + nombre_practca + "</DescripcionPrestacion></DetalleProcedimientos>";
-                                i++;
                             }
+                            //System.out.println("bandera medico: " + banderaMedicoAutorizado);
+                            if (banderaMedicoAutorizado == 1) {
+                                /////////////////////////////////////////////////////////////////////////////////
+                                mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                HttpOsdePractica http2 = new HttpOsdePractica();
+                                System.out.println("Testing 2 - Send Http GET request");
+                                try {
+                                    http2.sendGet();
+                                    /////////////////////////////////////////////////////////////////
+                                    int pos = respuestapractica.indexOf("MensajeDisplay");
+                                    int pos2 = respuestapractica.indexOf("/MensajeDisplay");
+                                    if (respuestapractica.substring(pos + 15, pos + 17).equals("OK")) {
+                                        estado_orden = 1;
+                                        mensajenuevo = "";
+                                        int pos3 = respuestapractica.indexOf("<NroReferencia>");
+                                        int pos4 = respuestapractica.indexOf("</NroReferencia>");
+                                        num_orden = respuestapractica.substring(pos3 + 15, pos4);
+
+                                        validar_orden osde = new validar_orden();
+
+                                        respuesta = osde.valida(
+                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                txtnombreafiliado.getText(),
+                                                txtdocumento.getText(),
+                                                txtnumafiliado.getText(),
+                                                Integer.valueOf(txtmatricula.getText()),
+                                                num_orden,
+                                                fecha,
+                                                Double.valueOf(txttotal1.getText()),
+                                                fecha,
+                                                hora,
+                                                ip2,
+                                                id_obra_social,
+                                                id_usuario,
+                                                n2,
+                                                practicas,
+                                                Double.valueOf(txtcoseguro.getText()),
+                                                txtfechacoseguro.getText(),
+                                                tipo_orden,
+                                                observacion,
+                                                plan_ss,
+                                                coseguro_ss,
+                                                estado_orden,
+                                                fechaDate);
+
+                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                            System.out.println("Anulacion Osde");
+                                            mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+                                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
+                                            System.out.println("Testing 3 - Send Http GET request");
+                                            try {
+                                                cursor2();
+                                                http.sendGet();
+                                                bandera_osde = 0;
+                                                JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                            } catch (Exception ex) {
+                                                cursor2();
+                                                bandera_osde = 0;
+                                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
+                                                JOptionPane.showMessageDialog(null, ex);
+
+                                            }
+                                        } else {
+                                            cursor2();
+                                            bandera_osde = 1;
+                                            JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden.substring(3, 9));
+                                            System.out.println("borrar 1");
+                                            borrartabla();
+                                        }
+
+                                    } else {
+
+                                        estado_orden = 0;
+                                        mensajenuevo = "";
+                                        int pos3 = respuestapractica.indexOf("<NroReferencia>");
+                                        int pos4 = respuestapractica.indexOf("</NroReferencia>");
+                                        num_orden = respuestapractica.substring(pos3 + 15, pos4);
+
+                                        observacion = respuestapractica;
+                                        if (observacion.length() > 500) {
+                                            observacion = observacion.substring(0, 500);
+                                        }
+
+                                        validar_orden osde = new validar_orden();
+
+                                        respuesta = osde.valida(
+                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                txtnombreafiliado.getText(),
+                                                txtdocumento.getText(),
+                                                txtnumafiliado.getText(),
+                                                Integer.valueOf(txtmatricula.getText()),
+                                                num_orden,
+                                                fecha,
+                                                Double.valueOf(txttotal1.getText()),
+                                                fecha,
+                                                hora,
+                                                ip2,
+                                                id_obra_social,
+                                                id_usuario,
+                                                n2,
+                                                practicas,
+                                                Double.valueOf(txtcoseguro.getText()),
+                                                txtfechacoseguro.getText(),
+                                                tipo_orden,
+                                                observacion,
+                                                plan_ss,
+                                                coseguro_ss,
+                                                estado_orden,
+                                                fechaDate);
+                                        System.out.println(respuestapractica);
+                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+                                            bandera_osde = 0;
+                                        } else {
+                                            cursor2();
+                                            bandera_osde = 0;
+                                            JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de osde");
+                                            JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 15, pos2));
+                                            System.out.println("borrar 2");
+                                            borrartabla();
+                                        }
+                                    }
+
+                                } catch (Exception ex) {
+                                    cursor2();
+                                    bandera_osde = 0;
+                                    JOptionPane.showMessageDialog(this, ex);
+                                    JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Osde");
+                                }
+
+                            } else {
+                                cursor2();
+                                // JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                            }
+
                         }
-                        //System.out.println("bandera medico: " + banderaMedicoAutorizado);
-                        if (banderaMedicoAutorizado == 1) {
-                            /////////////////////////////////////////////////////////////////////////////////
-                            mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
-                            HttpOsdePractica http2 = new HttpOsdePractica();
-                            System.out.println("Testing 2 - Send Http GET request");
+                    }
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        cursor();
+                        //////////////////////////////////////////////////////////////
+                        if (tablapracticas.getRowCount() != 0) {
+                            int n2, i = 0;
+                            String cod_practca, nombre_practca, practicas = "", id_practicas = "";
+                            n2 = tablapracticas.getRowCount();
+                            mensajepractica = n2 + "^";
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    plan_ss = plan_ss + "00";
+                                    coseguro_ss = coseguro_ss + "00000.0";
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+                                    cod_practca = tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
+                                    nombre_practca = tablapracticas.getValueAt(i, 2).toString();
+                                    if (i == n2) {
+                                        mensajepractica = mensajepractica + "*" + cod_practca + "*1**";
+                                    } else {
+                                        mensajepractica = mensajepractica + "*" + cod_practca + "*1**|";
+                                    }
+                                    i++;
+                                }
+                            }
+
+                            ///////////////////////////////////////////////////////////////////////////////////////                        
+                            apiSwPracticas post = new apiSwPracticas();
+                            System.out.println("Testing 2 - Send Http Post request");
                             try {
-                                http2.sendGet();
-                                /////////////////////////////////////////////////////////////////
-                                int pos = respuestapractica.indexOf("MensajeDisplay");
-                                int pos2 = respuestapractica.indexOf("/MensajeDisplay");
-                                if (respuestapractica.substring(pos + 15, pos + 17).equals("OK")) {
+                                System.out.println("intento de registracion");
+                                int estado = post.sendPost();
+                                System.out.println("trae estadosw");
+                                if (estado != 0) {
+                                    //////HABILITADO//////
                                     estado_orden = 1;
-                                    mensajenuevo = "";
-                                    int pos3 = respuestapractica.indexOf("<NroReferencia>");
-                                    int pos4 = respuestapractica.indexOf("</NroReferencia>");
-                                    num_orden = respuestapractica.substring(pos3 + 15, pos4);
+                                    num_orden = String.valueOf(estado);
+                                    validar_orden swm = new validar_orden();
 
-                                    validar_orden osde = new validar_orden();
-
-                                    respuesta = osde.valida(
+                                    respuesta = swm.valida(
                                             Integer.valueOf(txtaño.getText() + txtmes.getText()),
                                             txtnombreafiliado.getText(),
                                             txtdocumento.getText(),
@@ -4089,48 +4269,35 @@ public class MainL extends javax.swing.JFrame {
                                             coseguro_ss,
                                             estado_orden,
                                             fechaDate);
-
                                     if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                        System.out.println("Anulacion Osde");
-                                        mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                                        HttpOsdeAnulacion http = new HttpOsdeAnulacion();
-                                        System.out.println("Testing 3 - Send Http GET request");
+                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                        System.out.println("Anulacion sw");
                                         try {
+                                            apiSwAnulacion postC = new apiSwAnulacion();
+                                            postC.sendPost(txtnumafiliado.getText(), num_orden, apiKey);
+                                            bandera_sw = 0;
                                             cursor2();
-                                            http.sendGet();
-                                            bandera_osde = 0;
                                             JOptionPane.showMessageDialog(null, "La orden no fue validada");
                                         } catch (Exception ex) {
                                             cursor2();
-                                            bandera_osde = 0;
-                                            JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
                                             JOptionPane.showMessageDialog(null, ex);
-
+                                            bandera_sw = 0;
                                         }
+
                                     } else {
                                         cursor2();
-                                        bandera_osde = 1;
-                                        JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden.substring(3, 9));
-                                        System.out.println("borrar 1");
+                                        bandera_sw = 1;
+                                        JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
                                         borrartabla();
                                     }
-
                                 } else {
-
+                                    //////ERROR//////
                                     estado_orden = 0;
-                                    mensajenuevo = "";
-                                    int pos3 = respuestapractica.indexOf("<NroReferencia>");
-                                    int pos4 = respuestapractica.indexOf("</NroReferencia>");
-                                    num_orden = respuestapractica.substring(pos3 + 15, pos4);
+                                    num_orden = String.valueOf(estado);
 
-                                    observacion = respuestapractica;
-                                    if (observacion.length() > 500) {
-                                        observacion = observacion.substring(0, 500);
-                                    }
+                                    validar_orden swm = new validar_orden();
 
-                                    validar_orden osde = new validar_orden();
-
-                                    respuesta = osde.valida(
+                                    respuesta = swm.valida(
                                             Integer.valueOf(txtaño.getText() + txtmes.getText()),
                                             txtnombreafiliado.getText(),
                                             txtdocumento.getText(),
@@ -4154,272 +4321,223 @@ public class MainL extends javax.swing.JFrame {
                                             coseguro_ss,
                                             estado_orden,
                                             fechaDate);
-                                    System.out.println(respuestapractica);
-                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                    if (respuesta == 0) {//en el caso de q no se grabe en nuestro servidor se anula del wsdl
                                         cursor2();
                                         JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                        bandera_osde = 0;
+                                        bandera_sw = 0;
+
                                     } else {
                                         cursor2();
-                                        bandera_osde = 0;
-                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de osde");
-                                        JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 15, pos2));
-                                        System.out.println("borrar 2");
+                                        bandera_sw = 0;
+                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Swiss Medical");
+
                                         borrartabla();
                                     }
-                                }
 
+                                }
                             } catch (Exception ex) {
                                 cursor2();
-                                bandera_osde = 0;
                                 JOptionPane.showMessageDialog(this, ex);
-                                JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Osde");
+                                JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Swiss Medical");
                             }
-
                         } else {
                             cursor2();
-                            // JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                            //JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
                         }
-
                     }
-                }
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                if (obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")) {
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    cursor();
-                    String mensajenuevo = "";
-                    //////////////////////////////////////////////////////////////
-                    if (tablapracticas.getRowCount() != 0) {
-                        int n2, i = 0;
-                        String cod_practca, nombre_practca, practicas = "", id_practicas = "";
-                        n2 = tablapracticas.getRowCount();
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                plan_ss = plan_ss + "00";
-                                coseguro_ss = coseguro_ss + "00000.0";
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
-                                cod_practca = tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
-                                nombre_practca = tablapracticas.getValueAt(i, 2).toString();
-                                mensajenuevo = mensajenuevo + "<DetalleProcedimientos><NroItem>" + (i + 1) + "</NroItem><CodPrestacion>" + cod_practca + "</CodPrestacion><CodAlternativo></CodAlternativo><TipoPrestacion>" + tipo_orden + "</TipoPrestacion><ArancelPrestacion>0</ArancelPrestacion><CantidadSolicitada>1</CantidadSolicitada><DescripcionPrestacion>" + nombre_practca + "</DescripcionPrestacion></DetalleProcedimientos>";
-                                i++;
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (obra.equals("50015 - BOREAL")) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        cursor();
+                        String mensajenuevo = "";
+                        if (tablapracticas.getRowCount() != 0) {
+                            int n2, i = 0;
+                            String cod_practca, practicas = "", id_practicas = "";
+                            n2 = tablapracticas.getRowCount();
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    cod_practca = tablapracticas.getValueAt(i, 1).toString();
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+                                    if (!cod_practca.equals("660001 ")) {
+                                        mensajenuevo = mensajenuevo + "<Practica><LineaNro>" + (i + 1) + "</LineaNro><SeccionId>15</SeccionId><PracticaId>" + cod_practca + "</PracticaId><PracticaItem>5</PracticaItem><PracticaCantSol>1</PracticaCantSol><PracticaCantAprob></PracticaCantAprob><PracticaDes></PracticaDes><PracticaCoseguro></PracticaCoseguro><PracticaIdEstado></PracticaIdEstado><PracticaObs></PracticaObs><PracticaPreAutorizacion></PracticaPreAutorizacion></Practica>";
+                                    }
+                                    i++;
+                                }
                             }
-                        }
-                        ///////////////////////////////////////////////////////////////////////////////////////
-                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_SW + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
-                        Httpswmpractica http2 = new Httpswmpractica();
-                        System.out.println("Testing 2 - Send Http GET request");
-                        try {
-                            http2.sendGet();
-                            ////////////////////////////////////////////////////////
-                            int pos = respuestapractica.indexOf("MensajeDisplay");
-                            int pos2 = respuestapractica.indexOf("/MensajeDisplay");
-                            if (respuestapractica.substring(pos + 15, pos + 17).equals("OK")) {
-                                //////HABILITADO//////
+                            String emisor = "CBT" + completarceros(matricula_colegiado, 9);
+                            Contraseña_Boreal contraseña = new Contraseña_Boreal();
+                            String clave = contraseña.Boreal_Contraseña();
+                            /////////////////////////////////////////////////////////////////////////////////
+                            if (tipo_credencial == 0) {
+                                mensajepractica = "<BOREAL><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Empresa>BOREAL</Empresa><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z02</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo><MsgEntorno>P</MsgEntorno></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorNombre>colegiobioquimico</PrestadorNombre><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Afiliado><AfiliadoNroCredencial>" + txtnumafiliado.getText().substring(0, 8) + "</AfiliadoNroCredencial><AfiliadoGf>" + txtnumafiliado.getText().substring(9, 10) + "</AfiliadoGf><TipoIdentificador>HC</TipoIdentificador></Afiliado><Practicas>" + mensajenuevo + "</Practicas></BOREAL>";
+                            }
+                            if (tipo_credencial == 1) {
+                                mensajepractica = "<BOREAL><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Empresa>BOREAL</Empresa><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z02</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo><MsgEntorno>P</MsgEntorno></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorNombre>colegiobioquimico</PrestadorNombre><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Afiliado><AfiliadoNroCredencial>" + txtnumafiliado.getText() + "</AfiliadoNroCredencial><AfiliadoGf></AfiliadoGf><TipoIdentificador>DU</TipoIdentificador></Afiliado><Practicas>" + mensajenuevo + "</Practicas></BOREAL>";
+                            }
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////            
+                            System.out.println("Enviar mensaje boreal - Send Http GET request");
+                            System.out.println(mensajepractica);
+                            ///////////////////////////////////////////////////////////////////////////////////////////////
+                            ClienteBoreal.WsBorealExecute servicio = new ClienteBoreal.WsBorealExecute();
+                            servicio.setIngresoxml(mensajepractica);
+                            respuestapractica = execute(servicio).getEgresoxml();
+                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            System.out.println("respuesta boreal - Get Http GET request");
+                            System.out.println(respuestapractica);
+                            ////////////////////////////////////////////////////////////////////////////////////////////////
+                            int pos = respuestapractica.indexOf("<AutEstadoId>");
+                            int pos2 = respuestapractica.indexOf("</AutEstadoId>");
+                            if (respuestapractica.substring(pos + 13, pos2).equals("B000")) {
                                 estado_orden = 1;
-                                mensajenuevo = "";
-                                int pos3 = respuestapractica.indexOf("<CodAutorizacion>");
-                                int pos4 = respuestapractica.indexOf("</CodAutorizacion>");
-                                num_orden = respuestapractica.substring(pos3 + 17, pos4);
+                                DecimalFormat df = new DecimalFormat("0.00");
+                                LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
+                                Resultados.clear();
 
-                                validar_orden swm = new validar_orden();
+                                try {
+                                    DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                    InputSource is = new InputSource();
+                                    is.setCharacterStream(new StringReader(respuestapractica));
+                                    Document doc = db.parse(is);
+                                    NodeList nodes = doc.getElementsByTagName("Practica");
+                                    int pos5 = respuestapractica.indexOf("<AutCod>");
+                                    int pos6 = respuestapractica.indexOf("</AutCod>");
+                                    num_orden = respuestapractica.substring(pos5 + 8, pos6);
+                                    String codigo = "", coseguroboreal = "";
+                                    //////////////Documento
+                                    int pos7 = respuestapractica.indexOf("<EfectorId>");
+                                    int pos8 = respuestapractica.indexOf("</EfectorId>");
+                                    documento = respuestapractica.substring(pos7 + 11, pos8);
 
-                                respuesta = swm.valida(
-                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                        txtnombreafiliado.getText(),
-                                        txtdocumento.getText(),
-                                        txtnumafiliado.getText(),
-                                        Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
-                                        fecha,
-                                        Double.valueOf(txttotal1.getText()),
-                                        fecha,
-                                        hora,
-                                        ip2,
-                                        id_obra_social,
-                                        id_usuario,
-                                        n2,
-                                        practicas,
-                                        Double.valueOf(txtcoseguro.getText()),
-                                        txtfechacoseguro.getText(),
-                                        tipo_orden,
-                                        observacion,
-                                        plan_ss,
-                                        coseguro_ss,
-                                        estado_orden,
-                                        fechaDate);
-                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                    System.out.println("Anulacion sw");
-                                    mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fechaosde + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                                    HttpSwAnulacion http = new HttpSwAnulacion();
-                                    try {
-                                        http.sendGet();
-                                        bandera_sw = 0;
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                    } catch (Exception ex) {
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, ex);
-                                        bandera_sw = 0;
+                                    for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                        Element element = (Element) nodes.item(i2);
+                                        NodeList name = element.getElementsByTagName("PracticaId");
+                                        Element line = (Element) name.item(0);
+                                        System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                        codigo = getCharacterDataFromElement(line);
+                                        NodeList title = element.getElementsByTagName("PracticaCoseguro");
+                                        line = (Element) title.item(0);
+                                        System.out.println(getCharacterDataFromElement(line));
+                                        double cos = Double.valueOf(getCharacterDataFromElement(line));
+                                        COSEGURO = COSEGURO + cos;
+                                        coseguroboreal = "$ " + getCharacterDataFromElement(line);
+                                        /////////////////////////////////////////////////////////
+                                        plan_ss = plan_ss + "00";
+                                        coseguro_ss = coseguro_ss + completarceros(String.valueOf(COSEGURO), 7);
+                                        ////////////////////////////////////////////////////////
+                                        camposboreal tipo;
+                                        tipo = new camposboreal(codigo, coseguroboreal);
+                                        Resultados.add(tipo);
+                                        //////////////////////////////////////////////////////////
                                     }
 
-                                } else {
-                                    cursor2();
-                                    bandera_sw = 1;
-                                    JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
-                                    borrartabla();
-                                }
-                            } else {
-                                //////ERROR//////
-                                estado_orden = 0;
-                                mensajenuevo = "";
-                                int pos3 = respuestapractica.indexOf("<CodAutorizacion>");
-                                int pos4 = respuestapractica.indexOf("</CodAutorizacion>");
-                                num_orden = respuestapractica.substring(pos3 + 17, pos4);
+                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    validar_orden boreal = new validar_orden();
+                                    respuesta = boreal.valida(
+                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                            txtnombreafiliado.getText(),
+                                            txtdocumento.getText(),
+                                            txtnumafiliado.getText(),
+                                            Integer.valueOf(txtmatricula.getText()),
+                                            num_orden,
+                                            fecha,
+                                            Double.valueOf(txttotal1.getText()),
+                                            fecha,
+                                            hora,
+                                            ip2,
+                                            id_obra_social,
+                                            id_usuario,
+                                            n2,
+                                            practicas,
+                                            COSEGURO,
+                                            fecha,
+                                            tipo_orden,
+                                            observacion,
+                                            plan_ss,
+                                            coseguro_ss,
+                                            estado_orden,
+                                            fechaDate);
+                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                        System.out.println("Anulacion boreal");
+                                        /////////////////////////////////////////////////////////////////////////////////
+                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                        System.out.println("Envio de mensaje boreal - Send Http GET request");
+                                        System.out.println(mensajepractica);
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////
+                                        ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
+                                        servicioAnulacion.setIngresoxml(mensajepractica);
+                                        respuestapractica = execute(servicioAnulacion).getEgresoxml();
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        System.out.println("Respuesta boreal - Get Http GET request");
+                                        System.out.println(respuestapractica);
+                                        ////////////////////////////////////////////////////////////////////////////////////////////////
+                                        int posI = respuestapractica.indexOf("<AutEstadoId>");
+                                        int posF = respuestapractica.indexOf("</AutEstadoId>");
+                                        /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
+                                        if (respuestapractica.substring(posI + 13, posF).equals("B000")) {
+                                            int posI2 = respuestapractica.indexOf("<AutCod>");
+                                            int posF2 = respuestapractica.indexOf("</AutCod>");
+                                            num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                            cursor2();
+                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                        }
+                                        if (respuestapractica.substring(pos + 13, pos2).equals("M054")) {
+                                            habilitado = "ERROR";
+                                            int pos3 = respuestapractica.indexOf("<AutObs>");
+                                            int pos4 = respuestapractica.indexOf("</AutObs>");
+                                            cursor2();
+                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, respuestapractica.substring(pos3 + 8, pos4));
+                                            // bandera_boreal = 0;
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Nro. Autorización: " + num_orden);
+                                        ///////////////////imprimir coseguro///////////////////////////////////////////////////////////////////////////////////////
+                                        nom_afiliado = respuestapractica.substring(respuestapractica.indexOf("<AfiliadoNombre>") + 16, respuestapractica.indexOf("</AfiliadoNombre>"));
+                                        int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + COSEGURO + "\nDesea Imprimir un comprobante?", "Boreal Impresíon", JOptionPane.YES_NO_OPTION);
+                                        if (opcion == 0) {
+                                            try {
+                                                JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Comprobante_boreal.jasper"));
+                                                ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
+                                                Map parametros = new HashMap();
+                                                parametros.put("numero_autorizacion", num_orden);
+                                                parametros.put("fecha", fecha2);
+                                                parametros.put("nombre", nom_afiliado);
+                                                parametros.put("numero", txtnumafiliado.getText());
+                                                parametros.put("total", df.format(COSEGURO));
+                                                JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
+                                                JasperPrintManager.printReport(jPrint, false);
+                                            } catch (Exception e) {
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, e);
+                                            }
+                                        }
+                                        bandera_boreal = 1;
+                                        borrartabla();
+                                    }
 
-                                observacion = respuestapractica.substring(pos + 15, pos2);
+                                } catch (Exception ex) {
+                                    cursor2();
+                                    JOptionPane.showMessageDialog(this, ex);
+                                }
+                                ////
+                                txtnombreafiliado.setText(nom_afiliado);
+                                txtnumorden.setText(num_orden);
+                                txtcoseguro.setText(String.valueOf(COSEGURO));
+                                txtfechacoseguro.setText(fecha);
+                                txtdocumento.setText(documento);
+                            } else {
+                                int pos3 = respuestapractica.indexOf("<AutObs>");
+                                int pos4 = respuestapractica.indexOf("</AutObs>");
+                                observacion = respuestapractica.substring(pos3 + 8, pos4);
+
                                 if (observacion.length() > 500) {
                                     observacion = observacion.substring(0, 500);
                                 }
-
-                                validar_orden swm = new validar_orden();
-
-                                respuesta = swm.valida(
-                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                        txtnombreafiliado.getText(),
-                                        txtdocumento.getText(),
-                                        txtnumafiliado.getText(),
-                                        Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
-                                        fecha,
-                                        Double.valueOf(txttotal1.getText()),
-                                        fecha,
-                                        hora,
-                                        ip2,
-                                        id_obra_social,
-                                        id_usuario,
-                                        n2,
-                                        practicas,
-                                        Double.valueOf(txtcoseguro.getText()),
-                                        txtfechacoseguro.getText(),
-                                        tipo_orden,
-                                        observacion,
-                                        plan_ss,
-                                        coseguro_ss,
-                                        estado_orden,
-                                        fechaDate);
-                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                    bandera_sw = 0;
-
-                                } else {
-                                    cursor2();
-                                    bandera_sw = 0;
-                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Swiss Medical");
-                                    JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 15, pos2));
-                                    borrartabla();
-                                }
-
-                            }
-                        } catch (Exception ex) {
-                            cursor2();
-                            JOptionPane.showMessageDialog(this, ex);
-                            JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Swiss Medical");
-                        }
-                    } else {
-                        cursor2();
-                        //JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                    }
-                }
-                ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                if (obra.equals("50015 - BOREAL")) {
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    cursor();
-                    String mensajenuevo = "";
-                    if (tablapracticas.getRowCount() != 0) {
-                        int n2, i = 0;
-                        String cod_practca, practicas = "", id_practicas = "";
-                        n2 = tablapracticas.getRowCount();
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                cod_practca = tablapracticas.getValueAt(i, 1).toString();
-                                practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
-                                if (!cod_practca.equals("660001 ")) {
-                                    mensajenuevo = mensajenuevo + "<Practica><LineaNro>" + (i + 1) + "</LineaNro><SeccionId>15</SeccionId><PracticaId>" + cod_practca + "</PracticaId><PracticaItem>5</PracticaItem><PracticaCantSol>1</PracticaCantSol><PracticaCantAprob></PracticaCantAprob><PracticaDes></PracticaDes><PracticaCoseguro></PracticaCoseguro><PracticaIdEstado></PracticaIdEstado><PracticaObs></PracticaObs><PracticaPreAutorizacion></PracticaPreAutorizacion></Practica>";
-                                }
-                                i++;
-                            }
-                        }
-                        String emisor = "CBT" + completarceros(matricula_colegiado, 9);
-                        Contraseña_Boreal contraseña = new Contraseña_Boreal();
-                        String clave = contraseña.Boreal_Contraseña();
-                        /////////////////////////////////////////////////////////////////////////////////
-                        if (tipo_credencial == 0) {
-                            mensajepractica = "<BOREAL><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Empresa>BOREAL</Empresa><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z02</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo><MsgEntorno>P</MsgEntorno></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorNombre>colegiobioquimico</PrestadorNombre><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Afiliado><AfiliadoNroCredencial>" + txtnumafiliado.getText().substring(0, 8) + "</AfiliadoNroCredencial><AfiliadoGf>" + txtnumafiliado.getText().substring(9, 10) + "</AfiliadoGf><TipoIdentificador>HC</TipoIdentificador></Afiliado><Practicas>" + mensajenuevo + "</Practicas></BOREAL>";
-                        }
-                        if (tipo_credencial == 1) {
-                            mensajepractica = "<BOREAL><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Empresa>BOREAL</Empresa><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z02</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo><MsgEntorno>P</MsgEntorno></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorNombre>colegiobioquimico</PrestadorNombre><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Afiliado><AfiliadoNroCredencial>" + txtnumafiliado.getText() + "</AfiliadoNroCredencial><AfiliadoGf></AfiliadoGf><TipoIdentificador>DU</TipoIdentificador></Afiliado><Practicas>" + mensajenuevo + "</Practicas></BOREAL>";
-                        }
-                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////            
-                        System.out.println("Enviar mensaje boreal - Send Http GET request");
-                        System.out.println(mensajepractica);
-                        ///////////////////////////////////////////////////////////////////////////////////////////////
-                        ClienteBoreal.WsBorealExecute servicio = new ClienteBoreal.WsBorealExecute();
-                        servicio.setIngresoxml(mensajepractica);
-                        respuestapractica = execute(servicio).getEgresoxml();
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        System.out.println("respuesta boreal - Get Http GET request");
-                        System.out.println(respuestapractica);
-                        ////////////////////////////////////////////////////////////////////////////////////////////////
-                        int pos = respuestapractica.indexOf("<AutEstadoId>");
-                        int pos2 = respuestapractica.indexOf("</AutEstadoId>");
-                        if (respuestapractica.substring(pos + 13, pos2).equals("B000")) {
-                            estado_orden = 1;
-                            DecimalFormat df = new DecimalFormat("0.00");
-                            LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
-                            Resultados.clear();
-
-                            try {
-                                DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                                InputSource is = new InputSource();
-                                is.setCharacterStream(new StringReader(respuestapractica));
-                                Document doc = db.parse(is);
-                                NodeList nodes = doc.getElementsByTagName("Practica");
-                                int pos5 = respuestapractica.indexOf("<AutCod>");
-                                int pos6 = respuestapractica.indexOf("</AutCod>");
-                                num_orden = respuestapractica.substring(pos5 + 8, pos6);
-                                String codigo = "", coseguroboreal = "";
-                                //////////////Documento
-                                int pos7 = respuestapractica.indexOf("<EfectorId>");
-                                int pos8 = respuestapractica.indexOf("</EfectorId>");
-                                documento = respuestapractica.substring(pos7 + 11, pos8);
-
-                                for (int i2 = 0; i2 < nodes.getLength(); i2++) {
-                                    Element element = (Element) nodes.item(i2);
-                                    NodeList name = element.getElementsByTagName("PracticaId");
-                                    Element line = (Element) name.item(0);
-                                    System.out.println("PracticaId: " + getCharacterDataFromElement(line));
-                                    codigo = getCharacterDataFromElement(line);
-                                    NodeList title = element.getElementsByTagName("PracticaCoseguro");
-                                    line = (Element) title.item(0);
-                                    System.out.println(getCharacterDataFromElement(line));
-                                    double cos = Double.valueOf(getCharacterDataFromElement(line));
-                                    COSEGURO = COSEGURO + cos;
-                                    coseguroboreal = "$ " + getCharacterDataFromElement(line);
-                                    /////////////////////////////////////////////////////////
-                                    plan_ss = plan_ss + "00";
-                                    coseguro_ss = coseguro_ss + completarceros(String.valueOf(COSEGURO), 7);
-                                    ////////////////////////////////////////////////////////
-                                    camposboreal tipo;
-                                    tipo = new camposboreal(codigo, coseguroboreal);
-                                    Resultados.add(tipo);
-                                    //////////////////////////////////////////////////////////
-                                }
-
+                                ///Orden no se pudo grabar en boreal
+                                estado_orden = 0;
                                 ///////////////////////////////////////////////////////////////////////////////////////////////////////
                                 validar_orden boreal = new validar_orden();
                                 respuesta = boreal.valida(
@@ -4428,7 +4546,7 @@ public class MainL extends javax.swing.JFrame {
                                         txtdocumento.getText(),
                                         txtnumafiliado.getText(),
                                         Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
+                                        "0",
                                         fecha,
                                         Double.valueOf(txttotal1.getText()),
                                         fecha,
@@ -4446,539 +4564,399 @@ public class MainL extends javax.swing.JFrame {
                                         coseguro_ss,
                                         estado_orden,
                                         fechaDate);
-                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                    System.out.println("Anulacion boreal");
-                                    /////////////////////////////////////////////////////////////////////////////////
-                                    mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
-                                    System.out.println("Envio de mensaje boreal - Send Http GET request");
-                                    System.out.println(mensajepractica);
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////
-                                    ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
-                                    servicioAnulacion.setIngresoxml(mensajepractica);
-                                    respuestapractica = execute(servicioAnulacion).getEgresoxml();
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    System.out.println("Respuesta boreal - Get Http GET request");
-                                    System.out.println(respuestapractica);
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////
-                                    int posI = respuestapractica.indexOf("<AutEstadoId>");
-                                    int posF = respuestapractica.indexOf("</AutEstadoId>");
-                                    /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
-                                    if (respuestapractica.substring(posI + 13, posF).equals("B000")) {
-                                        int posI2 = respuestapractica.indexOf("<AutCod>");
-                                        int posF2 = respuestapractica.indexOf("</AutCod>");
-                                        num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                if (respuesta == 0) {
+                                    try {
+                                        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                        InputSource is = new InputSource();
+                                        is.setCharacterStream(new StringReader(respuestapractica));
+                                        Document doc = db.parse(is);
+                                        NodeList nodes = doc.getElementsByTagName("Practica");
+
+                                        String salida = "";
+                                        for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                            Element element = (Element) nodes.item(i2);
+                                            NodeList name = element.getElementsByTagName("PracticaId");
+                                            Element line = (Element) name.item(0);
+                                            System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                            salida = salida + "\t" + getCharacterDataFromElement(line);
+                                            NodeList title = element.getElementsByTagName("PracticaObs");
+                                            line = (Element) title.item(0);
+                                            System.out.println(getCharacterDataFromElement(line));
+                                            salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
+                                        }
+                                        JOptionPane.showMessageDialog(null, salida);
+
+                                        ///anulo
+                                        System.out.println("Anulacion boreal");
+                                        int pos5 = respuestapractica.indexOf("<AutCod>");
+                                        int pos6 = respuestapractica.indexOf("</AutCod>");
+                                        num_orden = respuestapractica.substring(pos5 + 8, pos6);
+                                        /////////////////////////////////////////////////////////////////////////////////
+                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                        System.out.println("Envio de mensaje boreal - Send Http GET request");
+                                        System.out.println(mensajepractica);
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////
+                                        ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
+                                        servicioAnulacion.setIngresoxml(mensajepractica);
+                                        respuestapractica = execute(servicioAnulacion).getEgresoxml();
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        System.out.println("Respuesta boreal - Get Http GET request");
+                                        System.out.println(respuestapractica);
+                                        ////////////////////////////////////////////////////////////////////////////////////////////////
+                                        int posI = respuestapractica.indexOf("<AutEstadoId>");
+                                        int posF = respuestapractica.indexOf("</AutEstadoId>");
+                                        /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
+                                        if (respuestapractica.substring(posI + 13, posF).equals("B000")) {// 
+                                            int posI2 = respuestapractica.indexOf("<AutCod>");
+                                            int posF2 = respuestapractica.indexOf("</AutCod>");
+                                            num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                            cursor2();
+                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                            habilitado = "ERROR";
+                                        } else {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
+                                            JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
+                                            borrartabla();
+                                            bandera_boreal = 0;
+                                        }
+                                    } catch (Exception e) {
                                         cursor2();
                                         bandera_boreal = 0;
-                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                    }
-                                    if (respuestapractica.substring(pos + 13, pos2).equals("M054")) {
-                                        habilitado = "ERROR";
-                                        int pos3 = respuestapractica.indexOf("<AutObs>");
-                                        int pos4 = respuestapractica.indexOf("</AutObs>");
-                                        cursor2();
-                                        bandera_boreal = 0;
-                                        JOptionPane.showMessageDialog(null, respuestapractica.substring(pos3 + 8, pos4));
-                                        // bandera_boreal = 0;
+                                        JOptionPane.showMessageDialog(null, e);
                                     }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Nro. Autorización: " + num_orden);
-                                    ///////////////////imprimir coseguro///////////////////////////////////////////////////////////////////////////////////////
-                                    nom_afiliado = respuestapractica.substring(respuestapractica.indexOf("<AfiliadoNombre>") + 16, respuestapractica.indexOf("</AfiliadoNombre>"));
-                                    int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + COSEGURO + "\nDesea Imprimir un comprobante?", "Boreal Impresíon", JOptionPane.YES_NO_OPTION);
-                                    if (opcion == 0) {
-                                        try {
-                                            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Comprobante_boreal.jasper"));
-                                            ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
-                                            Map parametros = new HashMap();
-                                            parametros.put("numero_autorizacion", num_orden);
-                                            parametros.put("fecha", fecha2);
-                                            parametros.put("nombre", nom_afiliado);
-                                            parametros.put("numero", txtnumafiliado.getText());
-                                            parametros.put("total", df.format(COSEGURO));
-                                            JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
-                                            JasperPrintManager.printReport(jPrint, false);
-                                        } catch (Exception e) {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, e);
+                                    try {
+                                        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                        InputSource is = new InputSource();
+                                        is.setCharacterStream(new StringReader(respuestapractica));
+                                        Document doc = db.parse(is);
+                                        NodeList nodes = doc.getElementsByTagName("Practica");
+
+                                        String salida = "";
+                                        for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                            Element element = (Element) nodes.item(i2);
+                                            NodeList name = element.getElementsByTagName("PracticaId");
+                                            Element line = (Element) name.item(0);
+                                            System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                            salida = salida + "\t" + getCharacterDataFromElement(line);
+                                            NodeList title = element.getElementsByTagName("PracticaObs");
+                                            line = (Element) title.item(0);
+                                            System.out.println(getCharacterDataFromElement(line));
+                                            salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
                                         }
+                                        JOptionPane.showMessageDialog(null, salida);
+
+                                        ///anulo
+                                        System.out.println("Anulacion boreal");
+                                        int pos5 = respuestapractica.indexOf("<AutCod>");
+                                        int pos6 = respuestapractica.indexOf("</AutCod>");
+                                        num_orden = respuestapractica.substring(pos5 + 8, pos6);
+                                        /////////////////////////////////////////////////////////////////////////////////
+                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                        System.out.println("Envio de mensaje boreal - Send Http GET request");
+                                        System.out.println(mensajepractica);
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////
+                                        ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
+                                        servicioAnulacion.setIngresoxml(mensajepractica);
+                                        respuestapractica = execute(servicioAnulacion).getEgresoxml();
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        System.out.println("Respuesta boreal - Get Http GET request");
+                                        System.out.println(respuestapractica);
+                                        ////////////////////////////////////////////////////////////////////////////////////////////////
+                                        int posI = respuestapractica.indexOf("<AutEstadoId>");
+                                        int posF = respuestapractica.indexOf("</AutEstadoId>");
+                                        /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
+                                        if (respuestapractica.substring(posI + 13, posF).equals("B000")) {
+                                            int posI2 = respuestapractica.indexOf("<AutCod>");
+                                            int posF2 = respuestapractica.indexOf("</AutCod>");
+                                            num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                            cursor2();
+                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                            habilitado = "ERROR";
+                                        } else {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
+                                            JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
+                                            borrartabla();
+                                            bandera_boreal = 0;
+                                        }
+                                    } catch (Exception e) {
+                                        cursor2();
+                                        bandera_boreal = 0;
+                                        JOptionPane.showMessageDialog(null, "Error al intentar Anular orden del servidor de Boreal");
+                                        JOptionPane.showMessageDialog(null, e);
                                     }
-                                    bandera_boreal = 1;
+                                }
+
+                            }
+                        } else {
+                            cursor2();
+                            ///  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                        }
+                    }
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (obra.equals("9000 - ASOCIACION MUTUAL SANCOR")) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        cursor();
+                        Contraseña_Boreal contraseña2 = new Contraseña_Boreal();
+                        String clave2 = contraseña2.Boreal_Contraseña().substring(8, 16);
+                        //System.out.println(contraseña2.Boreal_Contraseña());
+                        //System.out.println(clave2);
+                        short cantidad = 1;
+                        //////////////////////////////////////////////////////////
+                        ClienteSancor.PAWESSAV2AUTORIZACION servicio = new ClienteSancor.PAWESSAV2AUTORIZACION();
+                        ClienteSancor.Prestaciones P1 = new ClienteSancor.Prestaciones();
+                        ClienteSancor.ArrayOfPrestacionesItem i1 = new ClienteSancor.ArrayOfPrestacionesItem();
+                        ClienteSancor.PrestacionesItem item;
+                        if (tablapracticas.getRowCount() != 0) {
+                            int n2, i = 0;
+                            String cod_practca, practicas = "", id_practicas = "";
+                            n2 = tablapracticas.getRowCount();
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    plan_ss = plan_ss + "00";
+                                    coseguro_ss = coseguro_ss + "00000.0";
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+                                    cod_practca = tablapracticas.getValueAt(i, 1).toString();
+                                    item = new ClienteSancor.PrestacionesItem();
+                                    item.setPrestacion(cod_practca);
+                                    item.setCantidad(cantidad);
+                                    ///item.setFormulario(1);
+                                    item.setTipoNomenclador("NU");
+                                    i1.getPrestacionesItem().add(item);
+                                    P1.setPrestacionesItem(i1);
+                                    servicio.setPrestaciones(P1);
+                                    i++;
+                                }
+                            }
+                            ///////////////////////////////////////////////////////////////////////
+                            long efector = Long.valueOf(cuit);
+                            servicio.setModo("P");
+                            servicio.setNroorden(Integer.valueOf(clave2));
+                            servicio.setEntidad(8999);
+                            servicio.setTiponroefector("CU");
+                            servicio.setNroefector(efector);
+                            servicio.setFormaidafiliado("AS");
+                            servicio.setAfiliado(Integer.valueOf(txtnumafiliado.getText()));
+                            servicio.setMatriculaprescribiente(Integer.valueOf(txtmatricula.getText()));
+                            servicio.setUsuario("WSRVSSA");
+                            servicio.setClave("15WSSA08");
+
+                            PAWESSAV2AUTORIZACIONResponse respuesta_sancor = autorizacion(servicio);
+                            if (respuesta_sancor.getDescripcionrespuesta().equals("AUTORIZADO")) {
+                                estado_orden = 1;
+                                num_orden = String.valueOf(respuesta_sancor.getNroautorizacion());
+                                txtnumorden.setText(num_orden);
+                                /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                validar_orden sancor = new validar_orden();
+                                System.out.println(practicas);
+                                respuesta = sancor.valida(
+                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                        txtnombreafiliado.getText(),
+                                        txtdocumento.getText(),
+                                        txtnumafiliado.getText(),
+                                        Integer.valueOf(txtmatricula.getText()),
+                                        num_orden,
+                                        fecha,
+                                        Double.valueOf(txttotal1.getText()),
+                                        fecha,
+                                        hora,
+                                        ip2,
+                                        id_obra_social,
+                                        id_usuario,
+                                        n2,
+                                        practicas,
+                                        Double.valueOf(txtcoseguro.getText()),
+                                        fecha,
+                                        tipo_orden,
+                                        observacion,
+                                        plan_ss,
+                                        coseguro_ss,
+                                        estado_orden,
+                                        fechaDate);
+                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                    System.out.println("Anulacion sancor");
+                                    ClienteSancor.PAWESSAV2ANULACION servicioanulacion = new ClienteSancor.PAWESSAV2ANULACION();
+                                    servicioanulacion.setModo("P");
+                                    servicioanulacion.setEntidad(8999);
+                                    servicioanulacion.setNroautorizacion(Integer.valueOf(num_orden));
+                                    servicioanulacion.setUsuario("WSRVSSA");
+                                    servicioanulacion.setClave("15WSSA08");
+                                    PAWESSAV2ANULACIONResponse anulacion_sancor = anulacion(servicioanulacion);
+                                    if (anulacion_sancor.getCodigorespuesta() == 35) {
+                                        num_orden = String.valueOf(anulacion_sancor.getNroordenrta());
+                                        cursor2();
+                                        bandera_sancor = 0;
+                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                    } else {
+                                        cursor2();
+                                        bandera_sancor = 0;
+                                        JOptionPane.showMessageDialog(null, anulacion(servicioanulacion).getDescripcionrespuesta());
+                                    }
+                                } else {
+                                    cursor2();
+                                    bandera_sancor = 1;
+                                    JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
                                     borrartabla();
                                 }
-
-                            } catch (Exception ex) {
-                                cursor2();
-                                JOptionPane.showMessageDialog(this, ex);
-                            }
-                            ////
-                            txtnombreafiliado.setText(nom_afiliado);
-                            txtnumorden.setText(num_orden);
-                            txtcoseguro.setText(String.valueOf(COSEGURO));
-                            txtfechacoseguro.setText(fecha);
-                            txtdocumento.setText(documento);
-                        } else {
-                            int pos3 = respuestapractica.indexOf("<AutObs>");
-                            int pos4 = respuestapractica.indexOf("</AutObs>");
-                            observacion = respuestapractica.substring(pos3 + 8, pos4);
-
-                            if (observacion.length() > 500) {
-                                observacion = observacion.substring(0, 500);
-                            }
-                            ///Orden no se pudo grabar en boreal
-                            estado_orden = 0;
-                            ///////////////////////////////////////////////////////////////////////////////////////////////////////
-                            validar_orden boreal = new validar_orden();
-                            respuesta = boreal.valida(
-                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                    txtnombreafiliado.getText(),
-                                    txtdocumento.getText(),
-                                    txtnumafiliado.getText(),
-                                    Integer.valueOf(txtmatricula.getText()),
-                                    "0",
-                                    fecha,
-                                    Double.valueOf(txttotal1.getText()),
-                                    fecha,
-                                    hora,
-                                    ip2,
-                                    id_obra_social,
-                                    id_usuario,
-                                    n2,
-                                    practicas,
-                                    COSEGURO,
-                                    fecha,
-                                    tipo_orden,
-                                    observacion,
-                                    plan_ss,
-                                    coseguro_ss,
-                                    estado_orden,
-                                    fechaDate);
-                            if (respuesta == 0) {
-                                try {
-                                    DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                                    InputSource is = new InputSource();
-                                    is.setCharacterStream(new StringReader(respuestapractica));
-                                    Document doc = db.parse(is);
-                                    NodeList nodes = doc.getElementsByTagName("Practica");
-
-                                    String salida = "";
-                                    for (int i2 = 0; i2 < nodes.getLength(); i2++) {
-                                        Element element = (Element) nodes.item(i2);
-                                        NodeList name = element.getElementsByTagName("PracticaId");
-                                        Element line = (Element) name.item(0);
-                                        System.out.println("PracticaId: " + getCharacterDataFromElement(line));
-                                        salida = salida + "\t" + getCharacterDataFromElement(line);
-                                        NodeList title = element.getElementsByTagName("PracticaObs");
-                                        line = (Element) title.item(0);
-                                        System.out.println(getCharacterDataFromElement(line));
-                                        salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
-                                    }
-                                    JOptionPane.showMessageDialog(null, salida);
-
-                                    ///anulo
-                                    System.out.println("Anulacion boreal");
-                                    int pos5 = respuestapractica.indexOf("<AutCod>");
-                                    int pos6 = respuestapractica.indexOf("</AutCod>");
-                                    num_orden = respuestapractica.substring(pos5 + 8, pos6);
-                                    /////////////////////////////////////////////////////////////////////////////////
-                                    mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
-                                    System.out.println("Envio de mensaje boreal - Send Http GET request");
-                                    System.out.println(mensajepractica);
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////
-                                    ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
-                                    servicioAnulacion.setIngresoxml(mensajepractica);
-                                    respuestapractica = execute(servicioAnulacion).getEgresoxml();
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    System.out.println("Respuesta boreal - Get Http GET request");
-                                    System.out.println(respuestapractica);
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////
-                                    int posI = respuestapractica.indexOf("<AutEstadoId>");
-                                    int posF = respuestapractica.indexOf("</AutEstadoId>");
-                                    /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
-                                    if (respuestapractica.substring(posI + 13, posF).equals("B000")) {// 
-                                        int posI2 = respuestapractica.indexOf("<AutCod>");
-                                        int posF2 = respuestapractica.indexOf("</AutCod>");
-                                        num_orden = respuestapractica.substring(posI2 + 8, posF2);
-                                        cursor2();
-                                        bandera_boreal = 0;
-                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                        habilitado = "ERROR";
-                                    } else {
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
-                                        JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
-                                        borrartabla();
-                                        bandera_boreal = 0;
-                                    }
-                                } catch (Exception e) {
-                                    cursor2();
-                                    bandera_boreal = 0;
-                                    JOptionPane.showMessageDialog(null, e);
-                                }
                             } else {
-                                try {
-                                    DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                                    InputSource is = new InputSource();
-                                    is.setCharacterStream(new StringReader(respuestapractica));
-                                    Document doc = db.parse(is);
-                                    NodeList nodes = doc.getElementsByTagName("Practica");
-
-                                    String salida = "";
-                                    for (int i2 = 0; i2 < nodes.getLength(); i2++) {
-                                        Element element = (Element) nodes.item(i2);
-                                        NodeList name = element.getElementsByTagName("PracticaId");
-                                        Element line = (Element) name.item(0);
-                                        System.out.println("PracticaId: " + getCharacterDataFromElement(line));
-                                        salida = salida + "\t" + getCharacterDataFromElement(line);
-                                        NodeList title = element.getElementsByTagName("PracticaObs");
-                                        line = (Element) title.item(0);
-                                        System.out.println(getCharacterDataFromElement(line));
-                                        salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
-                                    }
-                                    JOptionPane.showMessageDialog(null, salida);
-
-                                    ///anulo
-                                    System.out.println("Anulacion boreal");
-                                    int pos5 = respuestapractica.indexOf("<AutCod>");
-                                    int pos6 = respuestapractica.indexOf("</AutCod>");
-                                    num_orden = respuestapractica.substring(pos5 + 8, pos6);
-                                    /////////////////////////////////////////////////////////////////////////////////
-                                    mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
-                                    System.out.println("Envio de mensaje boreal - Send Http GET request");
-                                    System.out.println(mensajepractica);
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////
-                                    ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
-                                    servicioAnulacion.setIngresoxml(mensajepractica);
-                                    respuestapractica = execute(servicioAnulacion).getEgresoxml();
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    System.out.println("Respuesta boreal - Get Http GET request");
-                                    System.out.println(respuestapractica);
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////
-                                    int posI = respuestapractica.indexOf("<AutEstadoId>");
-                                    int posF = respuestapractica.indexOf("</AutEstadoId>");
-                                    /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
-                                    if (respuestapractica.substring(posI + 13, posF).equals("B000")) {
-                                        int posI2 = respuestapractica.indexOf("<AutCod>");
-                                        int posF2 = respuestapractica.indexOf("</AutCod>");
-                                        num_orden = respuestapractica.substring(posI2 + 8, posF2);
-                                        cursor2();
-                                        bandera_boreal = 0;
-                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                        habilitado = "ERROR";
-                                    } else {
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
-                                        JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
-                                        borrartabla();
-                                        bandera_boreal = 0;
-                                    }
-                                } catch (Exception e) {
-                                    cursor2();
-                                    bandera_boreal = 0;
-                                    JOptionPane.showMessageDialog(null, "Error al intentar Anular orden del servidor de Boreal");
-                                    JOptionPane.showMessageDialog(null, e);
+                                estado_orden = 0;
+                                String mensaje = "";
+                                for (int j = 0; j < n2; j++) {
+                                    mensaje = mensaje + "Error: " + respuesta_sancor.getCodigorespuesta() + "---" + respuesta_sancor.getPrestacionesrtav2().getPrestacionesRtaPrestacionesRtaItem().getPrestacionesRtaItem().get(j).getPrestacion() + "---" + respuesta_sancor.getPrestacionesrtav2().getPrestacionesRtaPrestacionesRtaItem().getPrestacionesRtaItem().get(j).getDescripcionErrorPrest() + "\n";
                                 }
-                            }
-
-                        }
-                    } else {
-                        cursor2();
-                        ///  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                    }
-                }
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                if (obra.equals("9000 - ASOCIACION MUTUAL SANCOR")) {
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    cursor();
-                    Contraseña_Boreal contraseña2 = new Contraseña_Boreal();
-                    String clave2 = contraseña2.Boreal_Contraseña().substring(8, 16);
-                    //System.out.println(contraseña2.Boreal_Contraseña());
-                    //System.out.println(clave2);
-                    short cantidad = 1;
-                    //////////////////////////////////////////////////////////
-                    ClienteSancor.PAWESSAV2AUTORIZACION servicio = new ClienteSancor.PAWESSAV2AUTORIZACION();
-                    ClienteSancor.Prestaciones P1 = new ClienteSancor.Prestaciones();
-                    ClienteSancor.ArrayOfPrestacionesItem i1 = new ClienteSancor.ArrayOfPrestacionesItem();
-                    ClienteSancor.PrestacionesItem item;
-                    if (tablapracticas.getRowCount() != 0) {
-                        int n2, i = 0;
-                        String cod_practca, practicas = "", id_practicas = "";
-                        n2 = tablapracticas.getRowCount();
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                plan_ss = plan_ss + "00";
-                                coseguro_ss = coseguro_ss + "00000.0";
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
-                                cod_practca = tablapracticas.getValueAt(i, 1).toString();
-                                item = new ClienteSancor.PrestacionesItem();
-                                item.setPrestacion(cod_practca);
-                                item.setCantidad(cantidad);
-                                ///item.setFormulario(1);
-                                item.setTipoNomenclador("NU");
-                                i1.getPrestacionesItem().add(item);
-                                P1.setPrestacionesItem(i1);
-                                servicio.setPrestaciones(P1);
-                                i++;
-                            }
-                        }
-                        ///////////////////////////////////////////////////////////////////////
-                        long efector = Long.valueOf(cuit);
-                        servicio.setModo("P");
-                        servicio.setNroorden(Integer.valueOf(clave2));
-                        servicio.setEntidad(8999);
-                        servicio.setTiponroefector("CU");
-                        servicio.setNroefector(efector);
-                        servicio.setFormaidafiliado("AS");
-                        servicio.setAfiliado(Integer.valueOf(txtnumafiliado.getText()));
-                        servicio.setMatriculaprescribiente(Integer.valueOf(txtmatricula.getText()));
-                        servicio.setUsuario("WSRVSSA");
-                        servicio.setClave("15WSSA08");
-
-                        PAWESSAV2AUTORIZACIONResponse respuesta_sancor = autorizacion(servicio);
-                        if (respuesta_sancor.getDescripcionrespuesta().equals("AUTORIZADO")) {
-                            estado_orden = 1;
-                            num_orden = String.valueOf(respuesta_sancor.getNroautorizacion());
-                            txtnumorden.setText(num_orden);
-                            /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                            validar_orden sancor = new validar_orden();
-                            System.out.println(practicas);
-                            respuesta = sancor.valida(
-                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                    txtnombreafiliado.getText(),
-                                    txtdocumento.getText(),
-                                    txtnumafiliado.getText(),
-                                    Integer.valueOf(txtmatricula.getText()),
-                                    num_orden,
-                                    fecha,
-                                    Double.valueOf(txttotal1.getText()),
-                                    fecha,
-                                    hora,
-                                    ip2,
-                                    id_obra_social,
-                                    id_usuario,
-                                    n2,
-                                    practicas,
-                                    Double.valueOf(txtcoseguro.getText()),
-                                    fecha,
-                                    tipo_orden,
-                                    observacion,
-                                    plan_ss,
-                                    coseguro_ss,
-                                    estado_orden,
-                                    fechaDate);
-                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                System.out.println("Anulacion sancor");
-                                ClienteSancor.PAWESSAV2ANULACION servicioanulacion = new ClienteSancor.PAWESSAV2ANULACION();
-                                servicioanulacion.setModo("P");
-                                servicioanulacion.setEntidad(8999);
-                                servicioanulacion.setNroautorizacion(Integer.valueOf(num_orden));
-                                servicioanulacion.setUsuario("WSRVSSA");
-                                servicioanulacion.setClave("15WSSA08");
-                                PAWESSAV2ANULACIONResponse anulacion_sancor = anulacion(servicioanulacion);
-                                if (anulacion_sancor.getCodigorespuesta() == 35) {
-                                    num_orden = String.valueOf(anulacion_sancor.getNroordenrta());
+                                System.out.println(mensaje);
+                                observacion = mensaje;
+                                if (observacion.length() > 500) {
+                                    observacion = observacion.substring(0, 500);
+                                }
+                                /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                validar_orden sancor = new validar_orden();
+                                System.out.println(practicas);
+                                respuesta = sancor.valida(
+                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                        txtnombreafiliado.getText(),
+                                        txtdocumento.getText(),
+                                        txtnumafiliado.getText(),
+                                        Integer.valueOf(txtmatricula.getText()),
+                                        "0",
+                                        fecha,
+                                        Double.valueOf(txttotal1.getText()),
+                                        fecha,
+                                        hora,
+                                        ip2,
+                                        id_obra_social,
+                                        id_usuario,
+                                        n2,
+                                        practicas,
+                                        Double.valueOf(txtcoseguro.getText()),
+                                        fecha,
+                                        tipo_orden,
+                                        observacion,
+                                        plan_ss,
+                                        coseguro_ss,
+                                        estado_orden,
+                                        fechaDate);
+                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                     cursor2();
+                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
                                     bandera_sancor = 0;
-                                    JOptionPane.showMessageDialog(null, "La orden no fue validada");
+
                                 } else {
                                     cursor2();
                                     bandera_sancor = 0;
-                                    JOptionPane.showMessageDialog(null, anulacion(servicioanulacion).getDescripcionrespuesta());
+                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Sancor");
+                                    JOptionPane.showMessageDialog(null, respuesta_sancor.getDescripcionrespuesta() + "\n" + mensaje);
+                                    borrartabla();
                                 }
-                            } else {
-                                cursor2();
-                                bandera_sancor = 1;
-                                JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
-                                borrartabla();
+                            }
+
+                        } else {
+                            cursor2();
+                            //  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                        }
+                    }
+                    /////////////1805-subsidio on line//////////////////////
+                    if (obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        ConexionMariaDB cc3 = new ConexionMariaDB();
+                        Connection cnn = cc3.Conectar();
+                        cursor();
+                        int cuentaPracticas = 0;
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        LinkedList<camposss> Resultados = new LinkedList<camposss>();
+                        Resultados.clear();
+                        ClienteIPSST3.OrdenAutorizarCHEQUEARFACTIBILIDAD servicio = new ClienteIPSST3.OrdenAutorizarCHEQUEARFACTIBILIDAD();
+                        servicio.setAficuil(txtnumafiliado.getText());
+                        servicio.setOrdentipo("B");
+                        servicio.setPrescriptor(Integer.valueOf(txtmatricula.getText()));
+                        servicio.setPrestador(Integer.valueOf(matricula_colegiado));
+                        //servicio.setPrestador(1177);
+                        servicio.setUsuario(2);//
+                        servicio.setToken("iq12Ii35o");
+                        /////////////////////////////////
+                        ClienteIPSST3.ArrayOfWSPractica item = new ClienteIPSST3.ArrayOfWSPractica();
+                        ClienteIPSST3.WSPractica practica;
+                        //////////////////////////////////////////////
+                        int n2, iv = 0, iv1 = 0, iv2 = 0, iv3 = 0;
+                        int i = 0;
+                        String cod_practca, cod_practica, cadena_practicas = "", id_practicas = "";
+                        String[] practicas = new String[100];
+                        n2 = tablapracticas.getRowCount();
+                        /////////////////////////////////////////////////
+                        if (tablapracticas.getRowCount() != 0) {
+                            n2 = tablapracticas.getRowCount();
+                            i = 0;
+                            if (n2 != 0) {
+                                try {
+                                    Statement st = cnn.createStatement();
+                                    while (iv < n2) {
+                                        id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                        cadena_practicas = cadena_practicas + String.valueOf(tablapracticas.getValueAt(iv, 1).toString()).substring(0, 6);
+                                        cod_practca = tablapracticas.getValueAt(iv, 1).toString().substring(0, 6);
+                                        String consultaExcluida = "SELECT practica_2, practica_1 from practicas_excluidas where practica_1 =" + cod_practca;
+                                        ResultSet rs = st.executeQuery(consultaExcluida);
+                                        while (rs.next()) {
+                                            iv1 = 0;
+                                            cod_practica = rs.getString(1);
+                                            while (iv1 < n2) {
+                                                if (iv1 != iv) {
+                                                    cod_practca = tablapracticas.getValueAt(iv1, 1).toString().trim();
+                                                    if (cod_practca.equals(cod_practica)) {
+                                                        practicas[iv3] = "El Codigo " + rs.getString(2) + " No puede ser cargado con " + cod_practca;
+                                                        cuentaPracticas = 1;
+                                                        iv3++;
+                                                    }
+                                                }
+                                                iv1++;
+                                            }
+                                        }
+                                        iv++;
+                                    }
+                                    cnn.close();
+                                } catch (SQLException e) {
+                                    cursor2();
+                                    JOptionPane.showMessageDialog(null, e);
+                                }
                             }
                         } else {
-                            estado_orden = 0;
-                            String mensaje = "";
-                            for (int j = 0; j < n2; j++) {
-                                mensaje = mensaje + "Error: " + respuesta_sancor.getCodigorespuesta() + "---" + respuesta_sancor.getPrestacionesrtav2().getPrestacionesRtaPrestacionesRtaItem().getPrestacionesRtaItem().get(j).getPrestacion() + "---" + respuesta_sancor.getPrestacionesrtav2().getPrestacionesRtaPrestacionesRtaItem().getPrestacionesRtaItem().get(j).getDescripcionErrorPrest() + "\n";
-                            }
-                            System.out.println(mensaje);
-                            observacion = mensaje;
-                            if (observacion.length() > 500) {
-                                observacion = observacion.substring(0, 500);
-                            }
-                            /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                            validar_orden sancor = new validar_orden();
-                            System.out.println(practicas);
-                            respuesta = sancor.valida(
-                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                    txtnombreafiliado.getText(),
-                                    txtdocumento.getText(),
-                                    txtnumafiliado.getText(),
-                                    Integer.valueOf(txtmatricula.getText()),
-                                    "0",
-                                    fecha,
-                                    Double.valueOf(txttotal1.getText()),
-                                    fecha,
-                                    hora,
-                                    ip2,
-                                    id_obra_social,
-                                    id_usuario,
-                                    n2,
-                                    practicas,
-                                    Double.valueOf(txtcoseguro.getText()),
-                                    fecha,
-                                    tipo_orden,
-                                    observacion,
-                                    plan_ss,
-                                    coseguro_ss,
-                                    estado_orden,
-                                    fechaDate);
-                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                cursor2();
-                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                bandera_sancor = 0;
-
-                            } else {
-                                cursor2();
-                                bandera_sancor = 0;
-                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Sancor");
-                                JOptionPane.showMessageDialog(null, respuesta_sancor.getDescripcionrespuesta() + "\n" + mensaje);
-                                borrartabla();
-                            }
-                        }
-
-                    } else {
-                        cursor2();
-                        //  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                    }
-                }
-                /////////////1805-subsidio on line//////////////////////
-                if (obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")) {
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    ConexionMariaDB cc3 = new ConexionMariaDB();
-                    Connection cnn = cc3.Conectar();
-                    cursor();
-                    int cuentaPracticas = 0;
-                    DecimalFormat df = new DecimalFormat("0.00");
-                    LinkedList<camposss> Resultados = new LinkedList<camposss>();
-                    Resultados.clear();
-                    ClienteIPSST3.OrdenAutorizarCHEQUEARFACTIBILIDAD servicio = new ClienteIPSST3.OrdenAutorizarCHEQUEARFACTIBILIDAD();
-                    servicio.setAficuil(txtnumafiliado.getText());
-                    servicio.setOrdentipo("B");
-                    servicio.setPrescriptor(Integer.valueOf(txtmatricula.getText()));
-                    servicio.setPrestador(Integer.valueOf(matricula_colegiado));
-                    //servicio.setPrestador(1177);
-                    servicio.setUsuario(2);//
-                    servicio.setToken("iq12Ii35o");
-                    /////////////////////////////////
-                    ClienteIPSST3.ArrayOfWSPractica item = new ClienteIPSST3.ArrayOfWSPractica();
-                    ClienteIPSST3.WSPractica practica;
-                    //////////////////////////////////////////////
-                    int n2, iv = 0, iv1 = 0, iv2 = 0, iv3 = 0;
-                    int i = 0;
-                    String cod_practca, cod_practica, cadena_practicas = "", id_practicas = "";
-                    String[] practicas = new String[100];
-                    n2 = tablapracticas.getRowCount();
-                    /////////////////////////////////////////////////
-                    if (tablapracticas.getRowCount() != 0) {
-                        n2 = tablapracticas.getRowCount();
-                        i = 0;
-                        if (n2 != 0) {
-                            try {
-                                Statement st = cnn.createStatement();
-                                while (iv < n2) {
-                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                    cadena_practicas = cadena_practicas + String.valueOf(tablapracticas.getValueAt(iv, 1).toString()).substring(0, 6);
-                                    cod_practca = tablapracticas.getValueAt(iv, 1).toString().substring(0, 6);
-                                    String consultaExcluida = "SELECT practica_2, practica_1 from practicas_excluidas where practica_1 =" + cod_practca;
-                                    ResultSet rs = st.executeQuery(consultaExcluida);
-                                    while (rs.next()) {
-                                        iv1 = 0;
-                                        cod_practica = rs.getString(1);
-                                        while (iv1 < n2) {
-                                            if (iv1 != iv) {
-                                                cod_practca = tablapracticas.getValueAt(iv1, 1).toString().trim();
-                                                if (cod_practca.equals(cod_practica)) {
-                                                    practicas[iv3] = "El Codigo " + rs.getString(2) + " No puede ser cargado con " + cod_practca;
-                                                    cuentaPracticas = 1;
-                                                    iv3++;
-                                                }
-                                            }
-                                            iv1++;
-                                        }
-                                    }
-                                    iv++;
-                                }
-                                cnn.close();
-                            } catch (SQLException e) {
-                                cursor2();
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                        }
-                    } else {
-                        cursor2();
-                        // JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                    }
-                    if (cuentaPracticas == 0) {
-                        iv = 0;
-                        while (iv < n2) {
-                            cod_practca = tablapracticas.getValueAt(iv, 1).toString().substring(0, 6);
-                            practica = new ClienteIPSST3.WSPractica();
-                            practica.setNomPrestacion(cod_practca);
-                            practica.setCantidad(1);
-                            item.getWSPractica().add(practica);
-                            servicio.setPracticas(item);
-                            iv++;
-                        }
-                        OrdenAutorizarCHEQUEARFACTIBILIDADResponse respuesta_factibilidad_ss = chequearfactibilidad(servicio);
-                        if (respuesta_factibilidad_ss.getFactibilidad() == 1) {
-                            contadorPracticas = 0;
-                            habilitado = "AUTORIZADO";
-                            double coseguro2 = 0.0, precio = 0.0, subtotal = 0.0, total = 0.0;
-                            String Salida = "";
-                            if (tablapracticas.getRowCount() != 0) {
-                                i = 0;
-                                n2 = tablapracticas.getRowCount();
-                                if (n2 != 0) {
-                                    while (i < n2) {
-                                        coseguro2 = coseguro2 + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getCoseguro();
-                                        Salida = Salida + "\n" + "Practica: " + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getNomPrestacion() + " Coseguro: $" + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getCoseguro();
-                                        camposss tipo;
-                                        subtotal = subtotal + Double.valueOf(tablapracticas.getValueAt(i, 3).toString());
-                                        tipo = new camposss(respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getNomPrestacion(), String.valueOf(respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getCoseguro()), String.valueOf(tablapracticas.getValueAt(i, 2)), String.valueOf(tablapracticas.getValueAt(i, 3)));
-                                        Resultados.add(tipo);
-                                        i++;
-                                    }
-                                }
-                            } else {
-                                cursor2();
-                                JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                            }
-                            num_orden = "";
-                            txtnumorden.setText(num_orden);
                             cursor2();
-                            int opcion = JOptionPane.showConfirmDialog(this, "          AUTORIZADO " + Salida + "\n      COSEGURO TOTAL: $" + coseguro2, "Subsidio Impresíon", JOptionPane.OK_CANCEL_OPTION);
-                            if (opcion == 0) {
-                                cursor();
-                                ClienteIPSST3.OrdenAutorizarEMITIR servicio2 = new ClienteIPSST3.OrdenAutorizarEMITIR();
-                                servicio2.setAficuil(txtnumafiliado.getText());
-                                servicio2.setOrdentipo("B");
-                                servicio2.setUsuario(2);//
-                                servicio2.setToken("iq12Ii35o");
-                                servicio2.setPrescriptor(Integer.valueOf(txtmatricula.getText()));
-                                servicio2.setPrestador(Integer.valueOf(matricula_colegiado));
-                                /////////////////////////////////////////////////////////////////////////////
-                                ClienteIPSST3.ArrayOfWSPractica item2 = new ClienteIPSST3.ArrayOfWSPractica();
-                                ClienteIPSST3.WSPractica practica2;
+                            // JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                        }
+                        if (cuentaPracticas == 0) {
+                            iv = 0;
+                            while (iv < n2) {
+                                cod_practca = tablapracticas.getValueAt(iv, 1).toString().substring(0, 6);
+                                practica = new ClienteIPSST3.WSPractica();
+                                practica.setNomPrestacion(cod_practca);
+                                practica.setCantidad(1);
+                                item.getWSPractica().add(practica);
+                                servicio.setPracticas(item);
+                                iv++;
+                            }
+                            OrdenAutorizarCHEQUEARFACTIBILIDADResponse respuesta_factibilidad_ss = chequearfactibilidad(servicio);
+                            if (respuesta_factibilidad_ss.getFactibilidad() == 1) {
+                                contadorPracticas = 0;
+                                habilitado = "AUTORIZADO";
+                                double coseguro2 = 0.0, precio = 0.0, subtotal = 0.0, total = 0.0;
+                                String Salida = "";
                                 if (tablapracticas.getRowCount() != 0) {
                                     i = 0;
                                     n2 = tablapracticas.getRowCount();
                                     if (n2 != 0) {
                                         while (i < n2) {
-                                            cod_practca = tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
-                                            practica2 = new ClienteIPSST3.WSPractica();
-                                            practica2.setNomPrestacion(cod_practca);
-                                            practica2.setCantidad(1);
-                                            item2.getWSPractica().add(practica2);
-                                            servicio2.setPracticas(item2);
+                                            coseguro2 = coseguro2 + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getCoseguro();
+                                            Salida = Salida + "\n" + "Practica: " + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getNomPrestacion() + " Coseguro: $" + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getCoseguro();
+                                            camposss tipo;
+                                            subtotal = subtotal + Double.valueOf(tablapracticas.getValueAt(i, 3).toString());
+                                            tipo = new camposss(respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getNomPrestacion(), String.valueOf(respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getCoseguro()), String.valueOf(tablapracticas.getValueAt(i, 2)), String.valueOf(tablapracticas.getValueAt(i, 3)));
+                                            Resultados.add(tipo);
                                             i++;
                                         }
                                     }
@@ -4986,418 +4964,64 @@ public class MainL extends javax.swing.JFrame {
                                     cursor2();
                                     JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
                                 }
-                                System.out.println("-------------------------------------");
-                                OrdenAutorizarEMITIRResponse Respuesta_emite = emitir(servicio2);
-                                if (Respuesta_emite.getMotivorechazo().toString().equals("")) {
-
-                                    num_orden = String.valueOf(Respuesta_emite.getOrdnumero());
-                                    //////////////////cargar coseguro y planes///////////////////////////////////////////////////////////////////////////////////
-                                    i = 0;
-                                    n2 = Respuesta_emite.getPracticas().getWSPractica().size();
-                                    while (i < n2) {
-                                        plan_ss = plan_ss + completarceros(String.valueOf(Respuesta_emite.getPracticas().getWSPractica().get(i).getPlanCobertura()), 2);
-                                        coseguro_ss = coseguro_ss + completarceros(String.valueOf(Respuesta_emite.getPracticas().getWSPractica().get(i).getCoseguro()), 7);
-                                        i++;
-                                    }
-                                    estado_orden = 1;
-                                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                                    validar_orden ss_1805 = new validar_orden();
-                                    respuesta = ss_1805.valida(
-                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                            txtnombreafiliado.getText(),
-                                            txtdocumento.getText(),
-                                            txtnumafiliado.getText(),
-                                            Integer.valueOf(txtmatricula.getText()),
-                                            num_orden,
-                                            fecha,
-                                            Double.valueOf(txttotal1.getText()),
-                                            fecha,
-                                            hora,
-                                            ip2,
-                                            id_obra_social,
-                                            id_usuario,
-                                            n2,
-                                            cadena_practicas,
-                                            Double.valueOf(txtcoseguro.getText()),
-                                            fecha,
-                                            tipo_orden,
-                                            observacion,
-                                            plan_ss,
-                                            coseguro_ss,
-                                            estado_orden,
-                                            fechaDate);
-                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                        System.out.println("Anulacion ss 1805");
-                                        ClienteIPSST5.OrdenDevolverExecute servicio_anulacion = new ClienteIPSST5.OrdenDevolverExecute();
-                                        servicio_anulacion.setAficuil(txtnumafiliado.getText());
-                                        servicio_anulacion.setOrdtipo("B");
-                                        servicio_anulacion.setPrestador(Integer.valueOf(Login.matricula_colegiado));
-                                        servicio_anulacion.setUsuario(2);//
-                                        servicio_anulacion.setToken("iq12Ii35o");
-                                        servicio_anulacion.setOrdnumero(Integer.valueOf(num_orden));
-                                        OrdenDevolverExecuteResponse respuesta_devolucion = execute_2(servicio_anulacion);
-                                        if (respuesta_devolucion.getEstadoactual().equals("DEVUELTA")) {
-                                            cursor2();
-                                            bandera_subsidio = 0;
-                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                        } else {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, respuesta_devolucion.getMotivo());
-                                            try {
-                                                JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
-                                                ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
-                                                Map parametros = new HashMap();
-                                                parametros.put("fecha", fecha2);
-                                                parametros.put("nombre", txtnombreafiliado.getText());
-                                                parametros.put("numero", txtnumafiliado.getText());
-                                                parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
-                                                parametros.put("mensaje", respuesta_devolucion.getMotivo());
-                                                JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
-                                                int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
-                                                if (opcionSS == 0) {
-                                                    JasperPrintManager.printReport(jPrint2, false);
-                                                }
-
-                                                ImagenPDF pdf = new ImagenPDF();
-                                                pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
-                                                System.out.println(plan_ss);
-                                                System.out.println(coseguro_ss);
-                                            } catch (Exception e) {
-                                                cursor2();
-                                                JOptionPane.showMessageDialog(null, e);
-                                            }
-                                            bandera_subsidio = 0;
-                                            borrartabla();
-                                        }
-                                    } else {
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + Respuesta_emite.getOrdnumero());
-                                        ////////////////////////////////////////////////////////////////////////////////////////////
-                                        try {
-                                            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Comprobante_subsidio.jasper"));
-                                            ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
-                                            Map parametros = new HashMap();
-                                            parametros.put("numero_autorizacion", num_orden);
-                                            parametros.put("fecha", fecha2);
-                                            parametros.put("nombre", txtnombreafiliado.getText());
-                                            parametros.put("numero", txtnumafiliado.getText());
-                                            parametros.put("Medico", txtmatricula.getText());
-                                            parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
-                                            parametros.put("total", df.format(coseguro2));
-                                            parametros.put("subtotal", df.format(subtotal));
-                                            JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
-                                            ImagenPDF pdf = new ImagenPDF();
-                                            pdf.createPdf(jPrint, "C:\\Descargas-CBT\\" + txtnombreafiliado.getText() + " - " + num_orden);
-                                            JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
-                                            int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
-                                            if (opcionSS == 0) {
-                                                JasperPrintManager.printReport(jPrint2, false);
-                                            }
-                                            System.out.println(plan_ss);
-                                            System.out.println(coseguro_ss);
-                                        } catch (Exception e) {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                        bandera_subsidio = 1;
-                                        borrartabla();
-                                    }
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////////
-                                } else {
-                                    bandera_subsidio = 0;
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, Respuesta_emite.getMotivorechazo());
-                                    try {
-                                        JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
-                                        ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
-                                        Map parametros = new HashMap();
-                                        parametros.put("fecha", fecha2);
-                                        parametros.put("nombre", txtnombreafiliado.getText());
-                                        parametros.put("numero", txtnumafiliado.getText());
-                                        parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
-                                        parametros.put("mensaje", Respuesta_emite.getMotivorechazo());
-                                        JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
-                                        int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
-                                        if (opcionSS == 0) {
-                                            JasperPrintManager.printReport(jPrint2, false);
-                                        }
-                                        ImagenPDF pdf = new ImagenPDF();
-                                        pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
-                                        System.out.println(plan_ss);
-                                        System.out.println(coseguro_ss);
-                                    } catch (Exception e) {
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, e);
-                                    }
-                                    borrartabla();
-                                }
-                            } else {
-                                bandera_subsidio = 0;
+                                num_orden = "";
+                                txtnumorden.setText(num_orden);
                                 cursor2();
-                            }
-                        } else {
-                            bandera_subsidio = 0;
-                            cursor2();
-                            if (respuesta_factibilidad_ss.getFactibilidad() == 0) {
-                                habilitado = "ERROR";
-                                String Salida = "";
-                                if (tablapracticas.getRowCount() != 0) {
-                                    i = 0;
-                                    n2 = tablapracticas.getRowCount();
-                                    if (n2 != 0) {
-                                        while (i < n2) {
-                                            Salida = Salida + "\n" + "Practica: " + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getNomPrestacion() + " Motivo: " + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getMotivo();
-                                            i++;
-                                        }
-                                    }
-                                } else {
-                                    cursor2();
-                                    //JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                                }
-                                JOptionPane.showMessageDialog(null, respuesta_factibilidad_ss.getMotivorechazo() + Salida);
-                                try {
-                                    JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
-                                    ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
-                                    Map parametros = new HashMap();
-                                    parametros.put("fecha", fecha2);
-                                    parametros.put("nombre", txtnombreafiliado.getText());
-                                    parametros.put("numero", txtnumafiliado.getText());
-                                    parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
-                                    parametros.put("mensaje", respuesta_factibilidad_ss.getMotivorechazo() + Salida);
-                                    JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
-                                    int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
-                                    if (opcionSS == 0) {
-                                        JasperPrintManager.printReport(jPrint2, false);
-                                    }
-                                    ImagenPDF pdf = new ImagenPDF();
-                                    pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
-                                    System.out.println(plan_ss);
-                                    System.out.println(coseguro_ss);
-                                } catch (Exception e) {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, e);
-                                }
-                                bandera_subsidio = 0;
-                            }
-                            borrartabla();
-                        }
-                    } else {
-                        cursor2();
-                        bandera_subsidio = 0;
-                        String Texto = "";
-                        while (iv2 < iv3) {
-                            Texto = Texto + " " + practicas[iv2] + "\n";
-                            iv2++;
-                        }
-                        JOptionPane.showMessageDialog(null, "Hay prácticas que ya están contenidas en un módulo" + "\n" + Texto);
-                        txtpractica.setText("");
-                    }
-                }//pendiente 
-
-                if (obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    System.out.println("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE");
-                    bandera_subsidio = 0;
-                    borrartabla();
-                    DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
-                    int n;
-                    ClienteIPSST4.OrdenValidarExecute servicio = new ClienteIPSST4.OrdenValidarExecute();
-                    servicio.setAficuil(txtnumafiliado.getText());
-                    try {
-                        if (isNumeric(txtnumorden.getText())) {
-                            servicio.setOrdnumero(Long.valueOf(txtnumorden.getText()));
-                            servicio.setPrestador(Integer.valueOf(matricula_colegiado));
-                            servicio.setUsuario(2);//
-                            servicio.setToken("iq12Ii35o");
-                            cursor();
-                            ClienteIPSST4.OrdenValidarExecuteResponse respuesta_valida = execute_1(servicio);
-                            System.out.println(respuesta_valida.getMotivo());
-                            System.out.println(respuesta_valida.getOrdenvalida());
-                            /////////////////////////////////
-                            if (Integer.valueOf(respuesta_valida.getOrdenvalida()) == 1) {
-                                int n2, i = 0, cantidad_practica;
-                                String cod_practca, nombre_practica;
-                                n2 = respuesta_valida.getPracticas().getWSPracticaValidar().size();
-                                System.out.println("cantidad: " + n2);
-                                if (n2 != 0) {
-                                    while (i < n2) {
-                                        cod_practca = respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getPractica();
-                                        nombre_practica = respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getDescripcion();
-                                        plan_ss = plan_ss + completarceros(String.valueOf(respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getPlan()), 2);
-                                        cantidad_practica = respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getCantidad();
-                                        int j = 0;
-                                        int fila = 0;
-                                        n = tablapracticas.getRowCount();
-                                        while (j < contadorj) {
-                                            System.out.println("Practica" + cod_practca);
-                                            if (cod_practca.equals(codfacpractica[j])) {
-                                                System.out.println("Practica- vector" + codfacpractica[j]);
-                                                if (n != 0) {
-                                                    if (cantidad_practica > 1) {
-                                                        int k = 0, contador = n;
-                                                        while (k < cantidad_practica) {
-                                                            fila = contador;
-                                                            Object nuevo[] = {
-                                                                fila + 1, "", ""};
-                                                            temp.addRow(nuevo);
-                                                            tablapracticas.setValueAt(cod_practca, fila, 1);
-                                                            tablapracticas.setValueAt(nombre_practica, fila, 2);
-                                                            tablapracticas.setValueAt(preciopractica[j], fila, 3);
-                                                            tablapracticas.setValueAt(codfacpractica[j], fila, 4);
-                                                            tablapracticas.setValueAt(idpractica[j], fila, 5);
-                                                            bandera_subsidio = 1;
-                                                            k++;
-                                                            contador++;
-                                                        }
-                                                    } else {
-                                                        fila = n;
-                                                        Object nuevo[] = {
-                                                            fila + 1, "", ""};
-                                                        temp.addRow(nuevo);
-                                                        tablapracticas.setValueAt(cod_practca, fila, 1);
-                                                        tablapracticas.setValueAt(nombre_practica, fila, 2);
-                                                        tablapracticas.setValueAt(preciopractica[j], fila, 3);
-                                                        tablapracticas.setValueAt(codfacpractica[j], fila, 4);
-                                                        tablapracticas.setValueAt(idpractica[j], fila, 5);
-                                                        bandera_subsidio = 1;
-
-                                                    }
-                                                } else {
-                                                    if (cantidad_practica > 1) {
-                                                        int k = 0, contador = 0;
-                                                        while (k < cantidad_practica) {
-                                                            if (contador == 0) {
-                                                                Object nuevo[] = {
-                                                                    "1", "", ""};
-                                                                temp.addRow(nuevo);
-                                                                tablapracticas.setValueAt(cod_practca, 0, 1);
-                                                                tablapracticas.setValueAt(nombre_practica, 0, 2);
-                                                                tablapracticas.setValueAt(preciopractica[j], 0, 3);
-                                                                tablapracticas.setValueAt(codfacpractica[j], fila, 4);
-                                                                tablapracticas.setValueAt(idpractica[j], fila, 5);
-                                                                bandera_subsidio = 1;
-                                                                contador = contador + 1;
-                                                            } else {
-                                                                fila = contador;
-                                                                Object nuevo[] = {
-                                                                    fila + 1, "", ""};
-                                                                temp.addRow(nuevo);
-                                                                tablapracticas.setValueAt(cod_practca, fila, 1);
-                                                                tablapracticas.setValueAt(nombre_practica, fila, 2);
-                                                                tablapracticas.setValueAt(preciopractica[j], fila, 3);
-                                                                tablapracticas.setValueAt(codfacpractica[j], fila, 4);
-                                                                tablapracticas.setValueAt(idpractica[j], fila, 5);
-                                                                bandera_subsidio = 1;
-                                                                contador = contador + 1;
-                                                            }
-                                                            k++;
-                                                        }
-                                                    } else {
-                                                        Object nuevo[] = {
-                                                            "1", "", ""};
-                                                        temp.addRow(nuevo);
-                                                        tablapracticas.setValueAt(cod_practca, 0, 1);
-                                                        tablapracticas.setValueAt(nombre_practica, 0, 2);
-                                                        tablapracticas.setValueAt(preciopractica[j], 0, 3);
-                                                        tablapracticas.setValueAt(codfacpractica[j], 0, 4);
-                                                        tablapracticas.setValueAt(idpractica[j], 0, 5);
-                                                        bandera_subsidio = 1;
-                                                    }
-
-                                                }
-                                                System.out.println(cod_practca);
-                                                break;
-                                            }
-                                            j++;
-                                            tablapracticas.getColumnModel().getColumn(0).setPreferredWidth(10);
-                                            tablapracticas.getColumnModel().getColumn(1).setPreferredWidth(10);
-                                            tablapracticas.getColumnModel().getColumn(2).setPreferredWidth(300);
-                                            tablapracticas.getColumnModel().getColumn(3).setPreferredWidth(10);
-                                            ///////Ultima Fila///////
-                                            tablapracticas.getColumnModel().getColumn(4).setMaxWidth(0);
-                                            tablapracticas.getColumnModel().getColumn(4).setMinWidth(0);
-                                            tablapracticas.getColumnModel().getColumn(4).setPreferredWidth(0);
-
-                                            Rectangle r = tablapracticas.getCellRect(tablapracticas.getRowCount() - 1, 0, true);
-                                            tablapracticas.scrollRectToVisible(r);
-                                            tablapracticas.getSelectionModel().setSelectionInterval(tablapracticas.getRowCount() - 1, tablapracticas.getRowCount() - 1);
-                                            //////////////////////////
-                                        }
-                                        i++;
-                                    }
-                                    cargartotalpracticas();
-                                    cursor2();
-                                } else {
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "Las practicas no se encuentran disponibles en nuestro servidor.\n Aguarde 24Hs para realizar la carga");
-                                    System.out.println("ANULO");
-                                    ////////////////ANULACION//////////////////////////////////////////
-                                    ClienteIPSST6.OrdenValidadaAnularExecute ANULACION = new ClienteIPSST6.OrdenValidadaAnularExecute();
-                                    ANULACION.setAficuil(txtnumafiliado.getText());
-                                    ANULACION.setPrestador(Login.matricula_colegiado);
-                                    ANULACION.setUsuario(2);//
-                                    ANULACION.setToken("iq12Ii35o");
-                                    ANULACION.setOrdnumero(Integer.valueOf(txtnumorden.getText()));
-
-                                    OrdenValidadaAnularExecuteResponse respuesta_devuelve = execute_3(ANULACION);
-                                    if (respuesta_devuelve.getOrdenanuladada() == 1) {
-                                        habilitado = "AUTORIZADO";
-                                        cursor2();
-                                        System.out.println("Orden anulala del servidor de Subsidio");
-                                    } else {
-                                        habilitado = "ERROR";
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, respuesta_devuelve.getMotivo());
-                                        try {
-                                            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
-                                            //////////////////////////////////////////////////
-                                            Map parametros = new HashMap();
-                                            parametros.put("fecha", fecha2);
-                                            parametros.put("nombre", txtnombreafiliado.getText());
-                                            parametros.put("numero", txtnumafiliado.getText());
-                                            parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
-                                            parametros.put("mensaje", respuesta_devuelve.getMotivo());
-                                            JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
-                                            JasperPrintManager.printReport(jPrint2, false);
-                                            ImagenPDF pdf = new ImagenPDF();
-                                            pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
-                                            System.out.println(plan_ss);
-                                            System.out.println(coseguro_ss);
-                                        } catch (Exception e) {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                    System.out.println("8------");
-                                }
-                                if (bandera_subsidio == 1) {
-                                    estado_orden = 1;
-                                    ////////////////////////////////////////////////////////////////////////////////////////////
-                                    String Salida = "Practicas Autorizadas", cadena_practicas = "", id_practicas = "";
-                                    if (n2 != 0) {
+                                int opcion = JOptionPane.showConfirmDialog(this, "          AUTORIZADO " + Salida + "\n      COSEGURO TOTAL: $" + coseguro2, "Subsidio Impresíon", JOptionPane.OK_CANCEL_OPTION);
+                                if (opcion == 0) {
+                                    cursor();
+                                    ClienteIPSST3.OrdenAutorizarEMITIR servicio2 = new ClienteIPSST3.OrdenAutorizarEMITIR();
+                                    servicio2.setAficuil(txtnumafiliado.getText());
+                                    servicio2.setOrdentipo("B");
+                                    servicio2.setUsuario(2);//
+                                    servicio2.setToken("iq12Ii35o");
+                                    servicio2.setPrescriptor(Integer.valueOf(txtmatricula.getText()));
+                                    servicio2.setPrestador(Integer.valueOf(matricula_colegiado));
+                                    /////////////////////////////////////////////////////////////////////////////
+                                    ClienteIPSST3.ArrayOfWSPractica item2 = new ClienteIPSST3.ArrayOfWSPractica();
+                                    ClienteIPSST3.WSPractica practica2;
+                                    if (tablapracticas.getRowCount() != 0) {
                                         i = 0;
                                         n2 = tablapracticas.getRowCount();
+                                        if (n2 != 0) {
+                                            while (i < n2) {
+                                                cod_practca = tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
+                                                practica2 = new ClienteIPSST3.WSPractica();
+                                                practica2.setNomPrestacion(cod_practca);
+                                                practica2.setCantidad(1);
+                                                item2.getWSPractica().add(practica2);
+                                                servicio2.setPracticas(item2);
+                                                i++;
+                                            }
+                                        }
+                                    } else {
+                                        cursor2();
+                                        JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                                    }
+                                    System.out.println("-------------------------------------");
+                                    OrdenAutorizarEMITIRResponse Respuesta_emite = emitir(servicio2);
+                                    if (Respuesta_emite.getMotivorechazo().toString().equals("")) {
+
+                                        num_orden = String.valueOf(Respuesta_emite.getOrdnumero());
+                                        //////////////////cargar coseguro y planes///////////////////////////////////////////////////////////////////////////////////
+                                        i = 0;
+                                        n2 = Respuesta_emite.getPracticas().getWSPractica().size();
                                         while (i < n2) {
-                                            coseguro_ss = coseguro_ss + "00000.0";
-                                            id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                            cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString();
-                                            Salida = Salida + "\n" + (i + 1) + " - Practica: " + tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
+                                            plan_ss = plan_ss + completarceros(String.valueOf(Respuesta_emite.getPracticas().getWSPractica().get(i).getPlanCobertura()), 2);
+                                            coseguro_ss = coseguro_ss + completarceros(String.valueOf(Respuesta_emite.getPracticas().getWSPractica().get(i).getCoseguro()), 7);
                                             i++;
                                         }
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, Salida);
+                                        estado_orden = 1;
                                         /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                                        cursor();
-                                        validar_orden ss_1806 = new validar_orden();
-                                        respuesta = ss_1806.valida(
+                                        validar_orden ss_1805 = new validar_orden();
+                                        respuesta = ss_1805.valida(
                                                 Integer.valueOf(txtaño.getText() + txtmes.getText()),
                                                 txtnombreafiliado.getText(),
                                                 txtdocumento.getText(),
                                                 txtnumafiliado.getText(),
                                                 Integer.valueOf(txtmatricula.getText()),
-                                                txtnumorden.getText(),
-                                                txtfecha.getText(),
+                                                num_orden,
+                                                fecha,
                                                 Double.valueOf(txttotal1.getText()),
                                                 fecha,
                                                 hora,
@@ -5415,826 +5039,1063 @@ public class MainL extends javax.swing.JFrame {
                                                 estado_orden,
                                                 fechaDate);
                                         if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                            System.out.println("Anulacion ss 1806");
-                                            ClienteIPSST6.OrdenValidadaAnularExecute servicio_anulacion = new ClienteIPSST6.OrdenValidadaAnularExecute();
+                                            System.out.println("Anulacion ss 1805");
+                                            ClienteIPSST5.OrdenDevolverExecute servicio_anulacion = new ClienteIPSST5.OrdenDevolverExecute();
                                             servicio_anulacion.setAficuil(txtnumafiliado.getText());
-                                            servicio_anulacion.setPrestador(String.valueOf(id_usuario));
+                                            servicio_anulacion.setOrdtipo("B");
+                                            servicio_anulacion.setPrestador(Integer.valueOf(Login.matricula_colegiado));
                                             servicio_anulacion.setUsuario(2);//
                                             servicio_anulacion.setToken("iq12Ii35o");
-                                            servicio_anulacion.setOrdnumero(Integer.valueOf(txtnumorden.getText()));
-                                            bandera_subsidio = 0;
-                                            OrdenValidadaAnularExecuteResponse respuesta_devuelve = execute_3(servicio_anulacion);
-                                            if (respuesta_devuelve.getOrdenanuladada() == 1) {
-                                                bandera_subsidio = 0;
+                                            servicio_anulacion.setOrdnumero(Integer.valueOf(num_orden));
+                                            OrdenDevolverExecuteResponse respuesta_devolucion = execute_2(servicio_anulacion);
+                                            if (respuesta_devolucion.getEstadoactual().equals("DEVUELTA")) {
                                                 cursor2();
+                                                bandera_subsidio = 0;
                                                 JOptionPane.showMessageDialog(null, "La orden no fue validada");
                                             } else {
                                                 cursor2();
-                                                JOptionPane.showMessageDialog(null, respuesta_devuelve.getMotivo());
+                                                JOptionPane.showMessageDialog(null, respuesta_devolucion.getMotivo());
+                                                try {
+                                                    JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
+                                                    ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
+                                                    Map parametros = new HashMap();
+                                                    parametros.put("fecha", fecha2);
+                                                    parametros.put("nombre", txtnombreafiliado.getText());
+                                                    parametros.put("numero", txtnumafiliado.getText());
+                                                    parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
+                                                    parametros.put("mensaje", respuesta_devolucion.getMotivo());
+                                                    JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
+                                                    int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
+                                                    if (opcionSS == 0) {
+                                                        JasperPrintManager.printReport(jPrint2, false);
+                                                    }
+
+                                                    ImagenPDF pdf = new ImagenPDF();
+                                                    pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
+                                                    System.out.println(plan_ss);
+                                                    System.out.println(coseguro_ss);
+                                                } catch (Exception e) {
+                                                    cursor2();
+                                                    JOptionPane.showMessageDialog(null, e);
+                                                }
                                                 bandera_subsidio = 0;
+                                                borrartabla();
                                             }
                                         } else {
                                             cursor2();
+                                            JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + Respuesta_emite.getOrdnumero());
+                                            ////////////////////////////////////////////////////////////////////////////////////////////
+                                            try {
+                                                JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Comprobante_subsidio.jasper"));
+                                                ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
+                                                Map parametros = new HashMap();
+                                                parametros.put("numero_autorizacion", num_orden);
+                                                parametros.put("fecha", fecha2);
+                                                parametros.put("nombre", txtnombreafiliado.getText());
+                                                parametros.put("numero", txtnumafiliado.getText());
+                                                parametros.put("Medico", txtmatricula.getText());
+                                                parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
+                                                parametros.put("total", df.format(coseguro2));
+                                                parametros.put("subtotal", df.format(subtotal));
+                                                JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
+                                                ImagenPDF pdf = new ImagenPDF();
+                                                pdf.createPdf(jPrint, "C:\\Descargas-CBT\\" + txtnombreafiliado.getText() + " - " + num_orden);
+                                                JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
+                                                int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
+                                                if (opcionSS == 0) {
+                                                    JasperPrintManager.printReport(jPrint2, false);
+                                                }
+                                                System.out.println(plan_ss);
+                                                System.out.println(coseguro_ss);
+                                            } catch (Exception e) {
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, e);
+                                            }
                                             bandera_subsidio = 1;
+                                            borrartabla();
+                                        }
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////////
+                                    } else {
+                                        bandera_subsidio = 0;
+                                        cursor2();
+                                        JOptionPane.showMessageDialog(null, Respuesta_emite.getMotivorechazo());
+                                        try {
+                                            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
+                                            ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
+                                            Map parametros = new HashMap();
+                                            parametros.put("fecha", fecha2);
+                                            parametros.put("nombre", txtnombreafiliado.getText());
+                                            parametros.put("numero", txtnumafiliado.getText());
+                                            parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
+                                            parametros.put("mensaje", Respuesta_emite.getMotivorechazo());
+                                            JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
+                                            int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
+                                            if (opcionSS == 0) {
+                                                JasperPrintManager.printReport(jPrint2, false);
+                                            }
+                                            ImagenPDF pdf = new ImagenPDF();
+                                            pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
+                                            System.out.println(plan_ss);
+                                            System.out.println(coseguro_ss);
+                                        } catch (Exception e) {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, e);
+                                        }
+                                        borrartabla();
+                                    }
+                                } else {
+                                    bandera_subsidio = 0;
+                                    cursor2();
+                                }
+                            } else {
+                                bandera_subsidio = 0;
+                                cursor2();
+                                if (respuesta_factibilidad_ss.getFactibilidad() == 0) {
+                                    habilitado = "ERROR";
+                                    String Salida = "";
+                                    if (tablapracticas.getRowCount() != 0) {
+                                        i = 0;
+                                        n2 = tablapracticas.getRowCount();
+                                        if (n2 != 0) {
+                                            while (i < n2) {
+                                                Salida = Salida + "\n" + "Practica: " + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getNomPrestacion() + " Motivo: " + respuesta_factibilidad_ss.getPracticas().getWSPractica().get(i).getMotivo();
+                                                i++;
+                                            }
                                         }
                                     } else {
                                         cursor2();
-                                        JOptionPane.showMessageDialog(null, "Las practicas no se encuentran disponibles en nuestro servidor.\n Aguarde 24Hs para realizar la carga");
+                                        //JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
                                     }
+                                    JOptionPane.showMessageDialog(null, respuesta_factibilidad_ss.getMotivorechazo() + Salida);
+                                    try {
+                                        JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
+                                        ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
+                                        Map parametros = new HashMap();
+                                        parametros.put("fecha", fecha2);
+                                        parametros.put("nombre", txtnombreafiliado.getText());
+                                        parametros.put("numero", txtnumafiliado.getText());
+                                        parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
+                                        parametros.put("mensaje", respuesta_factibilidad_ss.getMotivorechazo() + Salida);
+                                        JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
+                                        int opcionSS = JOptionPane.showConfirmDialog(this, "Desea Imprimir un comprobante?", "Subsidio Impresíon", JOptionPane.YES_NO_OPTION);
+                                        if (opcionSS == 0) {
+                                            JasperPrintManager.printReport(jPrint2, false);
+                                        }
+                                        ImagenPDF pdf = new ImagenPDF();
+                                        pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
+                                        System.out.println(plan_ss);
+                                        System.out.println(coseguro_ss);
+                                    } catch (Exception e) {
+                                        cursor2();
+                                        JOptionPane.showMessageDialog(null, e);
+                                    }
+                                    bandera_subsidio = 0;
+                                }
+                                borrartabla();
+                            }
+                        } else {
+                            cursor2();
+                            bandera_subsidio = 0;
+                            String Texto = "";
+                            while (iv2 < iv3) {
+                                Texto = Texto + " " + practicas[iv2] + "\n";
+                                iv2++;
+                            }
+                            JOptionPane.showMessageDialog(null, "Hay prácticas que ya están contenidas en un módulo" + "\n" + Texto);
+                            txtpractica.setText("");
+                        }
+                    }//pendiente 
+
+                    if (obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        System.out.println("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE");
+                        bandera_subsidio = 0;
+                        borrartabla();
+                        DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
+                        int n;
+                        ClienteIPSST4.OrdenValidarExecute servicio = new ClienteIPSST4.OrdenValidarExecute();
+                        servicio.setAficuil(txtnumafiliado.getText());
+                        try {
+                            if (isNumeric(txtnumorden.getText())) {
+                                servicio.setOrdnumero(Long.valueOf(txtnumorden.getText()));
+                                servicio.setPrestador(Integer.valueOf(matricula_colegiado));
+                                servicio.setUsuario(2);//
+                                servicio.setToken("iq12Ii35o");
+                                cursor();
+                                ClienteIPSST4.OrdenValidarExecuteResponse respuesta_valida = execute_1(servicio);
+                                System.out.println(respuesta_valida.getMotivo());
+                                System.out.println(respuesta_valida.getOrdenvalida());
+                                /////////////////////////////////
+                                if (Integer.valueOf(respuesta_valida.getOrdenvalida()) == 1) {
+                                    int n2, i = 0, cantidad_practica;
+                                    String cod_practca, nombre_practica;
+                                    n2 = respuesta_valida.getPracticas().getWSPracticaValidar().size();
+                                    System.out.println("cantidad: " + n2);
+                                    if (n2 != 0) {
+                                        while (i < n2) {
+                                            cod_practca = respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getPractica();
+                                            nombre_practica = respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getDescripcion();
+                                            plan_ss = plan_ss + completarceros(String.valueOf(respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getPlan()), 2);
+                                            cantidad_practica = respuesta_valida.getPracticas().getWSPracticaValidar().get(i).getCantidad();
+                                            int j = 0;
+                                            int fila = 0;
+                                            n = tablapracticas.getRowCount();
+                                            while (j < contadorj) {
+                                                System.out.println("Practica" + cod_practca);
+                                                if (cod_practca.equals(codfacpractica[j])) {
+                                                    System.out.println("Practica- vector" + codfacpractica[j]);
+                                                    if (n != 0) {
+                                                        if (cantidad_practica > 1) {
+                                                            int k = 0, contador = n;
+                                                            while (k < cantidad_practica) {
+                                                                fila = contador;
+                                                                Object nuevo[] = {
+                                                                    fila + 1, "", ""};
+                                                                temp.addRow(nuevo);
+                                                                tablapracticas.setValueAt(cod_practca, fila, 1);
+                                                                tablapracticas.setValueAt(nombre_practica, fila, 2);
+                                                                tablapracticas.setValueAt(preciopractica[j], fila, 3);
+                                                                tablapracticas.setValueAt(codfacpractica[j], fila, 4);
+                                                                tablapracticas.setValueAt(idpractica[j], fila, 5);
+                                                                bandera_subsidio = 1;
+                                                                k++;
+                                                                contador++;
+                                                            }
+                                                        } else {
+                                                            fila = n;
+                                                            Object nuevo[] = {
+                                                                fila + 1, "", ""};
+                                                            temp.addRow(nuevo);
+                                                            tablapracticas.setValueAt(cod_practca, fila, 1);
+                                                            tablapracticas.setValueAt(nombre_practica, fila, 2);
+                                                            tablapracticas.setValueAt(preciopractica[j], fila, 3);
+                                                            tablapracticas.setValueAt(codfacpractica[j], fila, 4);
+                                                            tablapracticas.setValueAt(idpractica[j], fila, 5);
+                                                            bandera_subsidio = 1;
+
+                                                        }
+                                                    } else {
+                                                        if (cantidad_practica > 1) {
+                                                            int k = 0, contador = 0;
+                                                            while (k < cantidad_practica) {
+                                                                if (contador == 0) {
+                                                                    Object nuevo[] = {
+                                                                        "1", "", ""};
+                                                                    temp.addRow(nuevo);
+                                                                    tablapracticas.setValueAt(cod_practca, 0, 1);
+                                                                    tablapracticas.setValueAt(nombre_practica, 0, 2);
+                                                                    tablapracticas.setValueAt(preciopractica[j], 0, 3);
+                                                                    tablapracticas.setValueAt(codfacpractica[j], fila, 4);
+                                                                    tablapracticas.setValueAt(idpractica[j], fila, 5);
+                                                                    bandera_subsidio = 1;
+                                                                    contador = contador + 1;
+                                                                } else {
+                                                                    fila = contador;
+                                                                    Object nuevo[] = {
+                                                                        fila + 1, "", ""};
+                                                                    temp.addRow(nuevo);
+                                                                    tablapracticas.setValueAt(cod_practca, fila, 1);
+                                                                    tablapracticas.setValueAt(nombre_practica, fila, 2);
+                                                                    tablapracticas.setValueAt(preciopractica[j], fila, 3);
+                                                                    tablapracticas.setValueAt(codfacpractica[j], fila, 4);
+                                                                    tablapracticas.setValueAt(idpractica[j], fila, 5);
+                                                                    bandera_subsidio = 1;
+                                                                    contador = contador + 1;
+                                                                }
+                                                                k++;
+                                                            }
+                                                        } else {
+                                                            Object nuevo[] = {
+                                                                "1", "", ""};
+                                                            temp.addRow(nuevo);
+                                                            tablapracticas.setValueAt(cod_practca, 0, 1);
+                                                            tablapracticas.setValueAt(nombre_practica, 0, 2);
+                                                            tablapracticas.setValueAt(preciopractica[j], 0, 3);
+                                                            tablapracticas.setValueAt(codfacpractica[j], 0, 4);
+                                                            tablapracticas.setValueAt(idpractica[j], 0, 5);
+                                                            bandera_subsidio = 1;
+                                                        }
+
+                                                    }
+                                                    System.out.println(cod_practca);
+                                                    break;
+                                                }
+                                                j++;
+                                                tablapracticas.getColumnModel().getColumn(0).setPreferredWidth(10);
+                                                tablapracticas.getColumnModel().getColumn(1).setPreferredWidth(10);
+                                                tablapracticas.getColumnModel().getColumn(2).setPreferredWidth(300);
+                                                tablapracticas.getColumnModel().getColumn(3).setPreferredWidth(10);
+                                                ///////Ultima Fila///////
+                                                tablapracticas.getColumnModel().getColumn(4).setMaxWidth(0);
+                                                tablapracticas.getColumnModel().getColumn(4).setMinWidth(0);
+                                                tablapracticas.getColumnModel().getColumn(4).setPreferredWidth(0);
+
+                                                Rectangle r = tablapracticas.getCellRect(tablapracticas.getRowCount() - 1, 0, true);
+                                                tablapracticas.scrollRectToVisible(r);
+                                                tablapracticas.getSelectionModel().setSelectionInterval(tablapracticas.getRowCount() - 1, tablapracticas.getRowCount() - 1);
+                                                //////////////////////////
+                                            }
+                                            i++;
+                                        }
+                                        cargartotalpracticas();
+                                        cursor2();
+                                    } else {
+                                        cursor2();
+                                        JOptionPane.showMessageDialog(null, "Las practicas no se encuentran disponibles en nuestro servidor.\n Aguarde 24Hs para realizar la carga");
+                                        System.out.println("ANULO");
+                                        ////////////////ANULACION//////////////////////////////////////////
+                                        ClienteIPSST6.OrdenValidadaAnularExecute ANULACION = new ClienteIPSST6.OrdenValidadaAnularExecute();
+                                        ANULACION.setAficuil(txtnumafiliado.getText());
+                                        ANULACION.setPrestador(Login.matricula_colegiado);
+                                        ANULACION.setUsuario(2);//
+                                        ANULACION.setToken("iq12Ii35o");
+                                        ANULACION.setOrdnumero(Integer.valueOf(txtnumorden.getText()));
+
+                                        OrdenValidadaAnularExecuteResponse respuesta_devuelve = execute_3(ANULACION);
+                                        if (respuesta_devuelve.getOrdenanuladada() == 1) {
+                                            habilitado = "AUTORIZADO";
+                                            cursor2();
+                                            System.out.println("Orden anulala del servidor de Subsidio");
+                                        } else {
+                                            habilitado = "ERROR";
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, respuesta_devuelve.getMotivo());
+                                            try {
+                                                JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Reporte_subsidio.jasper"));
+                                                //////////////////////////////////////////////////
+                                                Map parametros = new HashMap();
+                                                parametros.put("fecha", fecha2);
+                                                parametros.put("nombre", txtnombreafiliado.getText());
+                                                parametros.put("numero", txtnumafiliado.getText());
+                                                parametros.put("bioquimico", Login.nombre_colegiado + " - " + Login.matricula_colegiado);
+                                                parametros.put("mensaje", respuesta_devuelve.getMotivo());
+                                                JasperPrint jPrint2 = JasperFillManager.fillReport(report, parametros, new JREmptyDataSource());
+                                                JasperPrintManager.printReport(jPrint2, false);
+                                                ImagenPDF pdf = new ImagenPDF();
+                                                pdf.createPdf(jPrint2, "C:\\Descargas-CBT\\" + "Orden Rechazada de " + txtnombreafiliado.getText());
+                                                System.out.println(plan_ss);
+                                                System.out.println(coseguro_ss);
+                                            } catch (Exception e) {
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, e);
+                                            }
+                                        }
+                                        System.out.println("8------");
+                                    }
+                                    if (bandera_subsidio == 1) {
+                                        estado_orden = 1;
+                                        ////////////////////////////////////////////////////////////////////////////////////////////
+                                        String Salida = "Practicas Autorizadas", cadena_practicas = "", id_practicas = "";
+                                        if (n2 != 0) {
+                                            i = 0;
+                                            n2 = tablapracticas.getRowCount();
+                                            while (i < n2) {
+                                                coseguro_ss = coseguro_ss + "00000.0";
+                                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                                cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString();
+                                                Salida = Salida + "\n" + (i + 1) + " - Practica: " + tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
+                                                i++;
+                                            }
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, Salida);
+                                            /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                            cursor();
+                                            validar_orden ss_1806 = new validar_orden();
+                                            respuesta = ss_1806.valida(
+                                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                    txtnombreafiliado.getText(),
+                                                    txtdocumento.getText(),
+                                                    txtnumafiliado.getText(),
+                                                    Integer.valueOf(txtmatricula.getText()),
+                                                    txtnumorden.getText(),
+                                                    txtfecha.getText(),
+                                                    Double.valueOf(txttotal1.getText()),
+                                                    fecha,
+                                                    hora,
+                                                    ip2,
+                                                    id_obra_social,
+                                                    id_usuario,
+                                                    n2,
+                                                    cadena_practicas,
+                                                    Double.valueOf(txtcoseguro.getText()),
+                                                    fecha,
+                                                    tipo_orden,
+                                                    observacion,
+                                                    plan_ss,
+                                                    coseguro_ss,
+                                                    estado_orden,
+                                                    fechaDate);
+                                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                                System.out.println("Anulacion ss 1806");
+                                                ClienteIPSST6.OrdenValidadaAnularExecute servicio_anulacion = new ClienteIPSST6.OrdenValidadaAnularExecute();
+                                                servicio_anulacion.setAficuil(txtnumafiliado.getText());
+                                                servicio_anulacion.setPrestador(String.valueOf(id_usuario));
+                                                servicio_anulacion.setUsuario(2);//
+                                                servicio_anulacion.setToken("iq12Ii35o");
+                                                servicio_anulacion.setOrdnumero(Integer.valueOf(txtnumorden.getText()));
+                                                bandera_subsidio = 0;
+                                                OrdenValidadaAnularExecuteResponse respuesta_devuelve = execute_3(servicio_anulacion);
+                                                if (respuesta_devuelve.getOrdenanuladada() == 1) {
+                                                    bandera_subsidio = 0;
+                                                    cursor2();
+                                                    JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                                } else {
+                                                    cursor2();
+                                                    JOptionPane.showMessageDialog(null, respuesta_devuelve.getMotivo());
+                                                    bandera_subsidio = 0;
+                                                }
+                                            } else {
+                                                cursor2();
+                                                bandera_subsidio = 1;
+                                            }
+                                        } else {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "Las practicas no se encuentran disponibles en nuestro servidor.\n Aguarde 24Hs para realizar la carga");
+                                        }
+                                    }
+                                } else {
+                                    cursor2();
+                                    JOptionPane.showMessageDialog(null, respuesta_valida.getMotivo());
                                 }
                             } else {
                                 cursor2();
-                                JOptionPane.showMessageDialog(null, respuesta_valida.getMotivo());
+                                JOptionPane.showMessageDialog(null, "Número de orden inválido");
+                                txtnumorden.requestFocus();
+                                txtnumorden.selectAll();
                             }
-                        } else {
+                        } catch (NumberFormatException e) {
                             cursor2();
                             JOptionPane.showMessageDialog(null, "Número de orden inválido");
                             txtnumorden.requestFocus();
                             txtnumorden.selectAll();
                         }
-                    } catch (NumberFormatException e) {
-                        cursor2();
-                        JOptionPane.showMessageDialog(null, "Número de orden inválido");
-                        txtnumorden.requestFocus();
-                        txtnumorden.selectAll();
                     }
-                }
-                ////////////////////////MEDIFE
-                if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
-                        || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
-                    cursor();
-                    num_orden = "";
-                    TripleDes tpDatos = new TripleDes();
-                    /////////////////////////////////////////////////////////////////////////////////
-                    plan_ss = "";
-                    coseguro_ss = "";
-                    cursor();
-                    short cantidad = 1;
-                    //////////////////////////////////////////////////////////
-                    if (tablapracticas.getRowCount() != 0) {
-                        int n2, i = 0;
-                        String cod_practca, practicas = "", cadena_PR1 = "", id_practicas = "";
-                        n2 = tablapracticas.getRowCount();
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                plan_ss = plan_ss + "00";
-                                coseguro_ss = coseguro_ss + "00000.0";
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
-                                cod_practca = completarceros(tablapracticas.getValueAt(i, 4).toString(), 6);
-                                cadena_PR1 = cadena_PR1
-                                        + "PR1|" + (i + 1) + "||" + cod_practca + "^^3\r\n"
-                                        + "AUT||||||||1\r\n"
-                                        + "ZAU||||||0&$\r\n";
-                                i++;
-                            }
-                        }
-                        ///////////////////////////////////////////////////////////////////////                        
-                        String Mensaje = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z02^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
-                                + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
-                                + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
-                                + "PID|||" + MedifeAfiliado.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN\r\n"
-                                + cadena_PR1
-                                + "PV1||O||P|||||||||||||||||||||||||||||||||||||||||||||||V";
-
-                        String clave = "IA007526";
-                        String usuario = "IA007526";
-                        String tipo = "SI";
-                        String llave = "1234567890123456ABCDEFGH";
-
-                        String pszMsg = tpDatos.EncriptarStr(Mensaje, llave);
-
-                        try { // Call Web Service Operation
-                            WebServiceIA service = new WebServiceIA();
-                            WebServiceIASoap port = service.getWebServiceIASoap();
-                            // TODO initialize WS operation arguments here
-                            String pszUser = tpDatos.EncriptarStr(usuario, llave);
-                            String pszPwd = tpDatos.EncriptarStr(clave, llave);
-                            String pszMsgType = tpDatos.EncriptarStr(tipo, llave);
-
-                            // TODO process result here
-                            String result = port.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
-                            System.out.println("Respuesta = " + result);
-                            ///busco la respuesta
-                            i = result.indexOf("ZAU");
-                            int pipe = 0;
-                            while (i < result.indexOf("PRD")) {
-                                if (pipe == 3) {
-                                    mensaje = mensaje + result.charAt(i);
+                    ////////////////////////MEDIFE
+                    if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
+                            || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
+                        cursor();
+                        num_orden = "";
+                        TripleDes tpDatos = new TripleDes();
+                        /////////////////////////////////////////////////////////////////////////////////
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        cursor();
+                        short cantidad = 1;
+                        //////////////////////////////////////////////////////////
+                        if (tablapracticas.getRowCount() != 0) {
+                            int n2, i = 0;
+                            String cod_practca, practicas = "", cadena_PR1 = "", id_practicas = "";
+                            n2 = tablapracticas.getRowCount();
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    plan_ss = plan_ss + "00";
+                                    coseguro_ss = coseguro_ss + "00000.0";
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+                                    cod_practca = completarceros(tablapracticas.getValueAt(i, 4).toString(), 6);
+                                    cadena_PR1 = cadena_PR1
+                                            + "PR1|" + (i + 1) + "||" + cod_practca + "^^3\r\n"
+                                            + "AUT||||||||1\r\n"
+                                            + "ZAU||||||0&$\r\n";
+                                    i++;
                                 }
-                                if (result.charAt(i) == '|') {
-                                    pipe++;
-                                }
-                                i++;
                             }
-                            ////busco numero de respuesta
-                            i = result.indexOf("ZAU");
-                            pipe = 0;
-                            while (i < result.indexOf("PRD")) {
-                                if (pipe == 2) {
-                                    if (result.charAt(i) != '|') {
-                                        num_orden = num_orden + result.charAt(i);
+                            ///////////////////////////////////////////////////////////////////////                        
+                            String Mensaje = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z02^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
+                                    + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
+                                    + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
+                                    + "PID|||" + MedifeAfiliado.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN\r\n"
+                                    + cadena_PR1
+                                    + "PV1||O||P|||||||||||||||||||||||||||||||||||||||||||||||V";
+
+                            String clave = "IA007526";
+                            String usuario = "IA007526";
+                            String tipo = "SI";
+                            String llave = "1234567890123456ABCDEFGH";
+
+                            String pszMsg = tpDatos.EncriptarStr(Mensaje, llave);
+
+                            try { // Call Web Service Operation
+                                WebServiceIA service = new WebServiceIA();
+                                WebServiceIASoap port = service.getWebServiceIASoap();
+                                // TODO initialize WS operation arguments here
+                                String pszUser = tpDatos.EncriptarStr(usuario, llave);
+                                String pszPwd = tpDatos.EncriptarStr(clave, llave);
+                                String pszMsgType = tpDatos.EncriptarStr(tipo, llave);
+
+                                // TODO process result here
+                                String result = port.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
+                                System.out.println("Respuesta = " + result);
+                                ///busco la respuesta
+                                i = result.indexOf("ZAU");
+                                int pipe = 0;
+                                while (i < result.indexOf("PRD")) {
+                                    if (pipe == 3) {
+                                        mensaje = mensaje + result.charAt(i);
                                     }
+                                    if (result.charAt(i) == '|') {
+                                        pipe++;
+                                    }
+                                    i++;
                                 }
-                                if (result.charAt(i) == '|') {
-                                    pipe++;
-                                }
-                                i++;
-                            }
-                            mensaje = mensaje.replace("^", " ");
-                            String codigo_respuesta = mensaje.substring(0, 4);
-                            System.out.println(num_orden + " " + mensaje);
-                            System.out.println(codigo_respuesta);
-                            System.out.println("tipo_orden Medife2:" + tipo_orden);
-                            if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
-                                estado_orden = 1;
-                                txtnumorden.setText(num_orden);
-                                /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                                validar_orden medife = new validar_orden();
-                                System.out.println(practicas);
-                                respuesta = medife.valida(
-                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                        txtnombreafiliado.getText(),
-                                        txtdocumento.getText(),
-                                        txtnumafiliado.getText(),
-                                        Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
-                                        fecha,
-                                        Double.valueOf(txttotal1.getText()),
-                                        fecha,
-                                        hora,
-                                        ip2,
-                                        id_obra_social,
-                                        id_usuario,
-                                        n2,
-                                        practicas,
-                                        Double.valueOf(txtcoseguro.getText()),
-                                        fecha,
-                                        tipo_orden,
-                                        observacion,
-                                        plan_ss,
-                                        coseguro_ss,
-                                        estado_orden,
-                                        fechaDate);
-                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                    num_orden = "";
-                                    System.out.println("Anulacion medife");
-
-                                    String Anulacion = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z04^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
-                                            + "ZAU||" + num_orden + "\r\n"
-                                            + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
-                                            + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
-                                            + "PID|||" + MedifeAfiliado.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN";
-                                    clave = "IA007526";
-                                    usuario = "IA007526";
-                                    tipo = "SI";
-                                    llave = "1234567890123456ABCDEFGH";
-
-                                    pszMsg = tpDatos.EncriptarStr(Anulacion, llave);
-
-                                    try { // Call Web Service Operation
-                                        WebServiceIA service2 = new WebServiceIA();
-                                        WebServiceIASoap port2 = service2.getWebServiceIASoap();
-                                        // TODO initialize WS operation arguments here
-                                        pszUser = tpDatos.EncriptarStr(usuario, llave);
-                                        pszPwd = tpDatos.EncriptarStr(clave, llave);
-                                        pszMsgType = tpDatos.EncriptarStr(tipo, llave);
-                                        // TODO process result here
-                                        result = port2.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
-                                        System.out.println("Respuesta = " + result);
-                                        ///busco la respuesta
-                                        i = result.indexOf("ZAU");
-                                        pipe = 0;
-                                        while (i < result.indexOf("PRD")) {
-                                            if (pipe == 3) {
-                                                mensaje = mensaje + result.charAt(i);
-                                            }
-                                            if (result.charAt(i) == '|') {
-                                                pipe++;
-                                            }
-                                            i++;
+                                ////busco numero de respuesta
+                                i = result.indexOf("ZAU");
+                                pipe = 0;
+                                while (i < result.indexOf("PRD")) {
+                                    if (pipe == 2) {
+                                        if (result.charAt(i) != '|') {
+                                            num_orden = num_orden + result.charAt(i);
                                         }
-                                        ////busco numero de respuesta
-                                        i = result.indexOf("ZAU");
-                                        pipe = 0;
-                                        while (i < result.indexOf("PRD")) {
-                                            if (pipe == 2) {
-                                                num_orden = num_orden + result.charAt(i);
-                                            }
-                                            if (result.charAt(i) == '|') {
-                                                pipe++;
-                                            }
-                                            i++;
-                                        }
-                                        mensaje = mensaje.replace("^", " ");
-                                        codigo_respuesta = mensaje.substring(0, 4);
-                                        System.out.println(num_orden + " " + mensaje);
-                                    } catch (Exception ex) {
-                                        cursor2();
-                                        JOptionPane.showMessageDialog(null, ex);
                                     }
-                                    if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
-                                        bandera_medife = 0;
-                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                    } else {
-                                        cursor2();
-                                        bandera_medife = 0;
-                                        JOptionPane.showMessageDialog(null, mensaje);
+                                    if (result.charAt(i) == '|') {
+                                        pipe++;
                                     }
-                                } else {
-                                    cursor2();
-                                    bandera_medife = 1;
-                                    JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
-                                    borrartabla();
+                                    i++;
                                 }
-                            } else {
+                                mensaje = mensaje.replace("^", " ");
+                                String codigo_respuesta = mensaje.substring(0, 4);
+                                System.out.println(num_orden + " " + mensaje);
+                                System.out.println(codigo_respuesta);
+                                System.out.println("tipo_orden Medife2:" + tipo_orden);
+                                if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
+                                    estado_orden = 1;
+                                    txtnumorden.setText(num_orden);
+                                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                    validar_orden medife = new validar_orden();
+                                    System.out.println(practicas);
+                                    respuesta = medife.valida(
+                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                            txtnombreafiliado.getText(),
+                                            txtdocumento.getText(),
+                                            txtnumafiliado.getText(),
+                                            Integer.valueOf(txtmatricula.getText()),
+                                            num_orden,
+                                            fecha,
+                                            Double.valueOf(txttotal1.getText()),
+                                            fecha,
+                                            hora,
+                                            ip2,
+                                            id_obra_social,
+                                            id_usuario,
+                                            n2,
+                                            practicas,
+                                            Double.valueOf(txtcoseguro.getText()),
+                                            fecha,
+                                            tipo_orden,
+                                            observacion,
+                                            plan_ss,
+                                            coseguro_ss,
+                                            estado_orden,
+                                            fechaDate);
+                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                        num_orden = "";
+                                        System.out.println("Anulacion medife");
 
-                                estado_orden = 0;
-                                txtnumorden.setText(num_orden);
+                                        String Anulacion = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z04^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
+                                                + "ZAU||" + num_orden + "\r\n"
+                                                + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
+                                                + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
+                                                + "PID|||" + MedifeAfiliado.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN";
+                                        clave = "IA007526";
+                                        usuario = "IA007526";
+                                        tipo = "SI";
+                                        llave = "1234567890123456ABCDEFGH";
 
-                                observacion = result;
-                                if (observacion.length() > 500) {
-                                    observacion = observacion.substring(0, 500);
-                                }
+                                        pszMsg = tpDatos.EncriptarStr(Anulacion, llave);
 
-                                /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                                validar_orden medife = new validar_orden();
-                                System.out.println(practicas);
-                                respuesta = medife.valida(
-                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                        txtnombreafiliado.getText(),
-                                        txtdocumento.getText(),
-                                        txtnumafiliado.getText(),
-                                        Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
-                                        fecha,
-                                        Double.valueOf(txttotal1.getText()),
-                                        fecha,
-                                        hora,
-                                        ip2,
-                                        id_obra_social,
-                                        id_usuario,
-                                        n2,
-                                        practicas,
-                                        Double.valueOf(txtcoseguro.getText()),
-                                        fecha,
-                                        tipo_orden,
-                                        observacion,
-                                        plan_ss,
-                                        coseguro_ss,
-                                        estado_orden,
-                                        fechaDate);
-
-                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                    bandera_medife = 0;
-
-                                } else {
-                                    cursor2();
-                                    bandera_medife = 0;
-                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Medife");
-                                    JOptionPane.showMessageDialog(null, mensaje);
-                                    borrartabla();
-                                }
-                            }
-                            cursor2();
-                        } catch (Exception ex) {
-                            cursor2();
-                            JOptionPane.showMessageDialog(null, ex);
-                        }
-                    } else {
-                        cursor2();
-                        //  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                    }
-                }
-                ////////////////////////JERARQUICOS
-                if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
-
-                    ///JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL
-                    //  if (obra.equals("37700 - JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL")) {///JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL
-                    cursor();
-                    num_orden = "";
-                    String salida = "";
-                    String practicas = "", id_practicas = "";
-                    if (tablapracticas.getRowCount() != 0) {
-                        int n2, i = 0, bandera_respuesta = 0;
-                        String cod_practca, coleccion = "", nombre;
-                        n2 = tablapracticas.getRowCount();
-
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                cod_practca = tablapracticas.getValueAt(i, 1).toString();
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
-                                nombre = tablapracticas.getValueAt(i, 2).toString();
-                                try { // Call Web Service Operation
-
-                                    ObjectFactory factory = new ObjectFactory();
-                                    JAXBElement<String> codigo = factory.createCriterioPracticaRequiereAutorizacionCodigoNomencladorConvenio(cod_practca);
-                                    JAXBElement<Integer> convenio = factory.createCriterioPracticaRequiereAutorizacionIdConvenio(451);
-
-                                    System.out.println(codigo);
-                                    System.out.println(convenio);
-
-                                    CriterioPracticaRequiereAutorizacion autorizacion = new CriterioPracticaRequiereAutorizacion();
-
-                                    autorizacion.setCodigoNomencladorConvenio(codigo);
-                                    autorizacion.setIdConvenio(convenio);
-                                    autorizacion.setIdPlan(plan);
-
-                                    JAXBElement<CriterioPracticaRequiereAutorizacion> criterio2 = factory.createSolicitudValidacionPracticaRequiereAutorizacionCriterioPracticaRequiereAutorizacion(autorizacion);
-
-                                    SolicitudValidacionPracticaRequiereAutorizacion solicitud = new SolicitudValidacionPracticaRequiereAutorizacion();
-                                    solicitud.setCriterioPracticaRequiereAutorizacion(criterio2);
-
-                                    ClienteJerarquicos.Servicio service = new ClienteJerarquicos.Servicio();
-                                    ClienteJerarquicos.IServicioPublico port = service.getBasicHttpBindingIServicioPublico();
-
-                                    ClienteJerarquicos.RespuestaBase result = port.validarPracticaRequiereAutorizacion(solicitud);
-
-                                    JAXBElement<RespuestaBase> respuestajxe = factory.createValidarPracticaRequiereAutorizacionResponseValidarPracticaRequiereAutorizacionResult(result);
-
-                                    ClienteJerarquicos.ValidarPracticaRequiereAutorizacionResponse resultado = new ClienteJerarquicos.ValidarPracticaRequiereAutorizacionResponse();
-
-                                    resultado.setValidarPracticaRequiereAutorizacionResult(respuestajxe);
-
-                                    JAXBElement<String> respuestaString = result.getDTOSerializado();
-                                    observacion = respuestaString.getValue();
-                                    if (respuestaString.getValue() != null) {
-
-                                        String respuesta2 = resultado.getValidarPracticaRequiereAutorizacionResult().getValue().getResultado().value();
-
-                                        System.out.println("Result = " + result.getResultado().value());
-
-                                        System.out.println("Result2 = " + respuesta2);
-
-                                        System.out.println("Result3 = " + respuestaString.getValue());
-
-                                        int pos = respuestaString.getValue().indexOf("\"RequiereAutorizacion\":false");
-                                        int pos2 = respuestaString.getValue().indexOf("\"RequiereAutorizacion\":true");
-                                        if (pos > 0) {
-
-                                            salida = salida + "Practica: " + cod_practca + ": Autorizada\r\n";
-                                            if (coleccion.equals("")) {
-                                                coleccion = coleccion + "{'Cantidad':1,'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
-                                            } else {
-                                                System.out.println("cod_prac=" + coleccion.indexOf(cod_practca));
-                                                int pos_prac = coleccion.indexOf(cod_practca);//32
-
-                                                if (pos_prac > 0) {
-
-                                                    System.out.println("pos_cant =" + coleccion.indexOf("'Cantidad':", pos_prac - 32));
-                                                    int pos_cant = coleccion.indexOf("'Cantidad':", pos_prac - 32);
-
-                                                    System.out.println("cantidad =" + coleccion.substring(pos_prac - 20, pos_prac - 19));
-                                                    int cantidad = Integer.valueOf(coleccion.substring(pos_prac - 20, pos_prac - 19));
-
-                                                    String cadena_vieja = "{'Cantidad':" + cantidad + ",'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
-
-                                                    String cadena_nueva = "{'Cantidad':" + (cantidad + 1) + ",'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
-
-                                                    System.out.println("vieja: " + cadena_vieja);
-                                                    System.out.println("nueva: " + cadena_nueva);
-
-                                                    System.out.println("coleccion: " + coleccion);
-
-                                                    coleccion = coleccion.replace(cadena_vieja, cadena_nueva);
-                                                } else {
-                                                    coleccion = coleccion + ",{'Cantidad':1,'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
+                                        try { // Call Web Service Operation
+                                            WebServiceIA service2 = new WebServiceIA();
+                                            WebServiceIASoap port2 = service2.getWebServiceIASoap();
+                                            // TODO initialize WS operation arguments here
+                                            pszUser = tpDatos.EncriptarStr(usuario, llave);
+                                            pszPwd = tpDatos.EncriptarStr(clave, llave);
+                                            pszMsgType = tpDatos.EncriptarStr(tipo, llave);
+                                            // TODO process result here
+                                            result = port2.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
+                                            System.out.println("Respuesta = " + result);
+                                            ///busco la respuesta
+                                            i = result.indexOf("ZAU");
+                                            pipe = 0;
+                                            while (i < result.indexOf("PRD")) {
+                                                if (pipe == 3) {
+                                                    mensaje = mensaje + result.charAt(i);
                                                 }
-
+                                                if (result.charAt(i) == '|') {
+                                                    pipe++;
+                                                }
+                                                i++;
                                             }
-                                            bandera_respuesta = 0;
-                                        }
-                                        if (pos2 > 0) {
-                                            salida = salida + "Practica: " + cod_practca + ":Requiere autorización\r\n";
-                                            bandera_respuesta = 1;
-                                            bandera_jerarquicos = 0;
-                                        }
-                                    } else {
-                                        ClienteJerarquicos.Notificacion notificaciones = result.getNotificaciones().getValue().getNotificacion().get(0);
-
-                                        String respuesta2 = resultado.getValidarPracticaRequiereAutorizacionResult().getValue().getResultado().value();
-
-                                        System.out.println("Result = " + result.getResultado().value());
-
-                                        System.out.println("Result2 = " + respuesta2);
-
-                                        System.out.println("Result3 = " + respuestaString.getValue());
-
-                                        System.out.println("Result4 = " + notificaciones.getMensaje().getValue());
-                                        salida = salida + "Practica: " + cod_practca + ":" + notificaciones.getMensaje().getValue() + "\r\n";
-                                        bandera_respuesta = 1;
-                                    }
-                                } catch (Exception ex) {
-                                    Logger.getLogger(JerarquicosAfiliado.class.getName()).log(Level.SEVERE, null, ex);
-                                    bandera_respuesta = 1;
-                                    bandera_jerarquicos = 0;
-                                }
-                                i++;
-                            }
-                            ///
-                            ////////////////////////////////////////////////////////////
-                            if (bandera_respuesta == 0 && bandera_jerarquicos != 0) {
-                                JOptionPane.showMessageDialog(null, salida);
-                                System.out.println("Coleccion de datos: " + coleccion);
-                                try {
-                                    String datos = "{"
-                                            + "'ApellidoEfector':'" + Login.nombre_colegiado + "',"
-                                            + "'NombreEfector':'" + Login.nombre_colegiado + "',"
-                                            + "'CuilEfector':'" + Login.cuit + "',"
-                                            + "'Diagnostico':'',"
-                                            + "'FechaConsumo':'" + date_jerarquicos + "',"
-                                            + "'IdConvenio':451,"
-                                            + "'NroSocio':" + String.valueOf(NumeroSocio) + ","
-                                            + "'OrdenSocio':" + String.valueOf(NumeroOrden) + ","
-                                            + "'ConsumosWeb':[" + coleccion + "],"
-                                            + "'DTOSerializado':null,"
-                                            + "'IdTransaccion':0,"
-                                            + "'EstadoAutorizacion':null"
-                                            + "}";
-                                    ObjectFactory factory = new ObjectFactory();
-                                    JAXBElement<String> Dtoserializado = factory.createCriterioAutorizacionConsumoWebDTOSerializado(datos);
-
-                                    ClienteJerarquicos.CriterioAutorizacionConsumoWeb criterio = new ClienteJerarquicos.CriterioAutorizacionConsumoWeb();
-
-                                    criterio.setDTOSerializado(Dtoserializado);
-                                    criterio.setGenerarCupon(false);
-
-                                    ClienteJerarquicos.SolicitudAutorizacionConsumoWeb solicitud = new ClienteJerarquicos.SolicitudAutorizacionConsumoWeb();
-
-                                    JAXBElement<CriterioAutorizacionConsumoWeb> consumo = factory.createSolicitudAutorizacionConsumoWebCriterioAutorizacionConsumoWeb(criterio);
-
-                                    solicitud.setCriterioAutorizacionConsumoWeb(consumo);
-                                    // TODO process result here
-                                    System.out.println("input " + solicitud.getCriterioAutorizacionConsumoWeb().getValue().getDTOSerializado().getValue());
-                                    // Call Web Service Operation
-                                    Servicio service = new Servicio();
-                                    IServicioPublico port = service.getBasicHttpBindingIServicioPublico();
-                                    // TODO initialize WS operation arguments here
-                                    ClienteJerarquicos.RespuestaAutorizacionConsumoWeb result = port.autorizarConsumo(solicitud);
-
-                                    JAXBElement<RespuestaAutorizacionConsumoWeb> respuestajxe = factory.createAutorizarConsumoResponseAutorizarConsumoResult(result);
-
-                                    ClienteJerarquicos.AutorizarConsumoResponse resultado = new ClienteJerarquicos.AutorizarConsumoResponse();
-
-                                    resultado.setAutorizarConsumoResult(respuestajxe);
-
-                                    JAXBElement<String> respuestaString = result.getDTOSerializado();
-
-                                    /// String respuesta2 = resultado.getAutorizarConsumoResult().getValue().
-                                    System.out.println("Result = " + result.getResultado().value());
-
-                                    /// System.out.println("Result2 = " + respuesta2);
-                                    System.out.println("Result consumo = " + respuestaString.getValue());
-                                    //"Nombre":"EXITO"},"IdTransaccion":297361}
-                                    int pos_ok = respuestaString.getValue().indexOf("\"Nombre\":\"EXITO\"");
-                                    if (pos_ok > 0) {
-                                        estado_orden = 1;
-                                        int pos_trans = respuestaString.getValue().indexOf("\"IdTransaccion\":");
-                                        num_orden = respuestaString.getValue().substring(pos_trans + 16, pos_trans + 22);
-                                        txtnumorden.setText(num_orden);
-                                        /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                                        validar_orden jerarquicos = new validar_orden();
-                                        System.out.println(practicas);
-                                        respuesta = jerarquicos.valida(
-                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                                txtnombreafiliado.getText(),
-                                                txtdocumento.getText(),
-                                                txtnumafiliado.getText(),
-                                                Integer.valueOf(txtmatricula.getText()),
-                                                num_orden,
-                                                fecha,
-                                                Double.valueOf(txttotal1.getText()),
-                                                fecha,
-                                                hora,
-                                                ip2,
-                                                id_obra_social,
-                                                id_usuario,
-                                                n2,
-                                                practicas,
-                                                Double.valueOf(txtcoseguro.getText()),
-                                                fecha,
-                                                tipo_orden,
-                                                observacion,
-                                                plan_ss,
-                                                coseguro_ss,
-                                                estado_orden,
-                                                fechaDate);
-                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-
-                                            System.out.println("Anulacion Jerarquicos");
-                                            bandera_jerarquicos = 0;
-
-                                            ClienteJerarquicos.CriterioAnulacionConsumoWeb autorizacion = new ClienteJerarquicos.CriterioAnulacionConsumoWeb();
-                                            autorizacion.setIdConvenio(451);
-                                            autorizacion.setIdTransaccion(Integer.valueOf(num_orden));
-
-                                            JAXBElement<CriterioAnulacionConsumoWeb> criterio3 = factory.createSolicitudAnulacionConsumoWebCriterioAnulacionConsumoWeb(autorizacion);
-
-                                            ClienteJerarquicos.SolicitudAnulacionConsumoWeb solicitud3 = new ClienteJerarquicos.SolicitudAnulacionConsumoWeb();
-                                            solicitud3.setCriterioAnulacionConsumoWeb(criterio3);
-
-                                            ClienteJerarquicos.Servicio service3 = new ClienteJerarquicos.Servicio();
-
-                                            ClienteJerarquicos.IServicioPublico port3 = service3.getBasicHttpBindingIServicioPublico();
-
-                                            ClienteJerarquicos.RespuestaBase result3 = port3.anularAutorizacionConsumo(solicitud3);
-                                            String respuesta3 = result3.getDTOSerializado().getValue();
-
-                                            int pos_ok2 = respuesta3.indexOf("\"Nombre\":\"EXITO\"");
-                                            if (pos_ok2 > 0) {
-                                                cursor2();
-                                                JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Jerarquicos Salud");
-                                            } else {
-                                                cursor2();
-                                                JOptionPane.showMessageDialog(null, "Error " + respuesta3);
+                                            ////busco numero de respuesta
+                                            i = result.indexOf("ZAU");
+                                            pipe = 0;
+                                            while (i < result.indexOf("PRD")) {
+                                                if (pipe == 2) {
+                                                    num_orden = num_orden + result.charAt(i);
+                                                }
+                                                if (result.charAt(i) == '|') {
+                                                    pipe++;
+                                                }
+                                                i++;
                                             }
+                                            mensaje = mensaje.replace("^", " ");
+                                            codigo_respuesta = mensaje.substring(0, 4);
+                                            System.out.println(num_orden + " " + mensaje);
+                                        } catch (Exception ex) {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, ex);
+                                        }
+                                        if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
+                                            bandera_medife = 0;
+                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
                                         } else {
                                             cursor2();
-                                            bandera_jerarquicos = 1;
-                                            JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
-                                            borrartabla();
+                                            bandera_medife = 0;
+                                            JOptionPane.showMessageDialog(null, mensaje);
                                         }
                                     } else {
-                                        bandera_jerarquicos = 0;
+                                        cursor2();
+                                        bandera_medife = 1;
+                                        JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
+                                        borrartabla();
                                     }
-                                } catch (Exception ex) {
-                                    bandera_jerarquicos = 0;
-                                    Logger.getLogger(JerarquicosAfiliado.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-                            } else {
-
-                                bandera_respuesta = 1;
-
-                                estado_orden = 0;
-                                int pos_trans = observacion.indexOf("\"IdTransaccion\":");
-                                num_orden = observacion.substring(pos_trans + 16, pos_trans + 22);
-                                txtnumorden.setText(num_orden);
-                                if (observacion.length() > 500) {
-                                    observacion = observacion.substring(0, 500);
-                                }
-                                /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                                validar_orden jerarquicos = new validar_orden();
-                                System.out.println(practicas);
-                                respuesta = jerarquicos.valida(
-                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                        txtnombreafiliado.getText(),
-                                        txtdocumento.getText(),
-                                        txtnumafiliado.getText(),
-                                        Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
-                                        fecha,
-                                        Double.valueOf(txttotal1.getText()),
-                                        fecha,
-                                        hora,
-                                        ip2,
-                                        id_obra_social,
-                                        id_usuario,
-                                        n2,
-                                        practicas,
-                                        Double.valueOf(txtcoseguro.getText()),
-                                        fecha,
-                                        tipo_orden,
-                                        observacion,
-                                        plan_ss,
-                                        coseguro_ss,
-                                        estado_orden,
-                                        fechaDate);
-                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                    cursor2();
-                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                    bandera_jerarquicos = 0;
-
                                 } else {
-                                    cursor2();
-                                    bandera_jerarquicos = 0;
-                                    JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Jerarquicos");
-                                    JOptionPane.showMessageDialog(null, salida);
-                                    borrartabla();
-                                }
 
-                            }
-                            /////////////////////////////////////////////////////////
-                        }
-                    }
-                }
-                if (obra.equals("40813 - IOSFA")) {
+                                    estado_orden = 0;
+                                    txtnumorden.setText(num_orden);
 
-                    double coseguroIosfa = 0;
-                    if (chkcoseguro.isSelected()) {
-                        int cuentaPracticasComunes = 0;
-                        String cadenaPractica;
-                        for (int i = 0; i < tablapracticas.getRowCount(); i++) {
-                            cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
-                            System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
-                            switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
-
-                                case 4:
-                                    if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
-                                        coseguroIosfa = coseguroIosfa + 500;
-                                    } else {
-                                        coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                    observacion = result;
+                                    if (observacion.length() > 500) {
+                                        observacion = observacion.substring(0, 500);
                                     }
-                                    break;
-                                case 3:
-                                    if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
-                                        coseguroIosfa = coseguroIosfa + 200;
-                                    } else {
-                                        coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-                                    }
-                                    break;
-                                case 2:
-                                    if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 100) {
-                                        coseguroIosfa = coseguroIosfa + 100;
-                                    } else {
-                                        coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
-                                    }
-                                    break;
-                                case 1:
-                                    cuentaPracticasComunes++;
-                                    break;
-                            }
-                        }
-                        if (cuentaPracticasComunes > 0) {
-                            if (cuentaPracticasComunes > 6) {
-                                int excedente = cuentaPracticasComunes - 6;
-                                coseguroIosfa = coseguroIosfa + excedente * 40;
-                            }
-                            coseguroIosfa = coseguroIosfa + 100;
-                        }
-                    }
-                    String cadena_practicas = "", id_practicas = "";
-                    int n2 = tablapracticas.getRowCount();
-                    if (tablapracticas.getRowCount() != 0) {
-                        int i = 0;
-                        if (n2 != 0) {
-                            while (i < n2) {
-                                plan_ss = plan_ss + "00";
-                                coseguro_ss = coseguro_ss + "00000.0";
-                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                                cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
-                                System.out.println(cadena_practicas);
-                                i++;
-                            }
-                        }
-                    } else {
-                        cursor2();
-                    }
-                    estado_orden = 1;
-                    System.out.println(id_practicas + "  " + n2);
-                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
-                    validar_orden obra_social_comun = new validar_orden();
-                    respuesta = obra_social_comun.valida(
-                            Integer.valueOf(txtaño.getText() + txtmes.getText()),//periodo
-                            txtnombreafiliado.getText(),//nombre_afiliado
-                            txtdocumento.getText(),//dni_afiliado
-                            txtnumafiliado.getText(),//numero_afiliado
-                            Integer.valueOf(txtmatricula.getText()),//matricula_presc
-                            txtnumorden.getText(),//numero_orden
-                            txtfecha.getText(),//fecha_orden
-                            Double.valueOf(txttotal1.getText()),//total_orden
-                            fecha,//fecha_carga,
-                            hora,//hora_carga,
-                            ip2,//ip,
-                            id_obra_social,//id_obrasocial,
-                            id_usuario,//id_usuario,
-                            n2,// cantidad_practicas,
-                            cadena_practicas,//practicas
-                            coseguroIosfa,//Double.valueOf(txtcoseguro.getText()),
-                            fecha,//fecha,
-                            tipo_orden,//tipo_orden,
-                            observacion,//observacion,
-                            plan_ss,//0,
-                            coseguro_ss,
-                            estado_orden,
-                            fechaDate);//0.00
-                    if (chkcoseguro.isSelected()) {
 
-                        int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + coseguroIosfa + "\nDesea Imprimir un comprobante?", "IOSFA Impresíon", JOptionPane.YES_NO_OPTION);
+                                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                    validar_orden medife = new validar_orden();
+                                    System.out.println(practicas);
+                                    respuesta = medife.valida(
+                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                            txtnombreafiliado.getText(),
+                                            txtdocumento.getText(),
+                                            txtnumafiliado.getText(),
+                                            Integer.valueOf(txtmatricula.getText()),
+                                            num_orden,
+                                            fecha,
+                                            Double.valueOf(txttotal1.getText()),
+                                            fecha,
+                                            hora,
+                                            ip2,
+                                            id_obra_social,
+                                            id_usuario,
+                                            n2,
+                                            practicas,
+                                            Double.valueOf(txtcoseguro.getText()),
+                                            fecha,
+                                            tipo_orden,
+                                            observacion,
+                                            plan_ss,
+                                            coseguro_ss,
+                                            estado_orden,
+                                            fechaDate);
 
-                        if (opcion == 0) {
-                            ConexionMariaDB cc = new ConexionMariaDB();
-                            Connection cnn = cc.Conectar();
-                            ////////////////Previsualizacion///////////////////////////
-                            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Coseguro IOSFA", true);
-                            viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
-                            viewer.setSize(800, 600);
-                            viewer.setLocationRelativeTo(null);
-                            JasperViewer jv = null;
-                            ///////////////////////////////////////////////////////////
-                            Map parametros = new HashMap();
-                            parametros.put("id_orden", respuesta);
-                            try {
-                                JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
-                                JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
-                                //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
-                                //JasperPrintManager.printReport(jPrint_comprobante, false);
-                                jv = new JasperViewer(jPrint_comprobante, false);
-                                viewer.getContentPane().add(jv.getContentPane());
-                                viewer.setVisible(true);
-                                cnn.close();
-                            } catch (JRException ex) {
-                                System.err.println("Error iReport: " + ex.getMessage());
-                            } catch (SQLException ex) {
-                                Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                        cursor2();
+                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+                                        bandera_medife = 0;
 
-                        }
-                    }
-                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                        bandera_obra_social_comun = 0;
-                    } else {
-                        bandera_obra_social_comun = 1;
-                    }
-                }
-            } else {
-
-                cursor();
-                System.out.println("Obra social OFFLINE");
-                ////////////////////////////OBRAS SOCIALES OFFLINE////////////////////////////////////////////////////////////////
-                plan_ss = "";
-                coseguro_ss = "";
-                String cadena_practicas = "", id_practicas = "";
-                int n2 = tablapracticas.getRowCount();
-                if (tablapracticas.getRowCount() != 0) {
-                    int i = 0;
-                    if (n2 != 0) {
-                        while (i < n2) {
-                            plan_ss = plan_ss + "00";
-                            coseguro_ss = coseguro_ss + "00000.0";
-                            id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
-                            if (txtobrasocial.getText().equals("3102 - OSDE - OFFLINE") && tipo_orden != 3) {
-                                System.out.println("banderaEstadoOffline verifica:" + banderaEstadoOffline);
-                                //System.out.println("String.valueOf(tablapracticas.getValueAt(i, 1).toString())"+String.valueOf(tablapracticas.getValueAt(i, 1).toString()));
-                                if (String.valueOf(tablapracticas.getValueAt(i, 1).toString()).equals("664418")) {//verifica dimero d
-                                    if (MedicosAutorizados.buscarMedicosAutorizados(Integer.valueOf(txtmatricula.getText()), listaMedicos)) {
-                                        banderaEstadoOffline = 1;
-                                        System.out.println("banderaEstadoOffline ingresa:" + banderaEstadoOffline);
                                     } else {
                                         cursor2();
-                                        JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
-                                        banderaEstadoOffline = 0;
-                                        break;
+                                        bandera_medife = 0;
+                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Medife");
+                                        JOptionPane.showMessageDialog(null, mensaje);
+                                        borrartabla();
+                                    }
+                                }
+                                cursor2();
+                            } catch (Exception ex) {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, ex);
+                            }
+                        } else {
+                            cursor2();
+                            //  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                        }
+                    }
+                    ////////////////////////JERARQUICOS
+                    if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
+
+                        ///JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL
+                        //  if (obra.equals("37700 - JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL")) {///JERARQUICOS SALUD - EMPLEADOS BANCOS NACIONAL
+                        cursor();
+                        num_orden = "";
+                        String salida = "";
+                        String practicas = "", id_practicas = "";
+                        if (tablapracticas.getRowCount() != 0) {
+                            int n2, i = 0, bandera_respuesta = 0;
+                            String cod_practca, coleccion = "", nombre;
+                            n2 = tablapracticas.getRowCount();
+
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    cod_practca = tablapracticas.getValueAt(i, 1).toString();
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+                                    nombre = tablapracticas.getValueAt(i, 2).toString();
+                                    try { // Call Web Service Operation
+
+                                        ObjectFactory factory = new ObjectFactory();
+                                        JAXBElement<String> codigo = factory.createCriterioPracticaRequiereAutorizacionCodigoNomencladorConvenio(cod_practca);
+                                        JAXBElement<Integer> convenio = factory.createCriterioPracticaRequiereAutorizacionIdConvenio(451);
+
+                                        System.out.println(codigo);
+                                        System.out.println(convenio);
+
+                                        CriterioPracticaRequiereAutorizacion autorizacion = new CriterioPracticaRequiereAutorizacion();
+
+                                        autorizacion.setCodigoNomencladorConvenio(codigo);
+                                        autorizacion.setIdConvenio(convenio);
+                                        autorizacion.setIdPlan(plan);
+
+                                        JAXBElement<CriterioPracticaRequiereAutorizacion> criterio2 = factory.createSolicitudValidacionPracticaRequiereAutorizacionCriterioPracticaRequiereAutorizacion(autorizacion);
+
+                                        SolicitudValidacionPracticaRequiereAutorizacion solicitud = new SolicitudValidacionPracticaRequiereAutorizacion();
+                                        solicitud.setCriterioPracticaRequiereAutorizacion(criterio2);
+
+                                        ClienteJerarquicos.Servicio service = new ClienteJerarquicos.Servicio();
+                                        ClienteJerarquicos.IServicioPublico port = service.getBasicHttpBindingIServicioPublico();
+
+                                        ClienteJerarquicos.RespuestaBase result = port.validarPracticaRequiereAutorizacion(solicitud);
+
+                                        JAXBElement<RespuestaBase> respuestajxe = factory.createValidarPracticaRequiereAutorizacionResponseValidarPracticaRequiereAutorizacionResult(result);
+
+                                        ClienteJerarquicos.ValidarPracticaRequiereAutorizacionResponse resultado = new ClienteJerarquicos.ValidarPracticaRequiereAutorizacionResponse();
+
+                                        resultado.setValidarPracticaRequiereAutorizacionResult(respuestajxe);
+
+                                        JAXBElement<String> respuestaString = result.getDTOSerializado();
+                                        observacion = respuestaString.getValue();
+                                        if (respuestaString.getValue() != null) {
+
+                                            String respuesta2 = resultado.getValidarPracticaRequiereAutorizacionResult().getValue().getResultado().value();
+
+                                            System.out.println("Result = " + result.getResultado().value());
+
+                                            System.out.println("Result2 = " + respuesta2);
+
+                                            System.out.println("Result3 = " + respuestaString.getValue());
+
+                                            int pos = respuestaString.getValue().indexOf("\"RequiereAutorizacion\":false");
+                                            int pos2 = respuestaString.getValue().indexOf("\"RequiereAutorizacion\":true");
+                                            if (pos > 0) {
+
+                                                salida = salida + "Practica: " + cod_practca + ": Autorizada\r\n";
+                                                if (coleccion.equals("")) {
+                                                    coleccion = coleccion + "{'Cantidad':1,'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
+                                                } else {
+                                                    System.out.println("cod_prac=" + coleccion.indexOf(cod_practca));
+                                                    int pos_prac = coleccion.indexOf(cod_practca);//32
+
+                                                    if (pos_prac > 0) {
+
+                                                        System.out.println("pos_cant =" + coleccion.indexOf("'Cantidad':", pos_prac - 32));
+                                                        int pos_cant = coleccion.indexOf("'Cantidad':", pos_prac - 32);
+
+                                                        System.out.println("cantidad =" + coleccion.substring(pos_prac - 20, pos_prac - 19));
+                                                        int cantidad = Integer.valueOf(coleccion.substring(pos_prac - 20, pos_prac - 19));
+
+                                                        String cadena_vieja = "{'Cantidad':" + cantidad + ",'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
+
+                                                        String cadena_nueva = "{'Cantidad':" + (cantidad + 1) + ",'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
+
+                                                        System.out.println("vieja: " + cadena_vieja);
+                                                        System.out.println("nueva: " + cadena_nueva);
+
+                                                        System.out.println("coleccion: " + coleccion);
+
+                                                        coleccion = coleccion.replace(cadena_vieja, cadena_nueva);
+                                                    } else {
+                                                        coleccion = coleccion + ",{'Cantidad':1,'CodigoConvenio':'" + cod_practca + "','DescripcionCodigoConvenio':'" + nombre + "'}";
+                                                    }
+
+                                                }
+                                                bandera_respuesta = 0;
+                                            }
+                                            if (pos2 > 0) {
+                                                salida = salida + "Practica: " + cod_practca + ":Requiere autorización\r\n";
+                                                bandera_respuesta = 1;
+                                                bandera_jerarquicos = 0;
+                                            }
+                                        } else {
+                                            ClienteJerarquicos.Notificacion notificaciones = result.getNotificaciones().getValue().getNotificacion().get(0);
+
+                                            String respuesta2 = resultado.getValidarPracticaRequiereAutorizacionResult().getValue().getResultado().value();
+
+                                            System.out.println("Result = " + result.getResultado().value());
+
+                                            System.out.println("Result2 = " + respuesta2);
+
+                                            System.out.println("Result3 = " + respuestaString.getValue());
+
+                                            System.out.println("Result4 = " + notificaciones.getMensaje().getValue());
+                                            salida = salida + "Practica: " + cod_practca + ":" + notificaciones.getMensaje().getValue() + "\r\n";
+                                            bandera_respuesta = 1;
+                                        }
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(JerarquicosAfiliado.class.getName()).log(Level.SEVERE, null, ex);
+                                        bandera_respuesta = 1;
+                                        bandera_jerarquicos = 0;
+                                    }
+                                    i++;
+                                }
+                                ///
+                                ////////////////////////////////////////////////////////////
+                                if (bandera_respuesta == 0 && bandera_jerarquicos != 0) {
+                                    JOptionPane.showMessageDialog(null, salida);
+                                    System.out.println("Coleccion de datos: " + coleccion);
+                                    try {
+                                        String datos = "{"
+                                                + "'ApellidoEfector':'" + Login.nombre_colegiado + "',"
+                                                + "'NombreEfector':'" + Login.nombre_colegiado + "',"
+                                                + "'CuilEfector':'" + Login.cuit + "',"
+                                                + "'Diagnostico':'',"
+                                                + "'FechaConsumo':'" + date_jerarquicos + "',"
+                                                + "'IdConvenio':451,"
+                                                + "'NroSocio':" + String.valueOf(NumeroSocio) + ","
+                                                + "'OrdenSocio':" + String.valueOf(NumeroOrden) + ","
+                                                + "'ConsumosWeb':[" + coleccion + "],"
+                                                + "'DTOSerializado':null,"
+                                                + "'IdTransaccion':0,"
+                                                + "'EstadoAutorizacion':null"
+                                                + "}";
+                                        ObjectFactory factory = new ObjectFactory();
+                                        JAXBElement<String> Dtoserializado = factory.createCriterioAutorizacionConsumoWebDTOSerializado(datos);
+
+                                        ClienteJerarquicos.CriterioAutorizacionConsumoWeb criterio = new ClienteJerarquicos.CriterioAutorizacionConsumoWeb();
+
+                                        criterio.setDTOSerializado(Dtoserializado);
+                                        criterio.setGenerarCupon(false);
+
+                                        ClienteJerarquicos.SolicitudAutorizacionConsumoWeb solicitud = new ClienteJerarquicos.SolicitudAutorizacionConsumoWeb();
+
+                                        JAXBElement<CriterioAutorizacionConsumoWeb> consumo = factory.createSolicitudAutorizacionConsumoWebCriterioAutorizacionConsumoWeb(criterio);
+
+                                        solicitud.setCriterioAutorizacionConsumoWeb(consumo);
+                                        // TODO process result here
+                                        System.out.println("input " + solicitud.getCriterioAutorizacionConsumoWeb().getValue().getDTOSerializado().getValue());
+                                        // Call Web Service Operation
+                                        Servicio service = new Servicio();
+                                        IServicioPublico port = service.getBasicHttpBindingIServicioPublico();
+                                        // TODO initialize WS operation arguments here
+                                        ClienteJerarquicos.RespuestaAutorizacionConsumoWeb result = port.autorizarConsumo(solicitud);
+
+                                        JAXBElement<RespuestaAutorizacionConsumoWeb> respuestajxe = factory.createAutorizarConsumoResponseAutorizarConsumoResult(result);
+
+                                        ClienteJerarquicos.AutorizarConsumoResponse resultado = new ClienteJerarquicos.AutorizarConsumoResponse();
+
+                                        resultado.setAutorizarConsumoResult(respuestajxe);
+
+                                        JAXBElement<String> respuestaString = result.getDTOSerializado();
+
+                                        /// String respuesta2 = resultado.getAutorizarConsumoResult().getValue().
+                                        System.out.println("Result = " + result.getResultado().value());
+
+                                        /// System.out.println("Result2 = " + respuesta2);
+                                        System.out.println("Result consumo = " + respuestaString.getValue());
+                                        //"Nombre":"EXITO"},"IdTransaccion":297361}
+                                        int pos_ok = respuestaString.getValue().indexOf("\"Nombre\":\"EXITO\"");
+                                        if (pos_ok > 0) {
+                                            estado_orden = 1;
+                                            int pos_trans = respuestaString.getValue().indexOf("\"IdTransaccion\":");
+                                            num_orden = respuestaString.getValue().substring(pos_trans + 16, pos_trans + 22);
+                                            txtnumorden.setText(num_orden);
+                                            /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                            validar_orden jerarquicos = new validar_orden();
+                                            System.out.println(practicas);
+                                            respuesta = jerarquicos.valida(
+                                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                    txtnombreafiliado.getText(),
+                                                    txtdocumento.getText(),
+                                                    txtnumafiliado.getText(),
+                                                    Integer.valueOf(txtmatricula.getText()),
+                                                    num_orden,
+                                                    fecha,
+                                                    Double.valueOf(txttotal1.getText()),
+                                                    fecha,
+                                                    hora,
+                                                    ip2,
+                                                    id_obra_social,
+                                                    id_usuario,
+                                                    n2,
+                                                    practicas,
+                                                    Double.valueOf(txtcoseguro.getText()),
+                                                    fecha,
+                                                    tipo_orden,
+                                                    observacion,
+                                                    plan_ss,
+                                                    coseguro_ss,
+                                                    estado_orden,
+                                                    fechaDate);
+                                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+
+                                                System.out.println("Anulacion Jerarquicos");
+                                                bandera_jerarquicos = 0;
+
+                                                ClienteJerarquicos.CriterioAnulacionConsumoWeb autorizacion = new ClienteJerarquicos.CriterioAnulacionConsumoWeb();
+                                                autorizacion.setIdConvenio(451);
+                                                autorizacion.setIdTransaccion(Integer.valueOf(num_orden));
+
+                                                JAXBElement<CriterioAnulacionConsumoWeb> criterio3 = factory.createSolicitudAnulacionConsumoWebCriterioAnulacionConsumoWeb(autorizacion);
+
+                                                ClienteJerarquicos.SolicitudAnulacionConsumoWeb solicitud3 = new ClienteJerarquicos.SolicitudAnulacionConsumoWeb();
+                                                solicitud3.setCriterioAnulacionConsumoWeb(criterio3);
+
+                                                ClienteJerarquicos.Servicio service3 = new ClienteJerarquicos.Servicio();
+
+                                                ClienteJerarquicos.IServicioPublico port3 = service3.getBasicHttpBindingIServicioPublico();
+
+                                                ClienteJerarquicos.RespuestaBase result3 = port3.anularAutorizacionConsumo(solicitud3);
+                                                String respuesta3 = result3.getDTOSerializado().getValue();
+
+                                                int pos_ok2 = respuesta3.indexOf("\"Nombre\":\"EXITO\"");
+                                                if (pos_ok2 > 0) {
+                                                    cursor2();
+                                                    JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Jerarquicos Salud");
+                                                } else {
+                                                    cursor2();
+                                                    JOptionPane.showMessageDialog(null, "Error " + respuesta3);
+                                                }
+                                            } else {
+                                                cursor2();
+                                                bandera_jerarquicos = 1;
+                                                JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
+                                                borrartabla();
+                                            }
+                                        } else {
+                                            bandera_jerarquicos = 0;
+                                        }
+                                    } catch (Exception ex) {
+                                        bandera_jerarquicos = 0;
+                                        Logger.getLogger(JerarquicosAfiliado.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+
+                                } else {
+
+                                    bandera_respuesta = 1;
+
+                                    estado_orden = 0;
+                                    int pos_trans = observacion.indexOf("\"IdTransaccion\":");
+                                    num_orden = observacion.substring(pos_trans + 16, pos_trans + 22);
+                                    txtnumorden.setText(num_orden);
+                                    if (observacion.length() > 500) {
+                                        observacion = observacion.substring(0, 500);
+                                    }
+                                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                                    validar_orden jerarquicos = new validar_orden();
+                                    System.out.println(practicas);
+                                    respuesta = jerarquicos.valida(
+                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                            txtnombreafiliado.getText(),
+                                            txtdocumento.getText(),
+                                            txtnumafiliado.getText(),
+                                            Integer.valueOf(txtmatricula.getText()),
+                                            num_orden,
+                                            fecha,
+                                            Double.valueOf(txttotal1.getText()),
+                                            fecha,
+                                            hora,
+                                            ip2,
+                                            id_obra_social,
+                                            id_usuario,
+                                            n2,
+                                            practicas,
+                                            Double.valueOf(txtcoseguro.getText()),
+                                            fecha,
+                                            tipo_orden,
+                                            observacion,
+                                            plan_ss,
+                                            coseguro_ss,
+                                            estado_orden,
+                                            fechaDate);
+                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                        cursor2();
+                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+                                        bandera_jerarquicos = 0;
+
+                                    } else {
+                                        cursor2();
+                                        bandera_jerarquicos = 0;
+                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Jerarquicos");
+                                        JOptionPane.showMessageDialog(null, salida);
+                                        borrartabla();
                                     }
 
                                 }
+                                /////////////////////////////////////////////////////////
                             }
-
-                            cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
-                            System.out.println(cadena_practicas);
-                            i++;
                         }
                     }
-                } else {
-                    cursor2();
-                    JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
-                    banderaEstadoOffline = 0;
-                }
-                ///////////////////////////////////////////////////////////////////////
-                if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText()) || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText()) || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText()) || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText()) || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText()) || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText()) || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
-                    long ordnumero = Long.valueOf(txtnumorden.getText());
-                    long resto3 = 0, resto2, resto = ordnumero;
-                    long total = 0, i = 0, d, digito;
-                    long totalsobre11, totalmod11, orddigitoverificador;
-                    resto3 = resto / 100;
-                    digito = resto - (resto3 * 100);
-                    resto = resto3;
-                    do {
-                        i++;
-                        resto2 = resto / 10;
-                        d = resto - (resto2 * 10);
-                        total = total + (d * (i + 1));
-                        resto = resto2;
-                    } while (resto > 0);
-                    totalsobre11 = total / 11;
-                    totalmod11 = total - (totalsobre11 * 11);
-                    orddigitoverificador = 11 - totalmod11;
-                    if (orddigitoverificador == digito) {
-                        banderaEstadoOffline = 0;
-                        System.out.println("resto3 " + resto3);
-                        txtnumorden.setText(String.valueOf(resto3));
-                    } else {
-                        if (orddigitoverificador == 11) {
-                            banderaEstadoOffline = 1;
-                            System.out.println("resto3 " + resto3);
-                            txtnumorden.setText(String.valueOf(resto3));
+                    if (obra.equals("40813 - IOSFA")) {
+
+                        double coseguroIosfa = 0;
+                        if (chkcoseguro.isSelected()) {
+                            int cuentaPracticasComunes = 0;
+                            String cadenaPractica;
+                            for (int i = 0; i < tablapracticas.getRowCount(); i++) {
+                                cadenaPractica = tablapracticas.getValueAt(i, 1).toString() + " - " + tablapracticas.getValueAt(i, 2).toString();
+                                System.out.println("Tipo práctica:" + Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica());
+                                switch (Practica.buscarPractica(cadenaPractica, listaPracticas).getTipoPractica()) {
+
+                                    case 4:
+                                        if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 500) {
+                                            coseguroIosfa = coseguroIosfa + 500;
+                                        } else {
+                                            coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                        }
+                                        break;
+                                    case 3:
+                                        if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 200) {
+                                            coseguroIosfa = coseguroIosfa + 200;
+                                        } else {
+                                            coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                        }
+                                        break;
+                                    case 2:
+                                        if (Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal() > 100) {
+                                            coseguroIosfa = coseguroIosfa + 100;
+                                        } else {
+                                            coseguroIosfa = coseguroIosfa + Practica.buscarPractica(cadenaPractica, listaPracticas).getPrecioTotal();
+                                        }
+                                        break;
+                                    case 1:
+                                        cuentaPracticasComunes++;
+                                        break;
+                                }
+                            }
+                            if (cuentaPracticasComunes > 0) {
+                                if (cuentaPracticasComunes > 6) {
+                                    int excedente = cuentaPracticasComunes - 6;
+                                    coseguroIosfa = coseguroIosfa + excedente * 40;
+                                }
+                                coseguroIosfa = coseguroIosfa + 100;
+                            }
+                        }
+                        String cadena_practicas = "", id_practicas = "";
+                        int n2 = tablapracticas.getRowCount();
+                        if (tablapracticas.getRowCount() != 0) {
+                            int i = 0;
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    plan_ss = plan_ss + "00";
+                                    coseguro_ss = coseguro_ss + "00000.0";
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
+                                    System.out.println(cadena_practicas);
+                                    i++;
+                                }
+                            }
                         } else {
                             cursor2();
-                            JOptionPane.showMessageDialog(null, "Numero de orden incorrecto de Subsidio...");
-                            banderaEstadoOffline = 0;
                         }
-                    }
-                }
-                if (banderamodifica == 0 && banderaEstadoOffline == 1) {
-                    if (!txtnumorden.getText().equals("") && txtdocumento.getText().length() >= 4 && !txtnombreafiliado.getText().equals("")) {
-                        if (id_obra_social == 58) {
-                            estado_orden = 3;
-                        } else {
-                            estado_orden = 1;
-                        }
+                        estado_orden = 1;
                         System.out.println(id_practicas + "  " + n2);
                         /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                         validar_orden obra_social_comun = new validar_orden();
@@ -6254,54 +6115,323 @@ public class MainL extends javax.swing.JFrame {
                                 id_usuario,//id_usuario,
                                 n2,// cantidad_practicas,
                                 cadena_practicas,//practicas
-                                Double.valueOf(txtcoseguro.getText()),//Double.valueOf(txtcoseguro.getText()),
+                                coseguroIosfa,//Double.valueOf(txtcoseguro.getText()),
                                 fecha,//fecha,
                                 tipo_orden,//tipo_orden,
                                 observacion,//observacion,
                                 plan_ss,//0,
                                 coseguro_ss,
                                 estado_orden,
-                                fechaDate);//0.00                        
+                                fechaDate);//0.00
+                        if (chkcoseguro.isSelected()) {
+
+                            int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + coseguroIosfa + "\nDesea Imprimir un comprobante?", "IOSFA Impresíon", JOptionPane.YES_NO_OPTION);
+
+                            if (opcion == 0) {
+                                ConexionMariaDB cc = new ConexionMariaDB();
+                                Connection cnn = cc.Conectar();
+                                ////////////////Previsualizacion///////////////////////////
+                                JDialog viewer = new JDialog(new javax.swing.JFrame(), "Coseguro IOSFA", true);
+                                viewer.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
+                                viewer.setSize(800, 600);
+                                viewer.setLocationRelativeTo(null);
+                                JasperViewer jv = null;
+                                ///////////////////////////////////////////////////////////
+                                Map parametros = new HashMap();
+                                parametros.put("id_orden", respuesta);
+                                try {
+                                    JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/comprobante_iosfa.jasper"));
+                                    JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
+                                    //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
+                                    //JasperPrintManager.printReport(jPrint_comprobante, false);
+                                    jv = new JasperViewer(jPrint_comprobante, false);
+                                    viewer.getContentPane().add(jv.getContentPane());
+                                    viewer.setVisible(true);
+                                    cnn.close();
+                                } catch (JRException ex) {
+                                    System.err.println("Error iReport: " + ex.getMessage());
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                            }
+                        }
                         if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                             bandera_obra_social_comun = 0;
                         } else {
                             bandera_obra_social_comun = 1;
                         }
+                    }
+                } else {
+
+                    cursor();
+                    System.out.println("Obra social OFFLINE");
+                    ////////////////////////////OBRAS SOCIALES OFFLINE////////////////////////////////////////////////////////////////
+                    plan_ss = "";
+                    coseguro_ss = "";
+                    String cadena_practicas = "", id_practicas = "";
+                    int n2 = tablapracticas.getRowCount();
+                    if (tablapracticas.getRowCount() != 0) {
+                        int i = 0;
+                        if (n2 != 0) {
+                            while (i < n2) {
+                                plan_ss = plan_ss + "00";
+                                coseguro_ss = coseguro_ss + "00000.0";
+                                id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                if (txtobrasocial.getText().equals("3102 - OSDE - OFFLINE") && tipo_orden != 3) {
+                                    System.out.println("banderaEstadoOffline verifica:" + banderaEstadoOffline);
+                                    //System.out.println("String.valueOf(tablapracticas.getValueAt(i, 1).toString())"+String.valueOf(tablapracticas.getValueAt(i, 1).toString()));
+                                    if (String.valueOf(tablapracticas.getValueAt(i, 1).toString()).equals("664418")) {//verifica dimero d
+                                        if (MedicosAutorizados.buscarMedicosAutorizados(Integer.valueOf(txtmatricula.getText()), listaMedicos)) {
+                                            banderaEstadoOffline = 1;
+                                            System.out.println("banderaEstadoOffline ingresa:" + banderaEstadoOffline);
+                                        } else {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
+                                            banderaEstadoOffline = 0;
+                                            break;
+                                        }
+
+                                    }
+                                }
+
+                                cadena_practicas = cadena_practicas + tablapracticas.getValueAt(i, 1).toString().substring(0, 6);
+                                System.out.println(cadena_practicas);
+                                i++;
+                            }
+                        }
                     } else {
                         cursor2();
-                        JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios...");
+                        JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                        banderaEstadoOffline = 0;
+                    }
+                    ///////////////////////////////////////////////////////////////////////
+                    if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText()) || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText()) || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText()) || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText()) || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText()) || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText()) || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
+                        long ordnumero = Long.valueOf(txtnumorden.getText());
+                        long resto3 = 0, resto2, resto = ordnumero;
+                        long total = 0, i = 0, d, digito;
+                        long totalsobre11, totalmod11, orddigitoverificador;
+                        resto3 = resto / 100;
+                        digito = resto - (resto3 * 100);
+                        resto = resto3;
+                        do {
+                            i++;
+                            resto2 = resto / 10;
+                            d = resto - (resto2 * 10);
+                            total = total + (d * (i + 1));
+                            resto = resto2;
+                        } while (resto > 0);
+                        totalsobre11 = total / 11;
+                        totalmod11 = total - (totalsobre11 * 11);
+                        orddigitoverificador = 11 - totalmod11;
+                        if (orddigitoverificador == digito) {
+                            banderaEstadoOffline = 0;
+                            System.out.println("resto3 " + resto3);
+                            txtnumorden.setText(String.valueOf(resto3));
+                        } else {
+                            if (orddigitoverificador == 11) {
+                                banderaEstadoOffline = 1;
+                                System.out.println("resto3 " + resto3);
+                                txtnumorden.setText(String.valueOf(resto3));
+                            } else {
+                                cursor2();
+                                JOptionPane.showMessageDialog(null, "Numero de orden incorrecto de Subsidio...");
+                                banderaEstadoOffline = 0;
+                            }
+                        }
+                    }
+                    if (banderamodifica == 0 && banderaEstadoOffline == 1) {
+                        if (!txtnumorden.getText().equals("") && txtdocumento.getText().length() >= 4 && !txtnombreafiliado.getText().equals("")) {
+                            if (id_obra_social == 58) {
+                                estado_orden = 3;
+                            } else {
+                                estado_orden = 1;
+                            }
+                            System.out.println(id_practicas + "  " + n2);
+                            /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+                            validar_orden obra_social_comun = new validar_orden();
+                            respuesta = obra_social_comun.valida(
+                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),//periodo
+                                    txtnombreafiliado.getText(),//nombre_afiliado
+                                    txtdocumento.getText(),//dni_afiliado
+                                    txtnumafiliado.getText(),//numero_afiliado
+                                    Integer.valueOf(txtmatricula.getText()),//matricula_presc
+                                    txtnumorden.getText(),//numero_orden
+                                    txtfecha.getText(),//fecha_orden
+                                    Double.valueOf(txttotal1.getText()),//total_orden
+                                    fecha,//fecha_carga,
+                                    hora,//hora_carga,
+                                    ip2,//ip,
+                                    id_obra_social,//id_obrasocial,
+                                    id_usuario,//id_usuario,
+                                    n2,// cantidad_practicas,
+                                    cadena_practicas,//practicas
+                                    Double.valueOf(txtcoseguro.getText()),//Double.valueOf(txtcoseguro.getText()),
+                                    fecha,//fecha,
+                                    tipo_orden,//tipo_orden,
+                                    observacion,//observacion,
+                                    plan_ss,//0,
+                                    coseguro_ss,
+                                    estado_orden,
+                                    fechaDate);//0.00                        
+                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                bandera_obra_social_comun = 0;
+                            } else {
+                                bandera_obra_social_comun = 1;
+                            }
+                        } else {
+                            cursor2();
+                            JOptionPane.showMessageDialog(null, "Debe completar todos los datos obligatorios...");
+                        }
                     }
                 }
-            }
-            cursor();
-            periodo = txtaño.getText() + txtmes.getText();
-            int p = 0;
-            if (periodo_colegiado <= Integer.valueOf(periodo)) {
-                try {
-                    String sSQL4 = "SELECT estado FROM periodos ";
-                    Statement st4 = cn.createStatement();
-                    ResultSet rs4 = st4.executeQuery(sSQL4);
-                    rs4.next();
-                    ///System.out.println("bandera_jerarquicos = " + bandera_jerarquicos);
-                    if (rs4.getBoolean("estado") == true
-                            && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1
-                            && bandera_sw == 1 && bandera_subsidio == 1
-                            && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1
-                            && bandera_iosfa == 1 && bandera_medife == 1 && banderaEstadoOffline==1) {
-                        if (!txtnombreafiliado.getText().equals("") && !txtdocumento.getText().equals("") && !txtnumafiliado.getText().equals("")) {
-                            if (tablapracticas.getRowCount() != 0) {
-                                double total = 0.0, totalordenes = 0.0;
-                                String num_afiliado, dni_afiliado, fecha_orden, matricula_presc, mes, año, cod_practca, cod_fac_practca;
-                                String nombre_practca;
-                                int n2, n3, i;
-                                num_afiliado = txtnumafiliado.getText();
-                                dni_afiliado = txtdocumento.getText();
-                                fecha_orden = txtfecha.getText();
-                                matricula_presc = txtmatricula.getText();
-                                mes = txtmes.getText();
-                                año = txtaño.getText();
-                                coseguro = txtcoseguro.getText();
-                                if (banderamodifica == 0) {
+                cursor();
+                periodo = txtaño.getText() + txtmes.getText();
+                int p = 0;
+                if (periodo_colegiado <= Integer.valueOf(periodo)) {
+                    try {
+                        String sSQL4 = "SELECT estado FROM periodos ";
+                        Statement st4 = cn.createStatement();
+                        ResultSet rs4 = st4.executeQuery(sSQL4);
+                        rs4.next();
+                        ///System.out.println("bandera_jerarquicos = " + bandera_jerarquicos);
+                        if (rs4.getBoolean("estado") == true
+                                && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1
+                                && bandera_sw == 1 && bandera_subsidio == 1
+                                && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1
+                                && bandera_iosfa == 1 && bandera_medife == 1 && banderaEstadoOffline == 1) {
+                            if (!txtnombreafiliado.getText().equals("") && !txtdocumento.getText().equals("") && !txtnumafiliado.getText().equals("")) {
+                                if (tablapracticas.getRowCount() != 0) {
+                                    double total = 0.0, totalordenes = 0.0;
+                                    String num_afiliado, dni_afiliado, fecha_orden, matricula_presc, mes, año, cod_practca, cod_fac_practca;
+                                    String nombre_practca;
+                                    int n2, n3, i;
+                                    num_afiliado = txtnumafiliado.getText();
+                                    dni_afiliado = txtdocumento.getText();
+                                    fecha_orden = txtfecha.getText();
+                                    matricula_presc = txtmatricula.getText();
+                                    mes = txtmes.getText();
+                                    año = txtaño.getText();
+                                    coseguro = txtcoseguro.getText();
+                                    if (banderamodifica == 0) {
+                                        if (periodo_colegiado > Integer.valueOf(periodo)) {
+                                            p = 1;////periodo cerrado
+                                        }
+                                        jLabel6.setEnabled(false);
+                                        jLabel8.setEnabled(false);
+                                        jLabel9.setEnabled(true);
+                                        jLabel1.setEnabled(false);
+                                        jLabel2.setEnabled(false);
+                                        txtfecha.setEnabled(false);
+                                        txtdocumento.setEnabled(false);
+                                        txtnumorden.setText("");
+                                        txtnombreafiliado.setEnabled(false);
+                                        txtnumafiliado.setEnabled(false);
+                                        System.out.println("obra: " + obra);
+                                        if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")
+                                                && !obra.equals("3100 - OSDE")
+                                                && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR")
+                                                && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
+                                                && !obra.equals("3102 - OSDE - OFFLINE")
+                                                && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
+                                            tipo_orden = 1;
+                                        }
+                                        txtobrasocial.setEnabled(false);
+                                        jLabel5.setEnabled(false);
+                                        borrartabla();
+                                        contadorPracticas = 0;
+                                        txtfecha.setEnabled(true);
+                                        txtfecha.setEditable(true);
+                                        jLabel10.setEnabled(true);
+                                        jLabel1.setEnabled(false);
+                                        jLabel2.setEnabled(false);
+                                        txtmes.setEnabled(false);
+                                        txttotal1.setText("");
+                                        txtaño.setEnabled(false);
+                                        txtcoseguro.setText("0.00");
+                                        txtcoseguro.setEnabled(false);
+                                        jLabel24.setEnabled(false);
+                                        txtfechacoseguro.setText("");
+                                        txtfechacoseguro.setEnabled(false);
+                                        chkcoseguro.setSelected(false);
+                                        jLabel25.setEnabled(false);
+                                        String matr = txtmatricula.getText();
+                                        txtmatricula.select(0, matr.length());
+                                        txtmatricula.requestFocus();
+                                    } //////////////////////MODIFICAR ORDEN//////////////////////
+                                    else {
+                                        System.out.println("banderaEstadoOffline:" + banderaEstadoOffline);
+                                        if (banderaEstadoOffline == 1) {
+                                            //////////////////////////////////elimina detalle anterior///////////////////////////////////////////////me es mas facil ;)
+                                            try {
+                                                PreparedStatement pst3 = cn.prepareStatement("DELETE FROM detalle_ordenes WHERE id_orden ='" + id_orden + "'");
+                                                pst3.execute();
+
+                                            } catch (Exception e) {
+                                                observacion = null;
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, "Error en la base de datos...");
+                                                JOptionPane.showMessageDialog(null, e);
+                                            }
+                                            //////////////////////////////////////////////////detalle de orden////////////////////
+                                            try {
+                                                i = 0;
+                                                n2 = tablapracticas.getRowCount();
+                                                if (n2 != 0) {
+                                                    //   cargarorden();
+                                                    while (i < n2) {
+
+                                                        String SQL = "INSERT INTO detalle_ordenes(id_orden, cod_practica,nombre_practica,precio_practica,cod_practica_fac)"
+                                                                + "VALUES(?,?,?,?,?)";
+                                                        PreparedStatement st2 = cn.prepareStatement(SQL);
+                                                        cod_practca = tablapracticas.getValueAt(i, 1).toString();
+                                                        nombre_practca = tablapracticas.getValueAt(i, 2).toString();
+                                                        total = Double.valueOf(tablapracticas.getValueAt(i, 3).toString());
+                                                        cod_fac_practca = tablapracticas.getValueAt(i, 4).toString();
+                                                        totalordenes = totalordenes + total;
+                                                        st2.setInt(1, id_orden);
+                                                        st2.setString(2, cod_practca);
+                                                        st2.setString(3, nombre_practca);
+                                                        st2.setDouble(4, Redondear(total));
+                                                        st2.setString(5, cod_fac_practca);
+                                                        n3 = st2.executeUpdate();
+                                                        if (n3 > 0) {
+                                                        }
+                                                        i++;
+                                                    }
+                                                }
+                                            } catch (SQLException ex) {
+                                                observacion = null;
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, ex);
+                                            }
+                                            ////////////////////////////ordenes////////////////////////////////////////////////////////
+                                            String sSQL3 = "UPDATE ordenes SET periodo=?, id_obrasocial=?, nombre_afiliado=?, dni_afiliado=?, numero_afiliado=?,"
+                                                    + "matricula_prescripcion=?, numero_orden=?,"
+                                                    + "fecha_orden=? , id_colegiados=?, total=? WHERE id_orden=" + id_orden;
+                                            PreparedStatement pst = cn.prepareStatement(sSQL3);
+                                            pst.setString(1, año + mes);
+                                            pst.setInt(2, id_obra_social);
+                                            pst.setString(3, nom_afiliado);
+                                            pst.setString(4, dni_afiliado);
+                                            pst.setString(5, num_afiliado);
+                                            pst.setString(6, matricula_presc);
+                                            pst.setString(7, num_orden);
+                                            pst.setString(8, fecha_orden);
+                                            pst.setInt(9, id_usuario);
+                                            pst.setDouble(10, Redondear(totalordenes));
+                                            p = 3;
+                                            int n4 = pst.executeUpdate();
+                                            if (n4 > 0) {
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, "Se modificó con exito la orden...");
+                                            }
+                                            btnborrar.doClick();
+                                            banderamodifica = 0;
+                                        }
+                                    }
+                                } else {
+                                    cursor2();
                                     if (periodo_colegiado > Integer.valueOf(periodo)) {
                                         p = 1;////periodo cerrado
                                     }
@@ -6316,20 +6446,12 @@ public class MainL extends javax.swing.JFrame {
                                     txtnombreafiliado.setEnabled(false);
                                     txtnumafiliado.setEnabled(false);
                                     System.out.println("obra: " + obra);
-                                    if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")
-                                            && !obra.equals("3100 - OSDE")
-                                            && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR")
-                                            && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
-                                            && !obra.equals("3102 - OSDE - OFFLINE")
-                                            && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
+                                    if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE")) {
                                         tipo_orden = 1;
                                     }
                                     txtobrasocial.setEnabled(false);
                                     jLabel5.setEnabled(false);
-                                    borrartabla();
                                     contadorPracticas = 0;
-                                    txtfecha.setEnabled(true);
-                                    txtfecha.setEditable(true);
                                     jLabel10.setEnabled(true);
                                     jLabel1.setEnabled(false);
                                     jLabel2.setEnabled(false);
@@ -6346,222 +6468,115 @@ public class MainL extends javax.swing.JFrame {
                                     String matr = txtmatricula.getText();
                                     txtmatricula.select(0, matr.length());
                                     txtmatricula.requestFocus();
-                                } //////////////////////MODIFICAR ORDEN//////////////////////
-                                else {
-                                    System.out.println("banderaEstadoOffline:" + banderaEstadoOffline);
-                                    if (banderaEstadoOffline == 1) {
-                                        //////////////////////////////////elimina detalle anterior///////////////////////////////////////////////me es mas facil ;)
-                                        try {
-                                            PreparedStatement pst3 = cn.prepareStatement("DELETE FROM detalle_ordenes WHERE id_orden ='" + id_orden + "'");
-                                            pst3.execute();
-
-                                        } catch (Exception e) {
-                                            observacion = null;
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, "Error en la base de datos...");
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                        //////////////////////////////////////////////////detalle de orden////////////////////
-                                        try {
-                                            i = 0;
-                                            n2 = tablapracticas.getRowCount();
-                                            if (n2 != 0) {
-                                                //   cargarorden();
-                                                while (i < n2) {
-
-                                                    String SQL = "INSERT INTO detalle_ordenes(id_orden, cod_practica,nombre_practica,precio_practica,cod_practica_fac)"
-                                                            + "VALUES(?,?,?,?,?)";
-                                                    PreparedStatement st2 = cn.prepareStatement(SQL);
-                                                    cod_practca = tablapracticas.getValueAt(i, 1).toString();
-                                                    nombre_practca = tablapracticas.getValueAt(i, 2).toString();
-                                                    total = Double.valueOf(tablapracticas.getValueAt(i, 3).toString());
-                                                    cod_fac_practca = tablapracticas.getValueAt(i, 4).toString();
-                                                    totalordenes = totalordenes + total;
-                                                    st2.setInt(1, id_orden);
-                                                    st2.setString(2, cod_practca);
-                                                    st2.setString(3, nombre_practca);
-                                                    st2.setDouble(4, Redondear(total));
-                                                    st2.setString(5, cod_fac_practca);
-                                                    n3 = st2.executeUpdate();
-                                                    if (n3 > 0) {
-                                                    }
-                                                    i++;
-                                                }
-                                            }
-                                        } catch (SQLException ex) {
-                                            observacion = null;
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, ex);
-                                        }
-                                        ////////////////////////////ordenes////////////////////////////////////////////////////////
-                                        String sSQL3 = "UPDATE ordenes SET periodo=?, id_obrasocial=?, nombre_afiliado=?, dni_afiliado=?, numero_afiliado=?,"
-                                                + "matricula_prescripcion=?, numero_orden=?,"
-                                                + "fecha_orden=? , id_colegiados=?, total=? WHERE id_orden=" + id_orden;
-                                        PreparedStatement pst = cn.prepareStatement(sSQL3);
-                                        pst.setString(1, año + mes);
-                                        pst.setInt(2, id_obra_social);
-                                        pst.setString(3, nom_afiliado);
-                                        pst.setString(4, dni_afiliado);
-                                        pst.setString(5, num_afiliado);
-                                        pst.setString(6, matricula_presc);
-                                        pst.setString(7, num_orden);
-                                        pst.setString(8, fecha_orden);
-                                        pst.setInt(9, id_usuario);
-                                        pst.setDouble(10, Redondear(totalordenes));
-                                        p = 3;
-                                        int n4 = pst.executeUpdate();
-                                        if (n4 > 0) {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, "Se modificó con exito la orden...");
-                                        }
-                                        btnborrar.doClick();
-                                        banderamodifica = 0;
-                                    }
                                 }
                             } else {
                                 cursor2();
-                                if (periodo_colegiado > Integer.valueOf(periodo)) {
-                                    p = 1;////periodo cerrado
-                                }
-                                jLabel6.setEnabled(false);
-                                jLabel8.setEnabled(false);
-                                jLabel9.setEnabled(true);
-                                jLabel1.setEnabled(false);
-                                jLabel2.setEnabled(false);
-                                txtfecha.setEnabled(false);
-                                txtdocumento.setEnabled(false);
-                                txtnumorden.setText("");
-                                txtnombreafiliado.setEnabled(false);
-                                txtnumafiliado.setEnabled(false);
-                                System.out.println("obra: " + obra);
-                                if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE")) {
-                                    tipo_orden = 1;
-                                }
-                                txtobrasocial.setEnabled(false);
-                                jLabel5.setEnabled(false);
-                                contadorPracticas = 0;
-                                jLabel10.setEnabled(true);
-                                jLabel1.setEnabled(false);
-                                jLabel2.setEnabled(false);
-                                txtmes.setEnabled(false);
-                                txttotal1.setText("");
-                                txtaño.setEnabled(false);
-                                txtcoseguro.setText("0.00");
-                                txtcoseguro.setEnabled(false);
-                                jLabel24.setEnabled(false);
-                                txtfechacoseguro.setText("");
-                                txtfechacoseguro.setEnabled(false);
-                                chkcoseguro.setSelected(false);
-                                jLabel25.setEnabled(false);
-                                String matr = txtmatricula.getText();
-                                txtmatricula.select(0, matr.length());
-                                txtmatricula.requestFocus();
+                                JOptionPane.showMessageDialog(null, "Debe ingresar datos sobre el afiliado");
                             }
                         } else {
                             cursor2();
-                            JOptionPane.showMessageDialog(null, "Debe ingresar datos sobre el afiliado");
+                            JOptionPane.showMessageDialog(null, "No se pudo grabar la orden...");
                         }
-                    } else {
+                        cn.close();
+                    } catch (Exception e) {
+                        observacion = null;
                         cursor2();
-                        JOptionPane.showMessageDialog(null, "No se pudo grabar la orden...");
+                        JOptionPane.showMessageDialog(null, e);
+                        JOptionPane.showMessageDialog(null, "Error en la base de datos");
                     }
-                    cn.close();
-                } catch (Exception e) {
-                    observacion = null;
+                }
+                if (p == 1) {
                     cursor2();
-                    JOptionPane.showMessageDialog(null, e);
-                    JOptionPane.showMessageDialog(null, "Error en la base de datos");
+                    JOptionPane.showMessageDialog(null, "El periodo ya fue finalizado...");
+                    jLabel6.setEnabled(false);
+                    jLabel8.setEnabled(false);
+                    jLabel9.setEnabled(true);
+                    jLabel1.setEnabled(false);
+                    jLabel2.setEnabled(false);
+                    txtfecha.setEnabled(false);
+                    String matr = txtmatricula.getText();
+                    txtmatricula.select(0, matr.length());
+                    txtdocumento.setEnabled(false);
+                    txtnumorden.setText("");
+                    txtnombreafiliado.setEnabled(false);
+                    txtnumafiliado.setEnabled(false);
+                    System.out.println("obra: " + obra);
+                    if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE")) {//3102 - OSDE - OFFLINE
+                        tipo_orden = 1;
+                    }
+                    txtobrasocial.setEnabled(false);
+                    jLabel5.setEnabled(false);
+                    txttotal1.setText("");
+                    borrartabla();
+                    txtmes.setEnabled(true);
+                    txtaño.setEnabled(true);
+                    txtmes.setEditable(true);
+                    txtaño.setEditable(true);
+                    txtmes.requestFocus();
+                    cargarperiodo();
+                    txtfecha.setEnabled(true);
+                    txtfecha.setEditable(true);
+                    jLabel10.setEnabled(true);
+                    txtcoseguro.setText("0.00");
+                    txtcoseguro.setEnabled(false);
+                    jLabel24.setEnabled(false);
+                    txtfechacoseguro.setText("");
+                    txtfechacoseguro.setEnabled(false);
+                    chkcoseguro.setSelected(false);
+                    jLabel25.setEnabled(false);
+                    contadorPracticas = 0;
                 }
-            }
-            if (p == 1) {
-                cursor2();
-                JOptionPane.showMessageDialog(null, "El periodo ya fue finalizado...");
-                jLabel6.setEnabled(false);
-                jLabel8.setEnabled(false);
-                jLabel9.setEnabled(true);
-                jLabel1.setEnabled(false);
-                jLabel2.setEnabled(false);
-                txtfecha.setEnabled(false);
-                String matr = txtmatricula.getText();
-                txtmatricula.select(0, matr.length());
-                txtdocumento.setEnabled(false);
-                txtnumorden.setText("");
-                txtnombreafiliado.setEnabled(false);
-                txtnumafiliado.setEnabled(false);
-                System.out.println("obra: " + obra);
-                if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE")) {//3102 - OSDE - OFFLINE
-                    tipo_orden = 1;
+                if (p == 2) {
+                    cursor2();
+                    JOptionPane.showMessageDialog(null, "Todavía no cerró el período vigente...");
+                    jLabel6.setEnabled(false);
+                    //  jLabel18.setEnabled(false);
+                    jLabel8.setEnabled(false);
+                    jLabel9.setEnabled(true);
+                    jLabel1.setEnabled(false);
+                    jLabel2.setEnabled(false);
+                    txtfecha.setEnabled(false);
+                    String matr = txtmatricula.getText();
+                    txtmatricula.select(0, matr.length());
+                    txtdocumento.setEnabled(false);
+                    txtnumorden.setText("");
+                    txttotal1.setText("");
+                    txtnombreafiliado.setEnabled(false);
+                    txtnumafiliado.setEnabled(false);
+                    System.out.println("obra: " + obra);
+                    if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE")) {
+                        tipo_orden = 1;
+                    }
+                    txtobrasocial.setEnabled(false);
+                    jLabel5.setEnabled(false);
+                    borrartabla();
+                    txtmes.setEnabled(true);
+                    txtaño.setEnabled(true);
+                    txtmes.setEditable(true);
+                    txtaño.setEditable(true);
+                    txtmes.requestFocus();
+                    // cargarperiodo();
+                    txtfecha.setEnabled(true);
+                    txtfecha.setEditable(true);
+                    jLabel10.setEnabled(true);
+                    txtcoseguro.setText("0.00");
+                    txtcoseguro.setEnabled(false);
+                    jLabel24.setEnabled(false);
+                    txtfechacoseguro.setText("");
+                    txtfechacoseguro.setEnabled(false);
+                    chkcoseguro.setSelected(false);
+                    jLabel25.setEnabled(false);
+                    contadorPracticas = 0;
                 }
-                txtobrasocial.setEnabled(false);
-                jLabel5.setEnabled(false);
-                txttotal1.setText("");
-                borrartabla();
-                txtmes.setEnabled(true);
-                txtaño.setEnabled(true);
-                txtmes.setEditable(true);
-                txtaño.setEditable(true);
-                txtmes.requestFocus();
-                cargarperiodo();
-                txtfecha.setEnabled(true);
-                txtfecha.setEditable(true);
-                jLabel10.setEnabled(true);
-                txtcoseguro.setText("0.00");
-                txtcoseguro.setEnabled(false);
-                jLabel24.setEnabled(false);
-                txtfechacoseguro.setText("");
-                txtfechacoseguro.setEnabled(false);
-                chkcoseguro.setSelected(false);
-                jLabel25.setEnabled(false);
-                contadorPracticas = 0;
-            }
-            if (p == 2) {
-                cursor2();
-                JOptionPane.showMessageDialog(null, "Todavía no cerró el período vigente...");
-                jLabel6.setEnabled(false);
-                //  jLabel18.setEnabled(false);
-                jLabel8.setEnabled(false);
-                jLabel9.setEnabled(true);
-                jLabel1.setEnabled(false);
-                jLabel2.setEnabled(false);
-                txtfecha.setEnabled(false);
-                String matr = txtmatricula.getText();
-                txtmatricula.select(0, matr.length());
-                txtdocumento.setEnabled(false);
-                txtnumorden.setText("");
-                txttotal1.setText("");
-                txtnombreafiliado.setEnabled(false);
-                txtnumafiliado.setEnabled(false);
-                System.out.println("obra: " + obra);
-                if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE")) {
-                    tipo_orden = 1;
-                }
-                txtobrasocial.setEnabled(false);
-                jLabel5.setEnabled(false);
-                borrartabla();
-                txtmes.setEnabled(true);
-                txtaño.setEnabled(true);
-                txtmes.setEditable(true);
-                txtaño.setEditable(true);
-                txtmes.requestFocus();
-                // cargarperiodo();
-                txtfecha.setEnabled(true);
-                txtfecha.setEditable(true);
-                jLabel10.setEnabled(true);
-                txtcoseguro.setText("0.00");
-                txtcoseguro.setEnabled(false);
-                jLabel24.setEnabled(false);
-                txtfechacoseguro.setText("");
-                txtfechacoseguro.setEnabled(false);
-                chkcoseguro.setSelected(false);
-                jLabel25.setEnabled(false);
-                contadorPracticas = 0;
-            }
 
+            } else {
+                cursor2();
+                JOptionPane.showMessageDialog(null, "Error al intentar ingresar la orden");
+            }
         } else {
-            cursor2();
-            JOptionPane.showMessageDialog(null, "Error al intentar ingresar la orden");
+            JOptionPane.showMessageDialog(null, "Debe ingresar al menos una práctica...");
         }
-        ///}
+
         observacion = null;
         cursor2();
         btnaceptar.setEnabled(true);
@@ -6642,51 +6657,179 @@ public class MainL extends javax.swing.JFrame {
         fechaosde = formato.format(currentDate);
     }
 
-    public class Httpswmpractica {
+    public class apiSwLogin {
+
+        public String sendPost() throws Exception {
+            String uriLogin = "https://mobile.swissmedical.com.ar/pre/api-smg/v0/auth-login";
+            String jsonString;
+            Gson gsonEnvio = new Gson();
+            Gson gsonRespuesta = new Gson();
+            Gson gsonError = new Gson();
+            String resJson = "";
+            String respuestaToken = "0";
+            try {
+                System.out.println("/////////////////////////////// LOGIN   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                //Creamos el cliente de conexión al API Restful
+                Client client = ClientBuilder.newClient();
+
+                //Creamos el target lo cuál es nuestra URL junto con el nombre del método a llamar
+                WebTarget targetLogin = client.target(uriLogin);
+
+                //Creamos nuestra solicitud que realizará el request
+                Invocation.Builder solicitud = targetLogin.request();
+
+                //Creamos y llenamos nuestro objeto BaseReq con los datos que solicita el API
+                ClienteSwissMedicalApi.Login req = new ClienteSwissMedicalApi.Login();
+                req.setApiKey("06715fdb87c4adb2c176");
+                req.setUsrLoginName("hl7ApiUser");
+                req.setPassword("Swiss1234");
+                req.setCuit("30522483881");
+                Device dev = new Device();
+                dev.setMessagingid(id_usuario+"B"+hora);
+                dev.setDeviceid(ipLocal);
+                dev.setDevicename(hostLocal);
+                dev.setBloqueado(0);
+                dev.setRecordar(0);
+                req.setDevice(dev);
+                // sdfsdfsdfsd
+                //Convertimos el objeto req a un json
+                jsonString = gsonEnvio.toJson(req);
+                System.out.println(jsonString);
+
+                //Enviamos nuestro json vía post al API Restful
+                Response post = solicitud.post(Entity.json(jsonString));
+
+                //Recibimos la respuesta y la leemos en una clase de tipo String, en caso de que el json sea tipo json y no string, debemos usar la clase de tipo JsonObject.class en lugar de String.class
+                String responseJson = post.readEntity(String.class);
+                resJson = responseJson;
+
+                //Imprimimos el status de la solicitud
+                System.out.println("Estatus: " + post.getStatus());
+
+                switch (post.getStatus()) {
+                    case 200:
+                        resJson = responseJson;
+                        System.out.println("/////////////////////////////// Respuesta Login   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                        //Imprimimos la respuesta del API Restful
+                        System.out.println(resJson);
+                        LoginResponse respuestaLogin = gsonRespuesta.fromJson(resJson, LoginResponse.class);
+                        respuestaLogin.muestraRespuesta();
+                        respuestaToken = respuestaLogin.getToken();
+                        break;
+                    default:
+                        resJson = "Error";
+                        LoginError ErrorLogin = gsonError.fromJson(resJson, LoginError.class);
+                        ErrorLogin.mostrarError();
+                        respuestaToken = "0";
+                        break;
+                }
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            } catch (Exception e) {
+                //En caso de un error en la solicitud, llenaremos res con la exceptión para verificar que sucedió
+                resJson = e.toString();
+            }
+            return respuestaToken;
+        }
+    }
+
+    public class apiSwPracticas {
 
         private final String USER_AGENT = "Mozilla/5.0";
+        int estado_sw = 0;
 
         // HTTP GET request
-        public void sendGet() throws Exception {
+        public int sendPost() throws Exception {
+
             BufferedReader in = null;
+            String resJson = "";
             try {
 
-                String urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajepractica, "UTF-8");
+                String uriRegistracion = "https://mobile.swissmedical.com.ar/pre/api-smg/v1.0/prestadores/hl7/registracion";
 
-                URL obj = new URL(urlString);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                String jsonString;
+                Gson gsonEnvio = new Gson();
+                Gson gsonRespuesta = new Gson();
+                Gson gsonError = new Gson();
+                System.out.println("/////////////////////////////// Registracion   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                //Proceso de registracion de prestaciones
+                //Creamos el target lo cuál es nuestra URL junto con el nombre del método a llamar
+                Client client = ClientBuilder.newClient();
+                WebTarget targetPrestacion = client.target(uriRegistracion);
 
-                // optional default is GET
-                con.setRequestMethod("GET");
+                //Creamos nuestra solicitud que realizará el request
+                Invocation.Builder solicitudPrestacion = targetPrestacion.request();
 
-                //add request header
-                con.setRequestProperty("User-Agent", USER_AGENT);
+                //Creamos y llenamos nuestro objeto BaseReq con los datos que solicita el API
+                Registracion practicas = new Registracion();
+                practicas.setCreden(SwissAfiliado.Codigo_afiliado + "|" + CSC_SW);
+                practicas.setAlta(fechaosde);
+                practicas.setFecdif(fechaosde);
+                practicas.setManual("0");
+                practicas.setTicketExt(0);
+                practicas.setInterNro(2);
+                practicas.setAutoriz(0);
+                practicas.setRechaExt(0);
+                practicas.setParam1(mensajepractica);
+                practicas.setParam2("");
+                practicas.setParam3("");
+                practicas.setTipoEfector("CUIT");
+                practicas.setIdEfector(cuit);
+                practicas.setTipoPrescr("Matricula");
+                practicas.setIdPrescr(txtmatricula.getText());
 
-                int responseCode = con.getResponseCode();
-                System.out.println("\nSending 'GET' request to URL : " + urlString);
-                System.out.println("Response Code : " + responseCode);
+                //Convertimos el objeto req a un json
+                jsonString = gsonEnvio.toJson(practicas);
+                System.out.println(jsonString);
+                Object Type = "application/json";
+                Object Accept = "application/json";
+                //Enviamos nuestro json vía post al API Restful
+                solicitudPrestacion.header("Content-Type", Type).head();
+                solicitudPrestacion.header("Accept", Accept).head();
+                solicitudPrestacion.header("Authorization", apiKey).head();
 
-                in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
+                Response postR = solicitudPrestacion.post(Entity.json(jsonString));
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                //Recibimos la respuesta y la leemos en una clase de tipo String, en caso de que el json sea tipo json y no string, debemos usar la clase de tipo JsonObject.class en lugar de String.class
+                String responseJsonRegistracion = postR.readEntity(String.class);
+                resJson = responseJsonRegistracion;
+
+                //Imprimimos el status de la solicitud
+                System.out.println("Estatus Registracion: " + postR.getStatus());
+
+                switch (postR.getStatus()) {
+                    case 200:
+                        resJson = responseJsonRegistracion;
+                        System.out.println("/////////////////////////////// Respuesta Registracion   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                        //Imprimimos la respuesta del API Restful
+                        System.out.println(resJson);
+                        RegistracionResponse respuestaRegistracion = gsonRespuesta.fromJson(resJson, RegistracionResponse.class);
+                        respuestaRegistracion.muestraRespuesta();
+                        if (respuestaRegistracion.getCabecera().getRechaCabecera().equals("0")) {
+                            estado_sw = Integer.valueOf(respuestaRegistracion.getCabecera().getTransac());
+                            System.out.println("estado_sw" + estado_sw);
+                        } else {
+                            estado_sw = 0;
+                            observacion = respuestaRegistracion.getCabecera().getRechaCabeDeno() + respuestaRegistracion.getDetalle();
+                            System.out.println("observacion" + observacion);
+                        }
+                        break;
+                    default:
+                        resJson = "Error";
+                        System.out.println("Error de Registracion");
+                        estado_sw = 0;
+                        observacion = postR.getStatusInfo().toString() + ": " + postR.getStatus();
+                        System.out.println("estado_sw:" + estado_sw + " observacion:" + observacion);
+                    /// break;
                 }
-                System.out.println(response.toString());
-                respuestapractica = response.toString();
-            } catch (IOException e) {
-                System.out.println("Error " + e);
-                respuestapractica = e.getMessage();
-            } finally {
-                try {
-                    in.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                System.out.println("termina registracion");
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            } catch (Exception e) {
+                //En caso de un error en la solicitud, llenaremos res con la exceptión para verificar que sucedió
+                resJson = e.toString();
+                System.out.println("Exception" + e);
+                estado_sw = 0;
             }
-
+            return estado_sw;
         }
     }
 
@@ -6836,52 +6979,79 @@ public class MainL extends javax.swing.JFrame {
         }
     }
 
-    public class HttpSwAnulacion {
+    public class apiSwAnulacion {
 
         private final String USER_AGENT = "Mozilla/5.0";
+        String resJson = "";
+        int estadoSw = 0;
 
         // HTTP GET request
-        public void sendGet() throws Exception {
+        public int sendPost(String numeroTransaccion, String numeroCredecial, String token) throws Exception {
             BufferedReader in = null;
-            String urlString = null;
-            String inputLine = null;
+            String uriCancelacion = null;
+            String jsonString;
+            Gson gsonEnvio = new Gson();
+            Gson gsonRespuesta = new Gson();
+            Gson gsonError = new Gson();
             try {
-                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
-
-                URL obj = new URL(urlString);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-                // optional default is GET
-                con.setRequestMethod("GET");
-
-                //add request header
-                con.setRequestProperty("User-Agent", USER_AGENT);
-
-                int responseCode = con.getResponseCode();
-                System.out.println("\nSending 'GET' request to URL : " + urlString);
-                System.out.println("Response Code : " + responseCode);
-
-                in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-//                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                uriCancelacion = "https://mobile.swissmedical.com.ar/pre/api-smg/v1.1/prestadores/hl7/cancela-prestacion";
+                Client client = ClientBuilder.newClient();
+                System.out.println("/////////////////////////////// Cancelacion   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                WebTarget targetCancelacion = client.target(uriCancelacion);
+                //Creamos nuestra solicitud que realizará el request
+                Invocation.Builder solicitudCancelacion = targetCancelacion.request();
+                //Creamos y llenamos nuestro objeto BaseReq con los datos que solicita el API
+                Cancelacion anula = new Cancelacion();
+                anula.setCreden(numeroCredecial);
+                anula.setAlta(fechaosde);
+                anula.setTicketExt(numeroTransaccion);
+                anula.setParam1("0");
+                //Convertimos el objeto req a un json
+                jsonString = gsonEnvio.toJson(anula);
+                System.out.println(jsonString);
+                //Enviamos nuestro json vía post al API Restful
+                String Type = "application/json";
+                String Accept = "application/json";
+                solicitudCancelacion.header("Content-Type", Type).head();
+                solicitudCancelacion.header("Accept", Accept).head();
+                solicitudCancelacion.header("Authorization", token).head();
+                Response postC = solicitudCancelacion.post(Entity.json(jsonString));
+                //Recibimos la respuesta y la leemos en una clase de tipo String, en caso de que el json sea tipo json y no string, debemos usar la clase de tipo JsonObject.class en lugar de String.class
+                String responseJsonCancelacion = postC.readEntity(String.class);
+                resJson = responseJsonCancelacion;
+                //Imprimimos el status de la solicitud
+                System.out.println("Estatus Cancelacion: " + postC.getStatus());
+                switch (postC.getStatus()) {
+                    case 200:
+                        resJson = responseJsonCancelacion;
+                        CancelacionResponse respuestaCancelacion = gsonRespuesta.fromJson(resJson, CancelacionResponse.class);
+                        respuestaCancelacion.muestraRespuesta();
+                        if (respuestaCancelacion.getCabecera().getRechaCabecera().equals("0")) {
+                            estadoSw = Integer.valueOf(respuestaCancelacion.getCabecera().getTransac());
+                            System.out.println("estado_sw" + estadoSw);
+                        } else {
+                            estadoSw = 0;
+                            observacion = respuestaCancelacion.getCabecera().getRechaCabeDeno() + respuestaCancelacion.getDetalle();
+                            System.out.println("observacion" + observacion);
+                        }
+                        break;
+                    default:
+                        resJson = "Error";
+                        System.out.println("Error de Registracion de cancelacion");
+                        estadoSw = 0;
+                        observacion = postC.getStatusInfo().toString() + ": " + postC.getStatus();
+                        System.out.println("estado_sw:" + estadoSw + " observacion:" + observacion);
                 }
-                System.out.println(response.toString());
-                respuestaanulacion = response.toString();
-            } catch (IOException e) {
-                System.out.println("Error " + e);
-                respuestaanulacion = e.getMessage();
-            } finally {
-                try {
-                    in.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                System.out.println("/////////////////////////////// Respuesta Cancelacion   /////////////////////////////////////////////////////////////////////////////////////////////////////");
+                //Imprimimos la respuesta del API Restful
+                System.out.println(resJson);
+            } catch (Exception e) {
+                //En caso de un error en la solicitud, llenaremos res con la exceptión para verificar que sucedió
+                resJson = e.toString();
+                System.out.println("Exception" + e);
+                estadoSw = 0;
             }
-
+            return estadoSw;
         }
     }
 
@@ -8633,6 +8803,7 @@ public class MainL extends javax.swing.JFrame {
                                                     // System.out.println("e " + 26);
                                                     SP_cargar_orden.execute();
                                                     //System.out.println("e " + 27);
+
                                                     id_orden = SP_cargar_orden.getInt(18);
                                                     //System.out.println("e " + 28);
                                                     ///////////////////////////////////////////////////////////////////////
@@ -9090,7 +9261,13 @@ public class MainL extends javax.swing.JFrame {
             System.out.println(String.valueOf(Integer.valueOf(txtaño.getText().substring(2)) - 1));
 
             if (!txtnumorden.getText().equals("")) {
-                if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText()) || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText()) || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText()) || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText()) || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText()) || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText()) || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
+                if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText())
+                        || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText())
+                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
+                        || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText())
+                        || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText())
+                        || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText())
+                        || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
                     System.out.println("ss 1");
                     long ordnumero = Long.valueOf(txtnumorden.getText());
                     long resto3 = 0, resto2, resto = ordnumero;
@@ -9861,27 +10038,30 @@ public class MainL extends javax.swing.JFrame {
                         /////SWISS MEDICAL GROUP S.A.
                         if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SWISS MEDICAL GROUP S.A. - ONLINE")) {
                             System.out.println("Anulacion sw");
-                            mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>26</CodigoFinanciador><CuitFinanciador>30654855168</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                            HttpSwAnulacion http = new HttpSwAnulacion();
-                            System.out.println("Testing 3 - Send Http GET request");
+                            int respuesta = 0;
                             try {
-                                http.sendGet();
+                                apiSwLogin postL = new apiSwLogin();
+                                String token = postL.sendPost();
+                                if (!token.equals("0")) {
+                                    apiSwAnulacion post = new apiSwAnulacion();
+                                    respuesta = post.sendPost(num_orden, cod_afiliado, "Bearer " + token);
+                                    cursor2();
+                                    if (respuesta > 0) {
+                                        JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuesta);
+                                        System.out.println("3---");
+                                    } else {
+                                        bandera_anulacion = 1;
+                                        JOptionPane.showMessageDialog(null, "Error de comunicación");
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Error al intentar loguearse con Swiss Medical");
+                                }
+
                             } catch (Exception ex) {
                                 cursor2();
                                 JOptionPane.showMessageDialog(null, ex);
                                 bandera_anulacion = 1;
                                 observacion_anulacion = ex.toString();
-                            }
-
-                            int pos = respuestaanulacion.indexOf("CodAutorizacion");
-                            int pos2 = respuestaanulacion.indexOf("</CodAutorizacion");
-                            cursor2();
-                            if (pos > 0) {
-                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 16, pos2));
-                                System.out.println("3---");
-                            } else {
-                                bandera_anulacion = 1;
-                                JOptionPane.showMessageDialog(null, "Error de comunicación");
                             }
 
                         }
@@ -10205,7 +10385,7 @@ public class MainL extends javax.swing.JFrame {
         Connection cn = mysql.Conectar();
         int banderaControl = 0;
         try {
-            String controlOrden = "select matricula,observacion from medicos_baja where id_obrasocial=" + id_obra_social + " and matricula=" + matricula +" and tipo_estado=0";
+            String controlOrden = "select matricula,observacion from medicos_baja where id_obrasocial=" + id_obra_social + " and matricula=" + matricula + " and tipo_estado=0";
             Statement stControl = cn.createStatement();
             ResultSet rsControl = stControl.executeQuery(controlOrden);
             if (rsControl.next()) {

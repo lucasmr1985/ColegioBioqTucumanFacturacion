@@ -195,7 +195,7 @@
 	</binding>
 	<service name="OrdenAutorizar">
 		<port name="OrdenAutorizarSoapPort" binding="wsdlns:OrdenAutorizarSoapBinding">
-			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx" />
+			<soap:address location="http://186.122.150.144/ws_expendio/aordenautorizar.aspx" />
 		</port>
 	</service>
 </definitions>

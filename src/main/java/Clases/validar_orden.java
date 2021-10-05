@@ -61,7 +61,7 @@ public class validar_orden {
                     SP_cargar_orden.setInt(16, cantidad_practicas);//_cantidad
                     System.out.println("practicas " + practicas);
                     SP_cargar_orden.setString(17, practicas);//_codigo_nbu
-                    SP_cargar_orden.registerOutParameter("_transaccion",INTEGER);//_transaccion
+                    SP_cargar_orden.registerOutParameter(18, java.sql.Types.INTEGER);
                     SP_cargar_orden.setDouble(19, coseguro);//_coseguro
                     SP_cargar_orden.setString(20, fecha_coseguro);//_fecha_coseguro
                     SP_cargar_orden.setInt(21, tipo_orden);//_tipo
@@ -70,7 +70,7 @@ public class validar_orden {
                     SP_cargar_orden.setString(24, coseguro_ss);//_coseguro_practicas
                     SP_cargar_orden.setString(25, fechaDate);//_fechaDate
                     boolean respuesta = SP_cargar_orden.execute();
-                    numeroOrden = SP_cargar_orden.getInt("_transaccion");
+                    numeroOrden = SP_cargar_orden.getInt(18);
                     
                     if (respuesta == true) {
                         bandera = 1;

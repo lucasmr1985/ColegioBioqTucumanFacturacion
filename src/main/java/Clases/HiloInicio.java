@@ -25,9 +25,9 @@ public class HiloInicio extends Thread {
     public static Double[] arancel = new Double[500];
     public static String[] practicaconobra = new String[150000];
     public static String[] analisis = new String[50000];
-    public static ArrayList <Clases.MedicosAutorizados> listaMedicos;
+    public static ArrayList<Clases.MedicosAutorizados> listaMedicos;
     public static String novedad = "", version = "", aviso = "", link = "", link_descarga = "";
-    public static String version_actual = "2111";
+    public static String version_actual = "2112";
     public static int[] idobra = new int[150000];
     public static String[] precio_practica = new String[150000];
     public static int contadorpractica = 0;
@@ -96,25 +96,31 @@ public class HiloInicio extends Thread {
         }
         return fecha;
     }
- void cargarMedicos(){
-        
+
+    void cargarMedicos() {
+
         ConexionMariaDB conexion = new ConexionMariaDB();
         conexion.EstablecerConexion();
         listaMedicos = new ArrayList<Clases.MedicosAutorizados>();
         Clases.MedicosAutorizados.cargarMedicosAutorizados(conexion.getConnection(), listaMedicos);
         conexion.cerrarConexion();
-        
+
     }
 
     void cargarnovedad() {
         ConexionMariaDB maria = new ConexionMariaDB();
         Connection cn = maria.Conectar();
-        String sSQL = "SELECT id_novedad,novedad FROM novedades ";
+        String sSQL = "SELECT titulo_novedades,fecha_publicacion FROM novedades_web where matricula_destinatario=0 order by id_novedades desc";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
             while (rs.next()) {
-                novedad = novedad + "\r\n" + "\r\n" + " - " + (rs.getString("novedad"));
+                if (novedad.equals("")) {
+                    novedad = novedad + (rs.getString("fecha_publicacion") + " - " + rs.getString("titulo_novedades") + ". Visite nuestro sitio web cobituc.org.ar");
+                } else {
+                    novedad = novedad + "\r\n" + "\r\n" + (rs.getString("fecha_publicacion") + " - " + rs.getString("titulo_novedades") + ". Visite nuestro sitio web cobituc.org.ar");
+                }
+
             }
             cn.close();
         } catch (Exception e) {

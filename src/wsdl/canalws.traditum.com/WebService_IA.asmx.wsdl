@@ -36,6 +36,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="EnviarAES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsgType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviarAESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviarAESResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Echo">
         <s:complexType>
           <s:sequence>
@@ -81,6 +98,12 @@
   <wsdl:message name="Enviar20SoapOut">
     <wsdl:part name="parameters" element="tns:Enviar20Response" />
   </wsdl:message>
+  <wsdl:message name="EnviarAESSoapIn">
+    <wsdl:part name="parameters" element="tns:EnviarAES" />
+  </wsdl:message>
+  <wsdl:message name="EnviarAESSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviarAESResponse" />
+  </wsdl:message>
   <wsdl:message name="EchoSoapIn">
     <wsdl:part name="parameters" element="tns:Echo" />
   </wsdl:message>
@@ -101,6 +124,10 @@
     <wsdl:operation name="Enviar20">
       <wsdl:input message="tns:Enviar20SoapIn" />
       <wsdl:output message="tns:Enviar20SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviarAES">
+      <wsdl:input message="tns:EnviarAESSoapIn" />
+      <wsdl:output message="tns:EnviarAESSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Echo">
       <wsdl:input message="tns:EchoSoapIn" />
@@ -124,6 +151,15 @@
     </wsdl:operation>
     <wsdl:operation name="Enviar20">
       <soap:operation soapAction="http://ws1.traditum.com/Enviar20" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviarAES">
+      <soap:operation soapAction="http://ws1.traditum.com/EnviarAES" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -163,6 +199,15 @@
     </wsdl:operation>
     <wsdl:operation name="Enviar20">
       <soap12:operation soapAction="http://ws1.traditum.com/Enviar20" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviarAES">
+      <soap12:operation soapAction="http://ws1.traditum.com/EnviarAES" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
