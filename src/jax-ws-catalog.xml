@@ -18,13 +18,6 @@
     <system systemId="http://18.188.226.170/ws_expendio/aordenvalidar.aspx?wsdl" uri="wsdl/18.188.226.170/ws_expendio/aordenvalidar.aspx.wsdl"/>
     <system systemId="http://18.188.226.170/ws_expendio/aordendevolver.aspx?wsdl" uri="wsdl/18.188.226.170/ws_expendio/aordendevolver.aspx.wsdl"/>
     <system systemId="http://18.188.226.170/ws_expendio/aordenvalidadaanular.aspx?wsdl" uri="wsdl/18.188.226.170/ws_expendio/aordenvalidadaanular.aspx.wsdl"/>
-    <system systemId="http://rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl"/>
-    <system systemId="http://rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx.wsdl"/>
-    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx.wsdl"/>
-    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx.wsdl"/>
-    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordendevolver.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordendevolver.aspx.wsdl"/>
-    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx.wsdl"/>
-    <system systemId="https://canalws.traditum.com/WebService_IA.asmx?WSDL" uri="wsdl/canalws.traditum.com/WebService_IA.asmx.wsdl"/>
     <system systemId="http://rproxy.cobituc.info:10500/AgenteServicios.svc?wsdl" uri="wsdl/rproxy.cobituc.info_10500/AgenteServicios.svc.wsdl"/>
     <system systemId="http://rproxy.cobituc.info:10500/AgenteServicios.svc?xsd=xsd0" uri="wsdl/rproxy.cobituc.info_10500/AgenteServicios.svc.xsd_xsd0.xsd"/>
     <system systemId="http://rproxy.cobituc.info:10500/AgenteServicios.svc?xsd=xsd1" uri="wsdl/rproxy.cobituc.info_10500/AgenteServicios.svc.xsd_xsd1.xsd"/>
@@ -36,6 +29,15 @@
     <system systemId="http://rproxy.cobituc.info:10500/AgenteServicios.svc?xsd=xsd7" uri="wsdl/rproxy.cobituc.info_10500/AgenteServicios.svc.xsd_xsd7.xsd"/>
     <system systemId="http://rproxy.cobituc.info:10500/AgenteServicios.svc?xsd=xsd8" uri="wsdl/rproxy.cobituc.info_10500/AgenteServicios.svc.xsd_xsd8.xsd"/>
     <system systemId="http://rproxy.cobituc.info:10500/AgenteServicios.svc?xsd=xsd9" uri="wsdl/rproxy.cobituc.info_10500/AgenteServicios.svc.xsd_xsd9.xsd"/>
+    <system systemId="http://rproxy.cobituc.info:7262/APAWE_SSA_V2.aspx?wsdl" uri="wsdl/rproxy.cobituc.info_7262/APAWE_SSA_V2.aspx.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info:5480/WsBoreal/servlet/awsboreal?wsdl" uri="wsdl/rproxy.cobituc.info_5480/WsBoreal/servlet/awsboreal.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordendevolver.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordendevolver.aspx.wsdl"/>
+    <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx.wsdl"/>
+    <system systemId="https://canalws.traditum.com/WebService_IA.asmx?WSDL" uri="wsdl/canalws.traditum.com/WebService_IA.asmx.wsdl"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?wsdl" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.wsdl"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd0" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd0.xsd"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd1" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd1.xsd"/>
@@ -47,4 +49,5 @@
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd7" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd7.xsd"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd8" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd8.xsd"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd9" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd9.xsd"/>
+    <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd10" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd10.xsd"/>
 </catalog>

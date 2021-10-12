@@ -136,15 +136,16 @@ public class LoginAdmin extends javax.swing.JDialog {
 
                     estadologinadmin = true;
                     this.dispose();
-                }
-                if (txtcontraseña.getText().equals(rs.getString("usuario_secretaria"))) {
+                }else if (txtcontraseña.getText().equals(rs.getString("usuario_secretaria"))) {
 
                     estadologinsecretaria = true;
                     this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
                 }
             } else {
                 i = 2;
-                JOptionPane.showMessageDialog(null, "Contraseña incorrecta...");
+                JOptionPane.showMessageDialog(null, "No posee contraseña de administración...");
                 estadologinadmin = false;
                 estadologinsecretaria = false;
             }
@@ -154,7 +155,6 @@ public class LoginAdmin extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcontraseñaActionPerformed
 
     private void btnaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptarActionPerformed
-        // Selecciono SQL la tabla empleados y todos sus atributos
         txtcontraseñaActionPerformed(evt);
     }//GEN-LAST:event_btnaceptarActionPerformed
 

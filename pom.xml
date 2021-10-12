@@ -32,7 +32,7 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>e.sancorsalud.com.ar/APAWE_SSA_V2.aspx.wsdl</wsdlFile>
+                                <wsdlFile>rproxy.cobituc.info_7262/APAWE_SSA_V2.aspx.wsdl</wsdlFile>
                             </wsdlFiles>
                             <packageName>ClienteSancor</packageName>
                             <vmArgs>
@@ -50,7 +50,7 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>sistemasboreal.com.ar_5480/WsBoreal/servlet/awsboreal.wsdl</wsdlFile>
+                                <wsdlFile>rproxy.cobituc.info_5480/WsBoreal/servlet/awsboreal.wsdl</wsdlFile>
                             </wsdlFiles>
                             <packageName>ClienteBoreal</packageName>
                             <vmArgs>
@@ -170,7 +170,7 @@
                         <id>wsimport-generate-aordenvalidadaanular.aspx</id>
                         <phase>generate-sources</phase>
                     </execution>
-                   <execution>
+                    <execution>
                         <goals>
                             <goal>wsimport</goal>
                         </goals>
@@ -188,7 +188,6 @@
                         <id>wsimport-generate-WebService_IA.asmx</id>
                         <phase>generate-sources</phase>
                     </execution>
-                    
                     <execution>
                         <goals>
                             <goal>wsimport</goal>
@@ -254,20 +253,16 @@
         </plugins>
     </build>
     <dependencies>
-
         <dependency>
             <groupId>net.sourceforge.barbecue</groupId>
             <artifactId>barbecue</artifactId>
             <version>1.5-beta1</version>
         </dependency>
-
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>2.3.0</version>
-        </dependency> 
-        
-
+        </dependency>         
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
@@ -283,14 +278,29 @@
             <artifactId>jdom2</artifactId>
             <version>2.0.6</version>
             <type>jar</type>
-        </dependency>
-        
+        </dependency>        
         <dependency>
-		<groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-		<version>2.2.2</version>
-	</dependency>
-        
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+            <type>jar</type>
+        </dependency>      
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+            <type>jar</type>
+        </dependency>
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
             <artifactId>jxl</artifactId>
@@ -302,8 +312,7 @@
             <artifactId>swingx-autocomplete</artifactId>
             <version>1.6.5-1</version>
             <type>jar</type>
-        </dependency>
-        
+        </dependency>        
          <dependency>
             <groupId>com.mxrck</groupId>
             <artifactId>AutoCompleter</artifactId>
@@ -327,10 +336,7 @@
             <groupId>org</groupId>
             <artifactId>netbeans</artifactId>
             <version>82</version>
-        </dependency>
-        
-        
-        
+        </dependency>                        
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

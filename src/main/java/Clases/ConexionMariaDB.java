@@ -14,7 +14,7 @@ public class ConexionMariaDB {
     public String url = "jdbc:mariadb://db.cobituc.info:3306/" + db;
 
     public String user = "usFacturacion";
-    public String pass = "Cole978++";
+    public String pass = "&DA7i66s%2yem4";
 
     public Connection getConnection() {
         return connection;

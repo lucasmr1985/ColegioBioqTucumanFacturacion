@@ -70,7 +70,7 @@
 	</binding>
 	<service name="OrdenValidar">
 		<port name="OrdenValidarSoapPort" binding="wsdlns:OrdenValidarSoapBinding">
-			<soap:address location="http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx" />
+			<soap:address location="http://186.122.150.144/ws_expendio/aordenvalidar.aspx" />
 		</port>
 	</service>
 </definitions>
