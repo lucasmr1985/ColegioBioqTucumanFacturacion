@@ -6128,6 +6128,7 @@ public class MainL extends javax.swing.JFrame {
                             int opcion = JOptionPane.showConfirmDialog(null, "Coseguro: $" + coseguroIosfa + "\nDesea Imprimir un comprobante?", "IOSFA Impresíon", JOptionPane.YES_NO_OPTION);
 
                             if (opcion == 0) {
+                                cursor();
                                 ConexionMariaDB cc = new ConexionMariaDB();
                                 Connection cnn = cc.Conectar();
                                 ////////////////Previsualizacion///////////////////////////
@@ -6153,7 +6154,7 @@ public class MainL extends javax.swing.JFrame {
                                 } catch (SQLException ex) {
                                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-
+                                cursor2();
                             }
                         }
                         if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
@@ -6206,7 +6207,8 @@ public class MainL extends javax.swing.JFrame {
                         banderaEstadoOffline = 0;
                     }
                     ///////////////////////////////////////////////////////////////////////
-                    if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText()) || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText()) || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText()) || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText()) || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText()) || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText()) || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
+                    if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText())
+                            || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText()) || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText()) || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText()) || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText()) || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
                         long ordnumero = Long.valueOf(txtnumorden.getText());
                         long resto3 = 0, resto2, resto = ordnumero;
                         long total = 0, i = 0, d, digito;
@@ -6225,14 +6227,14 @@ public class MainL extends javax.swing.JFrame {
                         totalmod11 = total - (totalsobre11 * 11);
                         orddigitoverificador = 11 - totalmod11;
                         if (orddigitoverificador == digito) {
-                            banderaEstadoOffline = 0;
+                            banderaEstadoOffline = 1;
                             System.out.println("resto3 " + resto3);
-                            txtnumorden.setText(String.valueOf(resto3));
+//                            txtnumorden.setText(String.valueOf(resto3));
                         } else {
                             if (orddigitoverificador == 11) {
                                 banderaEstadoOffline = 1;
                                 System.out.println("resto3 " + resto3);
-                                txtnumorden.setText(String.valueOf(resto3));
+//                                txtnumorden.setText(String.valueOf(resto3));
                             } else {
                                 cursor2();
                                 JOptionPane.showMessageDialog(null, "Numero de orden incorrecto de Subsidio...");
@@ -6685,7 +6687,7 @@ public class MainL extends javax.swing.JFrame {
                 req.setPassword("Swiss1234");
                 req.setCuit("30522483881");
                 Device dev = new Device();
-                dev.setMessagingid(id_usuario+"B"+hora);
+                dev.setMessagingid(id_usuario + "B" + hora);
                 dev.setDeviceid(ipLocal);
                 dev.setDevicename(hostLocal);
                 dev.setBloqueado(0);
