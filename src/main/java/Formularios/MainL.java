@@ -3874,8 +3874,8 @@ public class MainL extends javax.swing.JFrame {
 
                 if (banderamodifica == 0) {
                     try {
-//                    String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
-                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+                    String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+//                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
                         Statement stControl = cnPAMI.createStatement();
                         ResultSet rsControl = stControl.executeQuery(controlOrden);
                         rsControl.next();
@@ -10868,7 +10868,9 @@ public class MainL extends javax.swing.JFrame {
                                 || obra.equals("3102 - OSDE - OFFLINE")
                                 || obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
                                 || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
-                                || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
+                                || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")
+                                || obra.equals("510 - MEDIFE - OBLIGATORIO- PRE PAGA C.M.C.  S.A.")
+                                || obra.equals("511 - MEDIFE - VOLUNTARIO- PRE PAGA C.M.C.  S.A.")) {
                             //|| obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {//SUBSIDIO DE SALUD - AUTORIZACION - ONLINE
                             ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -11027,7 +11029,7 @@ public class MainL extends javax.swing.JFrame {
                                     txtnumafiliado.setEditable(false);
                                 }
                             }
-                            if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")) {
+                            if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") || obra.equals("510 - MEDIFE - OBLIGATORIO- PRE PAGA C.M.C.  S.A.")) {
                                 idObraSocialOnline = idobrasocial[i];
                                 new MedifeAfiliado(this, true).setVisible(true);
                                 if (MedifeAfiliado.habilitado.equals("OK")) {
@@ -11056,7 +11058,7 @@ public class MainL extends javax.swing.JFrame {
                                     txtnumafiliado.setEditable(false);
                                 }
                             }
-                            if (obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
+                            if (obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") || obra.equals("511 - MEDIFE - VOLUNTARIO- PRE PAGA C.M.C.  S.A.")) {
                                 idObraSocialOnline = idobrasocial[i];
                                 new MedifeAfiliado(this, true).setVisible(true);
                                 if (MedifeAfiliado.habilitado.equals("OK")) {

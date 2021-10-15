@@ -50,7 +50,7 @@
 	</binding>
 	<service name="OrdenDevolver">
 		<port name="OrdenDevolverSoapPort" binding="wsdlns:OrdenDevolverSoapBinding">
-			<soap:address location="http://186.122.150.144/ws_expendio/aordendevolver.aspx" />
+			<soap:address location="https://ws.ipsst.gov.ar:8543/ws_expendio/aordendevolver.aspx" />
 		</port>
 	</service>
 </definitions>

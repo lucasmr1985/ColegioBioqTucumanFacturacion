@@ -280,7 +280,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
                     i++;
                 }//GRAV^VOLUNTARIO ////NTE
                 System.out.println("plan:" + plan);
-                if (idObraSocialOnline == 107) {
+                if (idObraSocialOnline == 107 || idObraSocialOnline == 4 ) {
                     if (plan.equals("EXNT^OBLIGATORIO")) {
                         JOptionPane.showMessageDialog(null, mensaje);
                         this.dispose();

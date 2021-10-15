@@ -27,7 +27,7 @@ public class HiloInicio extends Thread {
     public static String[] analisis = new String[50000];
     public static ArrayList<Clases.MedicosAutorizados> listaMedicos;
     public static String novedad = "", version = "", aviso = "", link = "", link_descarga = "";
-    public static String version_actual = "2112";
+    public static String version_actual = "2113";
     public static int[] idobra = new int[150000];
     public static String[] precio_practica = new String[150000];
     public static int contadorpractica = 0;
@@ -135,7 +135,7 @@ public class HiloInicio extends Thread {
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
-            while (rs.next()) {
+            if (rs.next()) {
                 version = (rs.getString("version"));
             }
             cn.close();

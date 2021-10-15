@@ -48,7 +48,7 @@
 	</binding>
 	<service name="AfiliadoPuedeConsumir">
 		<port name="AfiliadoPuedeConsumirSoapPort" binding="wsdlns:AfiliadoPuedeConsumirSoapBinding">
-			<soap:address location="http://186.122.150.144/ws_expendio/aafiliadopuedeconsumir.aspx" />
+			<soap:address location="https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx" />
 		</port>
 	</service>
 </definitions>
