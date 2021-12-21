@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="numero_autorizacion" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="numero" class="java.lang.String"/>
+	<parameter name="bioquimico" class="java.lang.String"/>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="coseguro" class="java.lang.String"/>
+	<title>
+		<band height="82">
+			<rectangle radius="10">
+				<reportElement x="7" y="55" width="245" height="20" uuid="63944621-7662-4e2b-9bac-050d6e4232cb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="56" width="240" height="20" uuid="5db78293-7a2e-44c1-8a17-dd9ec7da53db"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Determinación                                            Coseguro]]></text>
+			</staticText>
+			<image>
+				<reportElement x="7" y="0" width="86" height="52" uuid="9a2d0f11-3027-4e8c-85a1-0969b557b875"/>
+				<imageExpression><![CDATA["C:/Facturacion Laboratorios/ospe.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="93" y="0" width="159" height="12" uuid="1b292168-19ea-410e-9aae-09c4c0d4e0e5">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° Transacción: "+$P{numero_autorizacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="16" width="159" height="12" uuid="74432beb-b726-4184-aa2c-619a95236ef0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha: "+$P{fecha}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="297" y="55" width="245" height="20" uuid="63944621-7662-4e2b-9bac-050d6e4232cb"/>
+			</rectangle>
+			<image>
+				<reportElement x="295" y="0" width="86" height="52" uuid="9a2d0f11-3027-4e8c-85a1-0969b557b875"/>
+				<imageExpression><![CDATA["C:/Facturacion Laboratorios/ospe.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="302" y="56" width="240" height="20" uuid="5db78293-7a2e-44c1-8a17-dd9ec7da53db"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Determinación                                            Coseguro]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="93" y="33" width="159" height="12" uuid="96468497-add7-4bcb-9397-f6720fc9036f"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bq.:   "+$P{bioquimico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="33" width="159" height="12" uuid="eb96c88b-613d-449e-b904-8b5482a71d88"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bq.:   "+$P{bioquimico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="16" width="159" height="12" uuid="d6033252-da06-4c25-b219-fc6fd5b0b781">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha: "+$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="0" width="159" height="12" uuid="f0fe9d48-a17e-44bd-849b-85a2dcb76315">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° Transacción: "+$P{numero_autorizacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="303" y="14" width="78" height="0" uuid="c2de8817-0202-4def-b330-b0e998d29a2f"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="0" width="107" height="14" uuid="a3309755-694e-4549-a389-5b195da6635b"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="0" width="111" height="14" uuid="87b51189-90ed-4c27-afca-a2299cafa7f7"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="0" width="107" height="14" uuid="a3309755-694e-4549-a389-5b195da6635b"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="0" width="111" height="14" uuid="87b51189-90ed-4c27-afca-a2299cafa7f7"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="75">
+			<textField>
+				<reportElement x="66" y="35" width="186" height="12" uuid="6c307988-6cbd-4aa2-a2d8-dc72f79ec303"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="21" width="186" height="12" uuid="6c28dd8b-8335-4b04-8e4e-ca66f3bcd11f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="6" width="166" height="14" uuid="12befc3d-8768-4fec-a836-a8cad6c583e8"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Total: $]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="173" y="6" width="79" height="14" uuid="1687382c-1a62-4ed8-abb4-39f31389aea6"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="21" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nombre Af.:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="7" y="3" width="245" height="1" uuid="b0411632-0ccc-414c-a726-70fc26b0934c"/>
+			</line>
+			<staticText>
+				<reportElement x="7" y="35" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Numero Af.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="359" y="35" width="186" height="12" uuid="6c307988-6cbd-4aa2-a2d8-dc72f79ec303"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="21" width="186" height="12" uuid="6c28dd8b-8335-4b04-8e4e-ca66f3bcd11f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="6" width="171" height="14" uuid="12befc3d-8768-4fec-a836-a8cad6c583e8"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Total coseguro: $]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="471" y="6" width="74" height="14" uuid="1687382c-1a62-4ed8-abb4-39f31389aea6"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="21" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nombre Af.:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="300" y="3" width="245" height="1" uuid="b0411632-0ccc-414c-a726-70fc26b0934c"/>
+			</line>
+			<staticText>
+				<reportElement x="300" y="35" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Numero Af.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="64" width="140" height="10" uuid="9d39fa51-3757-4188-a2d0-9d95d4a6384c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Firma paciente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="64" width="140" height="10" uuid="337ddfa5-b0b5-4940-88f7-0d080ca9c220">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Firma paciente]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

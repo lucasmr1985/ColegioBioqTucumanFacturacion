@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteFileTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileContent" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteFileTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecuteFileTransactionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteFileTransactionSL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileContent" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteFileTransactionSLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecuteFileTransactionSLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteFileTransactionAO">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileContent" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteFileTransactionAOResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecuteFileTransactionAOResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteFileTransaction" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteFileTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSLSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteFileTransactionSL" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSLSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteFileTransactionSLResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionAOSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteFileTransactionAO" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionAOSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteFileTransactionAOResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetIn">
+    <wsdl:part name="s" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionHttpGetIn">
+    <wsdl:part name="pos" type="s:string" />
+    <wsdl:part name="fileContent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSLHttpGetIn">
+    <wsdl:part name="pos" type="s:string" />
+    <wsdl:part name="fileContent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSLHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionAOHttpGetIn">
+    <wsdl:part name="pos" type="s:string" />
+    <wsdl:part name="fileContent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionAOHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostIn">
+    <wsdl:part name="s" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionHttpPostIn">
+    <wsdl:part name="pos" type="s:string" />
+    <wsdl:part name="fileContent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSLHttpPostIn">
+    <wsdl:part name="pos" type="s:string" />
+    <wsdl:part name="fileContent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionSLHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionAOHttpPostIn">
+    <wsdl:part name="pos" type="s:string" />
+    <wsdl:part name="fileContent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteFileTransactionAOHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="WSActiviaCSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <wsdl:input message="tns:ExecuteFileTransactionSoapIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <wsdl:input message="tns:ExecuteFileTransactionSLSoapIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionSLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <wsdl:input message="tns:ExecuteFileTransactionAOSoapIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionAOSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WSActiviaCHttpGet">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpGetIn" />
+      <wsdl:output message="tns:HelloWorldHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <wsdl:input message="tns:ExecuteFileTransactionHttpGetIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <wsdl:input message="tns:ExecuteFileTransactionSLHttpGetIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionSLHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <wsdl:input message="tns:ExecuteFileTransactionAOHttpGetIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionAOHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WSActiviaCHttpPost">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpPostIn" />
+      <wsdl:output message="tns:HelloWorldHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <wsdl:input message="tns:ExecuteFileTransactionHttpPostIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <wsdl:input message="tns:ExecuteFileTransactionSLHttpPostIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionSLHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <wsdl:input message="tns:ExecuteFileTransactionAOHttpPostIn" />
+      <wsdl:output message="tns:ExecuteFileTransactionAOHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSActiviaCSoap" type="tns:WSActiviaCSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <soap:operation soapAction="http://tempuri.org/ExecuteFileTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <soap:operation soapAction="http://tempuri.org/ExecuteFileTransactionSL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <soap:operation soapAction="http://tempuri.org/ExecuteFileTransactionAO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSActiviaCSoap12" type="tns:WSActiviaCSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <soap12:operation soapAction="http://tempuri.org/ExecuteFileTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <soap12:operation soapAction="http://tempuri.org/ExecuteFileTransactionSL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <soap12:operation soapAction="http://tempuri.org/ExecuteFileTransactionAO" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSActiviaCHttpGet" type="tns:WSActiviaCHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <http:operation location="/ExecuteFileTransaction" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <http:operation location="/ExecuteFileTransactionSL" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <http:operation location="/ExecuteFileTransactionAO" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSActiviaCHttpPost" type="tns:WSActiviaCHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransaction">
+      <http:operation location="/ExecuteFileTransaction" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionSL">
+      <http:operation location="/ExecuteFileTransactionSL" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteFileTransactionAO">
+      <http:operation location="/ExecuteFileTransactionAO" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSActiviaC">
+    <wsdl:port name="WSActiviaCSoap" binding="tns:WSActiviaCSoap">
+      <soap:address location="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSActiviaCSoap12" binding="tns:WSActiviaCSoap12">
+      <soap12:address location="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSActiviaCHttpGet" binding="tns:WSActiviaCHttpGet">
+      <http:address location="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSActiviaCHttpPost" binding="tns:WSActiviaCHttpPost">
+      <http:address location="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

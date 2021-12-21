@@ -145,14 +145,14 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel1" max="32767" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="btnaceptar" min="-2" pref="131" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnobrasocial" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnpaciente" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnborrar" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="btnaceptar" min="-2" pref="143" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnobrasocial" min="-2" pref="185" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnpaciente" min="-2" pref="171" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnborrar" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnsalir" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -164,7 +164,7 @@
                                           <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace pref="10" max="32767" attributes="0"/>
+                                          <EmptySpace pref="22" max="32767" attributes="0"/>
                                           <Component id="lblcolegiado" min="-2" pref="331" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       </Group>
@@ -365,7 +365,7 @@
                                   <Component id="txtpractica" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="137" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="132" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txttotal1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1107,7 +1107,7 @@
                                           <Component id="jButton4" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="19" max="32767" attributes="0"/>
                                   <Component id="jLabel18" min="-2" pref="248" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -1115,7 +1115,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txttotalordenes1" min="-2" pref="64" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnaceptar2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnaceptar2" min="-2" pref="127" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btncancelar2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -1139,7 +1139,7 @@
                               </Group>
                               <Component id="jLabel18" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="9" max="32767" attributes="0"/>
+                          <EmptySpace pref="22" max="32767" attributes="0"/>
                           <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -1568,17 +1568,6 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel4" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="btnimprimirdjj" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btncancelar3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnimprimirobra" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btncancelar1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="11" max="32767" attributes="0"/>
-                                  <Component id="btnsalir1" min="-2" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -1593,6 +1582,18 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnimprimirdjj" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btncancelar3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnimprimirobra" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btncancelar1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnsalir1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1615,14 +1616,12 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jPanel4" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnimprimirdjj" alignment="1" min="-2" pref="41" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnsalir1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnimprimirobra" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btncancelar1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btncancelar3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnsalir1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnimprimirobra" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btncancelar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btncancelar3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnimprimirdjj" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -1865,7 +1864,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtordenes" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" pref="358" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="381" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txttotal" min="-2" max="-2" attributes="0"/>
@@ -2194,7 +2193,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnsalir5" min="-2" max="-2" attributes="0"/>
@@ -2293,12 +2292,12 @@
                                   <Component id="btnnbu" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnobrasociales" pref="177" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btnSubsidio1" max="32767" attributes="0"/>
                                   <Component id="btnSubsidio" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnSubsidio1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnobrasociales" alignment="0" pref="187" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="btnIosfa" max="32767" attributes="0"/>
                                   <Component id="btnnomenclador" max="32767" attributes="0"/>
@@ -2306,7 +2305,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnsalir4" max="32767" attributes="0"/>
+                                  <Component id="btnsalir4" pref="199" max="32767" attributes="0"/>
                                   <Component id="jButton3" max="32767" attributes="0"/>
                                   <Component id="btnsalir2" max="32767" attributes="0"/>
                               </Group>
@@ -2319,38 +2318,30 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnnomenclador" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="btnIosfa" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButton8" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btnnbu" min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                           <Component id="btnobrasociales" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="btnsalir2" min="-2" pref="41" max="-2" attributes="0"/>
-                                          <Component id="btnSubsidio" min="-2" pref="41" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jButton1" alignment="3" max="32767" attributes="0"/>
-                                          <Component id="btnsalir4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnSubsidio1" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnnbu" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="btnPrensa" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                                      <Component id="btnnomenclador" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnPrensa" max="32767" attributes="0"/>
+                                  <Component id="btnSubsidio" max="32767" attributes="0"/>
+                                  <Component id="btnIosfa" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnsalir2" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButton8" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="btnSubsidio1" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="btnsalir4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButton1" alignment="3" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

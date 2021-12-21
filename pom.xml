@@ -67,14 +67,16 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl</wsdlFile>
+                             <wsdlFiles>
+                                <wsdlFile>ws.ipsst.gov.ar_8543/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl</wsdlFile>
                             </wsdlFiles>
                             <packageName>ClienteIPSST1</packageName>
-                            <vmArgs>
-                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                             <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>  
+                                <vmArg>-Djsse.enableSNIExtension=false</vmArg>  
+                                <vmOptions>-Djsse.enableSNIExtension=false</vmOptions>
                             </vmArgs>
-                            <wsdlLocation>http://rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</wsdlLocation>
+                            <wsdlLocation>https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</wsdlLocation>
                             <staleFile>${project.build.directory}/jaxws/stale/aafiliadopuedeconsumir.aspx.stale</staleFile>
                         </configuration>
                         <id>wsimport-generate-aafiliadopuedeconsumir.aspx</id>
@@ -204,6 +206,42 @@
                             <staleFile>${project.build.directory}/jaxws/stale/AgenteServicios.svc.stale</staleFile>
                         </configuration>
                         <id>wsimport-generate-AgenteServicios.svc</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>ws.ipsst.gov.ar_8543/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteIPSST1</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/aafiliadopuedeconsumir.aspx_1.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-aafiliadopuedeconsumir.aspx_1</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>wsconectado.activiaweb.com.ar/WSActiviaC.asmx.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteOspe</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/WSActiviaC.asmx.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-WSActiviaC.asmx</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>

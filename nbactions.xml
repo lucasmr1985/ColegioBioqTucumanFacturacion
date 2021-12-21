@@ -12,6 +12,7 @@
             <properties>
                 <exec.args>-classpath %classpath Formularios.Inicio</exec.args>
                 <exec.executable>java</exec.executable>
+                <vmOptions>-Djsse.enableSNIExtension=false</vmOptions>
             </properties>
         </action>
         <action>
@@ -27,6 +28,7 @@
                 <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath Formularios.Inicio</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
+                <vmOptions>-Djsse.enableSNIExtension=false</vmOptions>
             </properties>
         </action>
     </actions>
