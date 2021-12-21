@@ -13,6 +13,8 @@ You can copy and paste the single properties, into the pom.xml file and the IDE 
 That way multiple projects can share the same settings (useful for formatting rules for example).
 Any value defined here will override the pom.xml file value but is only applicable to the current project.
 -->
+        <vmOptions>-Djsse.enableSNIExtension=false</vmOptions>
+        <vmArg>-Djsse.enableSNIExtension=false</vmArg>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_apafiliadopuedeconsumir_2e_aspx>http://186.122.150.144/ws_expendio/apafiliadopuedeconsumir.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_apafiliadopuedeconsumir_2e_aspx>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatos_2e_aspx>http://186.122.150.144/ws_expendio/aafiliadodatos.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatos_2e_aspx>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx_5f_1>http://18.188.226.170/ws_expendio/aordenvalidadaanular.aspx</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx_5f_1>
@@ -27,5 +29,8 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidar_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidar_2e_aspx>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aordendevolver_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordendevolver.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordendevolver_2e_aspx>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx_5f_1>https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx_5f_1>
+        <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>
     </properties>
 </project-shared-configuration>
