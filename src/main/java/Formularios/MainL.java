@@ -4419,7 +4419,7 @@ public class MainL extends javax.swing.JFrame {
                                     ///observacion=resultado;
                                     //Generate XML
                                     try {
-                                        FileWriter archivo2 = new FileWriter("C:/Facturacion CBT/respuesta.xml");
+                                        FileWriter archivo2 = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
                                         archivo2.write(resultado);
                                         archivo2.close();
                                         System.out.println("");
@@ -4514,7 +4514,7 @@ public class MainL extends javax.swing.JFrame {
                                                         System.out.println("resultado:" + resultado);
                                                         //Generate XML
                                                         try {
-                                                            FileWriter archivo3 = new FileWriter("C:/Facturacion CBT/respuesta.xml");
+                                                            FileWriter archivo3 = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
                                                             archivo3.write(resultado);
                                                             archivo3.close();
                                                             System.out.println("");
@@ -10650,7 +10650,7 @@ public class MainL extends javax.swing.JFrame {
                                     System.out.println("resultado:" + resultado);
                                     //Generate XML
                                     try {
-                                        FileWriter archivo3 = new FileWriter("C:/Facturacion CBT/respuesta.xml");
+                                        FileWriter archivo3 = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
                                         archivo3.write(resultado);
                                         archivo3.close();
                                         System.out.println("");

@@ -216,7 +216,7 @@ public class OspeAfiliado extends javax.swing.JDialog {
                 System.out.println("resultado:" + resultado);
                 //Generate XML
                 try {
-                    FileWriter archivo = new FileWriter("C:/Facturacion CBT/respuesta.xml");
+                    FileWriter archivo = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
                     archivo.write(resultado);
                     archivo.close();
                     System.out.println(".....");
