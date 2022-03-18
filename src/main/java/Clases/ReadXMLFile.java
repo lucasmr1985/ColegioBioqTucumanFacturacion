@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 
 public class ReadXMLFile {
 
-    private static final String FILENAME = "C:/Facturacion CBT/respuesta.xml";
+    private static final String FILENAME = "C:/Facturacion Laboratorios/respuesta.xml";
     private static ArrayList<practicaXMLospe> listaPracticas = new ArrayList();
 
     public String ReadXML(String xml, String valor) {
