@@ -12,13 +12,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
-public class MedifeAfiliado extends javax.swing.JDialog {
+public class AfiliadoMedife extends javax.swing.JDialog {
 
     public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", plan = "";
 
     String idmsj = "", hora = "", fechahora = "", codigo_seguridad = "", mensaje = "", respuesta = "";
 
-    public MedifeAfiliado(java.awt.Frame parent, boolean modal) {
+    public AfiliadoMedife(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setTitle("Medife");
@@ -40,7 +40,7 @@ public class MedifeAfiliado extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));

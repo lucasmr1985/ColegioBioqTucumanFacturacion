@@ -24,12 +24,12 @@ import ClienteSwissMedicalApi.LoginResponse;
 import ClienteSwissMedicalApi.LoginError;
 import static Formularios.Login.id_usuario;
 
-public class SwissAfiliado extends javax.swing.JDialog {
+public class AfiliadoSwiss extends javax.swing.JDialog {
 
     String hora = "", fechasw = "";
     public static String habilitado = "", nombreafiliado = "", Codigo_afiliado = "", CSC_SW = "", apiKey = "";
 
-    public SwissAfiliado(java.awt.Frame parent, boolean modal) {
+    public AfiliadoSwiss(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setTitle("Swiss Medical");
@@ -69,7 +69,7 @@ public class SwissAfiliado extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado de Sw", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado de Sw", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));

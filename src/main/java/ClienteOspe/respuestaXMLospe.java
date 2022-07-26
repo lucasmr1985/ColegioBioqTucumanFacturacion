@@ -1,5 +1,5 @@
 
-package Clases.ClienteOspe;
+package ClienteOspe;
 
 import java.util.ArrayList;
 

@@ -7,13 +7,13 @@ import ClienteSancor.PAWESSAV2ELEGIBILIDADResponse;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class SancorAfiliado extends javax.swing.JDialog {
+public class AfiliadoSancor extends javax.swing.JDialog {
 
     public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "";
 
     String idmsj = "", hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
 
-    public SancorAfiliado(java.awt.Frame parent, boolean modal) {
+    public AfiliadoSancor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setTitle("Sancor");
@@ -37,7 +37,7 @@ public class SancorAfiliado extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -199,6 +199,9 @@ public class SancorAfiliado extends javax.swing.JDialog {
         System.out.println("Testing 1 - Send Http GET request");
         System.out.println(mensajepractica);        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         System.out.println("Testing 2 - Get Http GET request");
+        System.out.println("respuesta_sancor: "+elegibilidad(servicio).getCondicionafiliado());
+        System.out.println("respuesta_sancor: "+elegibilidad(servicio).getPlanrta());
+        System.out.println("respuesta_sancor: "+elegibilidad(servicio).getCodigorespuesta());
         System.out.println(elegibilidad(servicio).getDescripcionrespuesta());
         if (elegibilidad(servicio).getCodigorespuesta()==0) {
             ///JOptionPane.showMessageDialog(null, "Afiliado habilitado");
@@ -209,7 +212,7 @@ public class SancorAfiliado extends javax.swing.JDialog {
             this.dispose();
         } else {
             habilitado = "ERROR";
-            JOptionPane.showMessageDialog(null, elegibilidad(servicio).getDescripcionrespuesta());
+            JOptionPane.showMessageDialog(null, "Descripcion respuesta"+elegibilidad(servicio).getDescripcionrespuesta()+" Condicion afiliado: "+elegibilidad(servicio).getCondicionafiliado()+" Plan rta: "+elegibilidad(servicio).getPlanrta() + " Codigo respuesta: "+elegibilidad(servicio).getCodigorespuesta());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

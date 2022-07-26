@@ -1,13 +1,22 @@
 package Clases;
 
-import Clases.ClienteOspe.practicaXMLospe;
-import Clases.ClienteOspe.respuestaXMLospe;
+import ClienteNobis.RespuestaInsertarAutorizacionAmb;
+import ClienteOspe.practicaXMLospe;
+import ClienteOspe.respuestaXMLospe;
+import ClienteNobis.respuestaXMLNobis;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,7 +42,7 @@ public class ReadXMLFile {
         try {
             //Se crea el documento a traves del archivo
             Document document = (Document) builder.build(xmlFile);
-
+            
             //Se obtiene la raiz 'tables'
             Element rootNode = document.getRootElement();
 
@@ -119,7 +128,7 @@ public class ReadXMLFile {
                         org.w3c.dom.Element rta = (org.w3c.dom.Element) element.getElementsByTagName("Rta").item(0);
                         String CodRtaGeneral = rta.getElementsByTagName("CodRtaGeneral").item(0).getTextContent();
                         String DescripcionRtaGeneral = rta.getElementsByTagName("DescripcionRtaGeneral").item(0).getTextContent();
-                        String MensajeDisplay = rta.getElementsByTagName("MensajeDisplay").item(0).getTextContent()+" - "+ rta.getElementsByTagName("MensajePrinter").item(0).getTextContent();
+                        String MensajeDisplay = rta.getElementsByTagName("MensajeDisplay").item(0).getTextContent() + " - " + rta.getElementsByTagName("MensajePrinter").item(0).getTextContent();
 
                         System.out.println("CodRtaGeneral : " + CodRtaGeneral);
                         System.out.println("DescripcionRtaGeneral : " + DescripcionRtaGeneral);
@@ -135,7 +144,7 @@ public class ReadXMLFile {
                         respuestaOspe.setRespuesta(DescripcionRtaGeneral);
                         respuestaOspe.setCodigo(CodRtaGeneral);
                         respuestaOspe.setMensaje(MensajeDisplay + " - " + CodRtaGeneral + ": " + CodigoRtaAdicional);
-                        respuestaOspe.setNroReferencia(NroReferencia);                       
+                        respuestaOspe.setNroReferencia(NroReferencia);
                     } else {
                         respuestaOspe.setRespuesta("Error al leer el XML Encabezado Mensaje");
                         respuestaOspe.setCodigo("ReadXML: " + 76);
@@ -173,7 +182,7 @@ public class ReadXMLFile {
                             respuestaOspe.setDni("");
                         }
                     }
-                }                
+                }
             } else {
                 respuestaOspe.setRespuesta("Error al leer el XML");
                 respuestaOspe.setCodigo("ReadXML: " + 102);
@@ -324,11 +333,11 @@ public class ReadXMLFile {
 
                         String MensajeRta = element.getElementsByTagName("MensajeRta").item(0).getTextContent();
                         System.out.println("MensajeRta : " + MensajeRta);
-                        
-                        String ImporteACargoAfiliado="0.0";
-                        System.out.println("element.getElementsByTagName(ImporteACargoAfiliado).getLength(): "+element.getElementsByTagName("ImporteACargoAfiliado").getLength());
-                        if(element.getElementsByTagName("ImporteACargoAfiliado").getLength() != 0){
-                            ImporteACargoAfiliado = element.getElementsByTagName("ImporteACargoAfiliado").item(0).getTextContent();                            
+
+                        String ImporteACargoAfiliado = "0.0";
+                        System.out.println("element.getElementsByTagName(ImporteACargoAfiliado).getLength(): " + element.getElementsByTagName("ImporteACargoAfiliado").getLength());
+                        if (element.getElementsByTagName("ImporteACargoAfiliado").getLength() != 0) {
+                            ImporteACargoAfiliado = element.getElementsByTagName("ImporteACargoAfiliado").item(0).getTextContent();
                         }
                         System.out.println("ImporteACargoAfiliado : " + ImporteACargoAfiliado);
 
@@ -429,7 +438,7 @@ public class ReadXMLFile {
 
                     } else {
                         respuestaOspe.setRespuesta("Error al leer el XML Encabezado Mensaje");
-                        respuestaOspe.setCodigo("ReadXML: " + 76);
+                        respuestaOspe.setCodigo("ReadXML: " + 433);
                         respuestaOspe.setMensaje("");
                         respuestaOspe.setNroReferencia("0");
                     }
@@ -471,6 +480,289 @@ public class ReadXMLFile {
         }
 
         return respuestaOspe;
+    }
+
+    public respuestaXMLNobis ReadXMLNobisConsultarAfiliado() {
+        respuestaXMLNobis respuestaNobis = new respuestaXMLNobis();
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        try {
+
+            // optional, but recommended
+            // process XML securely, avoid attacks like XML External Entities (XXE)
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+            // parse XML file
+            DocumentBuilder db = dbf.newDocumentBuilder();
+
+            org.w3c.dom.Document doc = db.parse(new File(FILENAME));
+
+            doc.getDocumentElement().normalize();
+
+            System.out.println("Root Element :" + doc.getDocumentElement().getNodeName());
+            System.out.println("------");
+
+            // get <EncabezadoMensaje>
+            NodeList ConsultaAfiliado = doc.getDocumentElement().getElementsByTagName("ConsultaAfiliado");
+            if (ConsultaAfiliado.getLength() != 0) {
+                // get <ConsultaAfiliado>
+                //   NodeList ConsultaAfiliado = doc.getDocumentElement().getElementsByTagName("ConsultaAfiliado");
+                //   for (int temp = 0; temp < ConsultaAfiliado.getLength(); temp++) {
+
+                Node node = ConsultaAfiliado.item(0);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                    org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                    // get mensaje                    
+                    String Mensaje = element.getElementsByTagName("Mensaje").item(0).getTextContent();
+                    System.out.println("Mensaje : " + Mensaje);
+                    // get Beneficiario                    
+                    String Afiliado = element.getElementsByTagName("Afiliado").item(0).getTextContent();
+                    String Numero_Afi = element.getElementsByTagName("Numero_Afi").item(0).getTextContent();
+                    String Nro_Doc = element.getElementsByTagName("Nro_Doc").item(0).getTextContent();
+                    String Estado = element.getElementsByTagName("Estado").item(0).getTextContent();
+
+                    System.out.println("Afiliado : " + Afiliado);
+                    System.out.println("Numero_Afi : " + Numero_Afi);
+                    System.out.println("Nro_Doc : " + Nro_Doc);
+                    System.out.println("Estado : " + Estado);
+
+                    respuestaNobis.setAfiliado(Afiliado);
+                    respuestaNobis.setDni(Nro_Doc);
+                    respuestaNobis.setEstado(Estado);
+                    respuestaNobis.setMensaje(Mensaje);
+                    respuestaNobis.setNumeroAfi(Numero_Afi);
+                } else {
+                    respuestaNobis.setMensaje("Error al cargar Encabezado Atención");
+                    respuestaNobis.setAfiliado("");
+                    respuestaNobis.setDni("");
+                    respuestaNobis.setNumeroAfi("");
+                    respuestaNobis.setEstado("Error al cargar Encabezado Atención");
+                }
+                //  }
+            } else {
+                respuestaNobis.setMensaje("Error al leer Document Element");
+                respuestaNobis.setAfiliado("");
+                respuestaNobis.setNumeroAfi("");
+                respuestaNobis.setDni("");
+                respuestaNobis.setEstado("Error al leer Document Element");
+            }
+            System.out.println("fin");
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+            respuestaNobis.setMensaje("Error al leer el XML");
+            respuestaNobis.setAfiliado("");
+            respuestaNobis.setNumeroAfi("");
+            respuestaNobis.setDni("");
+            respuestaNobis.setEstado("Error al leer el XML");
+        }
+
+        return respuestaNobis;
+    }
+
+ public respuestaXMLNobis ReadXMLNobisInsertarAutorizacion() {
+        respuestaXMLNobis respuestaNobis = new respuestaXMLNobis();
+        //Se crea un SAXBuilder para poder parsear el archivo
+        SAXBuilder builder = new SAXBuilder();
+          File xmlFile = new File(FILENAME);
+        //System.out.println(xml);
+        //File xmlFile = new File(xml);
+        try {
+            
+            InputStream is = new FileInputStream(xmlFile);
+            //OutputStreamWriter bufferedWriter = new OutputStreamWriter(xmlFile), "UTF8");
+            //Se crea el documento a traves del archivo
+            System.out.println("-----1--------");
+            Document document = (Document) builder.build(is);           
+            //Se obtiene la raiz 'tables'
+            System.out.println("-----2--------");
+            Element rootNode = document.getRootElement();
+            System.out.println("-----3--------");
+            //Se obtiene la lista de hijos de la raiz 'tables'
+            List list = rootNode.getChildren("Autorizacion");
+            System.out.println("list.size()= "+list.size());
+            //Se recorre la lista de hijos de 'tables'
+            for (int j = 0; j < list.size(); j++) {
+                    //Se obtiene el elemento 'campo'
+                    Element Autorizacion = (Element) list.get(j);
+
+                    //Se obtienen los valores que estan entre los tags '<campo></campo>'
+                    //Se obtiene el valor que esta entre los tags '<nombre></nombre>'
+                    String Mensaje = Autorizacion.getChildTextTrim("Mensaje");
+
+                    //Se obtiene el valor que esta entre los tags '<tipo></tipo>'
+                    //String tipo = campo.getChildTextTrim("PracticaDes");
+                    //Se obtiene el valor que esta entre los tags '<valor></valor>'
+                    String Estado = Autorizacion.getChildTextTrim("Estado");
+
+                    System.out.println("\t" + Mensaje + "\t\t" + Estado);
+                }
+        } catch (IOException io) {
+            System.out.println(io.getMessage());
+        } catch (JDOMException jdomex) {
+            System.out.println(jdomex.getMessage());
+        }
+
+        return respuestaNobis;
+    }
+
+    public respuestaXMLNobis ReadXMLNobisInsertarAutorizacionAmb() throws JAXBException, ParserConfigurationException, SAXException, IOException {
+        respuestaXMLNobis respuestaNobis = new respuestaXMLNobis();
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        // optional, but recommended
+        // process XML securely, avoid attacks like XML External Entities (XXE)
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+        // parse XML file
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        org.w3c.dom.Document doc = db.parse(new File(FILENAME));
+
+        doc.getDocumentElement().normalize();
+
+        System.out.println("Root Element :" + doc.getDocumentElement().getNodeName());
+        System.out.println("------");
+
+        // get <EncabezadoMensaje>
+        NodeList InsertarOrdenAmb = doc.getDocumentElement().getElementsByTagName("Autorizacion");
+
+        if (InsertarOrdenAmb.getLength() != 0) {
+            Node node = InsertarOrdenAmb.item(0);
+            String Mensaje = "";
+            String Cod = "";
+            String Num = "";
+            String Cose_Neto = "";
+            String Cose_IVA = "";
+            String Cose_Total = "";
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                // get mensaje       
+                if (element.getElementsByTagName("Mensaje").getLength() != 0) {
+                    Mensaje = element.getElementsByTagName("Mensaje").item(0).getTextContent();
+                }
+                System.out.println("Mensaje : " + Mensaje);
+                // get autorizacion                    
+                String Estado = element.getElementsByTagName("Estado").item(0).getTextContent();
+
+                System.out.println("Estado : " + Estado);
+
+                if (element.getElementsByTagName("Cod").getLength() != 0) {
+                    Cod = element.getElementsByTagName("Cod").item(0).getTextContent();
+                }
+                System.out.println("Cod : " + Cod);
+
+                if (element.getElementsByTagName("Num").getLength() != 0) {
+                    Num = element.getElementsByTagName("Num").item(0).getTextContent();
+                }
+                System.out.println("Num : " + Num);
+
+                if (element.getElementsByTagName("Cose_Neto").getLength() != 0) {
+                    Cose_Neto = element.getElementsByTagName("Cose_Neto").item(0).getTextContent();
+                }
+                System.out.println("Cose_Neto : " + Cose_Neto);
+
+                if (element.getElementsByTagName("Cose_IVA").getLength() != 0) {
+                    Cose_IVA = element.getElementsByTagName("Cose_IVA").item(0).getTextContent();
+                }
+                System.out.println("Cose_IVA : " + Cose_IVA);
+
+                if (element.getElementsByTagName("Cose_Total").getLength() != 0) {
+                    Cose_Total = element.getElementsByTagName("Cose_Total").item(0).getTextContent();
+                }
+                System.out.println("Cose_Total : " + Cose_Total);
+
+                respuestaNobis.setMensaje(Mensaje);
+                respuestaNobis.setEstado(Estado);
+                respuestaNobis.setCod(Cod);
+                respuestaNobis.setNum(Num);
+
+            } else {
+                respuestaNobis.setMensaje("Error al cargar Encabezado Atención");
+                respuestaNobis.setAfiliado("");
+                respuestaNobis.setDni("");
+                respuestaNobis.setNumeroAfi("");
+                respuestaNobis.setEstado("Error al cargar Encabezado Atención");
+            }
+            //  }
+        } else {
+            respuestaNobis.setMensaje("Error al leer Document Element");
+            respuestaNobis.setAfiliado("");
+            respuestaNobis.setNumeroAfi("");
+            respuestaNobis.setDni("");
+            respuestaNobis.setEstado("Error al leer Document Element");
+        }
+        System.out.println("fin");
+
+        return respuestaNobis;
+    }
+
+    public respuestaXMLNobis ReadXMLNobisAnulacionOrden() {
+        respuestaXMLNobis respuestaNobis = new respuestaXMLNobis();
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        try {
+            // optional, but recommended
+            // process XML securely, avoid attacks like XML External Entities (XXE)
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+            // parse XML file
+            DocumentBuilder db = dbf.newDocumentBuilder();
+
+            org.w3c.dom.Document doc = db.parse(new File(FILENAME));
+
+            doc.getDocumentElement().normalize();
+
+            System.out.println("Root Element :" + doc.getDocumentElement().getNodeName());
+            System.out.println("------");
+
+            // get <EncabezadoMensaje>
+            NodeList AnularOrden = doc.getDocumentElement().getElementsByTagName("AnularOrden");
+            if (AnularOrden.getLength() != 0) {
+
+                Node node = AnularOrden.item(0);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                    org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                    // get mensaje                    
+                    String Mensaje = element.getElementsByTagName("Mensaje").item(0).getTextContent();
+                    System.out.println("Mensaje : " + Mensaje);
+                    // get Beneficiario                    
+
+                    String Estado = element.getElementsByTagName("Estado").item(0).getTextContent();
+
+                    System.out.println("Estado : " + Estado);
+
+                    respuestaNobis.setEstado(Estado);
+                    respuestaNobis.setMensaje(Mensaje);
+                } else {
+                    respuestaNobis.setMensaje("Error al cargar Encabezado Atención");
+                    respuestaNobis.setAfiliado("");
+                    respuestaNobis.setDni("");
+                    respuestaNobis.setNumeroAfi("");
+                    respuestaNobis.setEstado("Error al cargar Encabezado Atención");
+                }
+            } else {
+                respuestaNobis.setMensaje("Error al leer Document Element");
+                respuestaNobis.setAfiliado("");
+                respuestaNobis.setNumeroAfi("");
+                respuestaNobis.setDni("");
+                respuestaNobis.setEstado("Error al leer Document Element");
+            }
+            System.out.println("fin");
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+            respuestaNobis.setMensaje("Error al leer el XML");
+            respuestaNobis.setAfiliado("");
+            respuestaNobis.setNumeroAfi("");
+            respuestaNobis.setDni("");
+            respuestaNobis.setEstado("Error al leer el XML");
+        }
+
+        return respuestaNobis;
     }
 
 }

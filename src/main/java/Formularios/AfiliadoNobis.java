@@ -1,37 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Formularios;
 
 import Clases.ReadXMLFile;
-import ClienteOspe.ExecuteFileTransactionSL;
-import ClienteOspe.WSActiviaC;
-import ClienteOspe.WSActiviaCSoap;
-import static Formularios.Login.cuit;
-import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import ClienteNobis.ConsultarAfiliado;
+import ClienteNobis.TipoNomenclador;
+import ClienteNobis.TipoPrestadores;
+import ClienteNobis.WSGecrosNet;
+import ClienteNobis.WSGecrosNetSoap;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import java.io.FileWriter;
-import java.io.EOFException;
 import org.jdom2.Document;
 
-public class OspeAfiliado extends javax.swing.JDialog {
+/**
+ *
+ * @author Lucas Robles
+ */
+public class AfiliadoNobis extends javax.swing.JDialog {
 
-    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", CSC_OS = "";
+    String hora = "", fechasw = "";
+    public static String habilitado = "", nombreafiliado = "", Codigo_afiliado = "",dni="", respuesta = "";;
 
-    String hora = "", fecha = "", pasaporte = "", mensaje = "", respuesta = "";
-
-    public OspeAfiliado(java.awt.Frame parent, boolean modal) {
+    public AfiliadoNobis(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Nobis");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logocbt.png")).getImage());
-        this.setTitle("Ospe");
         this.setLocationRelativeTo(null);
         cargarfecha();
     }
@@ -44,12 +44,12 @@ public class OspeAfiliado extends javax.swing.JDialog {
         GregorianCalendar calendar1 = new GregorianCalendar();
         calendar1.setTime(currentDate1);
         hora = formatoTiempo.format(currentDate1);
-        /////////////////////////////////////////////////////////////////
-        SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
+        /////////////////////////////////////
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date currentDate = new java.util.Date();
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(currentDate);
-        fecha = formato.format(currentDate);
+        fechasw = formato.format(currentDate);
     }
 
     @SuppressWarnings("unchecked")
@@ -59,8 +59,6 @@ public class OspeAfiliado extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtafiliado = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtcsc = new javax.swing.JTextField();
         btnValidar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -79,18 +77,9 @@ public class OspeAfiliado extends javax.swing.JDialog {
                 txtafiliadoActionPerformed(evt);
             }
         });
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("CSC:");
-
-        txtcsc.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        txtcsc.setForeground(new java.awt.Color(0, 102, 204));
-        txtcsc.setToolTipText("código de seguridad de la tarjeta del afiliado (XXX)");
-        txtcsc.setNextFocusableComponent(btnValidar);
-        txtcsc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtcscActionPerformed(evt);
+        txtafiliado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtafiliadoKeyPressed(evt);
             }
         });
 
@@ -100,15 +89,9 @@ public class OspeAfiliado extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtcsc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 93, Short.MAX_VALUE))
-                    .addComponent(txtafiliado))
+                .addComponent(txtafiliado, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -118,11 +101,7 @@ public class OspeAfiliado extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtafiliado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtcsc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         btnValidar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -154,7 +133,7 @@ public class OspeAfiliado extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnValidar)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,51 +147,27 @@ public class OspeAfiliado extends javax.swing.JDialog {
         cargarfecha();
         respuesta = "";
         String numero_afiliado = txtafiliado.getText();
-        CSC_OS = txtcsc.getText();       
         System.out.println("numero_afiliado " + numero_afiliado);
 
         Document doc = new Document();
         try {
-            ExecuteFileTransactionSL mensaje = new ExecuteFileTransactionSL();
-            mensaje.setPos("0000");
+            ConsultarAfiliado mensaje = new ConsultarAfiliado();
+            mensaje.setPUsuario("CBTUCUMAN");
+            mensaje.setPClave("CBTucuman22");
 
-            String xml = "<Mensaje>\n"
-                    + "    <EncabezadoMensaje>\n"
-                    + "        <VersionMsj>ACT20</VersionMsj>\n"
-                    + "        <TipoMsj>OL</TipoMsj>\n"
-                    + "        <TipoTransaccion>01A</TipoTransaccion>\n"
-                    + "        <IdMsj/>\n"
-                    + "        <InicioTrx>\n"
-                    + "            <FechaTrx>" + fecha + "</FechaTrx>\n"
-                    + "             <HoraTrx>" + hora + "</HoraTrx>\n"
-                    + "        </InicioTrx>\n"
-                    + "        <Terminal>\n"
-                    + "            <TipoTerminal>PC</TipoTerminal>\n"
-                    + "            <NumeroTerminal>21000037</NumeroTerminal>\n"
-                    + "        </Terminal>\n"
-                    + "        <Financiador>\n"
-                    + "            <CodigoFinanciador>OSPE</CodigoFinanciador>\n"
-                    + "        </Financiador>\n"
-                    + "        <Prestador>\n"
-                    + "            <CuitPrestador>30522483881</CuitPrestador>\n"
-                    + "            <RazonSocial>Colegio de Bioquimicos de Tucuman</RazonSocial>\n"
-                    + "        </Prestador>\n"
-                    + "    </EncabezadoMensaje>\n"
-                    + "    <EncabezadoAtencion>\n"
-                    + "        <Credencial>\n"
-                    + "            <NumeroCredencial>" + numero_afiliado + "</NumeroCredencial>\n"
-                    + "            <ModoIngreso>M</ModoIngreso>\n"
-                    + "            <CodigoSeguridad>" + CSC_OS + "</CodigoSeguridad>\n"
-                    + "        </Credencial>\n"
-                    + "    </EncabezadoAtencion>\n"
-                    + "</Mensaje>";
-            mensaje.setFileContent(xml);
-            System.out.println("Send:" + mensaje.getPos() + " " + mensaje.getFileContent());
+            String xml = "<Afiliado>\n"
+                    + "			<TipoDoc>2</TipoDoc>\n"
+                    + "			<NroDoc>"+numero_afiliado+"</NroDoc>\n"
+                    + "			<NumeroAfiliado></NumeroAfiliado>\n"
+                    + "			<Fecha>"+fechasw+"</Fecha>\n"
+                    + "		</Afiliado>";
+            mensaje.setPXml(xml);
+            System.out.println("Send:" +mensaje.getPClave() +" "+mensaje.getPUsuario()+" " + mensaje.getPXml());
             String resultado = null;
             try {
-                WSActiviaC servicio = new WSActiviaC();
-                WSActiviaCSoap port = servicio.getWSActiviaCSoap();
-                resultado = port.executeFileTransactionSL(mensaje.getPos(), mensaje.getFileContent());
+                WSGecrosNet servicio = new WSGecrosNet();
+                WSGecrosNetSoap port = servicio.getWSGecrosNetSoap();
+                resultado = port.consultarAfiliado(mensaje.getPUsuario(), mensaje.getPClave(), mensaje.getPXml());
                 System.out.println("resultado:" + resultado);
                 //Generate XML
                 try {
@@ -220,18 +175,18 @@ public class OspeAfiliado extends javax.swing.JDialog {
                     archivo.write(resultado);
                     archivo.close();
                     System.out.println(".....");
-                    ReadXMLFile respuestaOspe = new ReadXMLFile();
-                    respuestaOspe.ReadXMLOspe01A();
+                    ReadXMLFile respuestaNobis = new ReadXMLFile();                    
                     System.out.println("-----");
-                    if (respuestaOspe.ReadXMLOspe01A().getCodigo().equals("00")) {
-                        dni = respuestaOspe.ReadXMLOspe01A().getDni();
-                        nombreafiliado = respuestaOspe.ReadXMLOspe01A().getAfiliado();
-                        Codigo_afiliado = numero_afiliado;
-                        habilitado="OK";
-                        JOptionPane.showMessageDialog(null, "El Afiliado está habilitado. N° de ref: "+respuestaOspe.ReadXMLOspe01A().getNroReferencia()+"\n"+"Mensaje WS: "+respuestaOspe.ReadXMLOspe01A().getRespuesta()+" - "+respuestaOspe.ReadXMLOspe01A().getMensaje());
+                    ///
+                    if (!respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado().equals("Afiliado inexistente")) {
+                        dni = respuestaNobis.ReadXMLNobisConsultarAfiliado().getDni();
+                        nombreafiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getAfiliado();
+                        Codigo_afiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getNumeroAfi();
+                        habilitado = "OK";
+                        JOptionPane.showMessageDialog(null, "Mensaje WS: " + "El Afiliado está habilitado. " + "\n" + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado() +" "+  respuestaNobis.ReadXMLNobisConsultarAfiliado().getMensaje());
                         dispose();
-                    }else{                        
-                        JOptionPane.showMessageDialog(null, "N° de ref: "+respuestaOspe.ReadXMLOspe01A().getNroReferencia() + "\n"+"Mensaje WS: "+ respuestaOspe.ReadXMLOspe01A().getRespuesta() + " "+ respuestaOspe.ReadXMLOspe01A().getMensaje());
+                    } else {
+                        JOptionPane.showMessageDialog(null,  "Mensaje WS: " + "El Afiliado no está habilitado. " + "\n" + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado() +" "+ respuestaNobis.ReadXMLNobisConsultarAfiliado().getMensaje());
                     }
                 } catch (Exception er) {
                     JOptionPane.showMessageDialog(null, "error al generar archivo " + er);
@@ -244,19 +199,44 @@ public class OspeAfiliado extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error " + e);
             System.out.println("e" + e);
-        }      
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        try {
+//            TipoPrestadores mensaje = new TipoPrestadores();
+//            mensaje.setPUsuario("CBTUCUMAN");
+//            mensaje.setPClave("CBTucuman22");
+//            System.out.println("Send:" +mensaje.getPClave() +" "+mensaje.getPUsuario());
+//            String resultado = null;
+//            try {
+//                WSGecrosNet servicio = new WSGecrosNet();
+//                WSGecrosNetSoap port = servicio.getWSGecrosNetSoap();
+//                resultado = port.tipoPrestadores(mensaje.getPUsuario(), mensaje.getPClave());
+//                System.out.println("resultado:" + resultado);
+//                
+//            } catch (Exception e) {
+//                JOptionPane.showMessageDialog(null, "error al conectarse con servidor " + resultado);
+//                System.out.println("error al conectarse con servidor " + resultado);
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "error " + e);
+//            System.out.println("e" + e);
+//        }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
     }//GEN-LAST:event_btnValidarActionPerformed
 
-    private void txtcscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcscActionPerformed
-        txtcsc.transferFocus();
-    }//GEN-LAST:event_txtcscActionPerformed
+    private void txtafiliadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtafiliadoKeyPressed
+      //  btnValidar.requestFocus();
+    }//GEN-LAST:event_txtafiliadoKeyPressed
+
+    /**
+     * @param args the command line arguments
+     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnValidar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtafiliado;
-    private javax.swing.JTextField txtcsc;
     // End of variables declaration//GEN-END:variables
 }

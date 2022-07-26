@@ -8,13 +8,13 @@ import javax.swing.JOptionPane;
 import ClienteBoreal.WsBorealExecuteResponse;
 import java.awt.event.KeyEvent;
 
-public class BorealAfiliado extends javax.swing.JDialog {
+public class AfiliadoBoreal extends javax.swing.JDialog {
 
     public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "";
     public static int tipo_credencial=0;
     String idmsj = "", hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
     
-    public BorealAfiliado(java.awt.Frame parent, boolean modal) {
+    public AfiliadoBoreal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setTitle("Boreal");
@@ -45,7 +45,7 @@ public class BorealAfiliado extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        panelafiliado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        panelafiliado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -95,7 +95,7 @@ public class BorealAfiliado extends javax.swing.JDialog {
             }
         });
 
-        paneldni.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de DNI", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        paneldni.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de DNI", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
