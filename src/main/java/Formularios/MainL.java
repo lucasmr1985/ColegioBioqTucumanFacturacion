@@ -125,6 +125,7 @@ import ClienteNobis.WSGecrosNetSoap;
 import ClienteNobis.AnularOrden;
 import ClienteNobis.InsertarAutorizacionAmb;
 import ClienteNobis.respuestaXMLNobis;
+import ClienteOsde.OsdeConexionWsdl;
 import ClienteOspe.ExecuteFileTransactionSL;
 import ClienteOspe.WSActiviaC;
 import ClienteOspe.WSActiviaCSoap;
@@ -221,7 +222,7 @@ public class MainL extends javax.swing.JFrame {
     TextAutoCompleter textAutoAcompleter;
     TextAutoCompleter textAutoAcompleter2;
     public static String ruta = "C:\\Descargas-CBT\\";
-    String obra = "", mensajepractica = "", mensajeanulacion = "", respuestapractica = "", respuestaafiliado = "", respuestaanulacion = "";
+    String obra = "", mensajepractica = "", respuestapractica = "", respuestaafiliado = "";
     public static String ipLocal = "", hostLocal = "";
     String ip2 = "";
     XMLGregorianCalendar date_jerarquicos;
@@ -3769,11 +3770,11 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSubsidio1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(btnSubsidio1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton8))
                 .addContainerGap())
         );
 
@@ -3909,12 +3910,12 @@ public class MainL extends javax.swing.JFrame {
 
                 if (banderamodifica == 0) {
                     try {
-                        String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI + " and estado";
-//                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+//                        String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI + " and estado";
+                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
                         Statement stControl = cnPAMI.createStatement();
                         ResultSet rsControl = stControl.executeQuery(controlOrden);
                         rsControl.next();
-                        banderaControl = rsControl.getInt(1);
+
                         if (banderaControl == 0) {
                             estado_orden = 3;
                             if (!txtnumafiliado.getText().equals("")
@@ -4001,6 +4002,7 @@ public class MainL extends javax.swing.JFrame {
             }
             habilitado = "";
             respuestapractica = "";
+            String respuestaanulacion = "";
             String plan_ss = "";
             String coseguro_ss = "";
             int respuesta = 0;
@@ -4116,124 +4118,134 @@ public class MainL extends javax.swing.JFrame {
                                     System.out.println("tipo_orden:02L DIFERIDO");
                                     mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
                                 }
-                                HttpOsdePractica http2 = new HttpOsdePractica();
+                                //   HttpOsdePractica http2 = new HttpOsdePractica();
+                                OsdeConexionWsdl servicio = new OsdeConexionWsdl();
+
                                 System.out.println("Testing 2 - Send Http GET request");
                                 try {
-                                    http2.sendGet();
+
+                                    servicio.sendGet(mensajepractica);
                                     /////////////////////////////////////////////////////////////////
-                                    int pos = respuestapractica.indexOf("MensajeDisplay");
-                                    int pos2 = respuestapractica.indexOf("/MensajeDisplay");
-                                    if (respuestapractica.substring(pos + 15, pos + 17).equals("OK")) {
-                                        estado_orden = 1;
-                                        mensajenuevo = "";
-                                        int pos3 = respuestapractica.indexOf("<NroReferencia>");
-                                        int pos4 = respuestapractica.indexOf("</NroReferencia>");
-                                        num_orden = respuestapractica.substring(pos3 + 15, pos4);
+                                    try {
+                                        ///////////////////////////////////////////////////////////
+                                        ReadXMLFile respuestaOsde = new ReadXMLFile();
+                                        observacion = respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay();
+                                        if (respuestaOsde.ReadXMLOsde02L().getRta().getCodRtaGeneral().equals("000")) {
 
-                                        validar_orden osde = new validar_orden();
+                                            if (respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay().substring(0, 2).equals("OK")) {
+                                                estado_orden = 1;
+                                                mensajenuevo = "";
 
-                                        respuesta = osde.valida(
-                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                                txtnombreafiliado.getText(),
-                                                txtdocumento.getText(),
-                                                txtnumafiliado.getText(),
-                                                Integer.valueOf(txtmatricula.getText()),
-                                                num_orden,
-                                                txtfecha.getText(),
-                                                Double.valueOf(txttotal1.getText()),
-                                                fecha,
-                                                hora,
-                                                ip2,
-                                                id_obra_social,
-                                                id_usuario,
-                                                n2,
-                                                practicas,
-                                                Double.valueOf(txtcoseguro.getText()),
-                                                txtfechacoseguro.getText(),
-                                                tipo_orden,
-                                                observacion,
-                                                plan_ss,
-                                                coseguro_ss,
-                                                estado_orden,
-                                                fechaDate);
+                                                num_orden = respuestaOsde.ReadXMLOsde02L().getNroReferencia();
 
-                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                            System.out.println("Anulacion Osde");
-                                            mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
-                                            System.out.println("Testing 3 - Send Http GET request");
-                                            try {
+                                                validar_orden osde = new validar_orden();
+
+                                                respuesta = osde.valida(
+                                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                        txtnombreafiliado.getText(),
+                                                        txtdocumento.getText(),
+                                                        txtnumafiliado.getText(),
+                                                        Integer.valueOf(txtmatricula.getText()),
+                                                        num_orden,
+                                                        txtfecha.getText(),
+                                                        Double.valueOf(txttotal1.getText()),
+                                                        fecha,
+                                                        hora,
+                                                        ip2,
+                                                        id_obra_social,
+                                                        id_usuario,
+                                                        n2,
+                                                        practicas,
+                                                        Double.valueOf(txtcoseguro.getText()),
+                                                        txtfechacoseguro.getText(),
+                                                        tipo_orden,
+                                                        observacion,
+                                                        plan_ss,
+                                                        coseguro_ss,
+                                                        estado_orden,
+                                                        fechaDate);
+
+                                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                                    System.out.println("Anulacion Osde");
+                                                    cargarip();
+                                                    String mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+
+                                                    OsdeConexionWsdl AnulacionOsde = new OsdeConexionWsdl();
+
+                                                    System.out.println("Testing 3 - Send Http GET request");
+                                                    try {
+                                                        cursor2();
+                                                        AnulacionOsde.sendGet(mensajeanulacion);
+                                                        bandera_osde = 0;
+                                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                                    } catch (Exception ex) {
+                                                        cursor2();
+                                                        bandera_osde = 0;
+                                                        JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
+                                                        JOptionPane.showMessageDialog(null, ex);
+
+                                                    }
+                                                } else {
+                                                    cursor2();
+                                                    bandera_osde = 1;
+                                                    JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden.substring(3, 9));
+                                                    System.out.println("borrar 1");
+                                                    borrartabla();
+                                                }
+
+                                            } else {
                                                 cursor2();
-                                                http.sendGet();
                                                 bandera_osde = 0;
-                                                JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                            } catch (Exception ex) {
-                                                cursor2();
-                                                bandera_osde = 0;
-                                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
-                                                JOptionPane.showMessageDialog(null, ex);
-
+                                                JOptionPane.showMessageDialog(null, respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay());
                                             }
                                         } else {
-                                            cursor2();
-                                            bandera_osde = 1;
-                                            JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden.substring(3, 9));
-                                            System.out.println("borrar 1");
-                                            borrartabla();
+                                            estado_orden = 0;
+                                            mensajenuevo = "";
+                                            num_orden = respuestaOsde.ReadXMLOsde02L().getNroReferencia();
+
+                                            validar_orden osde = new validar_orden();
+
+                                            respuesta = osde.valida(
+                                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                    txtnombreafiliado.getText(),
+                                                    txtdocumento.getText(),
+                                                    txtnumafiliado.getText(),
+                                                    Integer.valueOf(txtmatricula.getText()),
+                                                    num_orden,
+                                                    txtfecha.getText(),
+                                                    Double.valueOf(txttotal1.getText()),
+                                                    fecha,
+                                                    hora,
+                                                    ip2,
+                                                    id_obra_social,
+                                                    id_usuario,
+                                                    n2,
+                                                    practicas,
+                                                    Double.valueOf(txtcoseguro.getText()),
+                                                    txtfechacoseguro.getText(),
+                                                    tipo_orden,
+                                                    observacion,
+                                                    plan_ss,
+                                                    coseguro_ss,
+                                                    estado_orden,
+                                                    fechaDate);
+                                            System.out.println(respuestapractica);
+                                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+                                                bandera_osde = 0;
+                                            } else {
+                                                cursor2();
+                                                bandera_osde = 0;
+                                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de osde");
+                                                JOptionPane.showMessageDialog(null, "Error código: " + respuestaOsde.ReadXMLOsde02L().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay());
+                                                System.out.println("borrar 2");
+                                                borrartabla();
+                                            }
                                         }
 
-                                    } else {
-
-                                        estado_orden = 0;
-                                        mensajenuevo = "";
-                                        int pos3 = respuestapractica.indexOf("<NroReferencia>");
-                                        int pos4 = respuestapractica.indexOf("</NroReferencia>");
-                                        num_orden = respuestapractica.substring(pos3 + 15, pos4);
-
-                                        observacion = respuestapractica;
-                                        if (observacion.length() > 500) {
-                                            observacion = observacion.substring(0, 500);
-                                        }
-
-                                        validar_orden osde = new validar_orden();
-
-                                        respuesta = osde.valida(
-                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                                txtnombreafiliado.getText(),
-                                                txtdocumento.getText(),
-                                                txtnumafiliado.getText(),
-                                                Integer.valueOf(txtmatricula.getText()),
-                                                num_orden,
-                                                txtfecha.getText(),
-                                                Double.valueOf(txttotal1.getText()),
-                                                fecha,
-                                                hora,
-                                                ip2,
-                                                id_obra_social,
-                                                id_usuario,
-                                                n2,
-                                                practicas,
-                                                Double.valueOf(txtcoseguro.getText()),
-                                                txtfechacoseguro.getText(),
-                                                tipo_orden,
-                                                observacion,
-                                                plan_ss,
-                                                coseguro_ss,
-                                                estado_orden,
-                                                fechaDate);
-                                        System.out.println(respuestapractica);
-                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                            bandera_osde = 0;
-                                        } else {
-                                            cursor2();
-                                            bandera_osde = 0;
-                                            JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de osde");
-                                            JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 15, pos2));
-                                            System.out.println("borrar 2");
-                                            borrartabla();
-                                        }
+                                    } catch (Exception e) {
+                                        JOptionPane.showMessageDialog(null, "error al guarda la respuesta XML");
                                     }
 
                                 } catch (Exception ex) {
@@ -7672,6 +7684,7 @@ public class MainL extends javax.swing.JFrame {
                 //print result
                 System.out.println(response.toString());
                 respuestapractica = response.toString();
+                con.disconnect();
             } catch (IOException e) {
                 System.out.println("Error " + e);
                 respuestapractica = e.getMessage();
@@ -7739,28 +7752,31 @@ public class MainL extends javax.swing.JFrame {
         private final String USER_AGENT = "Mozilla/5.0";
 
         // HTTP GET request
-        public void sendGet() throws Exception {
+        public String getOsdeAnulacion(String mensaje) throws Exception {
             BufferedReader in = null;
             String urlString = null;
             String inputLine = null;
             try {
-                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
+                System.out.println("Ingresa al Try Anulacion OSDE");
+                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensaje, "UTF-8");
 
+                System.out.println("Ingresa al Try Anulacion OSDE");
                 URL obj = new URL(urlString);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                HttpURLConnection conAnulacion = (HttpURLConnection) obj.openConnection();
 
                 // optional default is GET
-                con.setRequestMethod("GET");
+                conAnulacion.setRequestMethod("GET");
 
+                System.out.println("Manda el GET desde conAnulacion");
                 //add request header
-                con.setRequestProperty("User-Agent", USER_AGENT);
+                conAnulacion.setRequestProperty("User-Agent", USER_AGENT);
 
-                int responseCode = con.getResponseCode();
+                int responseCode = conAnulacion.getResponseCode();
                 System.out.println("\nSending 'GET' request to URL : " + urlString);
                 System.out.println("Response Code : " + responseCode);
 
                 in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
+                        new InputStreamReader(conAnulacion.getInputStream()));
 //                String inputLine;
                 StringBuffer response = new StringBuffer();
 
@@ -7768,10 +7784,11 @@ public class MainL extends javax.swing.JFrame {
                     response.append(inputLine);
                 }
                 System.out.println(response.toString());
-                respuestaanulacion = response.toString();
+                conAnulacion.disconnect();
+                return response.toString();
             } catch (IOException e) {
                 System.out.println("Error " + e);
-                respuestaanulacion = e.getMessage();
+                return e.getMessage();
             } finally {
                 try {
                     in.close();
@@ -8680,6 +8697,11 @@ public class MainL extends javax.swing.JFrame {
                 txtnumafiliado.setText(rs.getString("numero_afiliado"));
                 txtnombreafiliado.setText(rs.getString("nombre_afiliado"));
                 txtobrasocial.setText((rs.getString("codigo_obrasocial") + " - " + rs.getString("razonsocial_obrasocial")));
+                if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("INSSJYP - PAMI  -AUGL 1 (AMB)")) {
+                    cbotipo.setVisible(true);
+                } else {
+                    cbotipo.setVisible(false);
+                }
                 model.addRow(Registros);
 
             }
@@ -10819,8 +10841,8 @@ public class MainL extends javax.swing.JFrame {
         int i = 0;
         String observacion_anulacion = "";
 
-        mensajeanulacion = "";
-        respuestaanulacion = "";
+        String mensajeanulacion = "";
+        String respuestaanulacion = "";
         try {
             ConexionMariaDB mysql = new ConexionMariaDB();
             Connection cn = mysql.Conectar();
@@ -10853,41 +10875,47 @@ public class MainL extends javax.swing.JFrame {
                         if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE  ( RESPONSABLES INSCRIPTOS)")) {
                             System.out.println("Anulacion Osde");
                             System.out.println("codigo Afiliado osde: " + cod_afiliado);
-                            System.out.println("fecha Afiliado osde : " + fecha);
-                            System.out.println("fecha numero de orden osde : " + num_orden);
+                            System.out.println("fecha osde : " + fecha);
+                            System.out.println("numero de orden osde : " + num_orden);
 
+//                            //mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>236029525</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>62684577601</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+//                            String CodRtaGeneral = "";
+//                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
+//                            System.out.println("Testing 3 - Send Http GET request");
+                            cargarip();
                             mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                            //mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>236029525</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>62684577601</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                            String CodRtaGeneral = "";
-                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
-                            System.out.println("Testing 3 - Send Http GET request");
+
+                            OsdeConexionWsdl AnulacionOsde = new OsdeConexionWsdl();
+
+                            System.out.println("Testing 3 - Send Http GET request Anulacion");
                             try {
-                                http.sendGet();
-                                int posRepuesta = respuestaanulacion.indexOf("<CodRtaGeneral>");
-                                int posRepuestaFinal = respuestaanulacion.indexOf("</CodRtaGeneral>");
-                                CodRtaGeneral = respuestaanulacion.substring(posRepuesta + 15, posRepuestaFinal);
+
+                                AnulacionOsde.sendGet(mensajeanulacion);
+
+                                try {
+                                    ReadXMLFile respuestaAnulacionOsde = new ReadXMLFile();
+                                    if (respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral().equals("000")) {
+                                        cursor2();
+                                        observacion_anulacion = "código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
+                                        JOptionPane.showMessageDialog(null, observacion_anulacion);                                        
+                                    } else {
+                                        System.out.println("2 anulacion");                                        
+                                        cursor2();
+                                        observacion_anulacion = "código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
+                                        JOptionPane.showMessageDialog(null, observacion_anulacion);
+                                        bandera_anulacion = 1;
+                                    }
+                                } catch (Exception e) {
+                                    JOptionPane.showMessageDialog(null, e);
+                                }
 
                             } catch (Exception ex) {
                                 cursor2();
+                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
                                 JOptionPane.showMessageDialog(null, ex);
-                                bandera_anulacion = 1;
-                                observacion_anulacion = ex.toString();
+
                             }
-                            if (!CodRtaGeneral.equals("000") || CodRtaGeneral.equals("")) {
-                                int posMensaje = respuestaanulacion.indexOf("<MensajeDisplay>");
-                                int posposMensajeFinal = respuestaanulacion.indexOf("</MensajeDisplay>");
-                                JOptionPane.showMessageDialog(null, "Codigo: " + CodRtaGeneral + " - " + respuestaanulacion.substring(posMensaje + 16, posposMensajeFinal));
-                                bandera_anulacion = 1;
-                                observacion_anulacion= CodRtaGeneral + " - " + respuestaanulacion.substring(posMensaje + 16, posposMensajeFinal);
-                                cursor2();
-                            } else {
-                                System.out.println("2 anulacion");
-                                int pos = respuestaanulacion.indexOf("<NroReferencia>");
-                                int pos2 = respuestaanulacion.indexOf("</NroReferencia>");
-                                cursor2();
-                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 18, pos2));
-                                System.out.println("2--");
-                            }
+
                         }
 
                         /////SWISS MEDICAL GROUP S.A.
@@ -11308,10 +11336,10 @@ public class MainL extends javax.swing.JFrame {
 
                         if (bandera_anulacion == 0) {
 
-                            sSQL2 = "UPDATE ordenes SET estado_orden=? WHERE id_orden=" + id_orden;
+                            sSQL2 = "UPDATE ordenes SET estado_orden=?,observacion=? WHERE id_orden=" + id_orden;
                             PreparedStatement pst = cn.prepareStatement(sSQL2);
                             pst.setInt(1, 0);
-
+                            pst.setString(2, observacion_anulacion);
                             int n = pst.executeUpdate();
                             System.out.println("1");
 
