@@ -32,6 +32,7 @@ import Clases.camposss;
 import Clases.export_excel;
 import Clases.solomayusculas;
 import Clases.validar_orden;
+import static ClienteAsunt.AsuntConexionWsdl.conexionWsdl;
 import static Formularios.Detalle_Practicas.observacion;
 import static Formularios.Login.cuit;
 import static Formularios.Login.validacion_pami;
@@ -41,7 +42,7 @@ import static Formularios.Login.nombre_colegiado;
 import static Formularios.Login.periodo_colegiado;
 import static Formularios.LoginAdmin.estadologinadmin;
 import static Formularios.LoginAdmin.estadologinsecretaria;
-import static Formularios.OsdeAfiliado.habilitado;
+import static Formularios.AfiliadoOsde.habilitado;
 import static Formularios.importar.Importar;
 import static Formularios.importar.archivo;
 import java.awt.event.KeyEvent;
@@ -118,6 +119,13 @@ import ClienteJerarquicos.Servicio;
 import ClienteJerarquicos.SolicitudValidacionPracticaRequiereAutorizacion;
 import ClienteMedife.WebServiceIA;
 import ClienteMedife.WebServiceIASoap;
+import ClienteNobis.RespuestaInsertarAutorizacionAmb;
+import ClienteNobis.WSGecrosNet;
+import ClienteNobis.WSGecrosNetSoap;
+import ClienteNobis.AnularOrden;
+import ClienteNobis.InsertarAutorizacionAmb;
+import ClienteNobis.respuestaXMLNobis;
+import ClienteOsde.OsdeConexionWsdl;
 import ClienteOspe.ExecuteFileTransactionSL;
 import ClienteOspe.WSActiviaC;
 import ClienteOspe.WSActiviaCSoap;
@@ -130,15 +138,15 @@ import ClienteSwissMedicalApi.RegistracionResponse;
 import ClienteSwissMedicalApi.Device;
 import ClienteSwissMedicalApi.LoginResponse;
 import ClienteSwissMedicalApi.LoginError;
-import static Formularios.BorealAfiliado.tipo_credencial;
-import static Formularios.JerarquicosAfiliado.NumeroOrden;
-import static Formularios.JerarquicosAfiliado.NumeroSocio;
+import static Formularios.AfiliadoBoreal.tipo_credencial;
+import static Formularios.AfiliadoJerarquicos.NumeroOrden;
+import static Formularios.AfiliadoJerarquicos.NumeroSocio;
 import static Formularios.Login.estadopeec;
-import static Formularios.MedifeAfiliado.plan;
-import static Formularios.OsdeAfiliado.CSC_OS;
-import static Formularios.SwissAfiliado.CSC_SW;
-import static Formularios.SwissAfiliado.Codigo_afiliado;
-import static Formularios.SwissAfiliado.apiKey;
+import static Formularios.AfiliadoMedife.plan;
+import static Formularios.AfiliadoOsde.CSC_OS;
+import static Formularios.AfiliadoSwiss.CSC_SW;
+import static Formularios.AfiliadoSwiss.Codigo_afiliado;
+import static Formularios.AfiliadoSwiss.apiKey;
 import controlador.Funciones;
 import java.io.File;
 import java.io.FileWriter;
@@ -176,10 +184,17 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import com.google.gson.Gson;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.ParserConfigurationException;
+import org.json.JSONObject;
+import org.xml.sax.SAXException;
 
 public class MainL extends javax.swing.JFrame {
 
-    public static String url, documento_afiliado, nombre_afiliado, numero_afiliado, fecha, fecha2, id_obra2 = "", localidad_lab, domicilio_lab, total_pesos_letras, total_centavos_letras, periodo, periododjj;
+    public static String url, documento_afiliado, nombre_afiliado, numero_afiliado, fecha, fecha2, id_obra2 = "", localidad_lab, domicilio_lab, total_pesos_letras, total_centavos_letras, periodo, periododjj, fechaComun;
     // static String año;
     public static int bandera = 1, contadorPracticas = 0, idObraSocialOnline = 0;
     int id_obra_social, banderamodifica = 0, contadorj = 0, id_orden, pacientes = 0, practicas = 0, total = 0, contadorobra = 0;
@@ -207,7 +222,7 @@ public class MainL extends javax.swing.JFrame {
     TextAutoCompleter textAutoAcompleter;
     TextAutoCompleter textAutoAcompleter2;
     public static String ruta = "C:\\Descargas-CBT\\";
-    String obra = "", mensajepractica = "", mensajeanulacion = "", respuestapractica = "", respuestaafiliado = "", respuestaanulacion = "";
+    String obra = "", mensajepractica = "", respuestapractica = "", respuestaafiliado = "";
     public static String ipLocal = "", hostLocal = "";
     String ip2 = "";
     XMLGregorianCalendar date_jerarquicos;
@@ -1738,6 +1753,29 @@ public class MainL extends javax.swing.JFrame {
             salida = salida + entrada.charAt(i);
         }
         salida = salida + "-";
+        ////Dia////
+        for (i = 0; i <= 1; i++) {
+            salida = salida + entrada.charAt(i);
+        }
+
+        return salida;
+
+    }
+
+    String formatoMySql(String entrada) {
+        if ((null == entrada) || (entrada.length() <= 1)) {
+            return entrada;
+        }
+        String salida = "";
+        int i = 0;
+        /////Año/////
+        for (i = 6; i <= 9; i++) {
+            salida = salida + entrada.charAt(i);
+        }
+        ///Mes///
+        for (i = 3; i <= 4; i++) {
+            salida = salida + entrada.charAt(i);
+        }
         ////Dia////
         for (i = 0; i <= 1; i++) {
             salida = salida + entrada.charAt(i);
@@ -3719,25 +3757,24 @@ public class MainL extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnnbu, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnobrasociales)
-                            .addComponent(jButton3))
-                        .addComponent(btnnomenclador)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnobrasociales)
+                        .addComponent(jButton3))
+                    .addComponent(btnnomenclador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSubsidio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnIosfa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnsalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPrensa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSubsidio1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnsalir4)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnsalir4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSubsidio1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton8))
                 .addContainerGap())
         );
 
@@ -3774,18 +3811,18 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                        .addGap(0, 664, Short.MAX_VALUE)
-                        .addComponent(btnsalir5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
-                        .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(UtilitariosLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton5)
-                                .addGap(94, 94, 94))
-                            .addGroup(UtilitariosLayout.createSequentialGroup()
-                                .addComponent(lblcolegiado3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)))
-                        .addComponent(jLabel15)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnsalir5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
+                                .addGroup(UtilitariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
+                                        .addComponent(jButton5)
+                                        .addGap(94, 94, 94))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UtilitariosLayout.createSequentialGroup()
+                                        .addComponent(lblcolegiado3, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)))
+                                .addComponent(jLabel15)))))
                 .addContainerGap())
         );
         UtilitariosLayout.setVerticalGroup(
@@ -3873,12 +3910,12 @@ public class MainL extends javax.swing.JFrame {
 
                 if (banderamodifica == 0) {
                     try {
-                        String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
-//                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+//                        String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI + " and estado";
+                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
                         Statement stControl = cnPAMI.createStatement();
                         ResultSet rsControl = stControl.executeQuery(controlOrden);
                         rsControl.next();
-                        banderaControl = rsControl.getInt(1);
+
                         if (banderaControl == 0) {
                             estado_orden = 3;
                             if (!txtnumafiliado.getText().equals("")
@@ -3965,12 +4002,13 @@ public class MainL extends javax.swing.JFrame {
             }
             habilitado = "";
             respuestapractica = "";
+            String respuestaanulacion = "";
             String plan_ss = "";
             String coseguro_ss = "";
             int respuesta = 0;
             int banderaControlMedico = 0;
             cargarfecha();
-            int banderaEstadoOffline = 1, bandera_periodo = 0, bandera_medife = 1, bandera_obra_social_comun = 1, bandera_osde = 1, bandera_boreal = 1, bandera_sw = 1, bandera_sancor = 1, bandera_subsidio = 1, bandera_actualizacion = 0, bandera_jerarquicos = 1, bandera_iosfa = 1, bandera_ospe = 1;
+            int banderaEstadoOffline = 1, bandera_periodo = 0, bandera_medife = 1, bandera_obra_social_comun = 1, bandera_osde = 1, bandera_boreal = 1, bandera_sw = 1, bandera_sancor = 1, bandera_subsidio = 1, bandera_actualizacion = 0, bandera_jerarquicos = 1, bandera_iosfa = 1, bandera_ospe = 1, bandera_asunt = 1, bandera_nobis = 1;
             ConexionMariaDB mysql = new ConexionMariaDB();
             double COSEGURO = 0.0;
             Connection cn = mysql.Conectar();
@@ -4024,7 +4062,10 @@ public class MainL extends javax.swing.JFrame {
                         || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")
                         || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
                         //  || obra.equals("40813 - IOSFA")
-                        || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
+                        || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")
+                        //|| obra.equals("2700 - UNT - Accion  Social de la  UNT")
+                        || obra.equals("40816 - NOBIS SA")) {
+
                     if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
 
                         plan_ss = "";
@@ -4069,125 +4110,142 @@ public class MainL extends javax.swing.JFrame {
                             //System.out.println("bandera medico: " + banderaMedicoAutorizado);
                             if (banderaMedicoAutorizado == 1) {
                                 /////////////////////////////////////////////////////////////////////////////////
-                                mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
-                                HttpOsdePractica http2 = new HttpOsdePractica();
+                                System.out.println("tipo_orden:" + tipo_orden);
+                                if (tipo_orden == 1 || tipo_orden == 4) {
+                                    System.out.println("tipo_orden:02L");
+                                    mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                } else {
+                                    System.out.println("tipo_orden:02L DIFERIDO");
+                                    mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                }
+                                //   HttpOsdePractica http2 = new HttpOsdePractica();
+                                OsdeConexionWsdl servicio = new OsdeConexionWsdl();
+
                                 System.out.println("Testing 2 - Send Http GET request");
                                 try {
-                                    http2.sendGet();
+
+                                    servicio.sendGet(mensajepractica);
                                     /////////////////////////////////////////////////////////////////
-                                    int pos = respuestapractica.indexOf("MensajeDisplay");
-                                    int pos2 = respuestapractica.indexOf("/MensajeDisplay");
-                                    if (respuestapractica.substring(pos + 15, pos + 17).equals("OK")) {
-                                        estado_orden = 1;
-                                        mensajenuevo = "";
-                                        int pos3 = respuestapractica.indexOf("<NroReferencia>");
-                                        int pos4 = respuestapractica.indexOf("</NroReferencia>");
-                                        num_orden = respuestapractica.substring(pos3 + 15, pos4);
+                                    try {
+                                        ///////////////////////////////////////////////////////////
+                                        ReadXMLFile respuestaOsde = new ReadXMLFile();
+                                        observacion = respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay();
+                                        if (respuestaOsde.ReadXMLOsde02L().getRta().getCodRtaGeneral().equals("000")) {
 
-                                        validar_orden osde = new validar_orden();
+                                            if (respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay().substring(0, 2).equals("OK")) {
+                                                estado_orden = 1;
+                                                mensajenuevo = "";
 
-                                        respuesta = osde.valida(
-                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                                txtnombreafiliado.getText(),
-                                                txtdocumento.getText(),
-                                                txtnumafiliado.getText(),
-                                                Integer.valueOf(txtmatricula.getText()),
-                                                num_orden,
-                                                fecha,
-                                                Double.valueOf(txttotal1.getText()),
-                                                fecha,
-                                                hora,
-                                                ip2,
-                                                id_obra_social,
-                                                id_usuario,
-                                                n2,
-                                                practicas,
-                                                Double.valueOf(txtcoseguro.getText()),
-                                                txtfechacoseguro.getText(),
-                                                tipo_orden,
-                                                observacion,
-                                                plan_ss,
-                                                coseguro_ss,
-                                                estado_orden,
-                                                fechaDate);
+                                                num_orden = respuestaOsde.ReadXMLOsde02L().getNroReferencia();
 
-                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                            System.out.println("Anulacion Osde");
-                                            mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
-                                            System.out.println("Testing 3 - Send Http GET request");
-                                            try {
+                                                validar_orden osde = new validar_orden();
+
+                                                respuesta = osde.valida(
+                                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                        txtnombreafiliado.getText(),
+                                                        txtdocumento.getText(),
+                                                        txtnumafiliado.getText(),
+                                                        Integer.valueOf(txtmatricula.getText()),
+                                                        num_orden,
+                                                        txtfecha.getText(),
+                                                        Double.valueOf(txttotal1.getText()),
+                                                        fecha,
+                                                        hora,
+                                                        ip2,
+                                                        id_obra_social,
+                                                        id_usuario,
+                                                        n2,
+                                                        practicas,
+                                                        Double.valueOf(txtcoseguro.getText()),
+                                                        txtfechacoseguro.getText(),
+                                                        tipo_orden,
+                                                        observacion,
+                                                        plan_ss,
+                                                        coseguro_ss,
+                                                        estado_orden,
+                                                        fechaDate);
+
+                                                if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                                    System.out.println("Anulacion Osde");
+                                                    cargarip();
+                                                    String mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+
+                                                    OsdeConexionWsdl AnulacionOsde = new OsdeConexionWsdl();
+
+                                                    System.out.println("Testing 3 - Send Http GET request");
+                                                    try {
+                                                        cursor2();
+                                                        AnulacionOsde.sendGet(mensajeanulacion);
+                                                        bandera_osde = 0;
+                                                        JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                                    } catch (Exception ex) {
+                                                        cursor2();
+                                                        bandera_osde = 0;
+                                                        JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
+                                                        JOptionPane.showMessageDialog(null, ex);
+
+                                                    }
+                                                } else {
+                                                    cursor2();
+                                                    bandera_osde = 1;
+                                                    JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden.substring(3, 9));
+                                                    System.out.println("borrar 1");
+                                                    borrartabla();
+                                                }
+
+                                            } else {
                                                 cursor2();
-                                                http.sendGet();
                                                 bandera_osde = 0;
-                                                JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                            } catch (Exception ex) {
-                                                cursor2();
-                                                bandera_osde = 0;
-                                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
-                                                JOptionPane.showMessageDialog(null, ex);
-
+                                                JOptionPane.showMessageDialog(null, respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay());
                                             }
                                         } else {
-                                            cursor2();
-                                            bandera_osde = 1;
-                                            JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden.substring(3, 9));
-                                            System.out.println("borrar 1");
-                                            borrartabla();
+                                            estado_orden = 0;
+                                            mensajenuevo = "";
+                                            num_orden = respuestaOsde.ReadXMLOsde02L().getNroReferencia();
+
+                                            validar_orden osde = new validar_orden();
+
+                                            respuesta = osde.valida(
+                                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                    txtnombreafiliado.getText(),
+                                                    txtdocumento.getText(),
+                                                    txtnumafiliado.getText(),
+                                                    Integer.valueOf(txtmatricula.getText()),
+                                                    num_orden,
+                                                    txtfecha.getText(),
+                                                    Double.valueOf(txttotal1.getText()),
+                                                    fecha,
+                                                    hora,
+                                                    ip2,
+                                                    id_obra_social,
+                                                    id_usuario,
+                                                    n2,
+                                                    practicas,
+                                                    Double.valueOf(txtcoseguro.getText()),
+                                                    txtfechacoseguro.getText(),
+                                                    tipo_orden,
+                                                    observacion,
+                                                    plan_ss,
+                                                    coseguro_ss,
+                                                    estado_orden,
+                                                    fechaDate);
+                                            System.out.println(respuestapractica);
+                                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+                                                bandera_osde = 0;
+                                            } else {
+                                                cursor2();
+                                                bandera_osde = 0;
+                                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de osde");
+                                                JOptionPane.showMessageDialog(null, "Error código: " + respuestaOsde.ReadXMLOsde02L().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaOsde.ReadXMLOsde02L().getRta().getMensajeDisplay());
+                                                System.out.println("borrar 2");
+                                                borrartabla();
+                                            }
                                         }
 
-                                    } else {
-
-                                        estado_orden = 0;
-                                        mensajenuevo = "";
-                                        int pos3 = respuestapractica.indexOf("<NroReferencia>");
-                                        int pos4 = respuestapractica.indexOf("</NroReferencia>");
-                                        num_orden = respuestapractica.substring(pos3 + 15, pos4);
-
-                                        observacion = respuestapractica;
-                                        if (observacion.length() > 500) {
-                                            observacion = observacion.substring(0, 500);
-                                        }
-
-                                        validar_orden osde = new validar_orden();
-
-                                        respuesta = osde.valida(
-                                                Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                                txtnombreafiliado.getText(),
-                                                txtdocumento.getText(),
-                                                txtnumafiliado.getText(),
-                                                Integer.valueOf(txtmatricula.getText()),
-                                                num_orden,
-                                                fecha,
-                                                Double.valueOf(txttotal1.getText()),
-                                                fecha,
-                                                hora,
-                                                ip2,
-                                                id_obra_social,
-                                                id_usuario,
-                                                n2,
-                                                practicas,
-                                                Double.valueOf(txtcoseguro.getText()),
-                                                txtfechacoseguro.getText(),
-                                                tipo_orden,
-                                                observacion,
-                                                plan_ss,
-                                                coseguro_ss,
-                                                estado_orden,
-                                                fechaDate);
-                                        System.out.println(respuestapractica);
-                                        if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
-                                            bandera_osde = 0;
-                                        } else {
-                                            cursor2();
-                                            bandera_osde = 0;
-                                            JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de osde");
-                                            JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 15, pos2));
-                                            System.out.println("borrar 2");
-                                            borrartabla();
-                                        }
+                                    } catch (Exception e) {
+                                        JOptionPane.showMessageDialog(null, "error al guarda la respuesta XML");
                                     }
 
                                 } catch (Exception ex) {
@@ -4395,9 +4453,9 @@ public class MainL extends javax.swing.JFrame {
                                         + "	</EncabezadoMensaje>\n"
                                         + "	<EncabezadoAtencion>\n"
                                         + "        <Credencial>\n"
-                                        + "            <NumeroCredencial>" + OspeAfiliado.Codigo_afiliado + "</NumeroCredencial>\n"
+                                        + "            <NumeroCredencial>" + AfiliadoOspe.Codigo_afiliado + "</NumeroCredencial>\n"
                                         + "            <ModoIngreso>M</ModoIngreso>\n"
-                                        + "            <CodigoSeguridad>" + OspeAfiliado.CSC_OS + "</CodigoSeguridad>\n"
+                                        + "            <CodigoSeguridad>" + AfiliadoOspe.CSC_OS + "</CodigoSeguridad>\n"
                                         + "        </Credencial>\n"
                                         + "        <Efector>\n"
                                         + "            <CuitEfector>" + cuit + "</CuitEfector>\n"
@@ -4529,21 +4587,10 @@ public class MainL extends javax.swing.JFrame {
                                                 } catch (Exception e) {
                                                     System.out.println("e" + e);
                                                 }
-
+                                                bandera_ospe = 0;
                                             } else {
                                                 cursor2();
                                                 bandera_ospe = 1;
-//                                                String detallePracticas = "";
-//                                                int j = 0;
-//                                                while (j < n2) {
-//                                                    camposboreal tipo;
-//                                                    tipo = new camposboreal(respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getCodPrestacion(),respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
-//                                                    Resultados.add(tipo);
-//                                                    COSEGURO= COSEGURO + Double.valueOf(respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
-//                                                    detallePracticas = detallePracticas + "\n" + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getCodPrestacion() + " - " + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getMensajeRta() + " - Coseguro: $" + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado();
-//                                                    j++;
-//                                                }
-                                                ///JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden + "\n" + " Mensaje WS: " + respuestaOspe2.ReadXMLOspe02A().getRespuesta() + " - " + respuestaOspe2.ReadXMLOspe02A().getMensaje() + detallePracticas);
 
                                                 ///////////////////imprimir coseguro///////////////////////////////////////////////////////////////////////////////////////
                                                 int opcion = JOptionPane.showConfirmDialog(null, "Nro. Transaccion: " + num_orden + "\n" + " Mensaje WS: " + respuestaOspe2.ReadXMLOspe02A().getRespuesta() + " - " + respuestaOspe2.ReadXMLOspe02A().getMensaje() + detallePracticas + "\nDesea Imprimir el comprobante?", "Ospe Impresión", JOptionPane.YES_NO_OPTION);
@@ -4942,7 +4989,8 @@ public class MainL extends javax.swing.JFrame {
                                         int pos6 = respuestapractica.indexOf("</AutCod>");
                                         num_orden = respuestapractica.substring(pos5 + 8, pos6);
                                         /////////////////////////////////////////////////////////////////////////////////
-                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>17172596</AutCodAnulacion></Autorizacion></Boreal>";
+                                        //mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
                                         System.out.println("Envio de mensaje boreal - Send Http GET request");
                                         System.out.println(mensajepractica);
                                         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -5793,7 +5841,7 @@ public class MainL extends javax.swing.JFrame {
                             String Mensaje = "MSH|^~\\&|TRIA0100M|TRIA00007526|MEDIFE|MEDIFE^222222^IIN|" + fechahora_medife + "||ZQA^Z02^ZQA_Z02|" + codigo_seguridad_medife + "|P|2.4|||NE|AL|ARG\r\n"
                                     + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
                                     + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
-                                    + "PID|||" + MedifeAfiliado.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN\r\n"
+                                    + "PID|||" + AfiliadoMedife.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN\r\n"
                                     + cadena_PR1
                                     + "PV1||O||P|||||||||||||||||||||||||||||||||||||||||||||||V";
 
@@ -5816,6 +5864,7 @@ public class MainL extends javax.swing.JFrame {
                                 String result = port.enviar(pszMsg, pszUser, pszPwd, pszMsgType);
                                 System.out.println("Respuesta = " + result);
                                 ///busco la respuesta
+                                String respuestaMedife = "";
                                 i = result.indexOf("ZAU");
                                 int pipe = 0;
                                 while (i < result.indexOf("PRD")) {
@@ -5846,7 +5895,7 @@ public class MainL extends javax.swing.JFrame {
                                 System.out.println(num_orden + " " + mensaje);
                                 System.out.println(codigo_respuesta);
                                 System.out.println("tipo_orden Medife2:" + tipo_orden);
-                                if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
+                                if (codigo_respuesta.equals("B000")) {
                                     estado_orden = 1;
                                     txtnumorden.setText(num_orden);
                                     /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
@@ -5884,7 +5933,7 @@ public class MainL extends javax.swing.JFrame {
                                                 + "ZAU||" + num_orden + "\r\n"
                                                 + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
                                                 + "PRD|EF^Efector||^^^T||||" + cuit + "^CU&M&C|\r\n"
-                                                + "PID|||" + MedifeAfiliado.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN";
+                                                + "PID|||" + AfiliadoMedife.Codigo_afiliado + "^^^MEDIFE^HC^MEDIFE||UNKNOWN";
                                         clave = "IA007526";
                                         usuario = "IA007526";
                                         tipo = "SI";
@@ -6128,7 +6177,7 @@ public class MainL extends javax.swing.JFrame {
                                             bandera_respuesta = 1;
                                         }
                                     } catch (Exception ex) {
-                                        Logger.getLogger(JerarquicosAfiliado.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(AfiliadoJerarquicos.class.getName()).log(Level.SEVERE, null, ex);
                                         bandera_respuesta = 1;
                                         bandera_jerarquicos = 0;
                                     }
@@ -6262,7 +6311,7 @@ public class MainL extends javax.swing.JFrame {
                                         }
                                     } catch (Exception ex) {
                                         bandera_jerarquicos = 0;
-                                        Logger.getLogger(JerarquicosAfiliado.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(AfiliadoJerarquicos.class.getName()).log(Level.SEVERE, null, ex);
                                     }
 
                                 } else {
@@ -6451,6 +6500,478 @@ public class MainL extends javax.swing.JFrame {
                             bandera_obra_social_comun = 1;
                         }
                     }
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                    if (obra.equals("2700 - UNT - Accion  Social de la  UNT")) {
+//                        JSONObject jsonConsulta = new JSONObject();
+//                        plan_ss = "";
+//                        coseguro_ss = "";
+//                        cursor();
+//                        short cantidad = 1;
+//                        if (tablapracticas.getRowCount() != 0) {
+//                            int n2, i = 0;
+//                            String cod_practca = "", practicas = "", id_practicas = "";
+//                            n2 = tablapracticas.getRowCount();
+//                            if (n2 != 0) {
+//                                while (i < n2) {
+//                                    plan_ss = plan_ss + "00";
+//                                    coseguro_ss = coseguro_ss + "00000.0";
+//                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+//                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+//                                    if (cod_practca.equals("")) {
+//                                        cod_practca = tablapracticas.getValueAt(i, 1).toString();
+//                                    } else {
+//                                        cod_practca = cod_practca + "," + tablapracticas.getValueAt(i, 1).toString();
+//                                    }
+//
+//                                    i++;
+//                                }
+//                            }
+//                            ///////////////////////////////////////////////////////////////////////
+//                            String efector = cuit;
+//                            String numAfiliado = txtnumafiliado.getText();
+//                            System.out.println("efector: " + efector);
+//                            System.out.println("numAfiliado: " + numAfiliado);
+//                            System.out.println("fechaDate: " + fechaDate);
+//                            System.out.println("cod_practca: " + cod_practca);
+//
+//                            jsonConsulta.put("servicio", 2);
+//                            jsonConsulta.put("fecha", fechaDate);
+//                            jsonConsulta.put("dni", numAfiliado);
+//                            jsonConsulta.put("tipo", "DNI");
+//                            jsonConsulta.put("cuit", efector);
+//                            jsonConsulta.put("practica", cod_practca);
+//                            jsonConsulta.put("observacion", "");
+//                            jsonConsulta.put("diagnostico", "");
+//                            jsonConsulta.put("convenio", "1003");
+//                            JSONObject json2;
+//                            try {
+//                                json2 = conexionWsdl(jsonConsulta);
+//                                System.out.println("json respuesta generar orden: " + json2.toString());
+//
+//                                if (json2.getBoolean("resultado") == true) {
+//                                    estado_orden = 1;
+//                                    num_orden = String.valueOf(json2.getString("nroautorizacion"));
+//                                    txtnumorden.setText(num_orden);
+//                                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+//                                    validar_orden asunt = new validar_orden();
+//                                    System.out.println(practicas);
+//                                    respuesta = asunt.valida(
+//                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+//                                            txtnombreafiliado.getText(),
+//                                            txtdocumento.getText(),
+//                                            txtnumafiliado.getText(),
+//                                            Integer.valueOf(txtmatricula.getText()),
+//                                            num_orden,
+//                                            fecha,
+//                                            Double.valueOf(txttotal1.getText()),
+//                                            fecha,
+//                                            hora,
+//                                            ip2,
+//                                            id_obra_social,
+//                                            id_usuario,
+//                                            n2,
+//                                            practicas,
+//                                            Double.valueOf(txtcoseguro.getText()),
+//                                            fecha,
+//                                            tipo_orden,
+//                                            observacion,
+//                                            plan_ss,
+//                                            coseguro_ss,
+//                                            estado_orden,
+//                                            fechaDate);
+//                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+//                                        System.out.println("Anulacion asunt");
+//
+//                                        jsonConsulta.put("servicio", 3);
+//                                        jsonConsulta.put("codigo", num_orden);
+//                                        JSONObject json3 = conexionWsdl(jsonConsulta);
+//                                        System.out.println("json respuesta anulacion orden: " + json3.toString());
+//
+//                                        if (json3.getBoolean("resultado") == true) {
+//                                            num_orden = String.valueOf(0);
+//                                            cursor2();
+//                                            bandera_asunt = 0;
+//                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
+//                                        } else {
+//                                            cursor2();
+//                                            bandera_asunt = 0;
+//                                            JOptionPane.showMessageDialog(null, json3.getString("mensaje"));
+//                                        }
+//                                    } else {
+//                                        cursor2();
+//                                        bandera_asunt = 1;
+//                                        JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
+//                                        borrartabla();
+//                                    }
+//                                } else {
+//                                    estado_orden = 0;
+//                                    observacion = json2.getString("mensaje");
+//                                    if (observacion.length() > 500) {
+//                                        observacion = observacion.substring(0, 500);
+//                                    }
+//                                    /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
+//                                    validar_orden asunt = new validar_orden();
+//                                    System.out.println(practicas);
+//                                    respuesta = asunt.valida(
+//                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+//                                            txtnombreafiliado.getText(),
+//                                            txtdocumento.getText(),
+//                                            txtnumafiliado.getText(),
+//                                            Integer.valueOf(txtmatricula.getText()),
+//                                            "0",
+//                                            fecha,
+//                                            Double.valueOf(txttotal1.getText()),
+//                                            fecha,
+//                                            hora,
+//                                            ip2,
+//                                            id_obra_social,
+//                                            id_usuario,
+//                                            n2,
+//                                            practicas,
+//                                            Double.valueOf(txtcoseguro.getText()),
+//                                            fecha,
+//                                            tipo_orden,
+//                                            observacion,
+//                                            plan_ss,
+//                                            coseguro_ss,
+//                                            estado_orden,
+//                                            fechaDate);
+//                                    if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+//                                        cursor2();
+//                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+//                                        bandera_asunt = 0;
+//
+//                                    } else {
+//                                        cursor2();
+//                                        bandera_asunt = 0;
+//                                        JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Asunt");
+//                                        JOptionPane.showMessageDialog(null, json2.getString("mensaje"));
+//                                        borrartabla();
+//                                    }
+//                                }
+//
+//                            } catch (IOException ex) {
+//                                bandera_asunt = 0;
+//                                Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+//                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Asunt " + ex);
+//                            } catch (ParserConfigurationException ex) {
+//                                bandera_asunt = 0;
+//                                Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+//                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Asunt " + ex);
+//                            } catch (SAXException ex) {
+//                                bandera_asunt = 0;
+//                                Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+//                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Asunt " + ex);
+//                            }
+//                        } else {
+//                            cursor2();
+//                            //  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+//                        }
+//                    }
+
+                    if (obra.equals("40816 - NOBIS SA")) {
+                        plan_ss = "";
+                        coseguro_ss = "";
+                        cursor();
+                        String DetalleProcedimientos = "";
+                        if (tablapracticas.getRowCount() != 0) {
+                            int n2, i = 0;
+                            String cod_practca, practicas = "", id_practicas = "";
+                            n2 = tablapracticas.getRowCount();
+                            if (n2 != 0) {
+                                while (i < n2) {
+                                    plan_ss = plan_ss + "00";
+                                    coseguro_ss = coseguro_ss + "00000.0";
+                                    id_practicas = id_practicas + String.valueOf(tablapracticas.getValueAt(i, 5).toString());
+                                    cod_practca = tablapracticas.getValueAt(i, 1).toString();
+                                    practicas = practicas + String.valueOf(tablapracticas.getValueAt(i, 1).toString()).substring(0, 6);
+                                    DetalleProcedimientos = DetalleProcedimientos + "<Item><TipoNomenclador>2</TipoNomenclador><CodPractica>" + cod_practca + "</CodPractica><Cantidad>1</Cantidad><MatEfector>" + matricula_colegiado + "</MatEfector><TipoEfector>156</TipoEfector></Item>";
+                                    i++;
+                                }
+                            }
+
+                            try {
+                                InsertarAutorizacionAmb mensaje = new InsertarAutorizacionAmb();
+
+                                String xml = "<Orden>\n"
+                                        + "<NroOrden></NroOrden>\n"
+                                        + "<NumeroAfiliado>" + AfiliadoNobis.Codigo_afiliado + "</NumeroAfiliado>\n"
+                                        + "<TipoDoc></TipoDoc>\n"
+                                        + "<NroDoc></NroDoc>\n"
+                                        + "<MatProv>" + txtmatricula.getText() + "</MatProv>\n"
+                                        + "<TipoSolic>157</TipoSolic>\n"
+                                        + "<CodAutoriz></CodAutoriz>\n"
+                                        + "<FechaPrescripcion>" + fechaComun + "</FechaPrescripcion>\n"
+                                        + "<CodEntidadEfectora>3881</CodEntidadEfectora>\n"
+                                        + "<CodigoCIE10></CodigoCIE10>\n"
+                                        + "<FechaRealizacion>" + fechaComun + "</FechaRealizacion>\n"
+                                        + "<Diagnostico></Diagnostico>\n"
+                                        + "<Items>\n"
+                                        + DetalleProcedimientos + "\n"
+                                        + "</Items>\n"
+                                        + "</Orden>";
+                                mensaje.setPUsuario("CBTUCUMAN");
+                                mensaje.setPClave("CBTucuman22");
+                                mensaje.setPXml(xml);
+                                System.out.println("Send:" + mensaje.getPUsuario() + " " + mensaje.getPClave() + " " + mensaje.getPXml());
+                                String resultado = null;
+                                try {
+                                    WSGecrosNet servicio = new WSGecrosNet();
+                                    WSGecrosNetSoap port = servicio.getWSGecrosNetSoap();
+                                    resultado = port.insertarAutorizacionAmb(mensaje.getPUsuario(), mensaje.getPClave(), mensaje.getPXml());
+                                    System.out.println("resultado:" + resultado);
+                                    System.out.println("-------------------------------------------------------------------------------------------------");
+                                    //Generate XML
+
+                                    try {
+
+//                                        FileWriter archivo2 = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
+//                                        archivo2.write(resultado);
+//                                        archivo2.close();
+                                        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:/Facturacion Laboratorios/respuesta.xml"), "utf-8"));
+                                        out.write(resultado);
+                                        out.close();
+
+                                        ReadXMLFile respuestaNobis = new ReadXMLFile();
+                                        //System.out.println("leo xml");
+
+                                        ///respuestaNobis.ReadXMLNobisInsertarAutorizacion();
+                                        //respuestaNobis.leerXml();
+                                        //System.out.println("sale");
+                                        if (respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getEstado().equals("A-Autorizado")) {
+                                            System.out.println("//////HABILITADO//////");
+                                            ////HABILITADO//////
+                                            DecimalFormat df = new DecimalFormat("0.00");
+                                            // LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
+                                            //Resultados.clear();
+                                            estado_orden = 1;
+                                            num_orden = respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getNum();
+
+//                                            ///cargar coseguro
+//                                            String detallePracticas = "";
+//                                            int j = 0;
+//                                            while (j < n2) {
+//                                                camposboreal tipo;
+//                                                tipo = new camposboreal(respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getCodPrestacion(), respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
+//                                                Resultados.add(tipo);
+//                                                COSEGURO = COSEGURO + Double.valueOf(respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
+//                                                detallePracticas = detallePracticas + "\n" + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getCodPrestacion() + " - " + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getMensajeRta() + " - Coseguro: $" + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado();
+//                                                j++;
+//                                            }
+                                            validar_orden nobis = new validar_orden();
+
+                                            respuesta = nobis.valida(
+                                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                    txtnombreafiliado.getText(),
+                                                    txtdocumento.getText(),
+                                                    txtnumafiliado.getText(),
+                                                    Integer.valueOf(txtmatricula.getText()),
+                                                    num_orden,
+                                                    fecha,
+                                                    Double.valueOf(txttotal1.getText()),
+                                                    fecha,
+                                                    hora,
+                                                    ip2,
+                                                    id_obra_social,
+                                                    id_usuario,
+                                                    n2,
+                                                    practicas,
+                                                    Double.valueOf(txtcoseguro.getText()),
+                                                    txtfechacoseguro.getText(),
+                                                    tipo_orden,
+                                                    observacion,
+                                                    plan_ss,
+                                                    coseguro_ss,
+                                                    estado_orden,
+                                                    fechaDate);
+                                            if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
+                                                JOptionPane.showMessageDialog(null, "La orden no fue validada");
+                                                System.out.println("Anulacion nobis");
+//                                              ////////////////////////////////////////////////////////////////////////////
+                                                try {
+
+                                                    AnularOrden mensaje2 = new AnularOrden();
+                                                    mensaje2.setPUsuario("CBTUCUMAN");
+                                                    mensaje2.setPClave("CBTucuman22");
+                                                    mensaje2.setPNroOrden(num_orden);
+                                                    System.out.println("Send:" + mensaje2.getPClave() + " " + mensaje2.getPUsuario() + " " + mensaje2.getPNroOrden());
+                                                    String resultado2 = null;
+                                                    try {
+                                                        WSGecrosNet servicio2 = new WSGecrosNet();
+                                                        WSGecrosNetSoap port2 = servicio2.getWSGecrosNetSoap();
+                                                        resultado2 = port2.anularOrden(mensaje2.getPUsuario(), mensaje2.getPClave(), mensaje2.getPNroOrden(), "");
+                                                        System.out.println("resultado2:" + resultado2);
+
+                                                        try {
+                                                            BufferedWriter archivo3 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:/Facturacion Laboratorios/respuesta.xml"), "utf-8"));
+                                                            archivo3.write(resultado2);
+                                                            archivo3.close();
+                                                            System.out.println("");
+                                                            ReadXMLFile respuestaAnulacionNobis = new ReadXMLFile();
+
+                                                            System.out.println("Anulacion Nobis");
+
+                                                            if (respuestaAnulacionNobis.ReadXMLNobisAnulacionOrden().getEstado().equals("OK")) {
+                                                                cursor2();
+                                                                JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Nobis.\n" + " Mensaje WS: " + respuestaAnulacionNobis.ReadXMLNobisAnulacionOrden().getMensaje());
+                                                            } else {
+                                                                cursor2();
+                                                                JOptionPane.showMessageDialog(null, "La orden no fue anulada del servidor de Nobis.\n" + " Mensaje WS: " + respuestaAnulacionNobis.ReadXMLNobisAnulacionOrden().getMensaje());
+                                                            }
+                                                        } catch (Exception er) {
+                                                            System.out.println("error al generar archivo " + er);
+                                                        }
+
+                                                    } catch (Exception e) {
+                                                        JOptionPane.showMessageDialog(null, "error al conectarse con servidor " + resultado2);
+                                                        System.out.println("error al conectarse con servidor " + resultado2);
+                                                    }
+
+                                                    resultado = null;
+
+                                                } catch (Exception e) {
+                                                    System.out.println("e" + e);
+                                                }
+                                                bandera_nobis = 0;
+                                            } else {
+                                                cursor2();
+                                                bandera_nobis = 1;
+                                                JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden + "\n" + " Mensaje WS: cod: " + respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getCod() + " - Num: " + respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getNum());
+//                                                ///////////////////imprimir coseguro///////////////////////////////////////////////////////////////////////////////////////
+//                                                int opcion = JOptionPane.showConfirmDialog(null, "Nro. Transaccion: " + num_orden + "\n" + " Mensaje WS: " + respuestaOspe2.ReadXMLOspe02A().getRespuesta() + " - " + respuestaOspe2.ReadXMLOspe02A().getMensaje() + detallePracticas + "\nDesea Imprimir el comprobante?", "Ospe Impresión", JOptionPane.YES_NO_OPTION);
+//                                                if (opcion == 0) {
+//                                                    try {
+//                                                        JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Comprobante_Ospe.jasper"));
+//                                                        ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
+//                                                        Map parametros = new HashMap();
+//                                                        parametros.put("numero_autorizacion", num_orden);
+//                                                        parametros.put("fecha", fecha2);
+//                                                        parametros.put("nombre", nom_afiliado);
+//                                                        parametros.put("numero", txtnumafiliado.getText());
+//                                                        parametros.put("total", df.format(COSEGURO));
+//                                                        parametros.put("bioquimico", Login.nombre_colegiado);
+//                                                        JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
+//                                                        JasperPrintManager.printReport(jPrint, false);
+//                                                    } catch (Exception e) {
+//                                                        cursor2();
+//                                                        JOptionPane.showMessageDialog(null, e);
+//                                                    }
+//                                                }
+                                                borrartabla();
+                                            }
+                                        } else {
+                                            //////ERROR//////
+                                            System.out.println("//////ERROR//////");
+                                            observacion = respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getMensaje() + " " + respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getEstado();
+                                            if (respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getEstado().equals("P-Pendiente")) {
+                                                num_orden = respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getNum();
+                                                System.out.println("Anulacion nobis");
+//                                              ////////////////////////////////////////////////////////////////////////////
+                                                try {
+
+                                                    AnularOrden mensaje2 = new AnularOrden();
+                                                    mensaje2.setPUsuario("CBTUCUMAN");
+                                                    mensaje2.setPClave("CBTucuman22");
+                                                    mensaje2.setPNroOrden(num_orden);
+                                                    System.out.println("Send:" + mensaje2.getPClave() + " " + mensaje2.getPUsuario() + " " + mensaje2.getPNroOrden());
+                                                    String resultado2 = null;
+                                                    try {
+                                                        WSGecrosNet servicio2 = new WSGecrosNet();
+                                                        WSGecrosNetSoap port2 = servicio2.getWSGecrosNetSoap();
+                                                        resultado2 = port2.anularOrden(mensaje2.getPUsuario(), mensaje2.getPClave(), mensaje2.getPNroOrden(), "");
+                                                        System.out.println("resultado2:" + resultado2);
+
+                                                        try {
+                                                            BufferedWriter archivo3 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:/Facturacion Laboratorios/respuesta.xml"), "utf-8"));
+                                                            archivo3.write(resultado2);
+                                                            archivo3.close();
+                                                            System.out.println("");
+                                                            ReadXMLFile respuestaAnulacionNobis = new ReadXMLFile();
+
+                                                            System.out.println("Anulacion Nobis");
+
+                                                            if (respuestaAnulacionNobis.ReadXMLNobisAnulacionOrden().getEstado().equals("OK")) {
+                                                                cursor2();
+                                                                JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Nobis.\n" + " Mensaje WS: " + respuestaAnulacionNobis.ReadXMLNobisAnulacionOrden().getMensaje());
+                                                            } else {
+                                                                cursor2();
+                                                                JOptionPane.showMessageDialog(null, "La orden no fue anulada del servidor de Nobis.\n" + " Mensaje WS: " + respuestaAnulacionNobis.ReadXMLNobisAnulacionOrden().getMensaje());
+                                                            }
+                                                        } catch (Exception er) {
+                                                            System.out.println("error al generar archivo " + er);
+                                                        }
+
+                                                    } catch (Exception e) {
+                                                        JOptionPane.showMessageDialog(null, "error al conectarse con servidor " + resultado2);
+                                                        System.out.println("error al conectarse con servidor " + resultado2);
+                                                    }
+
+                                                    resultado = null;
+
+                                                } catch (Exception e) {
+                                                    System.out.println("e" + e);
+                                                }
+
+                                            } else {
+                                                num_orden = "0";
+                                            }
+                                            estado_orden = 0;
+                                            validar_orden nobis = new validar_orden();
+
+                                            respuesta = nobis.valida(
+                                                    Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                                    txtnombreafiliado.getText(),
+                                                    txtdocumento.getText(),
+                                                    txtnumafiliado.getText(),
+                                                    Integer.valueOf(txtmatricula.getText()),
+                                                    num_orden,
+                                                    fecha,
+                                                    Double.valueOf(txttotal1.getText()),
+                                                    fecha,
+                                                    hora,
+                                                    ip2,
+                                                    id_obra_social,
+                                                    id_usuario,
+                                                    n2,
+                                                    practicas,
+                                                    Double.valueOf(txtcoseguro.getText()),
+                                                    txtfechacoseguro.getText(),
+                                                    tipo_orden,
+                                                    observacion,
+                                                    plan_ss,
+                                                    coseguro_ss,
+                                                    estado_orden,
+                                                    fechaDate);
+                                            if (respuesta == 0) {//en el caso de q no se grabe en nuestro servidor se anula del wsdl
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada");
+                                                bandera_nobis = 0;
+
+                                            } else {
+                                                cursor2();
+                                                bandera_nobis = 0;
+                                                JOptionPane.showMessageDialog(null, "La orden no fue autorizada por el servidor de Nobis: N° de ref: " + num_orden + "\n" + " Mensaje WS: " + observacion + "\n");
+                                                borrartabla();
+                                            }
+
+                                        }
+
+                                    } catch (Exception er) {
+                                        System.out.println("error al generar archivo " + er);
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("error al conectarse con servidor " + resultado);
+                                }
+                            } catch (Exception e) {
+                                System.out.println("e" + e);
+                            }
+
+                        } else {
+                            cursor2();
+                            ///  JOptionPane.showMessageDialog(null, "No hay practicas en la tabla...");
+                        }
+                    }
+
                 } else {
 
                     cursor();
@@ -6589,7 +7110,9 @@ public class MainL extends javax.swing.JFrame {
                                 && bandera_osde == 1 && bandera_sancor == 1 && bandera_boreal == 1
                                 && bandera_sw == 1 && bandera_subsidio == 1
                                 && bandera_jerarquicos == 1 && bandera_obra_social_comun == 1
-                                && bandera_iosfa == 1 && bandera_medife == 1 && banderaEstadoOffline == 1) {
+                                && bandera_iosfa == 1 && bandera_medife == 1
+                                && banderaEstadoOffline == 1 && bandera_asunt == 1
+                                && bandera_ospe == 1 && bandera_nobis == 1) {
                             if (!txtnombreafiliado.getText().equals("") && !txtdocumento.getText().equals("") && !txtnumafiliado.getText().equals("")) {
                                 if (tablapracticas.getRowCount() != 0) {
                                     double total = 0.0, totalordenes = 0.0;
@@ -6941,10 +7464,12 @@ public class MainL extends javax.swing.JFrame {
         /////////////////////////////////////
         //SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat formatoComun = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date currentDate = new java.util.Date();
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(currentDate);
         fechaMySql = formato.format(currentDate);
+        fechaComun = formatoComun.format(currentDate);
     }
 
     public class apiSwLogin {
@@ -7051,7 +7576,7 @@ public class MainL extends javax.swing.JFrame {
 
                 //Creamos y llenamos nuestro objeto BaseReq con los datos que solicita el API
                 Registracion practicas = new Registracion();
-                practicas.setCreden(SwissAfiliado.Codigo_afiliado + "|" + CSC_SW);
+                practicas.setCreden(AfiliadoSwiss.Codigo_afiliado + "|" + CSC_SW);
                 practicas.setAlta(fechaMySql);
                 practicas.setFecdif(fechaMySql);
                 practicas.setManual("0");
@@ -7159,6 +7684,7 @@ public class MainL extends javax.swing.JFrame {
                 //print result
                 System.out.println(response.toString());
                 respuestapractica = response.toString();
+                con.disconnect();
             } catch (IOException e) {
                 System.out.println("Error " + e);
                 respuestapractica = e.getMessage();
@@ -7226,28 +7752,31 @@ public class MainL extends javax.swing.JFrame {
         private final String USER_AGENT = "Mozilla/5.0";
 
         // HTTP GET request
-        public void sendGet() throws Exception {
+        public String getOsdeAnulacion(String mensaje) throws Exception {
             BufferedReader in = null;
             String urlString = null;
             String inputLine = null;
             try {
-                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensajeanulacion, "UTF-8");
+                System.out.println("Ingresa al Try Anulacion OSDE");
+                urlString = "http://ws.itcsoluciones.com:48080/jSitelServlet/Do?" + "pas=" + URLEncoder.encode("bda221f8-a7e3-11e4-b085-000c29a675b5", "UTF-8") + "&msj=" + URLEncoder.encode(mensaje, "UTF-8");
 
+                System.out.println("Ingresa al Try Anulacion OSDE");
                 URL obj = new URL(urlString);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                HttpURLConnection conAnulacion = (HttpURLConnection) obj.openConnection();
 
                 // optional default is GET
-                con.setRequestMethod("GET");
+                conAnulacion.setRequestMethod("GET");
 
+                System.out.println("Manda el GET desde conAnulacion");
                 //add request header
-                con.setRequestProperty("User-Agent", USER_AGENT);
+                conAnulacion.setRequestProperty("User-Agent", USER_AGENT);
 
-                int responseCode = con.getResponseCode();
+                int responseCode = conAnulacion.getResponseCode();
                 System.out.println("\nSending 'GET' request to URL : " + urlString);
                 System.out.println("Response Code : " + responseCode);
 
                 in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
+                        new InputStreamReader(conAnulacion.getInputStream()));
 //                String inputLine;
                 StringBuffer response = new StringBuffer();
 
@@ -7255,10 +7784,11 @@ public class MainL extends javax.swing.JFrame {
                     response.append(inputLine);
                 }
                 System.out.println(response.toString());
-                respuestaanulacion = response.toString();
+                conAnulacion.disconnect();
+                return response.toString();
             } catch (IOException e) {
                 System.out.println("Error " + e);
-                respuestaanulacion = e.getMessage();
+                return e.getMessage();
             } finally {
                 try {
                     in.close();
@@ -8167,6 +8697,11 @@ public class MainL extends javax.swing.JFrame {
                 txtnumafiliado.setText(rs.getString("numero_afiliado"));
                 txtnombreafiliado.setText(rs.getString("nombre_afiliado"));
                 txtobrasocial.setText((rs.getString("codigo_obrasocial") + " - " + rs.getString("razonsocial_obrasocial")));
+                if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("INSSJYP - PAMI  -AUGL 1 (AMB)")) {
+                    cbotipo.setVisible(true);
+                } else {
+                    cbotipo.setVisible(false);
+                }
                 model.addRow(Registros);
 
             }
@@ -9822,85 +10357,85 @@ public class MainL extends javax.swing.JFrame {
         tablapracticas.setModel(temp);
         if (!txtobrasocial.getText().equals("")) {
             if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
-                new OsdeAfiliado(this, true).setVisible(true);
+                new AfiliadoOsde(this, true).setVisible(true);
                 if (habilitado.equals("OK")) {
                     limpiar_variables();
                     txtdocumento.setText("11111111");
                     txtdocumento.setEditable(false);
-                    txtnombreafiliado.setText(OsdeAfiliado.nombreafiliado);
-                    txtnumafiliado.setText(OsdeAfiliado.Codigo_afiliado);
+                    txtnombreafiliado.setText(AfiliadoOsde.nombreafiliado);
+                    txtnumafiliado.setText(AfiliadoOsde.Codigo_afiliado);
                     txtmatricula.setText("");
                     txtmatricula.requestFocus();
                     habilitarpanel1();
                 }
             } else {
                 if (obra.equals("50015 - BOREAL")) {
-                    new BorealAfiliado(this, true).setVisible(true);
-                    if (BorealAfiliado.habilitado.equals("OK")) {
+                    new AfiliadoBoreal(this, true).setVisible(true);
+                    if (AfiliadoBoreal.habilitado.equals("OK")) {
                         limpiar_variables();
                         txtdocumento.setText("11111111");
                         txtdocumento.setEditable(false);
-                        txtnombreafiliado.setText(BorealAfiliado.nombreafiliado);
-                        txtnumafiliado.setText(BorealAfiliado.Codigo_afiliado);
+                        txtnombreafiliado.setText(AfiliadoBoreal.nombreafiliado);
+                        txtnumafiliado.setText(AfiliadoBoreal.Codigo_afiliado);
                         txtmatricula.setText("");
                         txtmatricula.requestFocus();
                         habilitarpanel1();
                     }
                 } else {
                     if (obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")) {
-                        new SwissAfiliado(this, true).setVisible(true);
+                        new AfiliadoSwiss(this, true).setVisible(true);
                         if (habilitado.equals("OK")) {
                             limpiar_variables();
                             txtdocumento.setText("11111111");
                             txtdocumento.setEditable(false);
-                            txtnombreafiliado.setText(SwissAfiliado.nombreafiliado);
-                            txtnumafiliado.setText(SwissAfiliado.Codigo_afiliado);
+                            txtnombreafiliado.setText(AfiliadoSwiss.nombreafiliado);
+                            txtnumafiliado.setText(AfiliadoSwiss.Codigo_afiliado);
                             txtmatricula.setText("");
                             txtmatricula.requestFocus();
                             habilitarpanel1();
                         }
                     } else {
                         if (obra.equals("9000 - ASOCIACION MUTUAL SANCOR")) {
-                            new SancorAfiliado(this, true).setVisible(true);
-                            if (SancorAfiliado.habilitado.equals("OK")) {
+                            new AfiliadoSancor(this, true).setVisible(true);
+                            if (AfiliadoSancor.habilitado.equals("OK")) {
                                 limpiar_variables();
-                                txtdocumento.setText(SancorAfiliado.dni);
+                                txtdocumento.setText(AfiliadoSancor.dni);
                                 txtdocumento.setEditable(false);
-                                txtnombreafiliado.setText(SancorAfiliado.nombreafiliado);
-                                txtnumafiliado.setText(SancorAfiliado.Codigo_afiliado);
+                                txtnombreafiliado.setText(AfiliadoSancor.nombreafiliado);
+                                txtnumafiliado.setText(AfiliadoSancor.Codigo_afiliado);
                                 txtmatricula.setText("");
                                 txtmatricula.requestFocus();
                                 habilitarpanel1();
                             }
                         } else {
                             if (obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")) {
-                                new SubsidioAfiliado(this, true).setVisible(true);
-                                if (SubsidioAfiliado.habilitado.equals("OK")) {
+                                new AfiliadoSubsidio(this, true).setVisible(true);
+                                if (AfiliadoSubsidio.habilitado.equals("OK")) {
                                     limpiar_variables();
-                                    txtdocumento.setText(SubsidioAfiliado.dni);
+                                    txtdocumento.setText(AfiliadoSubsidio.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(SubsidioAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(SubsidioAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoSubsidio.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoSubsidio.Codigo_afiliado);
                                     txtmatricula.setText("");
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
                                 }
                             } else {
                                 if (obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
-                                    new SubsidioAfiliado(this, true).setVisible(true);
-                                    if (SubsidioAfiliado.habilitado.equals("OK")) {
+                                    new AfiliadoSubsidio(this, true).setVisible(true);
+                                    if (AfiliadoSubsidio.habilitado.equals("OK")) {
                                         limpiar_variables();
-                                        txtdocumento.setText(SubsidioAfiliado.dni);
+                                        txtdocumento.setText(AfiliadoSubsidio.dni);
                                         txtdocumento.setEditable(false);
-                                        txtnombreafiliado.setText(SubsidioAfiliado.nombreafiliado);
-                                        txtnumafiliado.setText(SubsidioAfiliado.Codigo_afiliado);
+                                        txtnombreafiliado.setText(AfiliadoSubsidio.nombreafiliado);
+                                        txtnumafiliado.setText(AfiliadoSubsidio.Codigo_afiliado);
                                         txtmatricula.setText("");
                                         txtmatricula.requestFocus();
                                         habilitarpanel1();
                                     }
                                 } else {
                                     if (obra.equals("3102 - OSDE - OFFLINE")) {
-                                        new osdeOffline(this, true).setVisible(true);
+                                        new AfiliadoOsdeOffline(this, true).setVisible(true);
                                         txtpractica.setText("");
                                         txtdocumento.setText("");
                                         txtdocumento.setEditable(false);
@@ -9912,13 +10447,13 @@ public class MainL extends javax.swing.JFrame {
                                     } else {
                                         if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
                                             limpiar_variables();
-                                            new MedifeAfiliado(this, true).setVisible(true);
-                                            if (MedifeAfiliado.habilitado.equals("OK")) {
-                                                txtdocumento.setText(MedifeAfiliado.dni);
+                                            new AfiliadoMedife(this, true).setVisible(true);
+                                            if (AfiliadoMedife.habilitado.equals("OK")) {
+                                                txtdocumento.setText(AfiliadoMedife.dni);
                                                 txtdocumento.setEditable(false);
-                                                txtnombreafiliado.setText(MedifeAfiliado.nombreafiliado);
-                                                txtnumafiliado.setText(MedifeAfiliado.Codigo_afiliado);
-                                                if (MedifeAfiliado.plan.equals("GRAV^VOLUNTARIO")) {//GRAV^VOLUNTARIO
+                                                txtnombreafiliado.setText(AfiliadoMedife.nombreafiliado);
+                                                txtnumafiliado.setText(AfiliadoMedife.Codigo_afiliado);
+                                                if (AfiliadoMedife.plan.equals("GRAV^VOLUNTARIO")) {//GRAV^VOLUNTARIO
                                                     tipo_orden = 0;
                                                 } else {
                                                     tipo_orden = 1;
@@ -9931,31 +10466,31 @@ public class MainL extends javax.swing.JFrame {
                                         } else {
                                             if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                                                 try {
-                                                    new JerarquicosAfiliado(this, true).setVisible(true);
+                                                    new AfiliadoJerarquicos(this, true).setVisible(true);
                                                 } catch (DatatypeConfigurationException ex) {
                                                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
-                                                if (JerarquicosAfiliado.habilitado.equals("OK")) {
+                                                if (AfiliadoJerarquicos.habilitado.equals("OK")) {
                                                     limpiar_variables();
-                                                    txtdocumento.setText(JerarquicosAfiliado.dni);
+                                                    txtdocumento.setText(AfiliadoJerarquicos.dni);
                                                     txtdocumento.setEditable(false);
-                                                    txtnombreafiliado.setText(JerarquicosAfiliado.nombreafiliado);
-                                                    txtnumafiliado.setText(JerarquicosAfiliado.Codigo_afiliado);
+                                                    txtnombreafiliado.setText(AfiliadoJerarquicos.nombreafiliado);
+                                                    txtnumafiliado.setText(AfiliadoJerarquicos.Codigo_afiliado);
                                                     txtmatricula.setText("");
                                                     txtmatricula.requestFocus();
                                                     habilitarpanel1();
                                                 }
                                             } else {
                                                 if (obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
-                                                    new OspeAfiliado(this, true).setVisible(true);
-                                                    if (OspeAfiliado.habilitado.equals("OK")) {
+                                                    new AfiliadoOspe(this, true).setVisible(true);
+                                                    if (AfiliadoOspe.habilitado.equals("OK")) {
                                                         limpiar_variables();
-                                                        txtdocumento.setText(OspeAfiliado.dni);
+                                                        txtdocumento.setText(AfiliadoOspe.dni);
                                                         txtdocumento.setEditable(false);
                                                         txtfecha.setEditable(false);
                                                         txtnumorden.setEditable(false);
-                                                        txtnombreafiliado.setText(OspeAfiliado.nombreafiliado);
-                                                        txtnumafiliado.setText(OspeAfiliado.Codigo_afiliado);
+                                                        txtnombreafiliado.setText(AfiliadoOspe.nombreafiliado);
+                                                        txtnumafiliado.setText(AfiliadoOspe.Codigo_afiliado);
                                                         txtmatricula.requestFocus();
                                                         habilitarpanel1();
                                                     } else {
@@ -9964,29 +10499,48 @@ public class MainL extends javax.swing.JFrame {
                                                         txtnumafiliado.setEditable(false);
                                                     }
                                                 } else {
-                                                    borrartabla();
-                                                    txtdocumento.setText("");
-                                                    txtnombreafiliado.setText("");
-                                                    txtnumafiliado.setText("");
-                                                    txtmatricula.setText("");
-                                                    txtfecha.setText("");
-                                                    txtnumorden.setText("");
-                                                    banderamodifica = 0;
-                                                    txtdocumento.setEnabled(true);
-                                                    txttotal1.setText("");
-                                                    txtnombreafiliado.setEnabled(false);
-                                                    txtcoseguro.setText("0.00");
-                                                    txtcoseguro.setEnabled(false);
-                                                    jLabel24.setEnabled(false);
-                                                    txtfechacoseguro.setText("");
-                                                    txtfechacoseguro.setEnabled(false);
-                                                    chkcoseguro.setSelected(false);
-                                                    jLabel25.setEnabled(false);
-                                                    if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE") && !obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
-                                                        tipo_orden = 1;
+                                                    if (obra.equals("40816 - NOBIS SA")) {
+                                                        new AfiliadoNobis(this, true).setVisible(true);
+                                                        if (AfiliadoNobis.habilitado.equals("OK")) {
+                                                            limpiar_variables();
+                                                            txtdocumento.setText(AfiliadoNobis.dni);
+                                                            txtdocumento.setEditable(false);
+                                                            txtfecha.setEditable(false);
+                                                            txtnumorden.setEditable(false);
+                                                            txtnombreafiliado.setText(AfiliadoNobis.nombreafiliado);
+                                                            txtnumafiliado.setText(AfiliadoNobis.Codigo_afiliado);
+                                                            txtmatricula.requestFocus();
+                                                            habilitarpanel1();
+                                                        } else {
+                                                            txtdocumento.setEditable(false);
+                                                            txtnombreafiliado.setEditable(false);
+                                                            txtnumafiliado.setEditable(false);
+                                                        }
+                                                    } else {
+                                                        borrartabla();
+                                                        txtdocumento.setText("");
+                                                        txtnombreafiliado.setText("");
+                                                        txtnumafiliado.setText("");
+                                                        txtmatricula.setText("");
+                                                        txtfecha.setText("");
+                                                        txtnumorden.setText("");
+                                                        banderamodifica = 0;
+                                                        txtdocumento.setEnabled(true);
+                                                        txttotal1.setText("");
+                                                        txtnombreafiliado.setEnabled(false);
+                                                        txtcoseguro.setText("0.00");
+                                                        txtcoseguro.setEnabled(false);
+                                                        jLabel24.setEnabled(false);
+                                                        txtfechacoseguro.setText("");
+                                                        txtfechacoseguro.setEnabled(false);
+                                                        chkcoseguro.setSelected(false);
+                                                        jLabel25.setEnabled(false);
+                                                        if (!obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE") && !obra.equals("3100 - OSDE") && !obra.equals("9000 - ASOCIACION MUTUAL SANCOR") && !obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") && !obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") && !obra.equals("3102 - OSDE - OFFLINE") && !obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
+                                                            tipo_orden = 1;
+                                                        }
+                                                        txtdocumento.requestFocus();
+                                                        cargarperiodo();
                                                     }
-                                                    txtdocumento.requestFocus();
-                                                    cargarperiodo();
                                                 }
                                             }
                                         }
@@ -10286,8 +10840,9 @@ public class MainL extends javax.swing.JFrame {
     private void AnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnularActionPerformed
         int i = 0;
         String observacion_anulacion = "";
-        mensajeanulacion = "";
-        respuestaanulacion = "";
+
+        String mensajeanulacion = "";
+        String respuestaanulacion = "";
         try {
             ConexionMariaDB mysql = new ConexionMariaDB();
             Connection cn = mysql.Conectar();
@@ -10320,30 +10875,49 @@ public class MainL extends javax.swing.JFrame {
                         if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE") || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSDE  ( RESPONSABLES INSCRIPTOS)")) {
                             System.out.println("Anulacion Osde");
                             System.out.println("codigo Afiliado osde: " + cod_afiliado);
-                            System.out.println("fecha Afiliado osde : " + fecha);
-                            System.out.println("fecha numero de orden osde : " + num_orden);
+                            System.out.println("fecha osde : " + fecha);
+                            System.out.println("numero de orden osde : " + num_orden);
 
+//                            //mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>236029525</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>62684577601</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
+//                            String CodRtaGeneral = "";
+//                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
+//                            System.out.println("Testing 3 - Send Http GET request");
+                            cargarip();
                             mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>" + num_orden + "</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + cod_afiliado + "</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
-                            //mensajeanulacion = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><NroReferenciaCancel>236029525</NroReferenciaCancel><TipoTransaccion>04A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>62684577601</NumeroCredencial></Credencial><Atencion><FechaAtencion>" + fecha + "</FechaAtencion></Atencion></EncabezadoAtencion></Mensaje>";
 
-                            HttpOsdeAnulacion http = new HttpOsdeAnulacion();
-                            System.out.println("Testing 3 - Send Http GET request");
+                            OsdeConexionWsdl AnulacionOsde = new OsdeConexionWsdl();
+
+                            System.out.println("Testing 3 - Send Http GET request Anulacion");
                             try {
-                                http.sendGet();
+
+                                AnulacionOsde.sendGet(mensajeanulacion);
+
+                                try {
+                                    ReadXMLFile respuestaAnulacionOsde = new ReadXMLFile();
+                                    if (respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral().equals("000")) {
+                                        cursor2();
+                                        observacion_anulacion = "código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
+                                        JOptionPane.showMessageDialog(null, observacion_anulacion);                                        
+                                    } else {
+                                        System.out.println("2 anulacion");                                        
+                                        cursor2();
+                                        observacion_anulacion = "código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
+                                        JOptionPane.showMessageDialog(null, observacion_anulacion);
+                                        bandera_anulacion = 1;
+                                    }
+                                } catch (Exception e) {
+                                    JOptionPane.showMessageDialog(null, e);
+                                }
+
                             } catch (Exception ex) {
                                 cursor2();
+                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden del servidor de OSDE");
                                 JOptionPane.showMessageDialog(null, ex);
-                                bandera_anulacion = 1;
-                                observacion_anulacion = ex.toString();
+
                             }
-                            System.out.println("2 anulacion");
-                            int pos = respuestaanulacion.indexOf("<NroReferencia>");
-                            int pos2 = respuestaanulacion.indexOf("</NroReferencia>");
-                            cursor2();
-                            JOptionPane.showMessageDialog(null, "Numero de Anulación:" + respuestaanulacion.substring(pos + 18, pos2));
-                            System.out.println("2--");
 
                         }
+
                         /////SWISS MEDICAL GROUP S.A.
                         if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("SWISS MEDICAL GROUP S.A. - ONLINE")) {
                             System.out.println("Anulacion sw");
@@ -10679,6 +11253,78 @@ public class MainL extends javax.swing.JFrame {
                             }
 
                         }
+
+                        /////UNT - Accion  Social de la  UNT
+//                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("UNT - Accion  Social de la  UNT")) {
+//                            System.out.println("Anulacion asunt");                            
+//                            try {
+//                                JSONObject jsonConsulta = new JSONObject();
+//                                jsonConsulta.put("servicio", 3);
+//                                jsonConsulta.put("codigo", num_orden);
+//                                JSONObject json3 = conexionWsdl(jsonConsulta);
+//                                System.out.println("json respuesta anulacion orden: " + json3.toString());
+//                                if (json3.getBoolean("resultado") == true) {
+//                                    cursor2();
+//                                    JOptionPane.showMessageDialog(null, "Anulación correcta del servidor de Asunt");
+//                                } else {
+//                                    cursor2();
+//                                    JOptionPane.showMessageDialog(null, "Error al intentar loguearse con Asunt");
+//                                    JOptionPane.showMessageDialog(null, json3.getString("mensaje"));
+//                                }
+//                            } catch (Exception ex) {
+//                                cursor2();
+//                                JOptionPane.showMessageDialog(null, ex);
+//                                bandera_anulacion = 1;
+//                                observacion_anulacion = ex.toString();
+//                            }
+//
+//                        }
+                        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("NOBIS SA")) {
+
+                            try {
+
+                                AnularOrden mensaje2 = new AnularOrden();
+                                mensaje2.setPUsuario("CBTUCUMAN");
+                                mensaje2.setPClave("CBTucuman22");
+                                mensaje2.setPNroOrden(num_orden);
+                                System.out.println("Send:" + mensaje2.getPClave() + " " + mensaje2.getPUsuario() + " " + mensaje2.getPNroOrden());
+                                String resultado2 = null;
+                                try {
+                                    WSGecrosNet servicio2 = new WSGecrosNet();
+                                    WSGecrosNetSoap port2 = servicio2.getWSGecrosNetSoap();
+                                    resultado2 = port2.anularOrden(mensaje2.getPUsuario(), mensaje2.getPClave(), mensaje2.getPNroOrden(), "");
+                                    System.out.println("resultado:" + resultado2);
+                                    try {
+                                        FileWriter archivo3 = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
+                                        archivo3.write(resultado2);
+                                        archivo3.close();
+                                        System.out.println("");
+                                        ReadXMLFile respuestaNobis = new ReadXMLFile();
+
+                                        System.out.println("Anulacion Nobis");
+
+                                        if (respuestaNobis.ReadXMLNobisAnulacionOrden().getEstado().equals("OK")) {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "La orden fue anulada del servidor de Nobis.\n" + " Mensaje WS: " + respuestaNobis.ReadXMLNobisAnulacionOrden().getMensaje());
+                                        } else {
+                                            cursor2();
+                                            JOptionPane.showMessageDialog(null, "La orden no fue anulada del servidor de Nobis.\n" + " Mensaje WS: " + respuestaNobis.ReadXMLNobisAnulacionOrden().getMensaje());
+                                            bandera_anulacion = 1;
+                                            observacion_anulacion = respuestaNobis.ReadXMLNobisAnulacionOrden().getEstado() + "  " + respuestaNobis.ReadXMLNobisAnulacionOrden().getMensaje();
+                                        }
+                                    } catch (Exception er) {
+                                        System.out.println("error al generar archivo " + er);
+                                    }
+                                } catch (Exception e) {
+                                    JOptionPane.showMessageDialog(null, "error al conectarse con servidor " + resultado2);
+                                    System.out.println("error al conectarse con servidor " + resultado2);
+                                }
+
+                            } catch (Exception e) {
+                                System.out.println("e" + e);
+                            }
+                        }
+
                         cursor();
                         cargatotales();
                         tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
@@ -10690,10 +11336,10 @@ public class MainL extends javax.swing.JFrame {
 
                         if (bandera_anulacion == 0) {
 
-                            sSQL2 = "UPDATE ordenes SET estado_orden=? WHERE id_orden=" + id_orden;
+                            sSQL2 = "UPDATE ordenes SET estado_orden=?,observacion=? WHERE id_orden=" + id_orden;
                             PreparedStatement pst = cn.prepareStatement(sSQL2);
                             pst.setInt(1, 0);
-
+                            pst.setString(2, observacion_anulacion);
                             int n = pst.executeUpdate();
                             System.out.println("1");
 
@@ -10702,14 +11348,16 @@ public class MainL extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(null, "La orden fué anulada en nuestro servidor...");
                             }
                         } else {
-                            cursor2();
-                            JOptionPane.showMessageDialog(null, "La orden no pudo ser anulada");
                             cursor();
+
+                            JOptionPane.showMessageDialog(null, "La orden no pudo ser anulada");
+
                             sSQL2 = "UPDATE ordenes SET observacion=? WHERE id_orden=" + id_orden;
                             PreparedStatement pst = cn.prepareStatement(sSQL2);
                             pst.setString(1, observacion_anulacion);
                             System.out.println("Anulacion");
                             int n = pst.executeUpdate();
+                            cursor2();
                         }
                     } catch (Exception e) {
                         cursor2();
@@ -10795,21 +11443,24 @@ public class MainL extends javax.swing.JFrame {
                 System.out.println(obra);
                 if (obra.equals("50015 - BOREAL")
                         || obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")
-                        || obra.equals("3100 - OSDE")
+                        || (obra.equals("3100 - OSDE")) //&& (tipo_orden == 1 || tipo_orden == 4))
                         || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")
                         || obra.equals("9000 - ASOCIACION MUTUAL SANCOR")
                         || obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")
                         || obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")
                         || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")
                         || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
-                        || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
+                        || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")
+                        //|| obra.equals("2700 - UNT - Accion  Social de la  UNT")                        
+                        || obra.equals("40816 - NOBIS SA")) {
                     System.out.println("online");
                     txtnumorden.setEditable(false);
                     txtfechacoseguro.setEditable(false);
                     txtpractica.setEnabled(true);
                     txtpractica.setEditable(true);
-                    txtpractica.requestFocus();
                     jLabel12.setEnabled(true);
+                    txtpractica.requestFocus();
+
                 } else if (id_obra_social == 58) {
                     txtnumorden.setEnabled(true);
                     txtnumorden.setEditable(true);
@@ -10823,9 +11474,16 @@ public class MainL extends javax.swing.JFrame {
                     txtmatricula.transferFocus();
 
                 } else {
+
                     txtnumorden.setEnabled(true);
                     txtnumorden.setEditable(true);
                     txtmatricula.transferFocus();
+                }
+                if ((obra.equals("3100 - OSDE") && tipo_orden == 3)) {
+                    txtfecha.setEnabled(true);
+                    txtnumorden.transferFocus();
+                    txtfecha.select(0, 0);
+                    System.out.println("(obra.equals(3100 - OSDE) && tipo_orden == 4)");
                 }
             }
         }
@@ -10850,12 +11508,12 @@ public class MainL extends javax.swing.JFrame {
             if (evt.getKeyCode() == KeyEvent.VK_MULTIPLY) {
                 if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
                     limpiar_variables();
-                    new OsdeAfiliado(this, true).setVisible(true);
+                    new AfiliadoOsde(this, true).setVisible(true);
                     if (habilitado.equals("OK")) {
                         txtdocumento.setText("11111111");
                         txtdocumento.setEditable(false);
-                        txtnombreafiliado.setText(OsdeAfiliado.nombreafiliado);
-                        txtnumafiliado.setText(OsdeAfiliado.Codigo_afiliado);
+                        txtnombreafiliado.setText(AfiliadoOsde.nombreafiliado);
+                        txtnumafiliado.setText(AfiliadoOsde.Codigo_afiliado);
                         txtmatricula.setText("");
                         txtmatricula.requestFocus();
                         habilitarpanel1();
@@ -10863,12 +11521,12 @@ public class MainL extends javax.swing.JFrame {
                 } else {
                     if (obra.equals("50015 - BOREAL")) {
                         limpiar_variables();
-                        new BorealAfiliado(this, true).setVisible(true);
-                        if (BorealAfiliado.habilitado.equals("OK")) {
+                        new AfiliadoBoreal(this, true).setVisible(true);
+                        if (AfiliadoBoreal.habilitado.equals("OK")) {
                             txtdocumento.setText("11111111");
                             txtdocumento.setEditable(false);
-                            txtnombreafiliado.setText(BorealAfiliado.nombreafiliado);
-                            txtnumafiliado.setText(BorealAfiliado.Codigo_afiliado);
+                            txtnombreafiliado.setText(AfiliadoBoreal.nombreafiliado);
+                            txtnumafiliado.setText(AfiliadoBoreal.Codigo_afiliado);
                             txtmatricula.setText("");
                             txtmatricula.requestFocus();
                             habilitarpanel1();
@@ -10876,12 +11534,12 @@ public class MainL extends javax.swing.JFrame {
                     } else {
                         if (obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")) {
                             limpiar_variables();
-                            new SwissAfiliado(this, true).setVisible(true);
+                            new AfiliadoSwiss(this, true).setVisible(true);
                             if (habilitado.equals("OK")) {
                                 txtdocumento.setText("11111111");
                                 txtdocumento.setEditable(false);
-                                txtnombreafiliado.setText(SwissAfiliado.nombreafiliado);
-                                txtnumafiliado.setText(SwissAfiliado.Codigo_afiliado);
+                                txtnombreafiliado.setText(AfiliadoSwiss.nombreafiliado);
+                                txtnumafiliado.setText(AfiliadoSwiss.Codigo_afiliado);
                                 txtmatricula.setText("");
                                 txtmatricula.requestFocus();
                                 habilitarpanel1();
@@ -10889,12 +11547,12 @@ public class MainL extends javax.swing.JFrame {
                         } else {
                             if (obra.equals("9000 - ASOCIACION MUTUAL SANCOR")) {
                                 limpiar_variables();
-                                new SancorAfiliado(this, true).setVisible(true);
-                                if (SancorAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(SancorAfiliado.dni);
+                                new AfiliadoSancor(this, true).setVisible(true);
+                                if (AfiliadoSancor.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoSancor.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(SancorAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(SancorAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoSancor.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoSancor.Codigo_afiliado);
                                     txtmatricula.setText("");
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
@@ -10902,12 +11560,12 @@ public class MainL extends javax.swing.JFrame {
                             } else {
                                 if (obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")) {
                                     limpiar_variables();
-                                    new SubsidioAfiliado(this, true).setVisible(true);
-                                    if (SubsidioAfiliado.habilitado.equals("OK")) {
-                                        txtdocumento.setText(SubsidioAfiliado.dni);
+                                    new AfiliadoSubsidio(this, true).setVisible(true);
+                                    if (AfiliadoSubsidio.habilitado.equals("OK")) {
+                                        txtdocumento.setText(AfiliadoSubsidio.dni);
                                         txtdocumento.setEditable(false);
-                                        txtnombreafiliado.setText(SubsidioAfiliado.nombreafiliado);
-                                        txtnumafiliado.setText(SubsidioAfiliado.Codigo_afiliado);
+                                        txtnombreafiliado.setText(AfiliadoSubsidio.nombreafiliado);
+                                        txtnumafiliado.setText(AfiliadoSubsidio.Codigo_afiliado);
                                         txtmatricula.setText("");
                                         txtmatricula.requestFocus();
                                         habilitarpanel1();
@@ -10915,12 +11573,12 @@ public class MainL extends javax.swing.JFrame {
                                 } else {
                                     if (obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
                                         limpiar_variables();
-                                        new SubsidioAfiliado(this, true).setVisible(true);
-                                        if (SubsidioAfiliado.habilitado.equals("OK")) {
-                                            txtdocumento.setText(SubsidioAfiliado.dni);
+                                        new AfiliadoSubsidio(this, true).setVisible(true);
+                                        if (AfiliadoSubsidio.habilitado.equals("OK")) {
+                                            txtdocumento.setText(AfiliadoSubsidio.dni);
                                             txtdocumento.setEditable(false);
-                                            txtnombreafiliado.setText(SubsidioAfiliado.nombreafiliado);
-                                            txtnumafiliado.setText(SubsidioAfiliado.Codigo_afiliado);
+                                            txtnombreafiliado.setText(AfiliadoSubsidio.nombreafiliado);
+                                            txtnumafiliado.setText(AfiliadoSubsidio.Codigo_afiliado);
                                             txtmatricula.setText("");
                                             txtmatricula.requestFocus();
                                             habilitarpanel1();
@@ -10928,7 +11586,7 @@ public class MainL extends javax.swing.JFrame {
                                     } else {
                                         if (obra.equals("3102 - OSDE - OFFLINE")) {
                                             limpiar_variables();
-                                            new osdeOffline(this, true).setVisible(true);
+                                            new AfiliadoOsdeOffline(this, true).setVisible(true);
                                             txtpractica.setText("");
                                             txtdocumento.setText("");
                                             txtdocumento.setEditable(false);
@@ -10940,12 +11598,12 @@ public class MainL extends javax.swing.JFrame {
                                         } else {
                                             if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.")) {
                                                 limpiar_variables();
-                                                new MedifeAfiliado(this, true).setVisible(true);
-                                                if (MedifeAfiliado.habilitado.equals("OK")) {
-                                                    txtdocumento.setText(MedifeAfiliado.dni);
+                                                new AfiliadoMedife(this, true).setVisible(true);
+                                                if (AfiliadoMedife.habilitado.equals("OK")) {
+                                                    txtdocumento.setText(AfiliadoMedife.dni);
                                                     txtdocumento.setEditable(false);
-                                                    txtnombreafiliado.setText(MedifeAfiliado.nombreafiliado);
-                                                    txtnumafiliado.setText(MedifeAfiliado.Codigo_afiliado);
+                                                    txtnombreafiliado.setText(AfiliadoMedife.nombreafiliado);
+                                                    txtnumafiliado.setText(AfiliadoMedife.Codigo_afiliado);
                                                     txtmatricula.setText("");
                                                     txtmatricula.requestFocus();
                                                     habilitarpanel1();
@@ -10954,37 +11612,52 @@ public class MainL extends javax.swing.JFrame {
                                                 if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                                                     limpiar_variables();
                                                     try {
-                                                        new JerarquicosAfiliado(this, true).setVisible(true);
+                                                        new AfiliadoJerarquicos(this, true).setVisible(true);
                                                     } catch (DatatypeConfigurationException ex) {
                                                         Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                                                     }
-                                                    if (JerarquicosAfiliado.habilitado.equals("OK")) {
-                                                        txtdocumento.setText(JerarquicosAfiliado.dni);
+                                                    if (AfiliadoJerarquicos.habilitado.equals("OK")) {
+                                                        txtdocumento.setText(AfiliadoJerarquicos.dni);
                                                         txtdocumento.setEditable(false);
-                                                        txtnombreafiliado.setText(JerarquicosAfiliado.nombreafiliado);
-                                                        txtnumafiliado.setText(JerarquicosAfiliado.Codigo_afiliado);
+                                                        txtnombreafiliado.setText(AfiliadoJerarquicos.nombreafiliado);
+                                                        txtnumafiliado.setText(AfiliadoJerarquicos.Codigo_afiliado);
                                                         txtmatricula.setText("");
                                                         txtmatricula.requestFocus();
                                                         habilitarpanel1();
                                                     }
                                                 } else {
                                                     if (obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
-                                                        new OspeAfiliado(this, true).setVisible(true);
-                                                        if (OspeAfiliado.habilitado.equals("OK")) {
-                                                            txtdocumento.setText(OspeAfiliado.dni);
+                                                        new AfiliadoOspe(this, true).setVisible(true);
+                                                        if (AfiliadoOspe.habilitado.equals("OK")) {
+                                                            txtdocumento.setText(AfiliadoOspe.dni);
                                                             txtdocumento.setEditable(false);
                                                             txtfecha.setEditable(false);
                                                             txtnumorden.setEditable(false);
-                                                            txtnombreafiliado.setText(OspeAfiliado.nombreafiliado);
-                                                            txtnumafiliado.setText(OspeAfiliado.Codigo_afiliado);
+                                                            txtnombreafiliado.setText(AfiliadoOspe.nombreafiliado);
+                                                            txtnumafiliado.setText(AfiliadoOspe.Codigo_afiliado);
                                                             txtmatricula.requestFocus();
                                                             habilitarpanel1();
                                                         }
                                                     } else {
-                                                        limpiar_variables();
-                                                        txtpractica.setText("");
-                                                        btnpaciente.doClick();
+                                                        if (obra.equals("40816 - NOBIS SA")) {
+                                                            new AfiliadoNobis(this, true).setVisible(true);
+                                                            if (AfiliadoNobis.habilitado.equals("OK")) {
+                                                                txtdocumento.setText(AfiliadoNobis.dni);
+                                                                txtdocumento.setEditable(false);
+                                                                txtfecha.setEditable(false);
+                                                                txtnumorden.setEditable(false);
+                                                                txtnombreafiliado.setText(AfiliadoNobis.nombreafiliado);
+                                                                txtnumafiliado.setText(AfiliadoNobis.Codigo_afiliado);
+                                                                txtmatricula.requestFocus();
+                                                                habilitarpanel1();
+                                                            }
+                                                        } else {
+                                                            limpiar_variables();
+                                                            txtpractica.setText("");
+                                                            btnpaciente.doClick();
+                                                        }
                                                     }
+
                                                 }
                                             }
                                         }
@@ -11274,19 +11947,27 @@ public class MainL extends javax.swing.JFrame {
                                 || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")
                                 || obra.equals("510 - MEDIFE - OBLIGATORIO- PRE PAGA C.M.C.  S.A.")
                                 || obra.equals("511 - MEDIFE - VOLUNTARIO- PRE PAGA C.M.C.  S.A.")
-                                || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
+                                || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")
+                                //|| obra.equals("2700 - UNT - Accion  Social de la  UNT")
+                                || obra.equals("40816 - NOBIS SA")) {
                             //|| obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {//SUBSIDIO DE SALUD - AUTORIZACION - ONLINE
                             ///////////////////////////////////////////////////////////////////////////////////////////////
 
                             if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
-                                new OsdeAfiliado(this, true).setVisible(true);
-                                if (OsdeAfiliado.habilitado.equals("OK")) {
+                                new AfiliadoOsde(this, true).setVisible(true);
+                                if (AfiliadoOsde.habilitado.equals("OK")) {
                                     txtdocumento.setText("11111111");
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(OsdeAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(OsdeAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoOsde.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoOsde.Codigo_afiliado);
                                     txtmatricula.requestFocus();
-                                    txtfecha.setEditable(false);
+                                    if ((tipo_orden == 1 || tipo_orden == 4)) {
+                                        txtfecha.setEditable(false);
+                                    } else {
+
+                                        txtfecha.setEditable(true);
+                                    }
+
                                     txtnumorden.setEditable(false);
                                     habilitarpanel1();
                                     id_obra_social = idobrasocial[i];
@@ -11302,7 +11983,7 @@ public class MainL extends javax.swing.JFrame {
                             }
 
                             if (obra.equals("3102 - OSDE - OFFLINE")) {
-                                new osdeOffline(this, true).setVisible(true);
+                                new AfiliadoOsdeOffline(this, true).setVisible(true);
                                 habilitarpanel1();
                                 id_obra_social = idobrasocial[i];
                                 band = 3;
@@ -11315,13 +11996,13 @@ public class MainL extends javax.swing.JFrame {
                             }
 
                             if (obra.equals("50015 - BOREAL")) {
-                                new BorealAfiliado(this, true).setVisible(true);
-                                if (BorealAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(BorealAfiliado.dni);
+                                new AfiliadoBoreal(this, true).setVisible(true);
+                                if (AfiliadoBoreal.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoBoreal.dni);
                                     txtdocumento.setEditable(false);
                                     txtfecha.setEditable(false);
-                                    txtnombreafiliado.setText(BorealAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(BorealAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoBoreal.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoBoreal.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     txtnumorden.setEditable(false);
                                     habilitarpanel1();
@@ -11338,12 +12019,12 @@ public class MainL extends javax.swing.JFrame {
                             }
                             ////////////"9000 - ASOCIACION MUTUAL SANCOR"/////////////////////////////////////////////////////
                             if (obra.equals("9000 - ASOCIACION MUTUAL SANCOR")) {
-                                new SancorAfiliado(this, true).setVisible(true);
-                                if (SancorAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(SancorAfiliado.dni);
+                                new AfiliadoSancor(this, true).setVisible(true);
+                                if (AfiliadoSancor.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoSancor.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(SancorAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(SancorAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoSancor.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoSancor.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     txtfecha.setEditable(false);
                                     habilitarpanel1();
@@ -11362,13 +12043,13 @@ public class MainL extends javax.swing.JFrame {
                             ///////////////////////////////////////////////////////////////////////////////
                             if (obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")) {
                                 contadorPracticas = 0;
-                                new SubsidioAfiliado(this, true).setVisible(true);
-                                if (SubsidioAfiliado.habilitado.equals("OK")) {
+                                new AfiliadoSubsidio(this, true).setVisible(true);
+                                if (AfiliadoSubsidio.habilitado.equals("OK")) {
                                     txtnumorden.setEditable(false);
-                                    txtdocumento.setText(SubsidioAfiliado.dni);
+                                    txtdocumento.setText(AfiliadoSubsidio.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(SubsidioAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(SubsidioAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoSubsidio.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoSubsidio.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
                                     txtnumorden.setEditable(false);
@@ -11387,14 +12068,14 @@ public class MainL extends javax.swing.JFrame {
                             }
                             ///////////////////////////////////////////////////////////////////////////////////////
                             if (obra.equals("1806 - SUBSIDIO DE SALUD - AUTORIZACION - ONLINE")) {
-                                new SubsidioAfiliado(this, true).setVisible(true);
-                                if (SubsidioAfiliado.habilitado.equals("OK")) {
+                                new AfiliadoSubsidio(this, true).setVisible(true);
+                                if (AfiliadoSubsidio.habilitado.equals("OK")) {
                                     txtnumorden.setEditable(false);
                                     txtfecha.setEditable(false);
-                                    txtdocumento.setText(SubsidioAfiliado.dni);
+                                    txtdocumento.setText(AfiliadoSubsidio.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(SubsidioAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(SubsidioAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoSubsidio.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoSubsidio.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
                                     txtnumorden.setEditable(false);
@@ -11413,13 +12094,13 @@ public class MainL extends javax.swing.JFrame {
                             }
                             ///////////////////////////////////////////////////////////////////////////////
                             if (obra.equals("10070 - SWISS MEDICAL GROUP S.A. - ONLINE")) {
-                                new SwissAfiliado(this, true).setVisible(true);
-                                if (SwissAfiliado.habilitado.equals("OK")) {
+                                new AfiliadoSwiss(this, true).setVisible(true);
+                                if (AfiliadoSwiss.habilitado.equals("OK")) {
                                     txtdocumento.setText("11111111");
                                     txtdocumento.setEditable(false);
                                     txtfecha.setEditable(false);
-                                    txtnombreafiliado.setText(SwissAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(SwissAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoSwiss.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoSwiss.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
                                     id_obra_social = idobrasocial[i];
@@ -11435,13 +12116,13 @@ public class MainL extends javax.swing.JFrame {
                             }
                             if (obra.equals("512 - MEDIFE - ONLINE OBLIGATORIO PRE PAGA C.M.C.  S.A.") || obra.equals("510 - MEDIFE - OBLIGATORIO- PRE PAGA C.M.C.  S.A.")) {
                                 idObraSocialOnline = idobrasocial[i];
-                                new MedifeAfiliado(this, true).setVisible(true);
-                                if (MedifeAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(MedifeAfiliado.dni);
+                                new AfiliadoMedife(this, true).setVisible(true);
+                                if (AfiliadoMedife.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoMedife.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(MedifeAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(MedifeAfiliado.Codigo_afiliado);
-                                    if (MedifeAfiliado.plan.equals("GRAV^VOLUNTARIO")) {//GRAV^VOLUNTARIO
+                                    txtnombreafiliado.setText(AfiliadoMedife.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoMedife.Codigo_afiliado);
+                                    if (AfiliadoMedife.plan.equals("GRAV^VOLUNTARIO")) {//GRAV^VOLUNTARIO
                                         tipo_orden = 0;
                                     } else {
                                         tipo_orden = 1;
@@ -11464,13 +12145,13 @@ public class MainL extends javax.swing.JFrame {
                             }
                             if (obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.") || obra.equals("511 - MEDIFE - VOLUNTARIO- PRE PAGA C.M.C.  S.A.")) {
                                 idObraSocialOnline = idobrasocial[i];
-                                new MedifeAfiliado(this, true).setVisible(true);
-                                if (MedifeAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(MedifeAfiliado.dni);
+                                new AfiliadoMedife(this, true).setVisible(true);
+                                if (AfiliadoMedife.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoMedife.dni);
                                     txtdocumento.setEditable(false);
-                                    txtnombreafiliado.setText(MedifeAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(MedifeAfiliado.Codigo_afiliado);
-                                    if (MedifeAfiliado.plan.equals("GRAV^VOLUNTARIO")) {//GRAV^VOLUNTARIO
+                                    txtnombreafiliado.setText(AfiliadoMedife.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoMedife.Codigo_afiliado);
+                                    if (AfiliadoMedife.plan.equals("GRAV^VOLUNTARIO")) {//GRAV^VOLUNTARIO
                                         tipo_orden = 0;
                                     } else {
                                         tipo_orden = 1;
@@ -11493,17 +12174,17 @@ public class MainL extends javax.swing.JFrame {
                             }
                             if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                                 try {
-                                    new JerarquicosAfiliado(this, true).setVisible(true);
+                                    new AfiliadoJerarquicos(this, true).setVisible(true);
                                 } catch (DatatypeConfigurationException ex) {
                                     Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                                if (JerarquicosAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(JerarquicosAfiliado.dni);
+                                if (AfiliadoJerarquicos.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoJerarquicos.dni);
                                     txtdocumento.setEditable(false);
                                     txtfecha.setEditable(false);
                                     txtnumorden.setEditable(false);
-                                    txtnombreafiliado.setText(JerarquicosAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(JerarquicosAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoJerarquicos.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoJerarquicos.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
                                     id_obra_social = idobrasocial[i];
@@ -11518,14 +12199,14 @@ public class MainL extends javax.swing.JFrame {
                                 }
                             }
                             if (obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")) {
-                                new OspeAfiliado(this, true).setVisible(true);
-                                if (OspeAfiliado.habilitado.equals("OK")) {
-                                    txtdocumento.setText(OspeAfiliado.dni);
+                                new AfiliadoOspe(this, true).setVisible(true);
+                                if (AfiliadoOspe.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoOspe.dni);
                                     txtdocumento.setEditable(false);
                                     txtfecha.setEditable(false);
                                     txtnumorden.setEditable(false);
-                                    txtnombreafiliado.setText(OspeAfiliado.nombreafiliado);
-                                    txtnumafiliado.setText(OspeAfiliado.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoOspe.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoOspe.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     habilitarpanel1();
                                     id_obra_social = idobrasocial[i];
@@ -11539,7 +12220,49 @@ public class MainL extends javax.swing.JFrame {
                                     txtnumafiliado.setEditable(false);
                                 }
                             }
+//                            if (obra.equals("2700 - UNT - Accion  Social de la  UNT")) {
+//                                new AsuntAfiliado(this, true).setVisible(true);
+//                                if (AsuntAfiliado.habilitado.equals("OK")) {
+//                                    txtdocumento.setText(AsuntAfiliado.dni);
+//                                    txtdocumento.setEditable(false);
+//                                    txtfecha.setEditable(false);
+//                                    txtnumorden.setEditable(false);
+//                                    txtnombreafiliado.setText(AsuntAfiliado.nombreafiliado);
+//                                    txtnumafiliado.setText(AsuntAfiliado.Codigo_afiliado);
+//                                    txtmatricula.requestFocus();
+//                                    habilitarpanel1();
+//                                    id_obra_social = idobrasocial[i];
+//                                    band = 2;
+//                                    contadorobra = i;
+//                                    break;
+//                                } else {
+//                                    txtdocumento.setEditable(false);
+//                                    txtnombreafiliado.setEditable(false);
+//                                    txtnumafiliado.setEditable(false);
+//                                }
+//                            }
 
+                            if (obra.equals("40816 - NOBIS SA")) {
+                                new AfiliadoNobis(this, true).setVisible(true);
+                                if (AfiliadoNobis.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoNobis.dni);
+                                    txtdocumento.setEditable(false);
+                                    txtfecha.setEditable(false);
+                                    txtnumorden.setEditable(false);
+                                    txtnombreafiliado.setText(AfiliadoNobis.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoNobis.Codigo_afiliado);
+                                    txtmatricula.requestFocus();
+                                    habilitarpanel1();
+                                    id_obra_social = idobrasocial[i];
+                                    band = 2;
+                                    contadorobra = i;
+                                    break;
+                                } else {
+                                    txtdocumento.setEditable(false);
+                                    txtnombreafiliado.setEditable(false);
+                                    txtnumafiliado.setEditable(false);
+                                }
+                            }
                         } else {
                             habilitarpanel1();
                             id_obra_social = idobrasocial[i];

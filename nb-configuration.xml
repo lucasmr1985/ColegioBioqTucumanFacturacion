@@ -32,5 +32,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx_5f_1>https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx_5f_1>
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_wsGecrosNet_2e_asmx>https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_wsGecrosNet_2e_asmx>
     </properties>
 </project-shared-configuration>

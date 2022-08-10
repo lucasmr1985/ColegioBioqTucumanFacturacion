@@ -34,6 +34,7 @@ public class Acercade extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cbt2.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Bauhaus 93", 0, 12)); // NOI18N

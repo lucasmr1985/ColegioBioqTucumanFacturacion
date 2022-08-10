@@ -19,8 +19,7 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-        <plugins>     
-            
+        <plugins>                 
             <plugin>
                 <groupId>org.jvnet.jax-ws-commons</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
@@ -242,6 +241,24 @@
                             <staleFile>${project.build.directory}/jaxws/stale/WSActiviaC.asmx.stale</staleFile>
                         </configuration>
                         <id>wsimport-generate-WSActiviaC.asmx</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>servicioweb.nobissalud.com.ar/wsGecrosNet.asmx.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteNobis</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx?WSDL</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/wsGecrosNet.asmx.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-wsGecrosNet.asmx</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>

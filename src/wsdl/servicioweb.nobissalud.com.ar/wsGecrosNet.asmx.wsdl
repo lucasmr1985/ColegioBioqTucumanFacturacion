@@ -1,0 +1,1571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="InsertarPrestacionAmb">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXmlOrden" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarPrestacionAmbResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarPrestacionAmbResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TipoPrestadores">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TipoPrestadoresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TipoPrestadoresResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TipoNomenclador">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TipoNomencladorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TipoNomencladorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarAfiliado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarAfiliadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarAfiliadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarAfiliadoCompleta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarAfiliadoCompletaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarAfiliadoCompletaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarAutorizacionAmb">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarAutorizacionAmbResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarAutorizacionAmbResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarAutorizacionInt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarAutorizacionIntResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarAutorizacionIntResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarPracticaEnInt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarPracticaEnIntResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarPracticaEnIntResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOrden">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNroOrden" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOrdenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarOrdenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOrdenCompleta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNroOrden" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOrdenCompletaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarOrdenCompletaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOrdenItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNroOrden" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOrdenItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarOrdenItemsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnularOrden">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNroOrden" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pObservaciones" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnularOrdenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AnularOrdenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnularOrdenNroCod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNroOrden" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pCodAut" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pObservaciones" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnularOrdenNroCodResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AnularOrdenNroCodResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarUsuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarUsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarUsuarioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTipoInternacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTipoInternacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarTipoInternacionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTiposIngresos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTiposIngresosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarTiposIngresosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarComplejidades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarComplejidadesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarComplejidadesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTiposDocumentos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTiposDocumentosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarTiposDocumentosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTiposCoberturas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarTiposCoberturasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarTiposCoberturasResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarCodigosCie10">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarCodigosCie10Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarCodigosCie10Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarEspecialidades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarEspecialidadesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarEspecialidadesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarLocalidades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNombreLocalidad" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarLocalidadesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarLocalidadesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarObrasSociales">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarObrasSocialesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarObrasSocialesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarPreliquidacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pOriId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="pFechaDesde" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pFechaHasta" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pNeto" type="s:float" />
+            <s:element minOccurs="1" maxOccurs="1" name="pIva" type="s:float" />
+            <s:element minOccurs="0" maxOccurs="1" name="pOrdenes" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarPreliquidacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarPreliquidacionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarCartillaPrestadores">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNombre" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pTipoPreId" nillable="true" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pEspId" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="pInstitucion" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pLocId" nillable="true" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pOsId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarCartillaPrestadoresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarCartillaPrestadoresResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarCartillaPrestadoresPorPlan">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNombre" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pTipoPreId" nillable="true" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pEspId" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="pInstitucion" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pLocId" nillable="true" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pOsId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pPlanId" nillable="true" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarCartillaPrestadoresPorPlanResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarCartillaPrestadoresPorPlanResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarAutorizacionADESFA_3_1_0">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarAutorizacionADESFA_3_1_0Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarAutorizacionADESFA_3_1_0Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarAutorizacionADESFA_3_1_0">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarAutorizacionADESFA_3_1_0Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelarAutorizacionADESFA_3_1_0Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarAfiliadoPorUsuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarAfiliadoPorUsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarAfiliadoPorUsuarioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOtrosDatosAfiliado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarOtrosDatosAfiliadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarOtrosDatosAfiliadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarHistorialAutorizacionesParaAfiliado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarHistorialAutorizacionesParaAfiliadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarHistorialAutorizacionesParaAfiliadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaCuentaCorrienteAfiliado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaCuentaCorrienteAfiliadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultaCuentaCorrienteAfiliadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarHistorialPrestacionalParaAfiliado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarHistorialPrestacionalParaAfiliadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarHistorialPrestacionalParaAfiliadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaPorcentajeCoberturaFarmacia">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pEntidadEfectorNro" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNroAfiliado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pPreMatricula" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pFechaRealizacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pNomencladorId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pCodNomenclador" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaPorcentajeCoberturaFarmaciaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultaPorcentajeCoberturaFarmaciaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReporteCuentaCorriente">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pCompId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReporteCuentaCorrienteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReporteCuentaCorrienteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="InsertarPrestacionAmbSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarPrestacionAmb" />
+  </wsdl:message>
+  <wsdl:message name="InsertarPrestacionAmbSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarPrestacionAmbResponse" />
+  </wsdl:message>
+  <wsdl:message name="TipoPrestadoresSoapIn">
+    <wsdl:part name="parameters" element="tns:TipoPrestadores" />
+  </wsdl:message>
+  <wsdl:message name="TipoPrestadoresSoapOut">
+    <wsdl:part name="parameters" element="tns:TipoPrestadoresResponse" />
+  </wsdl:message>
+  <wsdl:message name="TipoNomencladorSoapIn">
+    <wsdl:part name="parameters" element="tns:TipoNomenclador" />
+  </wsdl:message>
+  <wsdl:message name="TipoNomencladorSoapOut">
+    <wsdl:part name="parameters" element="tns:TipoNomencladorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarAfiliadoSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarAfiliado" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarAfiliadoSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarAfiliadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarAfiliadoCompletaSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarAfiliadoCompleta" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarAfiliadoCompletaSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarAfiliadoCompletaResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertarAutorizacionAmbSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarAutorizacionAmb" />
+  </wsdl:message>
+  <wsdl:message name="InsertarAutorizacionAmbSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarAutorizacionAmbResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertarAutorizacionIntSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarAutorizacionInt" />
+  </wsdl:message>
+  <wsdl:message name="InsertarAutorizacionIntSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarAutorizacionIntResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertarPracticaEnIntSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarPracticaEnInt" />
+  </wsdl:message>
+  <wsdl:message name="InsertarPracticaEnIntSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarPracticaEnIntResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOrdenSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarOrden" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOrdenSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarOrdenResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOrdenCompletaSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarOrdenCompleta" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOrdenCompletaSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarOrdenCompletaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOrdenItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarOrdenItems" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOrdenItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarOrdenItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AnularOrdenSoapIn">
+    <wsdl:part name="parameters" element="tns:AnularOrden" />
+  </wsdl:message>
+  <wsdl:message name="AnularOrdenSoapOut">
+    <wsdl:part name="parameters" element="tns:AnularOrdenResponse" />
+  </wsdl:message>
+  <wsdl:message name="AnularOrdenNroCodSoapIn">
+    <wsdl:part name="parameters" element="tns:AnularOrdenNroCod" />
+  </wsdl:message>
+  <wsdl:message name="AnularOrdenNroCodSoapOut">
+    <wsdl:part name="parameters" element="tns:AnularOrdenNroCodResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarUsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarUsuario" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarUsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTipoInternacionSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarTipoInternacion" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTipoInternacionSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarTipoInternacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTiposIngresosSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarTiposIngresos" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTiposIngresosSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarTiposIngresosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarComplejidadesSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarComplejidades" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarComplejidadesSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarComplejidadesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTiposDocumentosSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarTiposDocumentos" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTiposDocumentosSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarTiposDocumentosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTiposCoberturasSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarTiposCoberturas" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarTiposCoberturasSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarTiposCoberturasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarCodigosCie10SoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarCodigosCie10" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarCodigosCie10SoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarCodigosCie10Response" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarEspecialidadesSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarEspecialidades" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarEspecialidadesSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarEspecialidadesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarLocalidadesSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarLocalidades" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarLocalidadesSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarLocalidadesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarObrasSocialesSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarObrasSociales" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarObrasSocialesSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarObrasSocialesResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertarPreliquidacionSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarPreliquidacion" />
+  </wsdl:message>
+  <wsdl:message name="InsertarPreliquidacionSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarPreliquidacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarCartillaPrestadoresSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarCartillaPrestadores" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarCartillaPrestadoresSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarCartillaPrestadoresResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarCartillaPrestadoresPorPlanSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarCartillaPrestadoresPorPlan" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarCartillaPrestadoresPorPlanSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarCartillaPrestadoresPorPlanResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertarAutorizacionADESFA_3_1_0SoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarAutorizacionADESFA_3_1_0" />
+  </wsdl:message>
+  <wsdl:message name="InsertarAutorizacionADESFA_3_1_0SoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarAutorizacionADESFA_3_1_0Response" />
+  </wsdl:message>
+  <wsdl:message name="CancelarAutorizacionADESFA_3_1_0SoapIn">
+    <wsdl:part name="parameters" element="tns:CancelarAutorizacionADESFA_3_1_0" />
+  </wsdl:message>
+  <wsdl:message name="CancelarAutorizacionADESFA_3_1_0SoapOut">
+    <wsdl:part name="parameters" element="tns:CancelarAutorizacionADESFA_3_1_0Response" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarAfiliadoPorUsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarAfiliadoPorUsuario" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarAfiliadoPorUsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarAfiliadoPorUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOtrosDatosAfiliadoSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarOtrosDatosAfiliado" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarOtrosDatosAfiliadoSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarOtrosDatosAfiliadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarHistorialAutorizacionesParaAfiliadoSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarHistorialAutorizacionesParaAfiliado" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarHistorialAutorizacionesParaAfiliadoSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarHistorialAutorizacionesParaAfiliadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaCuentaCorrienteAfiliadoSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaCuentaCorrienteAfiliado" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaCuentaCorrienteAfiliadoSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaCuentaCorrienteAfiliadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarHistorialPrestacionalParaAfiliadoSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarHistorialPrestacionalParaAfiliado" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarHistorialPrestacionalParaAfiliadoSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarHistorialPrestacionalParaAfiliadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaPorcentajeCoberturaFarmaciaSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaPorcentajeCoberturaFarmacia" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaPorcentajeCoberturaFarmaciaSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaPorcentajeCoberturaFarmaciaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReporteCuentaCorrienteSoapIn">
+    <wsdl:part name="parameters" element="tns:ReporteCuentaCorriente" />
+  </wsdl:message>
+  <wsdl:message name="ReporteCuentaCorrienteSoapOut">
+    <wsdl:part name="parameters" element="tns:ReporteCuentaCorrienteResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSGecrosNetSoap">
+    <wsdl:operation name="InsertarPrestacionAmb">
+      <wsdl:input message="tns:InsertarPrestacionAmbSoapIn" />
+      <wsdl:output message="tns:InsertarPrestacionAmbSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TipoPrestadores">
+      <wsdl:input message="tns:TipoPrestadoresSoapIn" />
+      <wsdl:output message="tns:TipoPrestadoresSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TipoNomenclador">
+      <wsdl:input message="tns:TipoNomencladorSoapIn" />
+      <wsdl:output message="tns:TipoNomencladorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliado">
+      <wsdl:input message="tns:ConsultarAfiliadoSoapIn" />
+      <wsdl:output message="tns:ConsultarAfiliadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliadoCompleta">
+      <wsdl:input message="tns:ConsultarAfiliadoCompletaSoapIn" />
+      <wsdl:output message="tns:ConsultarAfiliadoCompletaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionAmb">
+      <wsdl:input message="tns:InsertarAutorizacionAmbSoapIn" />
+      <wsdl:output message="tns:InsertarAutorizacionAmbSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionInt">
+      <wsdl:input message="tns:InsertarAutorizacionIntSoapIn" />
+      <wsdl:output message="tns:InsertarAutorizacionIntSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertarPracticaEnInt">
+      <wsdl:input message="tns:InsertarPracticaEnIntSoapIn" />
+      <wsdl:output message="tns:InsertarPracticaEnIntSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrden">
+      <wsdl:input message="tns:ConsultarOrdenSoapIn" />
+      <wsdl:output message="tns:ConsultarOrdenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrdenCompleta">
+      <wsdl:input message="tns:ConsultarOrdenCompletaSoapIn" />
+      <wsdl:output message="tns:ConsultarOrdenCompletaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrdenItems">
+      <wsdl:input message="tns:ConsultarOrdenItemsSoapIn" />
+      <wsdl:output message="tns:ConsultarOrdenItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AnularOrden">
+      <wsdl:input message="tns:AnularOrdenSoapIn" />
+      <wsdl:output message="tns:AnularOrdenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AnularOrdenNroCod">
+      <wsdl:input message="tns:AnularOrdenNroCodSoapIn" />
+      <wsdl:output message="tns:AnularOrdenNroCodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUsuario">
+      <wsdl:input message="tns:ConsultarUsuarioSoapIn" />
+      <wsdl:output message="tns:ConsultarUsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTipoInternacion">
+      <wsdl:input message="tns:ConsultarTipoInternacionSoapIn" />
+      <wsdl:output message="tns:ConsultarTipoInternacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposIngresos">
+      <wsdl:input message="tns:ConsultarTiposIngresosSoapIn" />
+      <wsdl:output message="tns:ConsultarTiposIngresosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarComplejidades">
+      <wsdl:input message="tns:ConsultarComplejidadesSoapIn" />
+      <wsdl:output message="tns:ConsultarComplejidadesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposDocumentos">
+      <wsdl:input message="tns:ConsultarTiposDocumentosSoapIn" />
+      <wsdl:output message="tns:ConsultarTiposDocumentosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposCoberturas">
+      <wsdl:input message="tns:ConsultarTiposCoberturasSoapIn" />
+      <wsdl:output message="tns:ConsultarTiposCoberturasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCodigosCie10">
+      <wsdl:input message="tns:ConsultarCodigosCie10SoapIn" />
+      <wsdl:output message="tns:ConsultarCodigosCie10SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarEspecialidades">
+      <wsdl:input message="tns:ConsultarEspecialidadesSoapIn" />
+      <wsdl:output message="tns:ConsultarEspecialidadesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLocalidades">
+      <wsdl:input message="tns:ConsultarLocalidadesSoapIn" />
+      <wsdl:output message="tns:ConsultarLocalidadesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarObrasSociales">
+      <wsdl:input message="tns:ConsultarObrasSocialesSoapIn" />
+      <wsdl:output message="tns:ConsultarObrasSocialesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertarPreliquidacion">
+      <wsdl:input message="tns:InsertarPreliquidacionSoapIn" />
+      <wsdl:output message="tns:InsertarPreliquidacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCartillaPrestadores">
+      <wsdl:input message="tns:ConsultarCartillaPrestadoresSoapIn" />
+      <wsdl:output message="tns:ConsultarCartillaPrestadoresSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCartillaPrestadoresPorPlan">
+      <wsdl:input message="tns:ConsultarCartillaPrestadoresPorPlanSoapIn" />
+      <wsdl:output message="tns:ConsultarCartillaPrestadoresPorPlanSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionADESFA_3_1_0">
+      <wsdl:input message="tns:InsertarAutorizacionADESFA_3_1_0SoapIn" />
+      <wsdl:output message="tns:InsertarAutorizacionADESFA_3_1_0SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelarAutorizacionADESFA_3_1_0">
+      <wsdl:input message="tns:CancelarAutorizacionADESFA_3_1_0SoapIn" />
+      <wsdl:output message="tns:CancelarAutorizacionADESFA_3_1_0SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliadoPorUsuario">
+      <wsdl:input message="tns:ConsultarAfiliadoPorUsuarioSoapIn" />
+      <wsdl:output message="tns:ConsultarAfiliadoPorUsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOtrosDatosAfiliado">
+      <wsdl:input message="tns:ConsultarOtrosDatosAfiliadoSoapIn" />
+      <wsdl:output message="tns:ConsultarOtrosDatosAfiliadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarHistorialAutorizacionesParaAfiliado">
+      <wsdl:input message="tns:ConsultarHistorialAutorizacionesParaAfiliadoSoapIn" />
+      <wsdl:output message="tns:ConsultarHistorialAutorizacionesParaAfiliadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaCuentaCorrienteAfiliado">
+      <wsdl:input message="tns:ConsultaCuentaCorrienteAfiliadoSoapIn" />
+      <wsdl:output message="tns:ConsultaCuentaCorrienteAfiliadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarHistorialPrestacionalParaAfiliado">
+      <wsdl:input message="tns:ConsultarHistorialPrestacionalParaAfiliadoSoapIn" />
+      <wsdl:output message="tns:ConsultarHistorialPrestacionalParaAfiliadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaPorcentajeCoberturaFarmacia">
+      <wsdl:input message="tns:ConsultaPorcentajeCoberturaFarmaciaSoapIn" />
+      <wsdl:output message="tns:ConsultaPorcentajeCoberturaFarmaciaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReporteCuentaCorriente">
+      <wsdl:input message="tns:ReporteCuentaCorrienteSoapIn" />
+      <wsdl:output message="tns:ReporteCuentaCorrienteSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSGecrosNetSoap" type="tns:WSGecrosNetSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="InsertarPrestacionAmb">
+      <soap:operation soapAction="http://tempuri.org/InsertarPrestacionAmb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TipoPrestadores">
+      <soap:operation soapAction="http://tempuri.org/TipoPrestadores" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TipoNomenclador">
+      <soap:operation soapAction="http://tempuri.org/TipoNomenclador" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliado">
+      <soap:operation soapAction="http://tempuri.org/ConsultarAfiliado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliadoCompleta">
+      <soap:operation soapAction="http://tempuri.org/ConsultarAfiliadoCompleta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionAmb">
+      <soap:operation soapAction="http://tempuri.org/InsertarAutorizacionAmb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionInt">
+      <soap:operation soapAction="http://tempuri.org/InsertarAutorizacionInt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarPracticaEnInt">
+      <soap:operation soapAction="http://tempuri.org/InsertarPracticaEnInt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrden">
+      <soap:operation soapAction="http://tempuri.org/ConsultarOrden" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrdenCompleta">
+      <soap:operation soapAction="http://tempuri.org/ConsultarOrdenCompleta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrdenItems">
+      <soap:operation soapAction="http://tempuri.org/ConsultarOrdenItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnularOrden">
+      <soap:operation soapAction="http://tempuri.org/AnularOrden" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnularOrdenNroCod">
+      <soap:operation soapAction="http://tempuri.org/AnularOrdenNroCod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUsuario">
+      <soap:operation soapAction="http://tempuri.org/ConsultarUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTipoInternacion">
+      <soap:operation soapAction="http://tempuri.org/ConsultarTipoInternacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposIngresos">
+      <soap:operation soapAction="http://tempuri.org/ConsultarTiposIngresos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarComplejidades">
+      <soap:operation soapAction="http://tempuri.org/ConsultarComplejidades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposDocumentos">
+      <soap:operation soapAction="http://tempuri.org/ConsultarTiposDocumentos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposCoberturas">
+      <soap:operation soapAction="http://tempuri.org/ConsultarTiposCoberturas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCodigosCie10">
+      <soap:operation soapAction="http://tempuri.org/ConsultarCodigosCie10" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarEspecialidades">
+      <soap:operation soapAction="http://tempuri.org/ConsultarEspecialidades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLocalidades">
+      <soap:operation soapAction="http://tempuri.org/ConsultarLocalidades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarObrasSociales">
+      <soap:operation soapAction="http://tempuri.org/ConsultarObrasSociales" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarPreliquidacion">
+      <soap:operation soapAction="http://tempuri.org/InsertarPreliquidacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCartillaPrestadores">
+      <soap:operation soapAction="http://tempuri.org/ConsultarCartillaPrestadores" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCartillaPrestadoresPorPlan">
+      <soap:operation soapAction="http://tempuri.org/ConsultarCartillaPrestadoresPorPlan" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionADESFA_3_1_0">
+      <soap:operation soapAction="http://tempuri.org/InsertarAutorizacionADESFA_3_1_0" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarAutorizacionADESFA_3_1_0">
+      <soap:operation soapAction="http://tempuri.org/CancelarAutorizacionADESFA_3_1_0" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliadoPorUsuario">
+      <soap:operation soapAction="http://tempuri.org/ConsultarAfiliadoPorUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOtrosDatosAfiliado">
+      <soap:operation soapAction="http://tempuri.org/ConsultarOtrosDatosAfiliado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarHistorialAutorizacionesParaAfiliado">
+      <soap:operation soapAction="http://tempuri.org/ConsultarHistorialAutorizacionesParaAfiliado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaCuentaCorrienteAfiliado">
+      <soap:operation soapAction="http://tempuri.org/ConsultaCuentaCorrienteAfiliado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarHistorialPrestacionalParaAfiliado">
+      <soap:operation soapAction="http://tempuri.org/ConsultarHistorialPrestacionalParaAfiliado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaPorcentajeCoberturaFarmacia">
+      <soap:operation soapAction="http://tempuri.org/ConsultaPorcentajeCoberturaFarmacia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReporteCuentaCorriente">
+      <soap:operation soapAction="http://tempuri.org/ReporteCuentaCorriente" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSGecrosNetSoap12" type="tns:WSGecrosNetSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="InsertarPrestacionAmb">
+      <soap12:operation soapAction="http://tempuri.org/InsertarPrestacionAmb" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TipoPrestadores">
+      <soap12:operation soapAction="http://tempuri.org/TipoPrestadores" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TipoNomenclador">
+      <soap12:operation soapAction="http://tempuri.org/TipoNomenclador" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliado">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarAfiliado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliadoCompleta">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarAfiliadoCompleta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionAmb">
+      <soap12:operation soapAction="http://tempuri.org/InsertarAutorizacionAmb" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionInt">
+      <soap12:operation soapAction="http://tempuri.org/InsertarAutorizacionInt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarPracticaEnInt">
+      <soap12:operation soapAction="http://tempuri.org/InsertarPracticaEnInt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrden">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarOrden" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrdenCompleta">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarOrdenCompleta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOrdenItems">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarOrdenItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnularOrden">
+      <soap12:operation soapAction="http://tempuri.org/AnularOrden" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnularOrdenNroCod">
+      <soap12:operation soapAction="http://tempuri.org/AnularOrdenNroCod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUsuario">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarUsuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTipoInternacion">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarTipoInternacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposIngresos">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarTiposIngresos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarComplejidades">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarComplejidades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposDocumentos">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarTiposDocumentos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarTiposCoberturas">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarTiposCoberturas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCodigosCie10">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarCodigosCie10" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarEspecialidades">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarEspecialidades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLocalidades">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarLocalidades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarObrasSociales">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarObrasSociales" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarPreliquidacion">
+      <soap12:operation soapAction="http://tempuri.org/InsertarPreliquidacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCartillaPrestadores">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarCartillaPrestadores" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarCartillaPrestadoresPorPlan">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarCartillaPrestadoresPorPlan" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarAutorizacionADESFA_3_1_0">
+      <soap12:operation soapAction="http://tempuri.org/InsertarAutorizacionADESFA_3_1_0" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarAutorizacionADESFA_3_1_0">
+      <soap12:operation soapAction="http://tempuri.org/CancelarAutorizacionADESFA_3_1_0" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarAfiliadoPorUsuario">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarAfiliadoPorUsuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarOtrosDatosAfiliado">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarOtrosDatosAfiliado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarHistorialAutorizacionesParaAfiliado">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarHistorialAutorizacionesParaAfiliado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaCuentaCorrienteAfiliado">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaCuentaCorrienteAfiliado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarHistorialPrestacionalParaAfiliado">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarHistorialPrestacionalParaAfiliado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaPorcentajeCoberturaFarmacia">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaPorcentajeCoberturaFarmacia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReporteCuentaCorriente">
+      <soap12:operation soapAction="http://tempuri.org/ReporteCuentaCorriente" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSGecrosNet">
+    <wsdl:port name="WSGecrosNetSoap" binding="tns:WSGecrosNetSoap">
+      <soap:address location="https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSGecrosNetSoap12" binding="tns:WSGecrosNetSoap12">
+      <soap12:address location="https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
