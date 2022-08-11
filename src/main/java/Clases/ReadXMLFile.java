@@ -4,6 +4,8 @@ import ClienteNobis.RespuestaInsertarAutorizacionAmb;
 import ClienteOspe.practicaXMLospe;
 import ClienteOspe.respuestaXMLospe;
 import ClienteNobis.respuestaXMLNobis;
+import ClienteOsde.Beneficiario;
+import ClienteOsde.Credencial;
 import ClienteOsde.DetalleProcedimientos;
 import ClienteOsde.RespuestaXMLOsde;
 import ClienteOsde.Rta;
@@ -782,21 +784,13 @@ public class ReadXMLFile {
                                 
             } else {
                 System.out.println("error node EncabezadoMensaje" + node.toString());
-//                respuestaOsde.setMensaje("Error al cargar Encabezado Atención");
-//                respuestaOsde.setAfiliado("");
-//                respuestaOsde.setDni("");
-//                respuestaOsde.setNumeroAfi("");
-//                respuestaOsde.setEstado("Error al cargar Encabezado Atención");
+                JOptionPane.showMessageDialog(null, "Error al cargar nodo del encabezado");
             }
             
             //  }
         } else {
             System.out.println("error EncabezadoMensaje" + EncabezadoMensaje.toString());
-//            respuestaOsde.setMensaje("Error al leer Document Element");
-//            respuestaOsde.setAfiliado("");
-//            respuestaOsde.setNumeroAfi("");
-//            respuestaOsde.setDni("");
-//            respuestaOsde.setEstado("Error al leer Document Element");
+            JOptionPane.showMessageDialog(null, "Error al cargar el encabezado");
         }
         
         // get <DetalleProcedimientos>
@@ -853,21 +847,13 @@ public class ReadXMLFile {
                                 
             } else {
                 System.out.println("error node DetalleProcedimientos" + node.toString());
-//                respuestaOsde.setMensaje("Error al cargar Encabezado Atención");
-//                respuestaOsde.setAfiliado("");
-//                respuestaOsde.setDni("");
-//                respuestaOsde.setNumeroAfi("");
-//                respuestaOsde.setEstado("Error al cargar Encabezado Atención");
+                JOptionPane.showMessageDialog(null, "Error al cargar nodo del procedimiento");
             }
             
             //  }
         } else {
             System.out.println("error DetalleProcedimientos" + DetalleProcedimientos.toString());
-//            respuestaOsde.setMensaje("Error al leer Document Element");
-//            respuestaOsde.setAfiliado("");
-//            respuestaOsde.setNumeroAfi("");
-//            respuestaOsde.setDni("");
-//            respuestaOsde.setEstado("Error al leer Document Element");
+            JOptionPane.showMessageDialog(null, "Error al cargar el procedimiento");
         }
         
         System.out.println("fin osde");
@@ -875,8 +861,8 @@ public class ReadXMLFile {
         return respuestaOsde;
     }
     
-    //diferido
-    public RespuestaXMLOsde ReadXMLOsde02D() throws JAXBException, ParserConfigurationException, SAXException, IOException {
+    //beneficiario
+    public RespuestaXMLOsde ReadXMLOsde01A() throws JAXBException, ParserConfigurationException, SAXException, IOException {
         RespuestaXMLOsde respuestaOsde = new RespuestaXMLOsde();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
@@ -930,92 +916,105 @@ public class ReadXMLFile {
                                 
             } else {
                 System.out.println("error node EncabezadoMensaje" + node.toString());
-//                respuestaOsde.setMensaje("Error al cargar Encabezado Atención");
-//                respuestaOsde.setAfiliado("");
-//                respuestaOsde.setDni("");
-//                respuestaOsde.setNumeroAfi("");
-//                respuestaOsde.setEstado("Error al cargar Encabezado Atención");
+                JOptionPane.showMessageDialog(null, "Error al cargar nodo del Encabezado Mensaje");      
             }
             
             //  }
         } else {
             System.out.println("error EncabezadoMensaje" + EncabezadoMensaje.toString());
-//            respuestaOsde.setMensaje("Error al leer Document Element");
-//            respuestaOsde.setAfiliado("");
-//            respuestaOsde.setNumeroAfi("");
-//            respuestaOsde.setDni("");
-//            respuestaOsde.setEstado("Error al leer Document Element");
+            JOptionPane.showMessageDialog(null, "Error al cargar el Encabezado Mensaje");      
         }
         
-        // get <DetalleProcedimientos>
-        NodeList DetalleProcedimientos = doc.getDocumentElement().getElementsByTagName("DetalleProcedimientos");
+        // get <Beneficiario>
+        NodeList Beneficiario = doc.getDocumentElement().getElementsByTagName("Beneficiario");
 
-        if (DetalleProcedimientos.getLength() != 0) {
-            Node node = DetalleProcedimientos.item(0);
-            String NroItem = "";
-            String CodPrestacion = "";
-            String TipoPrestacion = "";
-            String ArancelPrestacion = "";
-            String CantidadSolicitada = "";
-            String CantidadAprobada = "";
-            String DescripcionPrestacion = "";
-            String CodRta = "";
-            String MensajeRta = "";
+        if (Beneficiario.getLength() != 0) {
+            Node node = Beneficiario.item(0);
+            String ApellidoBeneficiario = "";
+            String NombreBeneficiario = "";
+            String Sexo = "";
+            String FechaNacimiento = "";
             if (node.getNodeType() == Node.ELEMENT_NODE) {
 
                 org.w3c.dom.Element element = (org.w3c.dom.Element) node;
                 
                 // get NroItem       
-                NroItem = element.getElementsByTagName("NroItem").item(0).getTextContent();
+                ApellidoBeneficiario = element.getElementsByTagName("ApellidoBeneficiario").item(0).getTextContent();
                 // get CodPrestacion       
-                CodPrestacion = element.getElementsByTagName("CodPrestacion").item(0).getTextContent();
+                NombreBeneficiario = element.getElementsByTagName("NombreBeneficiario").item(0).getTextContent();
                 // get TipoPrestacion       
-                TipoPrestacion = element.getElementsByTagName("TipoPrestacion").item(0).getTextContent();
+                Sexo = element.getElementsByTagName("Sexo").item(0).getTextContent();
                 // get ArancelPrestacion       
-                ArancelPrestacion = element.getElementsByTagName("ArancelPrestacion").item(0).getTextContent();
-                // get CantidadSolicitada       
-                CantidadSolicitada = element.getElementsByTagName("CantidadSolicitada").item(0).getTextContent();
-                // get CantidadAprobada       
-                CantidadAprobada = element.getElementsByTagName("CantidadAprobada").item(0).getTextContent();
-                // get DescripcionPrestacion       
-                DescripcionPrestacion = element.getElementsByTagName("DescripcionPrestacion").item(0).getTextContent();
-                // get CodRta       
-                CodRta = element.getElementsByTagName("CodRta").item(0).getTextContent();
-                // get MensajeRta       
-                MensajeRta = element.getElementsByTagName("MensajeRta").item(0).getTextContent();
+                FechaNacimiento = element.getElementsByTagName("FechaNacimiento").item(0).getTextContent();
                 
-                DetalleProcedimientos detalle = new DetalleProcedimientos();
                 
-                detalle.setNroItem(NroItem);
-                detalle.setCodPrestacion(CodPrestacion);
-                detalle.setTipoPrestacion(TipoPrestacion);
-                detalle.setArancelPrestacion(ArancelPrestacion);
-                detalle.setCantidadSolicitada(CantidadSolicitada);
-                detalle.setCantidadAprobada(CantidadAprobada);
-                detalle.setDescripcionPrestacion(DescripcionPrestacion);
-                detalle.setCodRta(CodRta);
-                detalle.setMensajeRta(MensajeRta);
+                Beneficiario afiliado = new Beneficiario();
                 
-                respuestaOsde.setDetalleProcedimientos(detalle);
+                afiliado.setApellidoBeneficiario(ApellidoBeneficiario);
+                afiliado.setNombreBeneficiario(NombreBeneficiario);
+                afiliado.setSexo(Sexo);
+                afiliado.setFechaNacimiento(FechaNacimiento);
+                                
+                respuestaOsde.setBeneficiario(afiliado);
                 
                                 
             } else {
-                System.out.println("error node DetalleProcedimientos" + node.toString());
-//                respuestaOsde.setMensaje("Error al cargar Encabezado Atención");
-//                respuestaOsde.setAfiliado("");
-//                respuestaOsde.setDni("");
-//                respuestaOsde.setNumeroAfi("");
-//                respuestaOsde.setEstado("Error al cargar Encabezado Atención");
+                System.out.println("error node Beneficiario" + node.toString());
+                JOptionPane.showMessageDialog(null, "Error al cargar nodo del Beneficiario");      
             }
             
             //  }
         } else {
-            System.out.println("error DetalleProcedimientos" + DetalleProcedimientos.toString());
-//            respuestaOsde.setMensaje("Error al leer Document Element");
-//            respuestaOsde.setAfiliado("");
-//            respuestaOsde.setNumeroAfi("");
-//            respuestaOsde.setDni("");
-//            respuestaOsde.setEstado("Error al leer Document Element");
+            System.out.println("error Beneficiario" + Beneficiario.toString());
+            JOptionPane.showMessageDialog(null, "Error al cargar el Beneficiario");      
+        }
+        
+        // get <Credencial>
+        NodeList Credencial = doc.getDocumentElement().getElementsByTagName("Credencial");
+
+        if (Credencial.getLength() != 0) {
+            Node node = Credencial.item(0);
+            String NumeroCredencial = "";
+            String Track = "";
+            String VersionCredencial = "";
+            String PlanCredencial = "";
+            String CondicionIVA = "";
+            
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                
+                // get NumeroCredencial       
+                NumeroCredencial = element.getElementsByTagName("NumeroCredencial").item(0).getTextContent();
+                // get Track       
+                Track = element.getElementsByTagName("Track").item(0).getTextContent();
+                // get VersionCredencial       
+                VersionCredencial = element.getElementsByTagName("VersionCredencial").item(0).getTextContent();
+                // get PlanCredencial       
+                PlanCredencial = element.getElementsByTagName("PlanCredencial").item(0).getTextContent();
+                // get CondicionIVA       
+                CondicionIVA = element.getElementsByTagName("CondicionIVA").item(0).getTextContent();
+                
+                Credencial credencial = new Credencial();
+                
+                credencial.setNumeroCredencial(NumeroCredencial);
+                credencial.setTrack(Track);
+                credencial.setVersionCredencial(VersionCredencial);
+                credencial.setPlanCredencial(PlanCredencial);
+                credencial.setCondicionIVA(CondicionIVA);
+                
+                respuestaOsde.setCredencial(credencial);
+                
+                                
+            } else {
+                System.out.println("error node Beneficiario" + node.toString());
+                JOptionPane.showMessageDialog(null, "Error al cargar nodo del Beneficiario");      
+            }
+            
+            //  }
+        } else {
+            System.out.println("error Beneficiario" + Beneficiario.toString());
+            JOptionPane.showMessageDialog(null, "Error al cargar el Beneficiario");      
         }
         
         System.out.println("fin osde");
@@ -1078,21 +1077,13 @@ public class ReadXMLFile {
                                 
             } else {
                 System.out.println("error node EncabezadoMensaje" + node.toString());
-//                respuestaOsde.setMensaje("Error al cargar Encabezado Atención");
-//                respuestaOsde.setAfiliado("");
-//                respuestaOsde.setDni("");
-//                respuestaOsde.setNumeroAfi("");
-//                respuestaOsde.setEstado("Error al cargar Encabezado Atención");
+                JOptionPane.showMessageDialog(null, "Error al cargar nodo del Encabezado Mensaje");      
             }
             
             //  }
         } else {
             System.out.println("error EncabezadoMensaje" + EncabezadoMensaje.toString());
-//            respuestaOsde.setMensaje("Error al leer Document Element");
-//            respuestaOsde.setAfiliado("");
-//            respuestaOsde.setNumeroAfi("");
-//            respuestaOsde.setDni("");
-//            respuestaOsde.setEstado("Error al leer Document Element");
+            JOptionPane.showMessageDialog(null, "Error al cargar el Encabezado Mensaje");      
         }
         
         System.out.println("fin osde");

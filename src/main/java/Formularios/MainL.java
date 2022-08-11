@@ -8663,19 +8663,6 @@ public class MainL extends javax.swing.JFrame {
         ConexionMariaDB cc = new ConexionMariaDB();
         Connection cn = cc.Conectar();
 
-        /*try {
-            ////////////////////////gordo mentiroso/////////////////////////////
-            Statement st7 = cn.createStatement();
-            ResultSet rs7 = st7.executeQuery("SELECT id_orden,id_obrasocial,dni_afiliado,nombre_afiliado,numero_afiliado FROM ordenes WHERE id_orden=" + valor);
-            rs7.next();
-            id_obra_social = rs7.getInt("id_obrasocial");
-            txtdocumento.setText(rs7.getString("dni_afiliado"));
-            txtnumafiliado.setText(rs7.getString("numero_afiliado"));
-            txtnombreafiliado.setText(rs7.getString("nombre_afiliado"));
-        } catch (Exception e) {
-            cursor2();
-            JOptionPane.showMessageDialog(null, e);
-        }*/
         String sql = "SELECT\n"
                 + "*\n"
                 + "FROM\n"
