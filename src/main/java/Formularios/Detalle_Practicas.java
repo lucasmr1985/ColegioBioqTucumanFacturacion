@@ -112,7 +112,7 @@ public class Detalle_Practicas extends javax.swing.JDialog {
                     ///////////////////////////////////////////////////////////////////
                     alinear();
                     tablapracticas.getColumnModel().getColumn(0).setCellRenderer(alinearCentro);
-                    tablapracticas.getColumnModel().getColumn(1).setCellRenderer(alinearCentro);
+                    tablapracticas.getColumnModel().getColumn(1).setCellRenderer(alinearIzquierda);
                     tablapracticas.getColumnModel().getColumn(2).setCellRenderer(alinearCentro);
                     tablapracticas.getColumnModel().getColumn(3).setCellRenderer(alinearCentro);
                     //////////////////////////////////////////////////////////////////
@@ -298,6 +298,7 @@ public class Detalle_Practicas extends javax.swing.JDialog {
 
             }
         ));
+        tablapracticas.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tablapracticas);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -356,7 +357,9 @@ public class Detalle_Practicas extends javax.swing.JDialog {
         txtobservaciones.setEditable(false);
         txtobservaciones.setColumns(20);
         txtobservaciones.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        txtobservaciones.setLineWrap(true);
         txtobservaciones.setRows(5);
+        txtobservaciones.setWrapStyleWord(true);
         jScrollPane2.setViewportView(txtobservaciones);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
