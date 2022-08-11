@@ -1,5 +1,7 @@
 package Formularios;
 
+import Clases.ReadXMLFile;
+import ClienteOsde.OsdeConexionWsdl;
 import static Formularios.Login.cuit;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
@@ -16,7 +18,7 @@ import javax.swing.JOptionPane;
 
 public class AfiliadoOsde extends javax.swing.JDialog {
 
-    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "",CSC_OS="";
+    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", CSC_OS = "";
 
     String hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
 
@@ -234,36 +236,32 @@ public class AfiliadoOsde extends javax.swing.JDialog {
         System.out.println("numero_afiliado " + numero_afiliado);
         mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>01A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Terminal><TipoTerminal>PC</TipoTerminal><NumeroTerminal>1</NumeroTerminal></Terminal><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + numero_afiliado + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion><DetalleProcedimientos/></Mensaje>";
 
-        HttpURLConnectionExample http = new HttpURLConnectionExample();
+        OsdeConexionWsdl servicio = new OsdeConexionWsdl();
 
         System.out.println("Testing 1 - Send Http GET request");
         try {
-            http.sendGet();
+            servicio.sendGet(mensaje);
+
+            ReadXMLFile respuestaOsde = new ReadXMLFile();
+            if (respuestaOsde.ReadXMLOsde01A().getRta().getCodRtaGeneral().equals("000")) {
+                if (respuestaOsde.ReadXMLOsde01A().getRta().getMensajeDisplay().substring(0, 2).equals("OK")) {
+                    habilitado = respuestaOsde.ReadXMLOsde01A().getRta().getMensajeDisplay().substring(0, 2);
+                    JOptionPane.showMessageDialog(null, "El Afiliado esta habilitado");
+                    nombreafiliado = respuestaOsde.ReadXMLOsde01A().getBeneficiario().getApellidoBeneficiario() + " " + respuestaOsde.ReadXMLOsde01A().getBeneficiario().getNombreBeneficiario();
+                    Codigo_afiliado = respuestaOsde.ReadXMLOsde01A().getCredencial().getNumeroCredencial();
+                    dni = "";
+                    dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error código: " + respuestaOsde.ReadXMLOsde01A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaOsde.ReadXMLOsde01A().getRta().getMensajeDisplay());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error código: " + respuestaOsde.ReadXMLOsde01A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaOsde.ReadXMLOsde01A().getRta().getMensajeDisplay());
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Osde");
         }
-        int pos0 = respuesta.indexOf("Afiliado : ") + 11;
-        int pos1 = pos0 + 11;
-        System.out.println(respuesta.substring(pos0, pos1));
-        Codigo_afiliado = respuesta.substring(pos0, pos1);
-
-        int pos = respuesta.indexOf("MensajeDisplay");
-        int pos2 = respuesta.indexOf("</MensajeDisplay");
-
-        int pos3 = respuesta.indexOf("Nombre:");
-        int pos4 = respuesta.indexOf("Nro.Plan:");
-        if (respuesta.substring(pos + 15, pos + 17).equals("OK")) {
-            habilitado = respuesta.substring(pos + 15, pos + 17);
-          //  JOptionPane.showMessageDialog(null, "El Afiliado esta habilitado");
-            nombreafiliado = respuesta.substring(pos3 + 7, pos4);
-            dni = "";
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, respuesta.substring(pos + 15, pos2));
-            txtafiliado.requestFocus();
-        }
-
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

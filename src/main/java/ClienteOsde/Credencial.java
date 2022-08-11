@@ -14,6 +14,7 @@ public class Credencial {
     private String Track;
     private String VersionCredencial;
     private String CondicionIVA;
+    private String PlanCredencial;
 
     public Credencial() {
     }
@@ -50,5 +51,11 @@ public class Credencial {
         this.CondicionIVA = CondicionIVA;
     }
     
-    
+     public String getPlanCredencial() {
+        return PlanCredencial;
+    }
+
+    public void setPlanCredencial(String PlanCredencial) {
+        this.PlanCredencial = PlanCredencial;
+    }
 }
