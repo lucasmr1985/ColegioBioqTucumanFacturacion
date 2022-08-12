@@ -77,14 +77,14 @@ public class Resumen_OS extends javax.swing.JDialog {
             tabla_resumen_OS.getColumnModel().getColumn(1).setCellRenderer(alinearIzquierda);
             tabla_resumen_OS.getColumnModel().getColumn(2).setCellRenderer(alinearCentro);
             tabla_resumen_OS.getColumnModel().getColumn(3).setCellRenderer(alinearCentro);
-            tabla_resumen_OS.getColumnModel().getColumn(4).setCellRenderer(alinearIzquierda);
+            tabla_resumen_OS.getColumnModel().getColumn(4).setCellRenderer(alinearDerecha);
             tabla_resumen_OS.getColumnModel().getColumn(5).setCellRenderer(alinearCentro);
             tabla_resumen_OS.getColumnModel().getColumn(6).setCellRenderer(alinearCentro);
             tabla_resumen_OS.getColumnModel().getColumn(0).setPreferredWidth(60);
             tabla_resumen_OS.getColumnModel().getColumn(1).setPreferredWidth(200);
             tabla_resumen_OS.getColumnModel().getColumn(2).setPreferredWidth(60);
             tabla_resumen_OS.getColumnModel().getColumn(3).setPreferredWidth(60);
-            tabla_resumen_OS.getColumnModel().getColumn(4).setPreferredWidth(60);
+            tabla_resumen_OS.getColumnModel().getColumn(4).setPreferredWidth(100);
             tabla_resumen_OS.getColumnModel().getColumn(5).setPreferredWidth(60);
             tabla_resumen_OS.getColumnModel().getColumn(6).setPreferredWidth(60);
             cn.close();

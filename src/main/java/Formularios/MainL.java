@@ -1460,7 +1460,7 @@ public class MainL extends javax.swing.JFrame {
                         ////////////////////////////////////////////////////////////////////////////////////////////////
                         if (CodObra.equals("511")) { ////////comparo para saber que pdf realizar 511 - MEDIFE
                             try {
-                                pesos = pesos * 1.21;
+                                pesos = pesos * 1.105;
                                 centavos = Redondearcentavos(pesos);
                                 pesos = Redondeardosdigitos(pesos - centavos / 100);
                                 total_pesos_letras = NumberToLetterConverter.convertNumberToLetter(pesos);
@@ -1481,8 +1481,8 @@ public class MainL extends javax.swing.JFrame {
                                 parametros.put("total_letras_pesos", total_pesos_letras + " PESOS");
                                 parametros.put("total_letras_centavos", total_centavos_letras + " CENTAVOS");
                                 parametros.put("Subtotal", df.format(importetotal));
-                                parametros.put("IVA", df.format(importetotal * 0.21));
-                                parametros.put("total", df.format(importetotal * 1.21));
+                                parametros.put("IVA", df.format(importetotal * 0.105));
+                                parametros.put("total", df.format(importetotal * 1.105));
                                 JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
                                 /// JasperExportManager.exportReportToPdfFile(jPrint, "C:\\PDF-FACTURACION\\PDF-FACTURACION\\" + periodo + "-" + matricula_colegiado + "-" + CodObra + ".pdf");
                                 //JasperExportManager.exportReportToPdfFile(jPrint, "J:\\PDF-FACTURACION\\" + periodo + "-" + matricula + "-" + cod_obra + ".pdf");
@@ -8779,9 +8779,10 @@ public class MainL extends javax.swing.JFrame {
 
         }
         txttotal.setText((String.valueOf(Redondear(total))));*/
-        double total = 0.00, sumatoria = 0.0;
+        double total = 0.00, sumatoria = 0.00;
         /// System.out.println("Formularios.MainL.cargatotales()");
         DecimalFormat df = new DecimalFormat("0.00");
+
         //AQUI SE SUMAN LOS VALORES DE CADA FILA PARA COLOCARLO EN EL CAMPO DE TOTAL
         int totalRow = tablaordenes.getRowCount();
         totalRow -= 1;
@@ -8792,12 +8793,15 @@ public class MainL extends javax.swing.JFrame {
                 String x = tablaordenes.getValueAt(i, 9).toString();
                 sumatoria = Double.valueOf(x);
                 total = total + sumatoria;
+
             }
         }
         ///   System.out.println("Formularios.MainL.cargatotales() 5");
         //txttotalordenes.setText((String.valueOf(totalRow + 1)));
         if (estadologinadmin == true) {
             txttotal.setText((String.valueOf(Redondear(total))));
+//            JOptionPane.showMessageDialog(null, total);
+//            JOptionPane.showMessageDialog(null, String.valueOf(Redondear(total)));
             /// System.out.println("Formularios.MainL.cargatotales() 6");
         } else {
             txttotal.setText("-----");
@@ -10075,7 +10079,7 @@ public class MainL extends javax.swing.JFrame {
             if (!txtnumorden.getText().equals("")) {
                 if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText())
                         || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText())
-                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
+//                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
                         || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText())
                         || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText())
                         || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText())
@@ -10849,7 +10853,7 @@ public class MainL extends javax.swing.JFrame {
                     id_orden = Integer.valueOf(tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 0).toString());
                     String cod_afiliado = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 3).toString();
                     String fecha = tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 7).toString();
-
+                    String CodigoOsde = "";
                     System.out.println("codigo Afiliado: " + cod_afiliado);
                     System.out.println("fecha Afiliado: " + fecha);
 
@@ -10883,12 +10887,12 @@ public class MainL extends javax.swing.JFrame {
                                     ReadXMLFile respuestaAnulacionOsde = new ReadXMLFile();
                                     if (respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral().equals("000")) {
                                         cursor2();
-                                        observacion_anulacion = "código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
-                                        JOptionPane.showMessageDialog(null, observacion_anulacion);                                        
+                                        observacion_anulacion = "Nº de Referencia: " + respuestaAnulacionOsde.ReadXMLOsde04A().getNroReferencia() + ". Código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
+                                        JOptionPane.showMessageDialog(null, observacion_anulacion);
                                     } else {
-                                        System.out.println("2 anulacion");                                        
+                                        System.out.println("2 anulacion");
                                         cursor2();
-                                        observacion_anulacion = "código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
+                                        observacion_anulacion = "Nº de Referencia: " + respuestaAnulacionOsde.ReadXMLOsde04A().getNroReferencia() + " código: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaAnulacionOsde.ReadXMLOsde04A().getRta().getMensajeDisplay();
                                         JOptionPane.showMessageDialog(null, observacion_anulacion);
                                         bandera_anulacion = 1;
                                     }
@@ -12540,13 +12544,24 @@ public class MainL extends javax.swing.JFrame {
             nombre_jasper = "Comprobante_coseguro";
             b = 1;
         }
+        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().toString().equals("OSPE- OBRA SOCIAL DE PETROLEROS")) {
+            nombre_jasper = "Comprobante_Ospe_1";
+            b = 1;
+        }
+        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().toString().equals("OSPE- OBRA SOCIAL DE PETROLEROS")) {
+            nombre_jasper = "Comprobante_Ospe_1";
+            b = 1;
+        }
+
+        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().toString().equals("OSDE")) {
+            nombre_jasper = "Comprobante_OSDE";
+            b = 1;
+        }
+
         if (b == 0) {
             nombre_jasper = "Comprobante";
         }
-        if (tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().toString().equals("OSPE")) {
-            nombre_jasper = "Comprobante_Ospe";
-            b = 1;
-        }
+
         try {
             JasperReport report_comprobante = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/" + nombre_jasper + ".jasper"));
             JasperPrint jPrint_comprobante = JasperFillManager.fillReport(report_comprobante, parametros, cn);
