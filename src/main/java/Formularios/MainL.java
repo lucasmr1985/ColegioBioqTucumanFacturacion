@@ -10079,7 +10079,7 @@ public class MainL extends javax.swing.JFrame {
             if (!txtnumorden.getText().equals("")) {
                 if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText())
                         || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText())
-                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
+//                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
                         || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText())
                         || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText())
                         || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText())
