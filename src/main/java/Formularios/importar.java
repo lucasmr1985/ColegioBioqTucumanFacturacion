@@ -94,17 +94,7 @@ public class importar extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        File archivo;
-        JFileChooser flcAbrirArchivo;
-        flcAbrirArchivo = new JFileChooser();
-        flcAbrirArchivo.setFileFilter(new FileNameExtensionFilter("Documento de texto", "txt", "txt"));
-        int respuesta = flcAbrirArchivo.showOpenDialog(this);
-        if (respuesta == JFileChooser.APPROVE_OPTION) {
-            archivo = flcAbrirArchivo.getSelectedFile();
-            url = (archivo.getAbsolutePath());
-            Importar = 1;
-            dispose();
-        }
+      
     }//GEN-LAST:event_jLabel4MouseClicked
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         

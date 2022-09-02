@@ -43,8 +43,6 @@ import static Formularios.Login.periodo_colegiado;
 import static Formularios.LoginAdmin.estadologinadmin;
 import static Formularios.LoginAdmin.estadologinsecretaria;
 import static Formularios.AfiliadoOsde.habilitado;
-import static Formularios.importar.Importar;
-import static Formularios.importar.archivo;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -147,6 +145,7 @@ import static Formularios.AfiliadoOsde.CSC_OS;
 import static Formularios.AfiliadoSwiss.CSC_SW;
 import static Formularios.AfiliadoSwiss.Codigo_afiliado;
 import static Formularios.AfiliadoSwiss.apiKey;
+import static Formularios.importar.Importar;
 import controlador.Funciones;
 import java.io.File;
 import java.io.FileWriter;
@@ -186,6 +185,8 @@ import javax.ws.rs.client.WebTarget;
 import com.google.gson.Gson;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
@@ -2177,6 +2178,8 @@ public class MainL extends javax.swing.JFrame {
         txttotalanuladas = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         txttotalobservadas = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        txtTotalAuditoria = new javax.swing.JTextField();
         btnimprimirdjj = new javax.swing.JButton();
         btnimprimirobra = new javax.swing.JButton();
         btncancelar3 = new javax.swing.JButton();
@@ -2995,7 +2998,7 @@ public class MainL extends javax.swing.JFrame {
         btnimportar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnimportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/32/728983 - folder.png"))); // NOI18N
         btnimportar.setMnemonic('t');
-        btnimportar.setText("Agregar Archivo");
+        btnimportar.setText("Agregar Archivo txt");
         btnimportar.setToolTipText("[Alt + t]");
         btnimportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3047,13 +3050,13 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(btnimportar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnimportar, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
                         .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(formatoArchivoBoton))
                     .addComponent(jSeparator4)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -3385,6 +3388,15 @@ public class MainL extends javax.swing.JFrame {
         txttotalobservadas.setBorder(null);
         txttotalobservadas.setOpaque(false);
 
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel29.setText("Auditoria:");
+
+        txtTotalAuditoria.setEditable(false);
+        txtTotalAuditoria.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtTotalAuditoria.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtTotalAuditoria.setBorder(null);
+        txtTotalAuditoria.setOpaque(false);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -3392,7 +3404,7 @@ public class MainL extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(txtordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -3408,7 +3420,11 @@ public class MainL extends javax.swing.JFrame {
                         .addComponent(jLabel28)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txttotalobservadas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotalAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txttotal)))
@@ -3428,6 +3444,8 @@ public class MainL extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txttotalobservadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel28)
+                            .addComponent(txtTotalAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29)
                             .addComponent(jLabel14))
                         .addComponent(txttotalordenes)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -9205,7 +9223,21 @@ public class MainL extends javax.swing.JFrame {
         if (!txtaño3.getText().equals("") && !txtmes3.getText().equals("") && !txtmes3.getText().equals("  ") && !txtaño3.getText().equals("    ")) {//  
             progreso.setValue(0);
             JOptionPane.showMessageDialog(null, "Limite de practicas por orden - 60 - ");
-            new importar(this, true).setVisible(true);
+            
+            ///////////////////////////////////////////////////////////////////////
+            File archivo = null;
+            JFileChooser flcAbrirArchivo;
+            flcAbrirArchivo = new JFileChooser();
+            flcAbrirArchivo.setFileFilter(new FileNameExtensionFilter("Documento de texto", "txt", "txt"));
+            int respuesta = flcAbrirArchivo.showOpenDialog(this);
+            if (respuesta == JFileChooser.APPROVE_OPTION) {
+                archivo = flcAbrirArchivo.getSelectedFile();
+                url = (archivo.getAbsolutePath());
+                Importar = 1;              
+            }
+            ///////////////////////////////////////////////////////////////////////
+            
+            
             if (Importar == 1) {
                 jLabel19.setText(url);
                 leer_archivo();
@@ -9283,7 +9315,7 @@ public class MainL extends javax.swing.JFrame {
          }
          txttotalordenes.setText((String.valueOf(contador)));*/
 
-        int totalRow = tablaordenes.getRowCount(), contador = 0, contador2 = 0, contador3 = 0;
+        int totalRow = tablaordenes.getRowCount(), contador = 0, contador2 = 0, contador3 = 0,contador4=0;
         totalRow -= 1;
         for (int i = 0; i <= (totalRow); i++) {
             if (tablaordenes.getValueAt(i, 10).toString().equals("OK")) {
@@ -9292,13 +9324,17 @@ public class MainL extends javax.swing.JFrame {
             if (tablaordenes.getValueAt(i, 10).toString().equals("ANULADA")) {
                 contador2++;
             }
-            if (tablaordenes.getValueAt(i, 10).toString().equals("OBSERVADA") || tablaordenes.getValueAt(i, 10).toString().equals("AUDITORIA")) {
+            if (tablaordenes.getValueAt(i, 10).toString().equals("OBSERVADA") ) {
                 contador3++;
+            }
+            if (tablaordenes.getValueAt(i, 10).toString().equals("AUDITORIA")) {
+                contador4++;
             }
         }
         txttotalordenes.setText((String.valueOf(contador)));
         txttotalanuladas.setText((String.valueOf(contador2)));
         txttotalobservadas.setText((String.valueOf(contador3)));
+        txtTotalAuditoria.setText((String.valueOf(contador4)));
 
     }
 
@@ -10079,7 +10115,7 @@ public class MainL extends javax.swing.JFrame {
             if (!txtnumorden.getText().equals("")) {
                 if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText())
                         || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText())
-//                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
+                        //                        || "1802 - SUBSIDIO DE SALUD - SEGURO ESCOLAR".equals(txtobrasocial.getText())
                         || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText())
                         || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText())
                         || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText())
@@ -13043,6 +13079,7 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -13080,6 +13117,7 @@ public class MainL extends javax.swing.JFrame {
     private javax.swing.JTable tablaordenes1;
     private javax.swing.JTable tablapracticas;
     private javax.swing.JTextField txtDiaOrden;
+    private javax.swing.JTextField txtTotalAuditoria;
     private javax.swing.JFormattedTextField txtaño;
     private javax.swing.JFormattedTextField txtaño1;
     private javax.swing.JFormattedTextField txtaño3;
