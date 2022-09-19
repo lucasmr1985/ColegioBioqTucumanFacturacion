@@ -192,6 +192,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONObject;
 import org.xml.sax.SAXException;
+import sun.awt.KeyboardFocusManagerPeerImpl;
 
 public class MainL extends javax.swing.JFrame {
 
@@ -3928,11 +3929,12 @@ public class MainL extends javax.swing.JFrame {
 
                 if (banderamodifica == 0) {
                     try {
-//                        String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI + " and estado";
-                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+                        String controlOrden = "SELECT COUNT(numero_orden) FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
+//                        String controlOrden = "SELECT numero_orden FROM vista_ordenes_control WHERE id_obrasocial=58 and numero_orden= " + num_orden_PAMI;
                         Statement stControl = cnPAMI.createStatement();
                         ResultSet rsControl = stControl.executeQuery(controlOrden);
                         rsControl.next();
+                        banderaControl = rsControl.getInt(1);
 
                         if (banderaControl == 0) {
                             estado_orden = 3;
@@ -5830,6 +5832,7 @@ public class MainL extends javax.swing.JFrame {
                             || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
                         cursor();
                         num_orden = "";
+                        mensaje="";
                         TripleDes tpDatos = new TripleDes();
                         /////////////////////////////////////////////////////////////////////////////////
                         plan_ss = "";
@@ -5884,8 +5887,9 @@ public class MainL extends javax.swing.JFrame {
                                 ///busco la respuesta
                                 String respuestaMedife = "";
                                 i = result.indexOf("ZAU");
+                                int fin = result.indexOf("ZIN");
                                 int pipe = 0;
-                                while (i < result.indexOf("PRD")) {
+                                while (i < result.indexOf("PRD") && i < fin) {
                                     if (pipe == 3) {
                                         mensaje = mensaje + result.charAt(i);
                                     }
@@ -5897,7 +5901,7 @@ public class MainL extends javax.swing.JFrame {
                                 ////busco numero de respuesta
                                 i = result.indexOf("ZAU");
                                 pipe = 0;
-                                while (i < result.indexOf("PRD")) {
+                                while (i < result.indexOf("PRD") && i < fin) {
                                     if (pipe == 2) {
                                         if (result.charAt(i) != '|') {
                                             num_orden = num_orden + result.charAt(i);
@@ -5913,6 +5917,7 @@ public class MainL extends javax.swing.JFrame {
                                 System.out.println(num_orden + " " + mensaje);
                                 System.out.println(codigo_respuesta);
                                 System.out.println("tipo_orden Medife2:" + tipo_orden);
+                                
                                 if (codigo_respuesta.equals("B000")) {
                                     estado_orden = 1;
                                     txtnumorden.setText(num_orden);
@@ -5971,8 +5976,9 @@ public class MainL extends javax.swing.JFrame {
                                             System.out.println("Respuesta = " + result);
                                             ///busco la respuesta
                                             i = result.indexOf("ZAU");
+                                            fin = result.indexOf("ZIN");
                                             pipe = 0;
-                                            while (i < result.indexOf("PRD")) {
+                                            while (i < result.indexOf("PRD") && i < fin) {
                                                 if (pipe == 3) {
                                                     mensaje = mensaje + result.charAt(i);
                                                 }
@@ -5984,7 +5990,7 @@ public class MainL extends javax.swing.JFrame {
                                             ////busco numero de respuesta
                                             i = result.indexOf("ZAU");
                                             pipe = 0;
-                                            while (i < result.indexOf("PRD")) {
+                                            while (i < result.indexOf("PRD") && i < fin) {
                                                 if (pipe == 2) {
                                                     num_orden = num_orden + result.charAt(i);
                                                 }
@@ -6000,7 +6006,7 @@ public class MainL extends javax.swing.JFrame {
                                             cursor2();
                                             JOptionPane.showMessageDialog(null, ex);
                                         }
-                                        if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
+                                        if (codigo_respuesta.equals("B000")) {
                                             bandera_medife = 0;
                                             JOptionPane.showMessageDialog(null, "La orden no fue validada");
                                         } else {
@@ -6011,7 +6017,7 @@ public class MainL extends javax.swing.JFrame {
                                     } else {
                                         cursor2();
                                         bandera_medife = 1;
-                                        JOptionPane.showMessageDialog(null, "Nro. Transaccion: " + num_orden);
+                                        JOptionPane.showMessageDialog(null, "Nro. Transacción: " + num_orden);
                                         borrartabla();
                                     }
                                 } else {
@@ -6019,10 +6025,13 @@ public class MainL extends javax.swing.JFrame {
                                     estado_orden = 0;
                                     txtnumorden.setText(num_orden);
 
-                                    observacion = result;
-                                    if (observacion.length() > 500) {
-                                        observacion = observacion.substring(0, 500);
-                                    }
+                                    String respuestaPracticas = practicasMedife(result);
+
+                                    codigo_respuesta = mensaje.substring(0, 4);
+
+                                    System.out.println(num_orden + " " + mensaje);
+
+                                    observacion = respuestaPracticas;
 
                                     /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                                     validar_orden medife = new validar_orden();
@@ -6062,10 +6071,11 @@ public class MainL extends javax.swing.JFrame {
                                         bandera_medife = 0;
                                         JOptionPane.showMessageDialog(null, "La orden no pudo ser cargada en el servidor de Medife");
                                         JOptionPane.showMessageDialog(null, mensaje);
+                                        JOptionPane.showMessageDialog(null, respuestaPracticas);
                                         borrartabla();
                                     }
                                 }
-                                cursor2();
+                                cursor2();                                
                             } catch (Exception ex) {
                                 cursor2();
                                 JOptionPane.showMessageDialog(null, ex);
@@ -7188,7 +7198,8 @@ public class MainL extends javax.swing.JFrame {
                                         jLabel25.setEnabled(false);
                                         String matr = txtmatricula.getText();
                                         txtmatricula.select(0, matr.length());
-                                        txtmatricula.requestFocus();
+                                        mensaje = "";
+                                        txtmatricula.requestFocus();                                        
                                     } //////////////////////MODIFICAR ORDEN//////////////////////
                                     else {
                                         System.out.println("banderaEstadoOffline:" + banderaEstadoOffline);
@@ -7298,7 +7309,9 @@ public class MainL extends javax.swing.JFrame {
                                     jLabel25.setEnabled(false);
                                     String matr = txtmatricula.getText();
                                     txtmatricula.select(0, matr.length());
+                                    mensaje="";
                                     txtmatricula.requestFocus();
+                                    
                                 }
                             } else {
                                 cursor2();
@@ -7355,6 +7368,7 @@ public class MainL extends javax.swing.JFrame {
                     txtfechacoseguro.setEnabled(false);
                     chkcoseguro.setSelected(false);
                     jLabel25.setEnabled(false);
+                    mensaje = "";
                     contadorPracticas = 0;
                 }
                 if (p == 2) {
@@ -7397,6 +7411,7 @@ public class MainL extends javax.swing.JFrame {
                     txtfechacoseguro.setEnabled(false);
                     chkcoseguro.setSelected(false);
                     jLabel25.setEnabled(false);
+                    mensaje = "";
                     contadorPracticas = 0;
                 }
 
@@ -7815,6 +7830,46 @@ public class MainL extends javax.swing.JFrame {
                 }
             }
         }
+    }
+
+    String practicasMedife(String respuesta) {
+        String practicas_medife = "";
+        ////busco las practicas 
+        int i = respuesta.indexOf("PR1");
+        int pipe = 0;
+        while (i < respuesta.length()) {
+            if (pipe == 3) {
+                //if (i < respuesta.indexOf("AUT")) {
+                practicas_medife = practicas_medife + respuesta.charAt(i);
+                //}
+                // else {
+                //  if (i == result.indexOf("AUT")) {
+                ///   practicas_medife = practicas_medife + " - ";
+                //    System.out.println("termina practica");
+                //}
+                //}
+            }
+            if (pipe == 15) {
+                practicas_medife = practicas_medife + respuesta.charAt(i);
+            }
+            if (respuesta.charAt(i) == '|') {
+                pipe++;
+            }
+            if (i == respuesta.indexOf("0&$")) {
+                practicas_medife = practicas_medife + "\n";
+                pipe = 0;
+                respuesta = respuesta.substring(i + 3);
+                i = 0;
+            }
+            i++;
+        }
+        practicas_medife = practicas_medife.replace("^3", " ");
+        practicas_medife = practicas_medife.replace("^", " ");
+        practicas_medife = practicas_medife.replace("|", " ");
+        practicas_medife = practicas_medife.replace("AUT ", "");
+
+        return practicas_medife;
+
     }
 
     public class apiSwAnulacion {
@@ -9223,7 +9278,7 @@ public class MainL extends javax.swing.JFrame {
         if (!txtaño3.getText().equals("") && !txtmes3.getText().equals("") && !txtmes3.getText().equals("  ") && !txtaño3.getText().equals("    ")) {//  
             progreso.setValue(0);
             JOptionPane.showMessageDialog(null, "Limite de practicas por orden - 60 - ");
-            
+
             ///////////////////////////////////////////////////////////////////////
             File archivo = null;
             JFileChooser flcAbrirArchivo;
@@ -9233,11 +9288,10 @@ public class MainL extends javax.swing.JFrame {
             if (respuesta == JFileChooser.APPROVE_OPTION) {
                 archivo = flcAbrirArchivo.getSelectedFile();
                 url = (archivo.getAbsolutePath());
-                Importar = 1;              
+                Importar = 1;
             }
             ///////////////////////////////////////////////////////////////////////
-            
-            
+
             if (Importar == 1) {
                 jLabel19.setText(url);
                 leer_archivo();
@@ -9315,7 +9369,7 @@ public class MainL extends javax.swing.JFrame {
          }
          txttotalordenes.setText((String.valueOf(contador)));*/
 
-        int totalRow = tablaordenes.getRowCount(), contador = 0, contador2 = 0, contador3 = 0,contador4=0;
+        int totalRow = tablaordenes.getRowCount(), contador = 0, contador2 = 0, contador3 = 0, contador4 = 0;
         totalRow -= 1;
         for (int i = 0; i <= (totalRow); i++) {
             if (tablaordenes.getValueAt(i, 10).toString().equals("OK")) {
@@ -9324,7 +9378,7 @@ public class MainL extends javax.swing.JFrame {
             if (tablaordenes.getValueAt(i, 10).toString().equals("ANULADA")) {
                 contador2++;
             }
-            if (tablaordenes.getValueAt(i, 10).toString().equals("OBSERVADA") ) {
+            if (tablaordenes.getValueAt(i, 10).toString().equals("OBSERVADA")) {
                 contador3++;
             }
             if (tablaordenes.getValueAt(i, 10).toString().equals("AUDITORIA")) {
