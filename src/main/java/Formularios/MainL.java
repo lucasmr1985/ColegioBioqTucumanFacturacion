@@ -4883,11 +4883,13 @@ public class MainL extends javax.swing.JFrame {
                                 txtcoseguro.setText(String.valueOf(COSEGURO));
                                 txtfechacoseguro.setText(fecha);
                                 txtdocumento.setText(documento);
-                            } else {
+                            } else {                                
                                 int pos3 = respuestapractica.indexOf("<AutObs>");
                                 int pos4 = respuestapractica.indexOf("</AutObs>");
                                 observacion = respuestapractica.substring(pos3 + 8, pos4);
-
+                                int pos5 = respuestapractica.indexOf("<AutCod>");
+                                int pos6 = respuestapractica.indexOf("</AutCod>");
+                                num_orden = respuestapractica.substring(pos5 + 8, pos6);
                                 if (observacion.length() > 500) {
                                     observacion = observacion.substring(0, 500);
                                 }
@@ -4901,7 +4903,7 @@ public class MainL extends javax.swing.JFrame {
                                         txtdocumento.getText(),
                                         txtnumafiliado.getText(),
                                         Integer.valueOf(txtmatricula.getText()),
-                                        "0",
+                                        num_orden,
                                         fecha,
                                         Double.valueOf(txttotal1.getText()),
                                         fecha,
@@ -4943,9 +4945,6 @@ public class MainL extends javax.swing.JFrame {
 
                                         ///anulo
                                         System.out.println("Anulacion boreal");
-                                        int pos5 = respuestapractica.indexOf("<AutCod>");
-                                        int pos6 = respuestapractica.indexOf("</AutCod>");
-                                        num_orden = respuestapractica.substring(pos5 + 8, pos6);
                                         /////////////////////////////////////////////////////////////////////////////////
                                         mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>30522483881</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
                                         System.out.println("Envio de mensaje boreal - Send Http GET request");
@@ -5005,12 +5004,8 @@ public class MainL extends javax.swing.JFrame {
 
                                         ///anulo
                                         System.out.println("Anulacion boreal");
-                                        int pos5 = respuestapractica.indexOf("<AutCod>");
-                                        int pos6 = respuestapractica.indexOf("</AutCod>");
-                                        num_orden = respuestapractica.substring(pos5 + 8, pos6);
                                         /////////////////////////////////////////////////////////////////////////////////
-                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>17172596</AutCodAnulacion></Autorizacion></Boreal>";
-                                        //mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
                                         System.out.println("Envio de mensaje boreal - Send Http GET request");
                                         System.out.println(mensajepractica);
                                         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -5832,7 +5827,7 @@ public class MainL extends javax.swing.JFrame {
                             || obra.equals("513 - MEDIFE - ONLINE VOLUNTARIO PRE PAGA C.M.C.  S.A.")) {
                         cursor();
                         num_orden = "";
-                        mensaje="";
+                        mensaje = "";
                         TripleDes tpDatos = new TripleDes();
                         /////////////////////////////////////////////////////////////////////////////////
                         plan_ss = "";
@@ -5917,7 +5912,7 @@ public class MainL extends javax.swing.JFrame {
                                 System.out.println(num_orden + " " + mensaje);
                                 System.out.println(codigo_respuesta);
                                 System.out.println("tipo_orden Medife2:" + tipo_orden);
-                                
+
                                 if (codigo_respuesta.equals("B000")) {
                                     estado_orden = 1;
                                     txtnumorden.setText(num_orden);
@@ -6075,7 +6070,7 @@ public class MainL extends javax.swing.JFrame {
                                         borrartabla();
                                     }
                                 }
-                                cursor2();                                
+                                cursor2();
                             } catch (Exception ex) {
                                 cursor2();
                                 JOptionPane.showMessageDialog(null, ex);
@@ -7199,7 +7194,7 @@ public class MainL extends javax.swing.JFrame {
                                         String matr = txtmatricula.getText();
                                         txtmatricula.select(0, matr.length());
                                         mensaje = "";
-                                        txtmatricula.requestFocus();                                        
+                                        txtmatricula.requestFocus();
                                     } //////////////////////MODIFICAR ORDEN//////////////////////
                                     else {
                                         System.out.println("banderaEstadoOffline:" + banderaEstadoOffline);
@@ -7309,9 +7304,9 @@ public class MainL extends javax.swing.JFrame {
                                     jLabel25.setEnabled(false);
                                     String matr = txtmatricula.getText();
                                     txtmatricula.select(0, matr.length());
-                                    mensaje="";
+                                    mensaje = "";
                                     txtmatricula.requestFocus();
-                                    
+
                                 }
                             } else {
                                 cursor2();
@@ -11057,7 +11052,7 @@ public class MainL extends javax.swing.JFrame {
                                 int pos4 = respuestapractica.indexOf("</AutCod>");
                                 num_orden = respuestapractica.substring(pos3 + 8, pos4);
                                 cursor2();
-                                JOptionPane.showMessageDialog(null, "Numero de Anulación:" + num_orden);
+                                JOptionPane.showMessageDialog(null, "Número de Anulación:" + num_orden);
                                 ///tablaordenes.setValueAt("ANULADA", tablaordenes.getSelectedRow(), 10);
                                 // cargatotales();
                                 ////cargatotalesordenesfacturacion();
