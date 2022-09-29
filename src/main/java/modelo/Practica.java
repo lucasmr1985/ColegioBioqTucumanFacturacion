@@ -1,6 +1,7 @@
 
 package modelo;
 
+import Formularios.Login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,6 +62,15 @@ public class Practica {
         this.determinacion = determinacion;
         this.precioTotal = precioTotal;
         this.tipoPractica = tipoPractica;
+    }
+    
+     public Practica(int codigo, int codigoFacturacion, String determinacion, double precioTotal,int tipoPractica, int id) {
+        this.codigo = codigo;
+        this.codigoFacturacion = codigoFacturacion;
+        this.determinacion = determinacion;
+        this.precioTotal = precioTotal;
+        this.tipoPractica = tipoPractica;
+        this.id=id;
     }
 
     public int getId() {
@@ -209,12 +219,15 @@ public class Practica {
          try {
             Statement instruccion = connection.createStatement();
             ResultSet rs;
-            int i=0;
-            rs = instruccion.executeQuery("SELECT codigo_practica,preciototal,determinacion, codigo_fac_practicas_obrasocial, tipo_practica FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial);
-            while (rs.next()) {
-                
-                lista.add(new Practica(rs.getInt("codigo_practica"), rs.getInt("codigo_fac_practicas_obrasocial"), rs.getString("determinacion"), rs.getDouble("preciototal")));
-                               
+            
+            if (Login.estadopeec == 1) {
+                rs = instruccion.executeQuery("SELECT codigo_practica,preciototal,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial);
+            } else {
+                rs = instruccion.executeQuery("SELECT codigo_practica,precioSinPEEC,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial);
+            }
+            
+            while (rs.next()) {               
+                lista.add(new Practica(rs.getInt("codigo_practica"), rs.getInt("codigo_fac_practicas_obrasocial"), rs.getString("determinacion"), rs.getDouble("preciototal"),rs.getInt("tipo_practica"),rs.getInt("id_practicasnbu")));                               
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
