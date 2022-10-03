@@ -4837,15 +4837,14 @@ public class MainL extends javax.swing.JFrame {
                                             cursor2();
                                             bandera_boreal = 0;
                                             JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                        }
-                                        if (respuestapractica.substring(pos + 13, pos2).equals("M054")) {
+                                        } else {
                                             habilitado = "ERROR";
                                             int pos3 = respuestapractica.indexOf("<AutObs>");
                                             int pos4 = respuestapractica.indexOf("</AutObs>");
                                             cursor2();
                                             bandera_boreal = 0;
                                             JOptionPane.showMessageDialog(null, respuestapractica.substring(pos3 + 8, pos4));
-                                            // bandera_boreal = 0;
+                                            // bandera_boreal = 0;                                                
                                         }
                                     } else {
                                         JOptionPane.showMessageDialog(null, "Nro. Autorización: " + num_orden);
@@ -4883,165 +4882,270 @@ public class MainL extends javax.swing.JFrame {
                                 txtcoseguro.setText(String.valueOf(COSEGURO));
                                 txtfechacoseguro.setText(fecha);
                                 txtdocumento.setText(documento);
-                            } else {                                
-                                int pos3 = respuestapractica.indexOf("<AutObs>");
-                                int pos4 = respuestapractica.indexOf("</AutObs>");
-                                observacion = respuestapractica.substring(pos3 + 8, pos4);
-                                int pos5 = respuestapractica.indexOf("<AutCod>");
-                                int pos6 = respuestapractica.indexOf("</AutCod>");
-                                num_orden = respuestapractica.substring(pos5 + 8, pos6);
-                                if (observacion.length() > 500) {
-                                    observacion = observacion.substring(0, 500);
-                                }
-                                ///Orden no se pudo grabar en boreal
-                                estado_orden = 0;
-                                ///////////////////////////////////////////////////////////////////////////////////////////////////////
-                                validar_orden boreal = new validar_orden();
-                                respuesta = boreal.valida(
-                                        Integer.valueOf(txtaño.getText() + txtmes.getText()),
-                                        txtnombreafiliado.getText(),
-                                        txtdocumento.getText(),
-                                        txtnumafiliado.getText(),
-                                        Integer.valueOf(txtmatricula.getText()),
-                                        num_orden,
-                                        fecha,
-                                        Double.valueOf(txttotal1.getText()),
-                                        fecha,
-                                        hora,
-                                        ip2,
-                                        id_obra_social,
-                                        id_usuario,
-                                        n2,
-                                        practicas,
-                                        COSEGURO,
-                                        fecha,
-                                        tipo_orden,
-                                        observacion,
-                                        plan_ss,
-                                        coseguro_ss,
-                                        estado_orden,
-                                        fechaDate);
-                                if (respuesta == 0) {
-                                    try {
-                                        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                                        InputSource is = new InputSource();
-                                        is.setCharacterStream(new StringReader(respuestapractica));
-                                        Document doc = db.parse(is);
-                                        NodeList nodes = doc.getElementsByTagName("Practica");
+                            } else {
+                                ///////////////anulo autorizacion parcial
+                                if (respuestapractica.substring(pos + 13, pos2).equals("B001")) {
+                                    int pos3 = respuestapractica.indexOf("<AutObs>");
+                                    int pos4 = respuestapractica.indexOf("</AutObs>");
+                                    observacion = respuestapractica.substring(pos3 + 8, pos4);
+                                    int pos5 = respuestapractica.indexOf("<AutCod>");
+                                    int pos6 = respuestapractica.indexOf("</AutCod>");
+                                    num_orden = respuestapractica.substring(pos5 + 8, pos6);
+                                    if (observacion.length() > 500) {
+                                        observacion = observacion.substring(0, 500);
+                                    }
+                                    ///guardo orden no autorizada
+                                    estado_orden = 0;
+                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    validar_orden boreal = new validar_orden();
+                                    respuesta = boreal.valida(
+                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                            txtnombreafiliado.getText(),
+                                            txtdocumento.getText(),
+                                            txtnumafiliado.getText(),
+                                            Integer.valueOf(txtmatricula.getText()),
+                                            num_orden,
+                                            fecha,
+                                            Double.valueOf(txttotal1.getText()),
+                                            fecha,
+                                            hora,
+                                            ip2,
+                                            id_obra_social,
+                                            id_usuario,
+                                            n2,
+                                            practicas,
+                                            COSEGURO,
+                                            fecha,
+                                            tipo_orden,
+                                            observacion,
+                                            plan_ss,
+                                            coseguro_ss,
+                                            estado_orden,
+                                            fechaDate);
+                                    if (respuesta == 0) {
+                                        try {
+                                            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                            InputSource is = new InputSource();
+                                            is.setCharacterStream(new StringReader(respuestapractica));
+                                            Document doc = db.parse(is);
+                                            NodeList nodes = doc.getElementsByTagName("Practica");
 
-                                        String salida = "";
-                                        for (int i2 = 0; i2 < nodes.getLength(); i2++) {
-                                            Element element = (Element) nodes.item(i2);
-                                            NodeList name = element.getElementsByTagName("PracticaId");
-                                            Element line = (Element) name.item(0);
-                                            System.out.println("PracticaId: " + getCharacterDataFromElement(line));
-                                            salida = salida + "\t" + getCharacterDataFromElement(line);
-                                            NodeList title = element.getElementsByTagName("PracticaObs");
-                                            line = (Element) title.item(0);
-                                            System.out.println(getCharacterDataFromElement(line));
-                                            salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
-                                        }
-                                        JOptionPane.showMessageDialog(null, salida);
+                                            String salida = "";
+                                            for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                                Element element = (Element) nodes.item(i2);
+                                                NodeList name = element.getElementsByTagName("PracticaId");
+                                                Element line = (Element) name.item(0);
+                                                System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                                salida = salida + "\t" + getCharacterDataFromElement(line);
+                                                NodeList title = element.getElementsByTagName("PracticaObs");
+                                                line = (Element) title.item(0);
+                                                System.out.println(getCharacterDataFromElement(line));
+                                                salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
+                                            }
+                                            JOptionPane.showMessageDialog(null, salida);
 
-                                        ///anulo
-                                        System.out.println("Anulacion boreal");
-                                        /////////////////////////////////////////////////////////////////////////////////
-                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>30522483881</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
-                                        System.out.println("Envio de mensaje boreal - Send Http GET request");
-                                        System.out.println(mensajepractica);
-                                        ///////////////////////////////////////////////////////////////////////////////////////////////
-                                        ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
-                                        servicioAnulacion.setIngresoxml(mensajepractica);
-                                        respuestapractica = execute(servicioAnulacion).getEgresoxml();
-                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                        System.out.println("Respuesta boreal - Get Http GET request");
-                                        System.out.println(respuestapractica);
-                                        ////////////////////////////////////////////////////////////////////////////////////////////////
-                                        int posI = respuestapractica.indexOf("<AutEstadoId>");
-                                        int posF = respuestapractica.indexOf("</AutEstadoId>");
-                                        /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
-                                        if (respuestapractica.substring(posI + 13, posF).equals("B000")) {// 
-                                            int posI2 = respuestapractica.indexOf("<AutCod>");
-                                            int posF2 = respuestapractica.indexOf("</AutCod>");
-                                            num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                            ///anulo
+                                            System.out.println("Anulacion boreal");
+                                            /////////////////////////////////////////////////////////////////////////////////
+                                            mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>30522483881</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                            System.out.println("Envio de mensaje boreal - Send Http GET request");
+                                            System.out.println(mensajepractica);
+                                            ///////////////////////////////////////////////////////////////////////////////////////////////
+                                            ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
+                                            servicioAnulacion.setIngresoxml(mensajepractica);
+                                            respuestapractica = execute(servicioAnulacion).getEgresoxml();
+                                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            System.out.println("Respuesta boreal - Get Http GET request");
+                                            System.out.println(respuestapractica);
+                                            ////////////////////////////////////////////////////////////////////////////////////////////////
+                                            int posI = respuestapractica.indexOf("<AutEstadoId>");
+                                            int posF = respuestapractica.indexOf("</AutEstadoId>");
+                                            int posIOb = respuestapractica.indexOf("<AutObs>");
+                                            int posFOb = respuestapractica.indexOf("</AutObs>");
+                                            String obs = respuestapractica.substring(posIOb + 8, posFOb);
+                                            if (respuestapractica.substring(posI + 13, posF).equals("B000")) {// 
+                                                int posI2 = respuestapractica.indexOf("<AutCod>");
+                                                int posF2 = respuestapractica.indexOf("</AutCod>");
+                                                num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                                cursor2();
+                                                bandera_boreal = 0;
+                                                JOptionPane.showMessageDialog(null, obs);
+                                                habilitado = "ERROR";
+                                            } else {
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, obs);
+                                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
+                                                JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
+                                                borrartabla();
+                                                bandera_boreal = 0;
+                                            }
+                                        } catch (Exception e) {
                                             cursor2();
                                             bandera_boreal = 0;
-                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                            habilitado = "ERROR";
-                                        } else {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
-                                            JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
-                                            borrartabla();
-                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, e);
                                         }
-                                    } catch (Exception e) {
-                                        cursor2();
-                                        bandera_boreal = 0;
-                                        JOptionPane.showMessageDialog(null, e);
+                                    } else {
+                                        try {
+                                            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                            InputSource is = new InputSource();
+                                            is.setCharacterStream(new StringReader(respuestapractica));
+                                            Document doc = db.parse(is);
+                                            NodeList nodes = doc.getElementsByTagName("Practica");
+
+                                            String salida = "";
+                                            for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                                Element element = (Element) nodes.item(i2);
+                                                NodeList name = element.getElementsByTagName("PracticaId");
+                                                Element line = (Element) name.item(0);
+                                                System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                                salida = salida + "\t" + getCharacterDataFromElement(line);
+                                                NodeList title = element.getElementsByTagName("PracticaObs");
+                                                line = (Element) title.item(0);
+                                                System.out.println(getCharacterDataFromElement(line));
+                                                salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
+                                            }
+                                            JOptionPane.showMessageDialog(null, salida);
+
+                                            ///anulo
+                                            System.out.println("Anulacion boreal");
+                                            /////////////////////////////////////////////////////////////////////////////////
+                                            mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
+                                            System.out.println("Envio de mensaje boreal - Send Http GET request");
+                                            System.out.println(mensajepractica);
+                                            ///////////////////////////////////////////////////////////////////////////////////////////////
+                                            ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
+                                            servicioAnulacion.setIngresoxml(mensajepractica);
+                                            respuestapractica = execute(servicioAnulacion).getEgresoxml();
+                                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            System.out.println("Respuesta boreal - Get Http GET request");
+                                            System.out.println(respuestapractica);
+                                            ////////////////////////////////////////////////////////////////////////////////////////////////
+                                            int posI = respuestapractica.indexOf("<AutEstadoId>");
+                                            int posF = respuestapractica.indexOf("</AutEstadoId>");
+                                            int posIOb = respuestapractica.indexOf("<AutObs>");
+                                            int posFOb = respuestapractica.indexOf("</AutObs>");
+                                            String obs = respuestapractica.substring(posIOb + 8, posFOb);
+                                            if (respuestapractica.substring(posI + 13, posF).equals("B000")) {
+                                                int posI2 = respuestapractica.indexOf("<AutCod>");
+                                                int posF2 = respuestapractica.indexOf("</AutCod>");
+                                                num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                                cursor2();
+                                                bandera_boreal = 0;
+                                                JOptionPane.showMessageDialog(null, obs);
+                                                habilitado = "ERROR";
+                                            } else {
+                                                cursor2();
+                                                JOptionPane.showMessageDialog(null, obs);
+                                                JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
+                                                JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
+                                                borrartabla();
+                                                bandera_boreal = 0;
+                                            }
+                                        } catch (Exception e) {
+                                            cursor2();
+                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, "Error al intentar Anular orden del servidor de Boreal");
+                                            JOptionPane.showMessageDialog(null, e);
+                                        }
                                     }
                                 } else {
-                                    try {
-                                        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                                        InputSource is = new InputSource();
-                                        is.setCharacterStream(new StringReader(respuestapractica));
-                                        Document doc = db.parse(is);
-                                        NodeList nodes = doc.getElementsByTagName("Practica");
+                                    int pos3 = respuestapractica.indexOf("<AutObs>");
+                                    int pos4 = respuestapractica.indexOf("</AutObs>");
+                                    observacion = respuestapractica.substring(pos3 + 8, pos4);
+                                    int pos5 = respuestapractica.indexOf("<AutCod>");
+                                    int pos6 = respuestapractica.indexOf("</AutCod>");
+                                    num_orden = respuestapractica.substring(pos5 + 8, pos6);
+                                    if (observacion.length() > 500) {
+                                        observacion = observacion.substring(0, 500);
+                                    }
+                                    ///Orden no se pudo grabar en boreal
+                                    estado_orden = 0;
+                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    validar_orden boreal = new validar_orden();
+                                    respuesta = boreal.valida(
+                                            Integer.valueOf(txtaño.getText() + txtmes.getText()),
+                                            txtnombreafiliado.getText(),
+                                            txtdocumento.getText(),
+                                            txtnumafiliado.getText(),
+                                            Integer.valueOf(txtmatricula.getText()),
+                                            num_orden,
+                                            fecha,
+                                            Double.valueOf(txttotal1.getText()),
+                                            fecha,
+                                            hora,
+                                            ip2,
+                                            id_obra_social,
+                                            id_usuario,
+                                            n2,
+                                            practicas,
+                                            COSEGURO,
+                                            fecha,
+                                            tipo_orden,
+                                            observacion,
+                                            plan_ss,
+                                            coseguro_ss,
+                                            estado_orden,
+                                            fechaDate);
+                                    if (respuesta == 0) {
+                                        try {
+                                            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                            InputSource is = new InputSource();
+                                            is.setCharacterStream(new StringReader(respuestapractica));
+                                            Document doc = db.parse(is);
+                                            NodeList nodes = doc.getElementsByTagName("Practica");
 
-                                        String salida = "";
-                                        for (int i2 = 0; i2 < nodes.getLength(); i2++) {
-                                            Element element = (Element) nodes.item(i2);
-                                            NodeList name = element.getElementsByTagName("PracticaId");
-                                            Element line = (Element) name.item(0);
-                                            System.out.println("PracticaId: " + getCharacterDataFromElement(line));
-                                            salida = salida + "\t" + getCharacterDataFromElement(line);
-                                            NodeList title = element.getElementsByTagName("PracticaObs");
-                                            line = (Element) title.item(0);
-                                            System.out.println(getCharacterDataFromElement(line));
-                                            salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
-                                        }
-                                        JOptionPane.showMessageDialog(null, salida);
-
-                                        ///anulo
-                                        System.out.println("Anulacion boreal");
-                                        /////////////////////////////////////////////////////////////////////////////////
-                                        mensajepractica = "<Boreal><Mensaje><Canal>ID</Canal><SitioEmisor>" + emisor + "</SitioEmisor><Receptor><Nombre>BOREAL</Nombre><ID>222023</ID><Tipo>IIN</Tipo></Receptor><MsgTipo><Tipo>ZQA</Tipo><Evento>Z04</Evento><Estructura>ZQA_Z02</Estructura></MsgTipo></Mensaje><Seguridad><Usuario>cobitucws</Usuario><Clave>" + clave + "</Clave></Seguridad><Prestador><PrestadorId>" + cuit + "</PrestadorId><PrestadorTipoIdent>CU</PrestadorTipoIdent></Prestador><Autorizacion><AutCod></AutCod><AutEstadoId></AutEstadoId><AutObs></AutObs><AutCodAnulacion>" + num_orden + "</AutCodAnulacion></Autorizacion></Boreal>";
-                                        System.out.println("Envio de mensaje boreal - Send Http GET request");
-                                        System.out.println(mensajepractica);
-                                        ///////////////////////////////////////////////////////////////////////////////////////////////
-                                        ClienteBoreal.WsBorealExecute servicioAnulacion = new ClienteBoreal.WsBorealExecute();
-                                        servicioAnulacion.setIngresoxml(mensajepractica);
-                                        respuestapractica = execute(servicioAnulacion).getEgresoxml();
-                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                        System.out.println("Respuesta boreal - Get Http GET request");
-                                        System.out.println(respuestapractica);
-                                        ////////////////////////////////////////////////////////////////////////////////////////////////
-                                        int posI = respuestapractica.indexOf("<AutEstadoId>");
-                                        int posF = respuestapractica.indexOf("</AutEstadoId>");
-                                        /// JOptionPane.showMessageDialog(null, respuestapractica.substring(pos + 13, pos2));
-                                        if (respuestapractica.substring(posI + 13, posF).equals("B000")) {
-                                            int posI2 = respuestapractica.indexOf("<AutCod>");
-                                            int posF2 = respuestapractica.indexOf("</AutCod>");
-                                            num_orden = respuestapractica.substring(posI2 + 8, posF2);
+                                            String salida = "";
+                                            for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                                Element element = (Element) nodes.item(i2);
+                                                NodeList name = element.getElementsByTagName("PracticaId");
+                                                Element line = (Element) name.item(0);
+                                                System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                                salida = salida + "\t" + getCharacterDataFromElement(line);
+                                                NodeList title = element.getElementsByTagName("PracticaObs");
+                                                line = (Element) title.item(0);
+                                                System.out.println(getCharacterDataFromElement(line));
+                                                salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
+                                            }
+                                            JOptionPane.showMessageDialog(null, salida);
+                                            bandera_boreal = 0;
+                                        } catch (Exception e) {
                                             cursor2();
                                             bandera_boreal = 0;
-                                            JOptionPane.showMessageDialog(null, "La orden no fue validada");
-                                            habilitado = "ERROR";
-                                        } else {
-                                            cursor2();
-                                            JOptionPane.showMessageDialog(null, "Error al intentar anular orden numero " + num_orden + " informar a CBT");
-                                            JOptionPane.showMessageDialog(null, "IMPORTANTE: TOME NOTA del numero " + num_orden);
-                                            borrartabla();
-                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, e);
                                         }
-                                    } catch (Exception e) {
-                                        cursor2();
-                                        bandera_boreal = 0;
-                                        JOptionPane.showMessageDialog(null, "Error al intentar Anular orden del servidor de Boreal");
-                                        JOptionPane.showMessageDialog(null, e);
+                                    } else {
+                                        try {
+                                            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                                            InputSource is = new InputSource();
+                                            is.setCharacterStream(new StringReader(respuestapractica));
+                                            Document doc = db.parse(is);
+                                            NodeList nodes = doc.getElementsByTagName("Practica");
+                                            int posIOb = respuestapractica.indexOf("<AutObs>");
+                                            int posFOb = respuestapractica.indexOf("</AutObs>");
+                                            String obs = respuestapractica.substring(posIOb + 8, posFOb);
+                                            String salida = "";
+                                            for (int i2 = 0; i2 < nodes.getLength(); i2++) {
+                                                Element element = (Element) nodes.item(i2);
+                                                NodeList name = element.getElementsByTagName("PracticaId");
+                                                Element line = (Element) name.item(0);
+                                                System.out.println("PracticaId: " + getCharacterDataFromElement(line));
+                                                salida = salida + "\t" + getCharacterDataFromElement(line);
+                                                NodeList title = element.getElementsByTagName("PracticaObs");
+                                                line = (Element) title.item(0);
+                                                System.out.println(getCharacterDataFromElement(line));
+                                                salida = salida + "      " + getCharacterDataFromElement(line) + "-\n";
+                                            }
+                                            JOptionPane.showMessageDialog(null, obs);
+                                            JOptionPane.showMessageDialog(null, salida);
+                                            bandera_boreal = 0;         
+                                        } catch (Exception e) {
+                                            cursor2();
+                                            bandera_boreal = 0;
+                                            JOptionPane.showMessageDialog(null, "Error al intentar Anular orden del servidor de Boreal");
+                                            JOptionPane.showMessageDialog(null, e);
+                                        }
                                     }
                                 }
-
                             }
                         } else {
                             cursor2();
