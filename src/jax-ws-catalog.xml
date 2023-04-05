@@ -2,7 +2,6 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://186.122.150.144/ws_expendio/apafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/apafiliadopuedeconsumir.aspx.wsdl"/>
     <system systemId="http://186.122.150.144/ws_expendio/aafiliadodatos.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aafiliadodatos.aspx.wsdl"/>
-    <system systemId="http://e.sancorsalud.com.ar/APAWE_SSA_V2.aspx?wsdl" uri="wsdl/e.sancorsalud.com.ar/APAWE_SSA_V2.aspx.wsdl"/>
     <system systemId="http://sistemasboreal.com.ar:5480/WsBoreal/servlet/awsboreal?wsdl" uri="wsdl/sistemasboreal.com.ar_5480/WsBoreal/servlet/awsboreal.wsdl"/>
     <system systemId="http://186.122.150.144/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl"/>
     <system systemId="http://186.122.150.144/ws_expendio/aafiliadodatostraer.aspx?wsdl" uri="wsdl/186.122.150.144/ws_expendio/aafiliadodatostraer.aspx.wsdl"/>
@@ -37,7 +36,6 @@
     <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx.wsdl"/>
     <system systemId="http://rproxy.cobituc.info/ws_expendio/aordendevolver.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordendevolver.aspx.wsdl"/>
     <system systemId="http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx?wsdl" uri="wsdl/rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx.wsdl"/>
-    <system systemId="https://canalws.traditum.com/WebService_IA.asmx?WSDL" uri="wsdl/canalws.traditum.com/WebService_IA.asmx.wsdl"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?wsdl" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.wsdl"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd0" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd0.xsd"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd1" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd1.xsd"/>
@@ -51,6 +49,8 @@
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd9" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd9.xsd"/>
     <system systemId="http://rproxy.cobituc.info:9011/AgenteServicios.svc?xsd=xsd10" uri="wsdl/rproxy.cobituc.info_9011/AgenteServicios.svc.xsd_xsd10.xsd"/>
     <system systemId="https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl" uri="wsdl/ws.ipsst.gov.ar_8543/ws_expendio/aafiliadopuedeconsumir.aspx.wsdl"/>
-    <system systemId="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL" uri="wsdl/wsconectado.activiaweb.com.ar/WSActiviaC.asmx.wsdl"/>
+    <system systemId="https://canalws.traditum.com/WebService_IA.asmx?WSDL" uri="wsdl/canalws.traditum.com/WebService_IA.asmx.wsdl"/>
     <system systemId="https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx?WSDL" uri="wsdl/servicioweb.nobissalud.com.ar/wsGecrosNet.asmx.wsdl"/>
+    <system systemId="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL" uri="wsdl/wsconectado.activiaweb.com.ar/WSActiviaC.asmx.wsdl"/>
+    <system systemId="http://e.sancorsalud.com.ar/APAWE_SSA_V2.aspx?wsdl" uri="wsdl/e.sancorsalud.com.ar/APAWE_SSA_V2.aspx.wsdl"/>
 </catalog>

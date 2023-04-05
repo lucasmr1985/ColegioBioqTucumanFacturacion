@@ -570,6 +570,26 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ReporteCobroCompCtaCteDesigned">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="composite" type="tns:ReportRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ReportRequest">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Compid" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tiposalida" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReporteCobroCompCtaCteDesignedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReporteCobroCompCtaCteDesignedResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="InsertarPrestacionAmbSoapIn">
@@ -782,6 +802,12 @@
   <wsdl:message name="ReporteCuentaCorrienteSoapOut">
     <wsdl:part name="parameters" element="tns:ReporteCuentaCorrienteResponse" />
   </wsdl:message>
+  <wsdl:message name="ReporteCobroCompCtaCteDesignedSoapIn">
+    <wsdl:part name="parameters" element="tns:ReporteCobroCompCtaCteDesigned" />
+  </wsdl:message>
+  <wsdl:message name="ReporteCobroCompCtaCteDesignedSoapOut">
+    <wsdl:part name="parameters" element="tns:ReporteCobroCompCtaCteDesignedResponse" />
+  </wsdl:message>
   <wsdl:portType name="WSGecrosNetSoap">
     <wsdl:operation name="InsertarPrestacionAmb">
       <wsdl:input message="tns:InsertarPrestacionAmbSoapIn" />
@@ -922,6 +948,10 @@
     <wsdl:operation name="ReporteCuentaCorriente">
       <wsdl:input message="tns:ReporteCuentaCorrienteSoapIn" />
       <wsdl:output message="tns:ReporteCuentaCorrienteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReporteCobroCompCtaCteDesigned">
+      <wsdl:input message="tns:ReporteCobroCompCtaCteDesignedSoapIn" />
+      <wsdl:output message="tns:ReporteCobroCompCtaCteDesignedSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSGecrosNetSoap" type="tns:WSGecrosNetSoap">
@@ -1241,6 +1271,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ReporteCobroCompCtaCteDesigned">
+      <soap:operation soapAction="http://tempuri.org/ReporteCobroCompCtaCteDesigned" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WSGecrosNetSoap12" type="tns:WSGecrosNetSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1552,6 +1591,15 @@
     </wsdl:operation>
     <wsdl:operation name="ReporteCuentaCorriente">
       <soap12:operation soapAction="http://tempuri.org/ReporteCuentaCorriente" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReporteCobroCompCtaCteDesigned">
+      <soap12:operation soapAction="http://tempuri.org/ReporteCobroCompCtaCteDesigned" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

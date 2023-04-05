@@ -70,7 +70,7 @@
 				<complexType>
 					<sequence>
 						<element minOccurs="1" maxOccurs="1" name="Modo" type="xsd:string" />
-						<element minOccurs="1" maxOccurs="1" name="Nroorden" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Nroorden" type="xsd:long" />
 						<element minOccurs="1" maxOccurs="1" name="Entidad" type="xsd:int" />
 						<element minOccurs="1" maxOccurs="1" name="Tiponroefector" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Nroefector" type="xsd:long" />
@@ -87,7 +87,7 @@
 			<element name="PAWE_SSA_V2.AUTORIZACIONResponse">
 				<complexType>
 					<sequence>
-						<element minOccurs="1" maxOccurs="1" name="Nroautorizacion" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Nroautorizacion" type="xsd:long" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreentidad" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreefector" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreafiliado" type="xsd:string" />
@@ -109,7 +109,7 @@
 				<complexType>
 					<sequence>
 						<element minOccurs="1" maxOccurs="1" name="Modo" type="xsd:string" />
-						<element minOccurs="1" maxOccurs="1" name="Nroautorizacion" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Nroautorizacion" type="xsd:long" />
 						<element minOccurs="1" maxOccurs="1" name="Entidad" type="xsd:int" />
 						<element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Clave" type="xsd:string" />
@@ -119,7 +119,7 @@
 			<element name="PAWE_SSA_V2.ANULACIONResponse">
 				<complexType>
 					<sequence>
-						<element minOccurs="1" maxOccurs="1" name="Nroordenrta" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Nroordenrta" type="xsd:long" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreentidad" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Codigorespuesta" type="xsd:short" />
 						<element minOccurs="1" maxOccurs="1" name="Descripcionrespuesta" type="xsd:string" />
@@ -150,7 +150,7 @@
 			<element name="PAWE_SSA_V2.VALIDAR">
 				<complexType>
 					<sequence>
-						<element minOccurs="1" maxOccurs="1" name="Nroorden" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Nroorden" type="xsd:long" />
 						<element minOccurs="1" maxOccurs="1" name="Entidad" type="xsd:int" />
 						<element minOccurs="1" maxOccurs="1" name="Tiponroefector" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Nroefector" type="xsd:long" />
@@ -167,7 +167,7 @@
 			<element name="PAWE_SSA_V2.VALIDARResponse">
 				<complexType>
 					<sequence>
-						<element minOccurs="1" maxOccurs="1" name="Nroautorizacion" type="xsd:int" />
+						<element minOccurs="1" maxOccurs="1" name="Nroautorizacion" type="xsd:long" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreentidad" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreefector" type="xsd:string" />
 						<element minOccurs="1" maxOccurs="1" name="Nombreafiliado" type="xsd:string" />

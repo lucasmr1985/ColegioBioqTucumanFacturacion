@@ -2244,7 +2244,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
         jPanel1.setEnabled(false);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -2669,7 +2669,7 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(txtpractica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txttotal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2677,7 +2677,7 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -2889,7 +2889,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(51, 51, 51));
@@ -2972,7 +2972,7 @@ public class MainL extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(102, 204, 255));
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cbt2.png"))); // NOI18N
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
         jPanel9.setEnabled(false);
 
         btnimportar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -3036,7 +3036,7 @@ public class MainL extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(formatoArchivoBoton))
                     .addComponent(jSeparator4)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -3151,7 +3151,7 @@ public class MainL extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4))
                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -3172,7 +3172,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
@@ -3290,7 +3290,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Ordenes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Ordenes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         tablaordenes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tablaordenes.setModel(new javax.swing.table.DefaultTableModel(
@@ -3384,7 +3384,7 @@ public class MainL extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(txtordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -3416,7 +3416,7 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(txtordenes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3504,7 +3504,7 @@ public class MainL extends javax.swing.JFrame {
                                 .addComponent(lblcolegiado2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15)
                         .addComponent(jLabel13)
-                        .addGap(0, 12, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(FacturacionLayout.createSequentialGroup()
                         .addComponent(btnimprimirdjj)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3553,7 +3553,7 @@ public class MainL extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(102, 204, 255));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cbt2.png"))); // NOI18N
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novedades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novedades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         txtnovedad.setEditable(false);
         txtnovedad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -3577,7 +3577,7 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Utilitarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Utilitarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jButton3.setBackground(new java.awt.Color(0, 0, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -3854,7 +3854,7 @@ public class MainL extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
         );
 
         pack();
@@ -9581,8 +9581,10 @@ public class MainL extends javax.swing.JFrame {
                                     }
 
                                     if (bandera == 0) {
-                                        if (obra_social != 13800 && obra_social != 3101 && obra_social != 10700 && obra_social != 50015 && obra_social != 9000 && obra_social != 1806 && obra_social != 1805 && obra_social != 9000 && obra_social != 1807
+                                        if (obra_social != 3101 && obra_social != 10700 && obra_social != 50015 && obra_social != 9000 && obra_social != 1806 && obra_social != 1805 && obra_social != 9000 && obra_social != 1807
                                                 && obra_social != 2601 && obra_social != 40813 && obra_social != 512 && obra_social != 37701) {
+//      if (obra_social != 13800 && obra_social != 3101 && obra_social != 10700 && obra_social != 50015 && obra_social != 9000 && obra_social != 1806 && obra_social != 1805 && obra_social != 9000 && obra_social != 1807
+//                                                && obra_social != 2601 && obra_social != 40813 && obra_social != 512 && obra_social != 37701) {
 
                                             String sSQL3 = "SELECT id_obrasocial, obrasocial.añonbu FROM obrasocial inner join nbu on obrasocial.añonbu = nbu.id_nbu WHERE Int_codigo_obrasocial=" + obra_social + " and estado_obrasocial=1";
                                             Statement st3 = cn.createStatement();
@@ -9602,7 +9604,8 @@ public class MainL extends javax.swing.JFrame {
                                                 while (j <= 110) {
                                                     if (Importar == 1) {
                                                         if (temp.getValueAt(i4, j) != null) {
-                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
+                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString());
+//                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
                                                             System.out.println(cod_practica);
                                                             System.out.println(cod);
                                                             System.out.println(id_obra_social);
@@ -9661,6 +9664,7 @@ public class MainL extends javax.swing.JFrame {
                                                     SP_cargar_orden.setDouble(8, 0.00);
                                                     ///System.out.println("e " + 10);
                                                     SP_cargar_orden.setString(9, "1");
+                                                    
                                                     ///System.out.println("e " + 11);
                                                     SP_cargar_orden.setString(10, fecha);
                                                     ///System.out.println("e " + 12);
@@ -9682,7 +9686,7 @@ public class MainL extends javax.swing.JFrame {
                                                     //System.out.println("e " + 20);
                                                     SP_cargar_orden.setString(19, coseguro);
                                                     //System.out.println("e " + 21);
-                                                    SP_cargar_orden.setString(20, "");
+                                                    SP_cargar_orden.setString(20, fecha);
                                                     //System.out.println("e " + 22);
                                                     SP_cargar_orden.setInt(21, tipo_orden);
                                                     ///System.out.println("e " + 23);
