@@ -193,7 +193,7 @@ public class HiloInicio extends Thread {
         arancel = new Double[500];
         obrasocial = new String[500];
         contadorobrasocial = 0;
-        String sSQL = "SELECT id_obrasocial,razonsocial_obrasocial,importeunidaddearancel_obrasocial,codigo_obrasocial,añonbu FROM obrasocial where estado_obrasocial=1";
+        String sSQL = "SELECT id_obrasocial,razonsocial_obrasocial,importeunidaddearancel_obrasocial,codigo_obrasocial,añonbu FROM obrasocial where estado_obrasocial=1 || estado_obrasocial=2";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);

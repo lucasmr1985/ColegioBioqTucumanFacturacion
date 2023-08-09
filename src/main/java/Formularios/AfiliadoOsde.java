@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 
 public class AfiliadoOsde extends javax.swing.JDialog {
 
-    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", CSC_OS = "";
+    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", CSC_OS = "",numeroPreautorizacion="";
 
     String hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
 
@@ -105,7 +105,7 @@ public class AfiliadoOsde extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Numero:");
+        jLabel1.setText("Número:");
 
         txtafiliado.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         txtafiliado.setForeground(new java.awt.Color(0, 102, 204));
@@ -123,7 +123,6 @@ public class AfiliadoOsde extends javax.swing.JDialog {
         cbotipo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         cbotipo.setForeground(new java.awt.Color(0, 102, 204));
         cbotipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ambulatorio", "Internación", "Domicilio" }));
-        cbotipo.setNextFocusableComponent(txtcsc);
         cbotipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbotipoActionPerformed(evt);
@@ -164,7 +163,7 @@ public class AfiliadoOsde extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtcsc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(cbotipo, 0, 129, Short.MAX_VALUE)
+                    .addComponent(cbotipo, 0, 165, Short.MAX_VALUE)
                     .addComponent(txtafiliado))
                 .addContainerGap())
         );
@@ -179,11 +178,11 @@ public class AfiliadoOsde extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cbotipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtcsc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -212,10 +211,10 @@ public class AfiliadoOsde extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -230,6 +229,7 @@ public class AfiliadoOsde extends javax.swing.JDialog {
         respuesta = "";
         String numero_afiliado = txtafiliado.getText();
         CSC_OS = txtcsc.getText();
+       // numeroPreautorizacion = txtPreautorizacion.getText();
         if (numero_afiliado.length() > 11) {
             numero_afiliado = numero_afiliado.substring(numero_afiliado.length() - 11, numero_afiliado.length());
         }
@@ -250,7 +250,14 @@ public class AfiliadoOsde extends javax.swing.JDialog {
                     nombreafiliado = respuestaOsde.ReadXMLOsde01A().getBeneficiario().getApellidoBeneficiario() + " " + respuestaOsde.ReadXMLOsde01A().getBeneficiario().getNombreBeneficiario();
                     Codigo_afiliado = respuestaOsde.ReadXMLOsde01A().getCredencial().getNumeroCredencial();
                     dni = "";
-                    dispose();
+                    int opcion = JOptionPane.showConfirmDialog(null, "Posee una orden PreAutorizada?", "Osde PreAutorización", JOptionPane.NO_OPTION);
+                    if(opcion==0){
+                        new OsdePreAutorizacion(null, true).setVisible(true);
+                        dispose();
+                    }else{
+                        dispose();
+                    }
+                    
                 }else{
                     JOptionPane.showMessageDialog(null, "Error código: " + respuestaOsde.ReadXMLOsde01A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaOsde.ReadXMLOsde01A().getRta().getMensajeDisplay());
                 }

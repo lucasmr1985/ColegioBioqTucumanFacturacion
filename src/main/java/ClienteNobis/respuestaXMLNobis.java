@@ -14,7 +14,7 @@ public class respuestaXMLNobis {
     private String Cose_Neto;
     private String Cose_IVA;
     private String Cose_Total;
-//    private ArrayList<practicaXMLNobis> practicas;
+    private ArrayList<practicaXMLNobis> practicas;
 
     public String getCod() {
         return cod;
@@ -99,27 +99,12 @@ public class respuestaXMLNobis {
         this.dni = dni;
     }
     
-//    public ArrayList<practicaXMLNobis> getPracticas() {
-//        return practicas;
-//    }
-//    public void setPracticas(ArrayList<practicaXMLNobis> practicas) {
-//        this.practicas = practicas;
-//    }
-//    public String getNroReferencia() {
-//        return NroReferencia;
-//    }
-//
-//    public void setNroReferencia(String NroReferencia) {
-//        this.NroReferencia = NroReferencia;
-//    }
-//    
-//     public String getRespuestaAdicional() {
-//        return respuestaAdicional;
-//    }
-//
-//    public void setRespuestaAdicional(String respuestaAdicional) {
-//        this.respuestaAdicional = respuestaAdicional;
-//    }
-   
+    public ArrayList<practicaXMLNobis> getPracticas() {
+        return practicas;
+    }
+    
+    public void setPracticas(ArrayList<practicaXMLNobis> practicas) {
+        this.practicas = practicas;
+    }
 
 }

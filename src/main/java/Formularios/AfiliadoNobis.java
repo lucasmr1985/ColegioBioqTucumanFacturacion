@@ -177,7 +177,8 @@ public class AfiliadoNobis extends javax.swing.JDialog {
                     System.out.println(".....");
                     ReadXMLFile respuestaNobis = new ReadXMLFile();                    
                     System.out.println("-----");
-                    ///
+                    ///43564951
+                    System.out.println("respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado(): "+respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado());
                     if (!respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado().equals("Afiliado inexistente")) {
                         dni = respuestaNobis.ReadXMLNobisConsultarAfiliado().getDni();
                         nombreafiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getAfiliado();

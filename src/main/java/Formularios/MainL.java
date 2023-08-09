@@ -2244,7 +2244,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
         jPanel1.setEnabled(false);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -2575,31 +2575,29 @@ public class MainL extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txttotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txttotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(chkcoseguro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtnumorden))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
                                 .addComponent(jLabel24)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtcoseguro, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtfechacoseguro)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtcoseguro, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtfechacoseguro))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtnumorden)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtDiaOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -2613,7 +2611,7 @@ public class MainL extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtnumafiliado)
+                        .addComponent(txtnumafiliado, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2648,36 +2646,38 @@ public class MainL extends javax.swing.JFrame {
                     .addComponent(txtmatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtnumafiliado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel10)
-                    .addComponent(txtnumorden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiaOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21))
-                .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel24)
-                    .addComponent(jLabel25)
-                    .addComponent(txtfechacoseguro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkcoseguro)
-                    .addComponent(txtcoseguro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtnumorden, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDiaOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel24)
+                        .addComponent(jLabel25)
+                        .addComponent(chkcoseguro)
+                        .addComponent(txtcoseguro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtfechacoseguro, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtpractica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txttotal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23))
-                .addContainerGap())
+                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -2863,7 +2863,7 @@ public class MainL extends javax.swing.JFrame {
                         .addComponent(jButton2))
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(OrdenesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OrdenesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2889,7 +2889,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(51, 51, 51));
@@ -2972,7 +2972,7 @@ public class MainL extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(102, 204, 255));
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cbt2.png"))); // NOI18N
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingreso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
         jPanel9.setEnabled(false);
 
         btnimportar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -3172,7 +3172,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de Facturación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
@@ -3290,7 +3290,7 @@ public class MainL extends javax.swing.JFrame {
             }
         });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Ordenes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Ordenes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         tablaordenes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tablaordenes.setModel(new javax.swing.table.DefaultTableModel(
@@ -3553,7 +3553,7 @@ public class MainL extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(102, 204, 255));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cbt2.png"))); // NOI18N
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novedades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Novedades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         txtnovedad.setEditable(false);
         txtnovedad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -3577,7 +3577,7 @@ public class MainL extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Utilitarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Utilitarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jButton3.setBackground(new java.awt.Color(0, 0, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -4086,21 +4086,21 @@ public class MainL extends javax.swing.JFrame {
                                     coseguro_ss = coseguro_ss + "00000.0";
                                     cod_practca = tablapracticas.getValueAt(i, 4).toString();
                                     // Verificacion de Practicas
-                                    if (cod_practca.equals("664418")) {
-//                                    JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
-//                                    banderaMedicoAutorizado = 0;
-//                                    bandera_osde = 0;
-//                                    break;
-                                        if (MedicosAutorizados.buscarMedicosAutorizados(Integer.valueOf(txtmatricula.getText()), listaMedicos)) {
-                                            //   banderaMedicoAutorizado = 1;
-                                            bandera_osde = 1;
-                                        } else {
-                                            JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
-                                            banderaMedicoAutorizado = 0;
-                                            bandera_osde = 0;
-                                            break;
-                                        }
-                                    }
+//                                    if (cod_practca.equals("664418")) {
+////                                    JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
+////                                    banderaMedicoAutorizado = 0;
+////                                    bandera_osde = 0;
+////                                    break;
+//                                        if (MedicosAutorizados.buscarMedicosAutorizados(Integer.valueOf(txtmatricula.getText()), listaMedicos)) {
+//                                            //   banderaMedicoAutorizado = 1;
+//                                            bandera_osde = 1;
+//                                        } else {
+//                                            JOptionPane.showMessageDialog(null, "La Matricula medica No está autorizada a realizar la practica 664418 - DIMERO D");
+//                                            banderaMedicoAutorizado = 0;
+//                                            bandera_osde = 0;
+//                                            break;
+//                                        }
+//                                    }
                                     nombre_practca = tablapracticas.getValueAt(i, 2).toString();
                                     mensajenuevo = mensajenuevo + "<DetalleProcedimientos><NroItem>" + (i + 1) + "</NroItem><CodPrestacion>" + cod_practca + "</CodPrestacion><CodAlternativo></CodAlternativo><TipoPrestacion>" + tipo_orden + "</TipoPrestacion><ArancelPrestacion>0</ArancelPrestacion><CantidadSolicitada>1</CantidadSolicitada><DescripcionPrestacion>" + nombre_practca + "</DescripcionPrestacion></DetalleProcedimientos>";
                                     i++;
@@ -4111,11 +4111,24 @@ public class MainL extends javax.swing.JFrame {
                                 /////////////////////////////////////////////////////////////////////////////////
                                 System.out.println("tipo_orden:" + tipo_orden);
                                 if (tipo_orden == 1 || tipo_orden == 4) {
-                                    System.out.println("tipo_orden:02L");
-                                    mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                    if (AfiliadoOsde.numeroPreautorizacion.equals("")) {///sin preautorizacion
+                                        System.out.println("sin preautorizacion 1");
+                                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                    } else {//con preautorizacion                                        
+                                        System.out.println("con preautorizacion 1");
+                                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion><CodigoPreautorizacion>" + AfiliadoOsde.numeroPreautorizacion + "</CodigoPreautorizacion></Preautorizacion><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                        // mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>60671956201</NumeroCredencial><VersionCredencial>218</VersionCredencial></Credencial><Preautorizacion><CodigoPreautorizacion>00585699</CodigoPreautorizacion></Preautorizacion><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                    }
+
                                 } else {
-                                    System.out.println("tipo_orden:02L DIFERIDO");
-                                    mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                    if (AfiliadoOsde.numeroPreautorizacion.equals("")) {
+                                        System.out.println("sin preautorizacion 2");
+                                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                    } else {
+                                        System.out.println("con preautorizacion 2");
+                                        mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>" + txtnumafiliado.getText() + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion><CodigoPreautorizacion>" + AfiliadoOsde.numeroPreautorizacion + "</CodigoPreautorizacion></Preautorizacion><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";
+                                        //mensajepractica = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>02L</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaMySql + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador><RazonSocial>" + nombre_colegiado + "</RazonSocial></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor><NroMatriculaPrescriptor>" + txtmatricula.getText() + "</NroMatriculaPrescriptor></Prescriptor><Credencial><NumeroCredencial>60671956201</NumeroCredencial><VersionCredencial>218</VersionCredencial></Credencial><Preautorizacion><CodigoPreautorizacion>00585699</CodigoPreautorizacion></Preautorizacion><Documentacion/><Atencion><FechaAtencion>" + formatoMySql(txtfecha.getText()) + "</FechaAtencion><HoraAtencion/></Atencion><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion>" + mensajenuevo + "</Mensaje>";                                        
+                                    }
                                 }
                                 //   HttpOsdePractica http2 = new HttpOsdePractica();
                                 OsdeConexionWsdl servicio = new OsdeConexionWsdl();
@@ -4408,6 +4421,8 @@ public class MainL extends javax.swing.JFrame {
                         plan_ss = "";
                         coseguro_ss = "";
                         cursor();
+                        LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
+                        Resultados.clear();
                         String DetalleProcedimientos = "";
                         if (tablapracticas.getRowCount() != 0) {
                             int n2, i = 0;
@@ -4477,6 +4492,7 @@ public class MainL extends javax.swing.JFrame {
                                     //Generate XML
                                     try {
                                         FileWriter archivo2 = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
+
                                         archivo2.write(resultado);
                                         archivo2.close();
                                         System.out.println("");
@@ -4484,8 +4500,7 @@ public class MainL extends javax.swing.JFrame {
                                         if (respuestaOspe2.ReadXMLOspe02A().getCodigo().equals("00")) {
                                             //////HABILITADO//////
                                             DecimalFormat df = new DecimalFormat("0.00");
-                                            LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
-                                            Resultados.clear();
+
                                             estado_orden = 1;
                                             num_orden = respuestaOspe2.ReadXMLOspe02A().getNroReferencia();
 
@@ -4690,6 +4705,8 @@ public class MainL extends javax.swing.JFrame {
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (obra.equals("50015 - BOREAL")) {
                         plan_ss = "";
+                        LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
+                        Resultados.clear();
                         coseguro_ss = "";
                         cursor();
                         String mensajenuevo = "";
@@ -4734,8 +4751,6 @@ public class MainL extends javax.swing.JFrame {
                             if (respuestapractica.substring(pos + 13, pos2).equals("B000")) {
                                 estado_orden = 1;
                                 DecimalFormat df = new DecimalFormat("0.00");
-                                LinkedList<camposboreal> Resultados = new LinkedList<camposboreal>();
-                                Resultados.clear();
 
                                 try {
                                     DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -6006,9 +6021,7 @@ public class MainL extends javax.swing.JFrame {
                                 System.out.println("tipo_orden Medife2:" + tipo_orden);
 
                                 if (codigo_respuesta.equals("B000")) {
-                                    
-                                    
-                                    
+
                                     estado_orden = 1;
                                     txtnumorden.setText(num_orden);
                                     /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
@@ -6937,7 +6950,7 @@ public class MainL extends javax.swing.JFrame {
 //                                            int j = 0;
 //                                            while (j < n2) {
 //                                                camposboreal tipo;
-//                                                tipo = new camposboreal(respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getCodPrestacion(), respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
+//                                                tipo = new camposboreal(respuestaNobis.ReadXMLNobisInsertarAutorizacionAmb().getPracticas(), respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
 //                                                Resultados.add(tipo);
 //                                                COSEGURO = COSEGURO + Double.valueOf(respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado());
 //                                                detallePracticas = detallePracticas + "\n" + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getCodPrestacion() + " - " + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getMensajeRta() + " - Coseguro: $" + respuestaOspe2.ReadXMLOspe02A().getPracticas().get(j).getImporteACargoAfiliado();
@@ -7202,10 +7215,10 @@ public class MainL extends javax.swing.JFrame {
                     }
                     ///////////////////////////////////////////////////////////////////////
                     if ("1800 - SUBSIDIO DE SALUD - IPSSPT".equals(txtobrasocial.getText())
-                            || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText()) 
-                            || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText()) 
-                            || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText()) 
-                            || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText()) 
+                            || "1801 - SUBSIDIO DE SALUD - MATERNO INFANTIL".equals(txtobrasocial.getText())
+                            || "1803 - SUBSIDIO DE SALUD - RECIPROCIDAD".equals(txtobrasocial.getText())
+                            || "1804 - SUBSIDIO DE SALUD - INTERNADO".equals(txtobrasocial.getText())
+                            || "1810 - SUBSIDIO DE SALUD - PRODIASS-PLAN PREVENCION".equals(txtobrasocial.getText())
                             || "1815 - SUBSIDIO DE SALUD - REFACTURACION".equals(txtobrasocial.getText())) {
                         long ordnumero = Long.valueOf(txtnumorden.getText());
                         long resto3 = 0, resto2, resto = ordnumero;
@@ -8443,7 +8456,7 @@ public class MainL extends javax.swing.JFrame {
                                 band = 1;
                             }
 
-                        }                        
+                        }
 
                     }
                 } else {
@@ -8489,8 +8502,78 @@ public class MainL extends javax.swing.JFrame {
 
                         }
 
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Superó el límite permitido");
+                }
+            }else if (obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
+                if (tablapracticas.getRowCount() < 12) {
+                    if (!txtpractica.getText().equals("+")) {
+                        DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
+                        String cadena = txtpractica.getText();
+                        int n = tablapracticas.getRowCount();
+                        int codPractica, idPractica, codFacPractica, tipoPractica;
+                        String nomPractica;
+                        double precioPractica;
+
+                        ////////////////////////////////////
+                        if (!cadena.equals("")) {
+                            int fila = 0;
+                            if (Practica.buscarPracticaBool(cadena, listaPracticas)) {
+                                idPractica = Practica.buscarPractica(cadena, listaPracticas).getId();
+                                codPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigo();
+                                codFacPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigoFacturacion();
+                                nomPractica = Practica.buscarPractica(cadena, listaPracticas).getDeterminacion();
+                                tipoPractica = Practica.buscarPractica(cadena, listaPracticas).getTipoPractica();
+                                precioPractica = Practica.buscarPractica(cadena, listaPracticas).getPrecioTotal();
+
+                                if (codFacPractica == 668298//perfil lipidido
+                                        || codFacPractica == 660481///hepatograma
+                                        || codFacPractica == 660171//coagulograma
+                                        ) {
+                                    if (codFacPractica == 668298) {
+                                        JOptionPane.showMessageDialog(this, "Modulo no Aceptado, debe cargar el codigo 660174 - Colesterol Total");
+                                    }
+                                    if (codFacPractica == 660481) {
+                                        JOptionPane.showMessageDialog(this, "Modulo no Aceptado, debe cargar el codigo 660873 - GOT");
+                                    }
+                                    if (codFacPractica == 660171) {
+                                        JOptionPane.showMessageDialog(this, "Modulo no Aceptado, debe cargar el codigo 660771 - TP ");
+                                    }
+
+                                } else {
+
+                                    if (n != 0) {
+                                        fila = n;
+                                        Object nuevo[] = {
+                                            fila + 1, "", ""};
+                                        temp.addRow(nuevo);
+                                        tablapracticas.setValueAt(codPractica, fila, 1);
+                                        tablapracticas.setValueAt(nomPractica, fila, 2);
+                                        tablapracticas.setValueAt(precioPractica, fila, 3);
+                                        tablapracticas.setValueAt(codFacPractica, fila, 4);
+                                        tablapracticas.setValueAt(idPractica, fila, 5);
+                                        tablapracticas.setValueAt(tipoPractica, fila, 6);
+                                    } else {
+                                        Object nuevo[] = {
+                                            "1", "", ""};
+                                        temp.addRow(nuevo);
+                                        tablapracticas.setValueAt(codPractica, 0, 1);
+                                        tablapracticas.setValueAt(nomPractica, 0, 2);
+                                        tablapracticas.setValueAt(precioPractica, 0, 3);
+                                        tablapracticas.setValueAt(codFacPractica, fila, 4);
+                                        tablapracticas.setValueAt(idPractica, fila, 5);
+                                        tablapracticas.setValueAt(tipoPractica, fila, 6);
+
+                                    }
+                                }
+                                band = 1;
+                            }
+
+                        }
 
                     }
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Superó el límite permitido");
                 }
@@ -8537,8 +8620,8 @@ public class MainL extends javax.swing.JFrame {
                 }
             }
         }
-         if (band == 0 && !txtpractica.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "La practica no es aceptada por la Obra Social...");
+        if (band == 0 && !txtpractica.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "No se pudo grabar la práctica...");
             txtpractica.requestFocus();
         }
         tablapracticas.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -8563,7 +8646,7 @@ public class MainL extends javax.swing.JFrame {
         //////////////////////////
         cargartotalpracticas();
         txtpractica.setText("");
-       
+
     }//GEN-LAST:event_txtpracticaActionPerformed
 
 
@@ -8703,7 +8786,7 @@ public class MainL extends javax.swing.JFrame {
 
     void cargartabla(String valor) {
         cursor();
-        String[] Titulo = {"Numero", "Cod", "Practica", "Precio", "Cod Fac", "id_practica","Tipo"};
+        String[] Titulo = {"Numero", "Cod", "Practica", "Precio", "Cod Fac", "id_practica", "Tipo"};
         String[] Registros = new String[7];
         int i = 1, obra = 0;
         model = new DefaultTableModel(null, Titulo) {
@@ -9664,7 +9747,7 @@ public class MainL extends javax.swing.JFrame {
                                                     SP_cargar_orden.setDouble(8, 0.00);
                                                     ///System.out.println("e " + 10);
                                                     SP_cargar_orden.setString(9, "1");
-                                                    
+
                                                     ///System.out.println("e " + 11);
                                                     SP_cargar_orden.setString(10, fecha);
                                                     ///System.out.println("e " + 12);
@@ -12023,6 +12106,7 @@ public class MainL extends javax.swing.JFrame {
                                 || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")
                                 //|| obra.equals("2700 - UNT - Accion  Social de la  UNT")
                                 || obra.equals("40816 - NOBIS SA")) {
+//                                || obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
                             //|| obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {//SUBSIDIO DE SALUD - AUTORIZACION - ONLINE
                             ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -12849,7 +12933,7 @@ public class MainL extends javax.swing.JFrame {
                     obrasocial = id_obra_social;
                 }
                 //String sSQL = "SELECT nombre_afiliado,dni_afiliado,numero_afiliado FROM afiliados WHERE (dni_afiliado=" + dni + "  AND id_obra_social=" + id_obra_social + ") OR (numero_afiliado=" + dni + "  AND id_obra_social=" + id_obra_social + ") ";
-                if (id_obra_social == 58) {
+                if (id_obra_social == 58 || id_obra_social == 127) {
 
                     txtdocumento.transferFocus();
 
