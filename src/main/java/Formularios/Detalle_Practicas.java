@@ -77,8 +77,19 @@ public class Detalle_Practicas extends javax.swing.JDialog {
             cursor();
             String[] Titulo = {"Cod", "Practica", "Precio", "Coseguro"};
             String[] Registros = new String[4];
+            String sql = "", coseguroOrden="";
+            
+            if (obrasocial.equals("SUBSIDIO DE SALUD - SISTEMA WEB") || obrasocial.equals("OSPE- OBRA SOCIAL DE PETROLEROS")) {
+                sql = "SELECT cod_practica,nombre_practica,precio_practica, CAST(coseguro as DECIMAL(9,2)),0 FROM detalle_ordenes Where id_orden=" + id_orden + " AND estado=" + 0;
+            } else {
+                sql = "SELECT cod_practica,nombre_practica,precio_practica,0, ordenes.coseguro \n"
+                        + "FROM ordenes \n"
+                        + "INNER JOIN detalle_ordenes USING (id_orden) \n"
+                        + "Where id_orden=" + id_orden + " AND estado=0";
+            }
+//             * * * COMO TRAE EL COSEGURO OSPE
+//            ???
 
-            String sql = "SELECT cod_practica,nombre_practica,precio_practica, CAST(coseguro as DECIMAL(9,2)) FROM detalle_ordenes Where id_orden=" + id_orden + " AND estado=" + 0;
             model = new DefaultTableModel(null, Titulo) {
                 ////Celdas no editables////////
                 public boolean isCellEditable(int row, int column) {
@@ -99,6 +110,7 @@ public class Detalle_Practicas extends javax.swing.JDialog {
                         Registros[3] = rs.getString(4);
                         model.addRow(Registros);
                         coseguro = rs.getDouble(4) + coseguro;
+                        coseguroOrden = rs.getString(5);
                     }
                     txtcoseguro.setText(String.valueOf(coseguro));
                     tablapracticas.setModel(model);
@@ -119,9 +131,13 @@ public class Detalle_Practicas extends javax.swing.JDialog {
                     cursor2();
                     cn.close();
                     cargartotales();
+                     if (!(obrasocial.equals("SUBSIDIO DE SALUD - SISTEMA WEB") || obrasocial.equals("OSPE- OBRA SOCIAL DE PETROLEROS"))) {
+                    txtcoseguro.setText(coseguroOrden);
+                    }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex);
                 }
+                // BASE bck
             } else {
                 ConexionMariaDBBackup cc = new ConexionMariaDBBackup();
                 Connection cn2 = cc.Conectar();

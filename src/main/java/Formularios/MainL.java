@@ -199,7 +199,7 @@ public class MainL extends javax.swing.JFrame {
     public static String url, documento_afiliado, nombre_afiliado, numero_afiliado, fecha, fecha2, id_obra2 = "", localidad_lab, domicilio_lab, total_pesos_letras, total_centavos_letras, periodo, periododjj, fechaComun;
     // static String año;
     public static int bandera = 1, contadorPracticas = 0, idObraSocialOnline = 0;
-    int id_obra_social, banderamodifica = 0, id_orden, pacientes = 0, practicas = 0, total = 0, contadorobra = 0;
+    int id_obra_social, banderamodifica = 0, id_orden, pacientes = 0, practicas = 0, total = 0, contadorobra = 0, cantidad_practicas_modificar = 0;
     static int plan;
     DefaultTableModel model, model1, model_tabla_facturacion;
     DefaultTableCellRenderer alinearCentro, alinearDerecha, alinearIzquierda;
@@ -2048,6 +2048,29 @@ public class MainL extends javax.swing.JFrame {
         this.pack();
     }
 
+    private int consultaPracticasPami(String numAfiliado, String periodo) {
+        ConexionMariaDB mysql = new ConexionMariaDB();
+        Connection cn = mysql.Conectar();
+        int cantidad = 0;
+        System.out.println("Num_af: " + numAfiliado);
+        System.out.println("periodo: " + periodo);
+        String sSQL = "SELECT cantidad FROM vista_ordenes_cantidad_practicas_periodo where numero_afiliado=" + numAfiliado + " and periodo=" + periodo;
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+            while (rs.next()) {
+                cantidad = rs.getInt(1);
+            }
+            cn.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        System.out.println("cantidad historico " + cantidad);
+        return cantidad;
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -3894,9 +3917,23 @@ public class MainL extends javax.swing.JFrame {
         btnaceptar.setEnabled(false);
         int banderaControl = 0;
         int banderaMedicoAutorizado = 1;
-        int estadoPami = 1;
+        int estadoPami = 1, cantidadPracticas = 0;
         int estado_orden;
         String fechaDate = "";
+
+        ConexionMariaDB ccCantidad = new ConexionMariaDB();
+        Connection cnCantidad = ccCantidad.Conectar();
+        try {
+
+            /////////////////////////////////////////////////////
+            Statement st5 = cnCantidad.createStatement();
+            ResultSet rs5 = st5.executeQuery("SELECT CANTIDAD_PRACTICAS_PAMI FROM PERIODOS");
+            rs5.next();
+            cantidadPracticas = rs5.getInt(1);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
         /////////////////PAMO//////////////////////
         if (tablapracticas.getRowCount() > 0) {
             if (id_obra_social == 58) {
@@ -3905,6 +3942,10 @@ public class MainL extends javax.swing.JFrame {
                 String num_orden_PAMI = txtnumorden.getText();
                 txtfecha.setText(txtDiaOrden.getText() + "/" + txtmes.getText() + "/" + txtaño.getText());
                 fechaDate = txtaño.getText() + "-" + txtmes.getText() + "-" + txtDiaOrden.getText();
+
+                String periodoPami = txtaño.getText() + txtmes.getText();
+                int cantidad = tablapracticas.getRowCount();
+                int cantidadPeriodo = consultaPracticasPami(txtnumafiliado.getText(), periodoPami);
 
                 if (banderamodifica == 0) {
                     try {
@@ -3947,14 +3988,27 @@ public class MainL extends javax.swing.JFrame {
                                 txtnumafiliado.requestFocus();
                                 estadoPami = 0;
                             }
+
+                            int total = cantidad + cantidadPeriodo;
+                            //cantidadPracticas
+                            if (Integer.valueOf(periodoPami) >= 202309) {
+                                if (total > cantidadPracticas) {
+                                    JOptionPane.showMessageDialog(null, "El paciente supera tope mensual de 12 practicas");
+                                    System.out.println("no, cantidad practicas: " + total);
+                                    estadoPami = 0;
+                                }
+                            }
+
                         } else {
                             estadoPami = 0;
                             JOptionPane.showMessageDialog(null, "La orden ya se encuentra cargada. Separar bono");
                         }
+
                     } catch (SQLException ex) {
                         estadoPami = 0;
                         Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 } else {
                     estado_orden = 3;
                     if (!txtnumafiliado.getText().equals("")
@@ -3987,6 +4041,34 @@ public class MainL extends javax.swing.JFrame {
                         txtnumafiliado.requestFocus();
                         estadoPami = 0;
                     }
+
+                    int total = cantidad + cantidadPeriodo - cantidad_practicas_modificar;
+                    if (total > cantidadPracticas && Integer.valueOf(periodoPami) >= 202309) {
+                        JOptionPane.showMessageDialog(null, "El paciente supera tope mensual de 12 practicas");
+                        System.out.println("no, cantidad practicas: " + total);
+                        estadoPami = 0;
+                    }
+                }
+            } else if (id_obra_social == 127) {
+
+                String periodoPami = txtaño.getText() + txtmes.getText();
+                int cantidad = tablapracticas.getRowCount();
+                int cantidadPeriodo = consultaPracticasPami(txtnumafiliado.getText(), periodoPami);
+                fechaDate = invertir(txtfecha.getText());
+                int total = cantidad + cantidadPeriodo;
+                if (Integer.valueOf(periodoPami) >= 202309) {
+                    if (total > cantidadPracticas) {
+                        JOptionPane.showMessageDialog(null, "El paciente supera tope mensual de 12 practicas");
+                        System.out.println("no, cantidad practicas: " + total);
+                        estadoPami = 0;
+                    } else {
+                        System.out.println("si, cantidad practicas: " + total);
+                        estadoPami = 1;
+                    }
+
+                } else {
+                    System.out.println("si, cantidad practicas: " + total);
+                    estadoPami = 1;
                 }
             } else {
                 fechaDate = invertir(txtfecha.getText());
@@ -7248,15 +7330,16 @@ public class MainL extends javax.swing.JFrame {
 //                                txtnumorden.setText(String.valueOf(resto3));
                             } else {
                                 cursor2();
-                                JOptionPane.showMessageDialog(null, "Numero de orden incorrecto de Subsidio...");
+                                JOptionPane.showMessageDialog(null, "Número de orden incorrecto de Subsidio...");
                                 banderaEstadoOffline = 0;
                             }
                         }
                     }
                     if (banderamodifica == 0 && banderaEstadoOffline == 1) {
                         if (!txtnumorden.getText().equals("") && txtdocumento.getText().length() >= 4 && !txtnombreafiliado.getText().equals("")) {
-                            if (id_obra_social == 58) {
+                            if (id_obra_social == 58 || id_obra_social == 127) {
                                 estado_orden = 3;
+
                             } else {
                                 estado_orden = 1;
                             }
@@ -7289,8 +7372,17 @@ public class MainL extends javax.swing.JFrame {
                                     fechaDate);//0.00                        
                             if (respuesta == 0) {//en el caso se q no se grabe en nuestro servidor se anula del wsdl
                                 bandera_obra_social_comun = 0;
-                            } else {
+
+                            } // Carga de Ventanas 
+                            else {
                                 bandera_obra_social_comun = 1;
+                                if (id_obra_social == 127) {
+                                    JOptionPane.showMessageDialog(null, "Número de transacción " + respuesta + " (anotar al dorso del pedido médico)");
+                                }
+                                if (id_obra_social == 58) {
+                                    JOptionPane.showMessageDialog(null, "La orden se cargo correctamente");
+                                }
+
                             }
                         } else {
                             cursor2();
@@ -7339,7 +7431,11 @@ public class MainL extends javax.swing.JFrame {
                                         jLabel2.setEnabled(false);
                                         txtfecha.setEnabled(false);
                                         txtdocumento.setEnabled(false);
-                                        txtnumorden.setText("");
+                                        if (id_obra_social == 127) {
+                                            txtnumorden.setText("0");
+                                        } else {
+                                            txtnumorden.setText("");
+                                        }
                                         txtnombreafiliado.setEnabled(false);
                                         txtnumafiliado.setEnabled(false);
                                         System.out.println("obra: " + obra);
@@ -7460,7 +7556,12 @@ public class MainL extends javax.swing.JFrame {
                                     jLabel2.setEnabled(false);
                                     txtfecha.setEnabled(false);
                                     txtdocumento.setEnabled(false);
-                                    txtnumorden.setText("");
+                                    if (id_obra_social == 127) {
+                                        txtnumorden.setText("0");
+                                    } else {
+                                        txtnumorden.setText("");
+                                    }
+
                                     txtnombreafiliado.setEnabled(false);
                                     txtnumafiliado.setEnabled(false);
                                     System.out.println("obra: " + obra);
@@ -7517,7 +7618,11 @@ public class MainL extends javax.swing.JFrame {
                     String matr = txtmatricula.getText();
                     txtmatricula.select(0, matr.length());
                     txtdocumento.setEnabled(false);
-                    txtnumorden.setText("");
+                    if (id_obra_social == 127) {
+                        txtnumorden.setText("0");
+                    } else {
+                        txtnumorden.setText("");
+                    }
                     txtnombreafiliado.setEnabled(false);
                     txtnumafiliado.setEnabled(false);
                     System.out.println("obra: " + obra);
@@ -7560,7 +7665,11 @@ public class MainL extends javax.swing.JFrame {
                     String matr = txtmatricula.getText();
                     txtmatricula.select(0, matr.length());
                     txtdocumento.setEnabled(false);
-                    txtnumorden.setText("");
+                    if (id_obra_social == 127) {
+                        txtnumorden.setText("0");
+                    } else {
+                        txtnumorden.setText("");
+                    }
                     txttotal1.setText("");
                     txtnombreafiliado.setEnabled(false);
                     txtnumafiliado.setEnabled(false);
@@ -7600,8 +7709,11 @@ public class MainL extends javax.swing.JFrame {
         }
 
         observacion = null;
+
         cursor2();
-        btnaceptar.setEnabled(true);
+
+        btnaceptar.setEnabled(
+                true);
     }//GEN-LAST:event_btnaceptarActionPerformed
 
     String completarceros(String v, int d
@@ -7679,6 +7791,7 @@ public class MainL extends javax.swing.JFrame {
         calendar.setTime(currentDate);
         fechaMySql = formato.format(currentDate);
         fechaComun = formatoComun.format(currentDate);
+
     }
 
     public class apiSwLogin {
@@ -8139,6 +8252,24 @@ public class MainL extends javax.swing.JFrame {
 
     private void txtpracticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpracticaActionPerformed
         int band = 0;
+
+        int cantidadPracticas = 0;
+        String periodoPami = txtaño.getText() + txtmes.getText();
+
+        ConexionMariaDB cc = new ConexionMariaDB();
+        Connection cn = cc.Conectar();
+        try {
+
+            /////////////////////////////////////////////////////
+            Statement st5 = cn.createStatement();
+            ResultSet rs5 = st5.executeQuery("SELECT CANTIDAD_PRACTICAS_PAMI FROM PERIODOS");
+            rs5.next();
+            cantidadPracticas = rs5.getInt(1);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
         if (obra.equals("1805 - SUBSIDIO DE SALUD - ONLINE")) {
             if (tablapracticas.getRowCount() <= 12) {
                 if (!txtpractica.getText().equals("+")) {
@@ -8326,7 +8457,29 @@ public class MainL extends javax.swing.JFrame {
                 if (cbotipo.getSelectedItem().equals("Orden Médica Electrónica")) {
                     if (!cadena.equals("")) {
 
-                        if (Practica.buscarPracticaBool(cadena, listaPracticas)) {
+                        if (Integer.valueOf(periodoPami) >= 202309) {
+
+                            if (tablapracticas.getRowCount() < cantidadPracticas) {
+                                if (Practica.buscarPracticaBool(cadena, listaPracticas)) {
+                                    idPractica = Practica.buscarPractica(cadena, listaPracticas).getId();
+                                    codPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigo();
+                                    codFacPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigoFacturacion();
+                                    nomPractica = Practica.buscarPractica(cadena, listaPracticas).getDeterminacion();
+                                    tipoPractica = Practica.buscarPractica(cadena, listaPracticas).getTipoPractica();
+                                    precioPractica = Practica.buscarPractica(cadena, listaPracticas).getPrecioTotal();
+
+                                    Object nuevo[] = {
+                                        n + 1, codPractica, nomPractica, precioPractica, codFacPractica, idPractica, tipoPractica};
+                                    temp.addRow(nuevo);
+
+                                    band = 1;
+
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Superó el límite permitido");
+                            }
+                        } else {
                             idPractica = Practica.buscarPractica(cadena, listaPracticas).getId();
                             codPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigo();
                             codFacPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigoFacturacion();
@@ -8341,7 +8494,6 @@ public class MainL extends javax.swing.JFrame {
                             band = 1;
 
                         }
-
                     }
                 } else if (cbotipo.getSelectedItem().equals("Bono Especialista")) {
                     if (tablapracticas.getRowCount() <= 2) {
@@ -8506,8 +8658,82 @@ public class MainL extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Superó el límite permitido");
                 }
-            }else if (obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
-                if (tablapracticas.getRowCount() < 12) {
+            } else if (obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
+
+                if (Integer.valueOf(periodoPami) >= 202309) {
+
+                    if (tablapracticas.getRowCount() < cantidadPracticas) {
+                        if (!txtpractica.getText().equals("+")) {
+                            DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
+                            String cadena = txtpractica.getText();
+                            int n = tablapracticas.getRowCount();
+                            int codPractica, idPractica, codFacPractica, tipoPractica;
+                            String nomPractica;
+                            double precioPractica;
+
+                            ////////////////////////////////////
+                            if (!cadena.equals("")) {
+                                int fila = 0;
+                                if (Practica.buscarPracticaBool(cadena, listaPracticas)) {
+                                    idPractica = Practica.buscarPractica(cadena, listaPracticas).getId();
+                                    codPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigo();
+                                    codFacPractica = Practica.buscarPractica(cadena, listaPracticas).getCodigoFacturacion();
+                                    nomPractica = Practica.buscarPractica(cadena, listaPracticas).getDeterminacion();
+                                    tipoPractica = Practica.buscarPractica(cadena, listaPracticas).getTipoPractica();
+                                    precioPractica = Practica.buscarPractica(cadena, listaPracticas).getPrecioTotal();
+
+                                    if (codFacPractica == 668298//perfil lipidido
+                                            || codFacPractica == 660481///hepatograma
+                                            || codFacPractica == 660171//coagulograma
+                                            ) {
+                                        if (codFacPractica == 668298) {
+                                            JOptionPane.showMessageDialog(this, "Modulo no Aceptado, debe cargar el codigo 660174 - Colesterol Total");
+                                        }
+                                        if (codFacPractica == 660481) {
+                                            JOptionPane.showMessageDialog(this, "Modulo no Aceptado, debe cargar el codigo 660873 - GOT");
+                                        }
+                                        if (codFacPractica == 660171) {
+                                            JOptionPane.showMessageDialog(this, "Modulo no Aceptado, debe cargar el codigo 660771 - TP ");
+                                        }
+
+                                    } else {
+
+                                        if (n != 0) {
+                                            fila = n;
+                                            Object nuevo[] = {
+                                                fila + 1, "", ""};
+                                            temp.addRow(nuevo);
+                                            tablapracticas.setValueAt(codPractica, fila, 1);
+                                            tablapracticas.setValueAt(nomPractica, fila, 2);
+                                            tablapracticas.setValueAt(precioPractica, fila, 3);
+                                            tablapracticas.setValueAt(codFacPractica, fila, 4);
+                                            tablapracticas.setValueAt(idPractica, fila, 5);
+                                            tablapracticas.setValueAt(tipoPractica, fila, 6);
+                                        } else {
+                                            Object nuevo[] = {
+                                                "1", "", ""};
+                                            temp.addRow(nuevo);
+                                            tablapracticas.setValueAt(codPractica, 0, 1);
+                                            tablapracticas.setValueAt(nomPractica, 0, 2);
+                                            tablapracticas.setValueAt(precioPractica, 0, 3);
+                                            tablapracticas.setValueAt(codFacPractica, fila, 4);
+                                            tablapracticas.setValueAt(idPractica, fila, 5);
+                                            tablapracticas.setValueAt(tipoPractica, fila, 6);
+
+                                        }
+                                    }
+                                    band = 1;
+                                }
+
+                            }
+
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Superó el límite permitido");
+                    }
+
+                } else {
                     if (!txtpractica.getText().equals("+")) {
                         DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
                         String cadena = txtpractica.getText();
@@ -8574,9 +8800,8 @@ public class MainL extends javax.swing.JFrame {
 
                     }
 
-                } else {
-                    JOptionPane.showMessageDialog(null, "Superó el límite permitido");
                 }
+
             } else {
                 if (!txtpractica.getText().equals("+")) {
                     DefaultTableModel temp = (DefaultTableModel) tablapracticas.getModel();
@@ -8825,6 +9050,7 @@ public class MainL extends javax.swing.JFrame {
                 } else {
                     cbotipo.setVisible(false);
                 }
+                cantidad_practicas_modificar++;
                 model.addRow(Registros);
 
             }
@@ -9369,8 +9595,10 @@ public class MainL extends javax.swing.JFrame {
                 jLabel19.setText(url);
                 try {
                     CrearTabla(archivo);
+
                 } catch (IOException ex) {
-                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MainL.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
 //                myModel = new DefaultTableModel(filas, columna);
                 tablaordenes1.setModel(myModel);
@@ -9687,8 +9915,8 @@ public class MainL extends javax.swing.JFrame {
                                                 while (j <= 110) {
                                                     if (Importar == 1) {
                                                         if (temp.getValueAt(i4, j) != null) {
-                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString());
-//                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
+                                                            //int cod = Integer.valueOf(temp.getValueAt(i4, j).toString());
+                                                            int cod = Integer.valueOf(temp.getValueAt(i4, j).toString()) + 660000;
                                                             System.out.println(cod_practica);
                                                             System.out.println(cod);
                                                             System.out.println(id_obra_social);
@@ -10620,8 +10848,10 @@ public class MainL extends javax.swing.JFrame {
                                             if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                                                 try {
                                                     new AfiliadoJerarquicos(this, true).setVisible(true);
+
                                                 } catch (DatatypeConfigurationException ex) {
-                                                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                                                    Logger.getLogger(MainL.class
+                                                            .getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 if (AfiliadoJerarquicos.habilitado.equals("OK")) {
                                                     limpiar_variables();
@@ -10676,7 +10906,13 @@ public class MainL extends javax.swing.JFrame {
                                                         txtnumafiliado.setText("");
                                                         txtmatricula.setText("");
                                                         txtfecha.setText("");
-                                                        txtnumorden.setText("");
+
+                                                        if (id_obra_social == 127) {
+                                                            txtnumorden.setText("0");
+                                                        } else {
+                                                            txtnumorden.setText("");
+                                                        }
+
                                                         banderamodifica = 0;
                                                         txtdocumento.setEnabled(true);
                                                         txttotal1.setText("");
@@ -10982,6 +11218,7 @@ public class MainL extends javax.swing.JFrame {
                     || tablaordenes.getValueAt(tablaordenes.getSelectedRow(), 2).toString().equals("OSPPT - SISTEMA ACCESO DIRECTO")) {
                 JOptionPane.showMessageDialog(null, "Las ordenes cargadas ONLINE deben ser anuladas...");
             } else {
+                cantidad_practicas_modificar = 0;
                 hilo3 = new MainL.HiloModificaOrdenes(progreso);
                 hilo3.start();
                 hilo3 = null;
@@ -11608,7 +11845,8 @@ public class MainL extends javax.swing.JFrame {
                         || obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")
                         || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")
                         //|| obra.equals("2700 - UNT - Accion  Social de la  UNT")                        
-                        || obra.equals("40816 - NOBIS SA")) {
+                        || obra.equals("40816 - NOBIS SA")
+                        || obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
                     System.out.println("online");
                     txtnumorden.setEditable(false);
                     txtfechacoseguro.setEditable(false);
@@ -11769,8 +12007,10 @@ public class MainL extends javax.swing.JFrame {
                                                     limpiar_variables();
                                                     try {
                                                         new AfiliadoJerarquicos(this, true).setVisible(true);
+
                                                     } catch (DatatypeConfigurationException ex) {
-                                                        Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                                                        Logger.getLogger(MainL.class
+                                                                .getName()).log(Level.SEVERE, null, ex);
                                                     }
                                                     if (AfiliadoJerarquicos.habilitado.equals("OK")) {
                                                         txtdocumento.setText(AfiliadoJerarquicos.dni);
@@ -12105,9 +12345,8 @@ public class MainL extends javax.swing.JFrame {
                                 || obra.equals("511 - MEDIFE - VOLUNTARIO- PRE PAGA C.M.C.  S.A.")
                                 || obra.equals("40600 - OSPE- OBRA SOCIAL DE PETROLEROS")
                                 //|| obra.equals("2700 - UNT - Accion  Social de la  UNT")
-                                || obra.equals("40816 - NOBIS SA")) {
-//                                || obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
-                            //|| obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {//SUBSIDIO DE SALUD - AUTORIZACION - ONLINE
+                                || obra.equals("40816 - NOBIS SA")
+                                || obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
                             ///////////////////////////////////////////////////////////////////////////////////////////////
 
                             if (obra.equals("3100 - OSDE") || obra.equals("3101 - OSDE  ( RESPONSABLES INSCRIPTOS)")) {
@@ -12332,8 +12571,10 @@ public class MainL extends javax.swing.JFrame {
                             if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                                 try {
                                     new AfiliadoJerarquicos(this, true).setVisible(true);
+
                                 } catch (DatatypeConfigurationException ex) {
-                                    Logger.getLogger(MainL.class.getName()).log(Level.SEVERE, null, ex);
+                                    Logger.getLogger(MainL.class
+                                            .getName()).log(Level.SEVERE, null, ex);
                                 }
                                 if (AfiliadoJerarquicos.habilitado.equals("OK")) {
                                     txtdocumento.setText(AfiliadoJerarquicos.dni);
@@ -12419,6 +12660,17 @@ public class MainL extends javax.swing.JFrame {
                                     txtnombreafiliado.setEditable(false);
                                     txtnumafiliado.setEditable(false);
                                 }
+                            }
+
+                            if (obra.equals("13803 - INSSJYP - PAMI(AMB) RP")) {
+                                txtnombreafiliado.setEditable(false);
+                                txtnumorden.setEditable(false);
+                                txtnumorden.setText("0");
+                                txtdocumento.requestFocus();
+                                habilitarpanel1();
+                                id_obra_social = idobrasocial[i];
+                                band = 1;
+                                contadorobra = i;
                             }
                         } else {
                             habilitarpanel1();
@@ -12951,39 +13203,54 @@ public class MainL extends javax.swing.JFrame {
                             txtnumafiliado.setEnabled(true);
                             txtnumafiliado.requestFocus();
                             band = 1;
+                            band2 = 1;
                         }
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e);
                     }
-                    if (band == 0) {
-                        try {
-                            String sSQL = "SELECT dni_persona,apellido_persona,nombre_persona FROM personas WHERE dni_persona=" + dni;
-                            Statement st = cn.createStatement();
-                            ResultSet rs = st.executeQuery(sSQL);
-                            if (rs.next()) {
-                                documento_afiliado = dni;
-                                nombre_afiliado = rs.getString("apellido_persona") + " " + rs.getString("nombre_persona");
-                                numero_afiliado = "";
-                                band2 = 1;
-                                txtdocumento.setText(documento_afiliado);
-                                txtnombreafiliado.setEnabled(true);
-                                txtnombreafiliado.setEditable(false);
-                                txtnombreafiliado.setText(nombre_afiliado);
-                                txtnumafiliado.setText(numero_afiliado);
-                                txtnumafiliado.setEnabled(true);
-                                txtnumafiliado.requestFocus();
+//                    if (band == 0) {
+//                        try {
+//                            String sSQL = "SELECT dni_persona,apellido_persona,nombre_persona FROM personas WHERE dni_persona=" + dni;
+//                            Statement st = cn.createStatement();
+//                            ResultSet rs = st.executeQuery(sSQL);
+//                            if (rs.next()) {
+//                                documento_afiliado = dni;
+//                                nombre_afiliado = rs.getString("apellido_persona") + " " + rs.getString("nombre_persona");
+//                                numero_afiliado = "";
+//                                band2 = 1;
+//                                txtdocumento.setText(documento_afiliado);
+//                                txtnombreafiliado.setEnabled(true);
+//                                txtnombreafiliado.setEditable(false);
+//                                txtnombreafiliado.setText(nombre_afiliado);
+//                                txtnumafiliado.setText(numero_afiliado);
+//                                txtnumafiliado.setEnabled(true);
+//                                txtnumafiliado.requestFocus();
+//                            }
+//                        } catch (SQLException e) {
+//                            JOptionPane.showMessageDialog(null, e);
+//                        }
+                    if (band2 == 0) {
+
+                        String[] arreglo = {"Aceptar", "LINK"};
+                        int opcion = JOptionPane.showOptionDialog(null, "EL Afiliado no se encuentra en la Base de datos, por favor  haga clik en el boton 'LINK' o ingrese a la pagina del colegio para cargar los datos del afiliado", "Error en carga del Afiliado", 0, JOptionPane.QUESTION_MESSAGE, null, arreglo, "LINK");
+
+                        if (opcion == 1) {
+                            try {
+                                Desktop.getDesktop().browse(new URI("http://www.cobituc.org.ar/2023/08/24/alta-pacientes-pami/"));
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
                             }
-                        } catch (SQLException e) {
-                            JOptionPane.showMessageDialog(null, e);
                         }
-                        if (band2 == 0) {
-                            txtdocumento.setEnabled(true);
-                            txtnombreafiliado.setEditable(true);
-                            txtnombreafiliado.setEnabled(true);
-                            txtnumafiliado.setEnabled(true);
-                            txtnombreafiliado.requestFocus();
-                        }
+
+                        //JOptionPane.showMessageDialog(null, "EL Afiliado no se encuentra en la Base de datos, por favor ingrese a la pagina del colegio y carge los datos del afiliado");
+                        txtnombreafiliado.setText("");
+                        txtnumafiliado.setText("");
+                        txtdocumento.setEnabled(true);
+                        txtnombreafiliado.setEditable(false);
+                        txtnombreafiliado.setEnabled(false);
+                        txtnumafiliado.setEnabled(false);
                     }
+//                    }
 
                 } else {
 
