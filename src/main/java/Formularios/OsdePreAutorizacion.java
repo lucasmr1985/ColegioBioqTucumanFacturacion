@@ -133,7 +133,7 @@ public class OsdePreAutorizacion extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtPreautorizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPreautorizacionActionPerformed
-        txtPreautorizacion.transferFocus();
+        AfiliadoOsde.numeroPreautorizacion=txtPreautorizacion.getText();
         this.dispose();
     }//GEN-LAST:event_txtPreautorizacionActionPerformed
 

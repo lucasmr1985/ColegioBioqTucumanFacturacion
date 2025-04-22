@@ -53,4 +53,6 @@
     <system systemId="https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx?WSDL" uri="wsdl/servicioweb.nobissalud.com.ar/wsGecrosNet.asmx.wsdl"/>
     <system systemId="http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL" uri="wsdl/wsconectado.activiaweb.com.ar/WSActiviaC.asmx.wsdl"/>
     <system systemId="http://e.sancorsalud.com.ar/APAWE_SSA_V2.aspx?wsdl" uri="wsdl/e.sancorsalud.com.ar/APAWE_SSA_V2.aspx.wsdl"/>
+    <system systemId="https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24" uri="wsdl/testservicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl"/>
+    <system systemId="https://servicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24" uri="wsdl/servicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl"/>
 </catalog>

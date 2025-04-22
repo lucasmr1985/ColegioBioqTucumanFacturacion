@@ -1,5 +1,6 @@
 package Clases;
 
+import Formularios.DescargarActualizacion;
 import Formularios.Login;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,7 +28,7 @@ public class HiloInicio extends Thread {
     public static String[] analisis = new String[50000];
     public static ArrayList<Clases.MedicosAutorizados> listaMedicos;
     public static String novedad = "", version = "", aviso = "", link = "", link_descarga = "";
-    public static String version_actual = "2120";
+    public static String version_actual = "2127";
     public static int[] idobra = new int[150000];
     public static String[] precio_practica = new String[150000];
     public static int contadorpractica = 0;
@@ -58,6 +59,7 @@ public class HiloInicio extends Thread {
             //pausa(1);
         }
         cargaractualizacion();
+        descargarVersionNueva();
         cargarMedicos();
         while (i <= 70) {
             progreso.setValue(i);
@@ -145,6 +147,17 @@ public class HiloInicio extends Thread {
         }
     }
 
+    void descargarVersionNueva() {
+        System.out.println("version:" + version);
+        System.out.println("version_actual:" + version_actual);
+        if (!version.equals(version_actual)) {
+            JOptionPane.showMessageDialog(null, "Hay una versión nueva para descargar...");
+            //descargarArchivo();
+            new DescargarActualizacion(null, true).setVisible(true);
+
+        }
+    }
+        
     void cargarperiodobackup() {
         ConexionMariaDB maria = new ConexionMariaDB();
         Connection cn = maria.Conectar();

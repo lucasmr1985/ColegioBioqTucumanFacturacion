@@ -47,7 +47,7 @@ public class AsuntConexionWsdl {
         URLConnection urlConnection = null;
         HttpURLConnection httpConn = null;
 
-        URL url = new URL("http://autogestion.asunt.org.ar/WSP-pruebas/wsp?wsdl");
+        URL url = new URL("http://autogestion.asunt.org.ar:80/WSP-pruebas/wsp?wsdl");
         urlConnection = (HttpURLConnection) url.openConnection();
         //urlConnection = url.openConnection();
         httpConn = (HttpURLConnection) urlConnection;

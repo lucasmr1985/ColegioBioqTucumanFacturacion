@@ -261,6 +261,60 @@
                         <id>wsimport-generate-APAWE_SSA_V2.aspx</id>
                         <phase>generate-sources</phase>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>testservicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancorHL7</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/hl7v24.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-hl7v24</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>testservicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancorTest</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/hl7v24_1.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-hl7v24_1</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>servicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancorPro</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://servicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/hl7v24_2.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-hl7v24_2</id>
+                        <phase>generate-sources</phase>
+                    </execution>
                 </executions>
                 <dependencies>                    
                     <dependency>

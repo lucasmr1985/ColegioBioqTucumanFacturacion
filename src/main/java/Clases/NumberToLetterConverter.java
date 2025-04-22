@@ -139,7 +139,7 @@ public abstract class NumberToLetterConverter {
      * @return Numero convertido en letras
      */
     private static String convertNumber(String number) {
-
+        System.out.println("number"+number);
         if (number.length() > 3)
             throw new NumberFormatException(
                     "La longitud maxima debe ser 3 digitos");

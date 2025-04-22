@@ -221,9 +221,9 @@ public class Practica {
             ResultSet rs;
             
             if (Login.estadopeec == 1) {
-                rs = instruccion.executeQuery("SELECT codigo_practica,preciototal,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial);
+                rs = instruccion.executeQuery("SELECT codigo_practica,preciototal,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial +" and estado=1");
             } else {
-                rs = instruccion.executeQuery("SELECT codigo_practica,precioSinPEEC,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial);
+                rs = instruccion.executeQuery("SELECT codigo_practica,precioSinPEEC,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial +" and estado=1");
             }
             
             while (rs.next()) {               

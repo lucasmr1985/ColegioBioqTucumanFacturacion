@@ -33,5 +33,8 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_wsGecrosNet_2e_asmx>https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_wsGecrosNet_2e_asmx>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_1>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_1>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_2>https://servicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_2>
     </properties>
 </project-shared-configuration>

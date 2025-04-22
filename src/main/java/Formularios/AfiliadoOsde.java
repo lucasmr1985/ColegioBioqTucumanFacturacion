@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 
 public class AfiliadoOsde extends javax.swing.JDialog {
 
-    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", CSC_OS = "",numeroPreautorizacion="";
+    public static String habilitado = "", nombreafiliado = "", dni = "", Codigo_afiliado = "", CSC_OS = "", numeroPreautorizacion = "";
 
     String hora = "", fechaosde = "", pasaporte = "", mensaje = "", respuesta = "";
 
@@ -229,12 +229,12 @@ public class AfiliadoOsde extends javax.swing.JDialog {
         respuesta = "";
         String numero_afiliado = txtafiliado.getText();
         CSC_OS = txtcsc.getText();
-       // numeroPreautorizacion = txtPreautorizacion.getText();
+        // numeroPreautorizacion = txtPreautorizacion.getText();
         if (numero_afiliado.length() > 11) {
             numero_afiliado = numero_afiliado.substring(numero_afiliado.length() - 11, numero_afiliado.length());
         }
         System.out.println("numero_afiliado " + numero_afiliado);
-        mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>1.0</VersionMsj><TipoTransaccion>01A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Terminal><TipoTerminal>PC</TipoTerminal><NumeroTerminal>1</NumeroTerminal></Terminal><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + numero_afiliado + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion><DetalleProcedimientos/></Mensaje>";
+        mensaje = "<Mensaje><EncabezadoMensaje><VersionMsj>2.0</VersionMsj><TipoTransaccion>01A</TipoTransaccion><IdMsj>" + hora + "</IdMsj><InicioTrx><FechaTrx>" + fechaosde + "</FechaTrx><HoraTrx>" + hora + "</HoraTrx></InicioTrx><Terminal><TipoTerminal>PC</TipoTerminal><NumeroTerminal>1</NumeroTerminal></Terminal><Financiador><CodigoFinanciador>11</CodigoFinanciador><CuitFinanciador>30546741253</CuitFinanciador></Financiador><Prestador><CuitPrestador>" + cuit + "</CuitPrestador></Prestador></EncabezadoMensaje><EncabezadoAtencion><Efector/><Prescriptor/><Credencial><NumeroCredencial>" + numero_afiliado + "</NumeroCredencial><VersionCredencial>" + CSC_OS + "</VersionCredencial></Credencial><Preautorizacion/><Documentacion/><Atencion/><Diagnostico/><CodFinalizacionTratamiento/><MensajeParaFinanciador/></EncabezadoAtencion><DetalleProcedimientos/></Mensaje>";
 
         OsdeConexionWsdl servicio = new OsdeConexionWsdl();
 
@@ -250,15 +250,19 @@ public class AfiliadoOsde extends javax.swing.JDialog {
                     nombreafiliado = respuestaOsde.ReadXMLOsde01A().getBeneficiario().getApellidoBeneficiario() + " " + respuestaOsde.ReadXMLOsde01A().getBeneficiario().getNombreBeneficiario();
                     Codigo_afiliado = respuestaOsde.ReadXMLOsde01A().getCredencial().getNumeroCredencial();
                     dni = "";
-                    int opcion = JOptionPane.showConfirmDialog(null, "Posee una orden PreAutorizada?", "Osde PreAutorización", JOptionPane.NO_OPTION);
-                    if(opcion==0){
+                    //int opcion = JOptionPane.showConfirmDialog(null, "Posee una orden PreAutorizada?", "Osde PreAutorización", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                    int opcion = JOptionPane.showOptionDialog(null, "Posee una orden PreAutorizada?", "Osde PreAutorización", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
+                            new Object[]{"Si", "No", "Cancelar"}, "No"); // dinde quieres que se posicione el selector
+
+                    if (opcion == 0) {
                         new OsdePreAutorizacion(null, true).setVisible(true);
                         dispose();
-                    }else{
+                    } else {
                         dispose();
                     }
-                    
-                }else{
+
+                } else {
                     JOptionPane.showMessageDialog(null, "Error código: " + respuestaOsde.ReadXMLOsde01A().getRta().getCodRtaGeneral() + " Mensaje: " + respuestaOsde.ReadXMLOsde01A().getRta().getMensajeDisplay());
                 }
             } else {

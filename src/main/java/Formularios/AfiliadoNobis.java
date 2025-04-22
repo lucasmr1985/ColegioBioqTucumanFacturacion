@@ -12,6 +12,7 @@ import ClienteNobis.TipoPrestadores;
 import ClienteNobis.WSGecrosNet;
 import ClienteNobis.WSGecrosNetSoap;
 import java.io.FileWriter;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import javax.swing.ImageIcon;
@@ -143,6 +144,16 @@ public class AfiliadoNobis extends javax.swing.JDialog {
         txtafiliado.transferFocus();
     }//GEN-LAST:event_txtafiliadoActionPerformed
 
+    String sacarCaracteresEspeciales(String xml){
+        // 1. Normalizar los caracteres acentuados (convertirlos a sus equivalentes sin acento)
+        String textoNormalizado = Normalizer.normalize(xml, Normalizer.Form.NFD)
+                                            .replaceAll("\\p{M}", ""); // Elimina los diacríticos (acentos)
+
+        // 2. Reemplazar caracteres especiales no deseados (excepto letras y números)
+        ///String textoLimpio = textoNormalizado.replaceAll("[^a-zA-Z0-9 ]", ""); 
+        return textoNormalizado;
+    }
+    
     private void btnValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarActionPerformed
         cargarfecha();
         respuesta = "";
@@ -169,6 +180,8 @@ public class AfiliadoNobis extends javax.swing.JDialog {
                 WSGecrosNetSoap port = servicio.getWSGecrosNetSoap();
                 resultado = port.consultarAfiliado(mensaje.getPUsuario(), mensaje.getPClave(), mensaje.getPXml());
                 System.out.println("resultado:" + resultado);
+                System.out.println("resultado sin:"+sacarCaracteresEspeciales(resultado));
+                resultado=sacarCaracteresEspeciales(resultado);
                 //Generate XML
                 try {
                     FileWriter archivo = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
@@ -180,6 +193,7 @@ public class AfiliadoNobis extends javax.swing.JDialog {
                     ///43564951
                     System.out.println("respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado(): "+respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado());
                     if (!respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado().equals("Afiliado inexistente")) {
+                       
                         dni = respuestaNobis.ReadXMLNobisConsultarAfiliado().getDni();
                         nombreafiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getAfiliado();
                         Codigo_afiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getNumeroAfi();
