@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://servicio.hl7v24.sancorsalud.com.ar/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="HL7v24Service" targetNamespace="http://servicio.hl7v24.sancorsalud.com.ar/">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://servicio.hl7v24.sancorsalud.com.ar/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://servicio.hl7v24.sancorsalud.com.ar/">
+            <xs:element name="Message" type="tns:Message"/>
+            <xs:element name="MessageResponse" type="tns:MessageResponse"/>
+            <xs:element name="MessageTest" type="tns:MessageTest"/>
+            <xs:element name="MessageTestResponse" type="tns:MessageTestResponse"/>
+            <xs:complexType name="MessageTest">
+                <xs:sequence>
+                    <xs:element name="pasaporte" type="xs:int"/>
+                    <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MessageTestResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="resultado" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Message">
+                <xs:sequence>
+                    <xs:element name="pasaporte" type="xs:int"/>
+                    <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MessageResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="resultado" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="Exception" type="tns:Exception"/>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="message" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="MessageTest">
+        <wsdl:part element="tns:MessageTest" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="MessageResponse">
+        <wsdl:part element="tns:MessageResponse" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="Message">
+        <wsdl:part element="tns:Message" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="MessageTestResponse">
+        <wsdl:part element="tns:MessageTestResponse" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="Exception">
+        <wsdl:part element="tns:Exception" name="Exception"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="HL7v24">
+        <wsdl:operation name="MessageTest">
+            <wsdl:input message="tns:MessageTest" name="MessageTest"></wsdl:input>
+            <wsdl:output message="tns:MessageTestResponse" name="MessageTestResponse"></wsdl:output>
+            <wsdl:fault message="tns:Exception" name="Exception"></wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Message">
+            <wsdl:input message="tns:Message" name="Message"></wsdl:input>
+            <wsdl:output message="tns:MessageResponse" name="MessageResponse"></wsdl:output>
+            <wsdl:fault message="tns:Exception" name="Exception"></wsdl:fault>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="HL7v24ServiceSoapBinding" type="tns:HL7v24">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="MessageTest">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="MessageTest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="MessageTestResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="Exception">
+                <soap:fault name="Exception" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Message">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="Message">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="MessageResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="Exception">
+                <soap:fault name="Exception" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="HL7v24Service">
+        <wsdl:port binding="tns:HL7v24ServiceSoapBinding" name="HL7v24Port">
+<!-- getRequestURLs : https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24 -->
+<!-- getServerNames : testservicios.sancorsalud.com.ar -->
+<!-- originals :             <soap:address location="http://testservicios.sancorsalud.com.ar:8080/Autorizador/HL7v24"/> -->
+            <soap:address location="https://testservicios.sancorsalud.com.ar/Autorizador/HL7v24"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

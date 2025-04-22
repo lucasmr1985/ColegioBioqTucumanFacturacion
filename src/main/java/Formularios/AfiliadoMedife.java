@@ -267,20 +267,36 @@ public class AfiliadoMedife extends javax.swing.JDialog {
                 }
                 nombreafiliado = nombreafiliado.replace("^", " ");
                 //////////busco el plan/////////////////////////////////////////////
-                i = result.indexOf("ZIN|");                
+                i = result.indexOf("ZIN|");
+                System.out.println("zin" + i);
+                System.out.println("fin " + result.length());
                 pipe = 0;
-                while (i < (result.indexOf("NTE|") - 1)) {
-                    System.out.println("char:"+result.charAt(i));
-                    if (pipe == 2) {
-                        plan = plan + result.charAt(i);
+                if (result.indexOf("NTE|") > 0) {
+                    while (i < (result.indexOf("NTE|") - 1)) {
+                        System.out.println("char:" + result.charAt(i));
+                        if (pipe == 2) {
+                            plan = plan + result.charAt(i);
+                        }
+                        if (result.charAt(i) == '|') {
+                            pipe++;
+                        }
+                        i++;
                     }
-                    if (result.charAt(i) == '|') {
-                        pipe++;
+                } else {
+                    while (i < (result.length() - 1)) {
+                        System.out.println("char:" + result.charAt(i));
+                        if (pipe == 2) {
+                            plan = plan + result.charAt(i);
+                        }
+                        if (result.charAt(i) == '|') {
+                            pipe++;
+                        }
+                        i++;
                     }
-                    i++;
-                }//GRAV^VOLUNTARIO ////NTE
+                }
+                //GRAV^VOLUNTARIO ////NTE
                 System.out.println("plan:" + plan);
-                if (idObraSocialOnline == 107 || idObraSocialOnline == 4 ) {
+                if (idObraSocialOnline == 107 || idObraSocialOnline == 4) {
                     if (plan.equals("EXNT^OBLIGATORIO")) {
                         JOptionPane.showMessageDialog(null, mensaje);
                         this.dispose();
@@ -301,17 +317,16 @@ public class AfiliadoMedife extends javax.swing.JDialog {
                 }
 
             } else {
-       
+
                 if (codigo_respuesta.equals("M001") || codigo_respuesta.equals("M003")) {
                     JOptionPane.showMessageDialog(null, "AFILIADO INEXISTENTE - Por Favor Verifique el Numero ingresado");
                 }
                 if (codigo_respuesta.equals("M004")) {
                     JOptionPane.showMessageDialog(null, "-AFILIADO DADO DE BAJA-");
                 }
-                 if (codigo_respuesta.equals("M005")) {
+                if (codigo_respuesta.equals("M005")) {
                     JOptionPane.showMessageDialog(null, "-AFILIADO MOROSO-");
                 }
-                 
 
                 habilitado = "!OK";
             }

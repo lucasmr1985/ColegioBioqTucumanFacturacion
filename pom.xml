@@ -31,24 +31,6 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>rproxy.cobituc.info_7262/APAWE_SSA_V2.aspx.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName>ClienteSancor</packageName>
-                            <vmArgs>
-                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                            </vmArgs>
-                            <wsdlLocation>http://rproxy.cobituc.info:7262/APAWE_SSA_V2.aspx?wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/APAWE_SSA_V2.aspx.stale</staleFile>
-                        </configuration>
-                        <id>wsimport-generate-APAWE_SSA_V2.aspx</id>
-                        <phase>generate-sources</phase>
-                    </execution>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
                                 <wsdlFile>rproxy.cobituc.info_5480/WsBoreal/servlet/awsboreal.wsdl</wsdlFile>
                             </wsdlFiles>
                             <packageName>ClienteBoreal</packageName>
@@ -177,24 +159,6 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>canalws.traditum.com/WebService_IA.asmx.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName>ClienteMedife</packageName>
-                            <vmArgs>
-                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                            </vmArgs>
-                            <wsdlLocation>https://canalws.traditum.com/WebService_IA.asmx?WSDL</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/WebService_IA.asmx.stale</staleFile>
-                        </configuration>
-                        <id>wsimport-generate-WebService_IA.asmx</id>
-                        <phase>generate-sources</phase>
-                    </execution>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
                                 <wsdlFile>rproxy.cobituc.info_9011/AgenteServicios.svc.wsdl</wsdlFile>
                             </wsdlFiles>
                             <packageName>ClienteJerarquicos</packageName>
@@ -231,16 +195,16 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>wsconectado.activiaweb.com.ar/WSActiviaC.asmx.wsdl</wsdlFile>
+                                <wsdlFile>canalws.traditum.com/WebService_IA.asmx.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>ClienteOspe</packageName>
+                            <packageName>ClienteMedife</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
-                            <wsdlLocation>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/WSActiviaC.asmx.stale</staleFile>
+                            <wsdlLocation>https://canalws.traditum.com/WebService_IA.asmx?WSDL</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/WebService_IA.asmx.stale</staleFile>
                         </configuration>
-                        <id>wsimport-generate-WSActiviaC.asmx</id>
+                        <id>wsimport-generate-WebService_IA.asmx</id>
                         <phase>generate-sources</phase>
                     </execution>
                     <execution>
@@ -259,6 +223,96 @@
                             <staleFile>${project.build.directory}/jaxws/stale/wsGecrosNet.asmx.stale</staleFile>
                         </configuration>
                         <id>wsimport-generate-wsGecrosNet.asmx</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>wsconectado.activiaweb.com.ar/WSActiviaC.asmx.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteOspe</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/WSActiviaC.asmx.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-WSActiviaC.asmx</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>e.sancorsalud.com.ar/APAWE_SSA_V2.aspx.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancor</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://e.sancorsalud.com.ar/APAWE_SSA_V2.aspx?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/APAWE_SSA_V2.aspx.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-APAWE_SSA_V2.aspx</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>testservicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancorHL7</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/hl7v24.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-hl7v24</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>testservicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancorTest</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/hl7v24_1.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-hl7v24_1</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>servicios.sancorsalud.com.ar/autorizador/wsdl/hl7v24.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ClienteSancorPro</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://servicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/hl7v24_2.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-hl7v24_2</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>

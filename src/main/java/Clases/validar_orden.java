@@ -70,8 +70,9 @@ public class validar_orden {
                     SP_cargar_orden.setString(24, coseguro_ss);//_coseguro_practicas
                     SP_cargar_orden.setString(25, fechaDate);//_fechaDate
                     boolean respuesta = SP_cargar_orden.execute();
+                    System.out.println("respuesta:"+respuesta);
                     numeroOrden = SP_cargar_orden.getInt(18);
-                    
+                    System.out.println("respuesta numero:"+numeroOrden);
                     if (respuesta == true) {
                         bandera = 1;
                     } else {
@@ -95,35 +96,6 @@ public class validar_orden {
             return 0;
         }
     }
-    /*
-   IN _periodo INT (6),
-IN _nombre VARCHAR (100),
-IN _dni VARCHAR (40),
-IN _numero_afiliado VARCHAR (40),
-IN _matricula VARCHAR (40),
-IN _numero_orden VARCHAR (40),
-IN _fecha_realizacion VARCHAR(10),
-IN _total VARCHAR (40),
-IN _estado INT (1),
-IN _fecha VARCHAR (10),
-IN _hora VARCHAR (8),
-IN _ip VARCHAR (40),
-IN _id_obrasocial INT (11),
-IN _id_colegiado INT (11),
-IN _id_validador INT (11),
-IN _cantidad INT (2),
-IN _codigo_nbu VARCHAR (9000),
-OUT _transaccion INT(11),
-IN _coseguro VARCHAR (20),
-IN _fecha_coseguro VARCHAR (10),
-IN _tipo INT (1),
-IN _observacion VARCHAR (500),
-IN _codigo_plan VARCHAR (255),
-IN _coseguro_practicas VARCHAR (255),
-IN _fechaDate DATE)
-    
-    */
-    
 
     public double Redondear(double numero) {
         return Math.rint(numero * 100) / 100;

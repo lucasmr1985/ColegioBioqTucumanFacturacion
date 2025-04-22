@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -44,6 +45,8 @@ public class ReadXMLFile {
         //Se crea un SAXBuilder para poder parsear el archivo
         SAXBuilder builder = new SAXBuilder();
         //  File xmlFile = new File("uno.xml");
+        
+        
         File xmlFile = new File(xml);
         try {
             //Se crea el documento a traves del archivo
@@ -488,6 +491,7 @@ public class ReadXMLFile {
         return respuestaOspe;
     }
 
+       
     public respuestaXMLNobis ReadXMLNobisConsultarAfiliado() {
         respuestaXMLNobis respuestaNobis = new respuestaXMLNobis();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -500,7 +504,7 @@ public class ReadXMLFile {
 
             // parse XML file
             DocumentBuilder db = dbf.newDocumentBuilder();
-
+            
             org.w3c.dom.Document doc = db.parse(new File(FILENAME));
 
             doc.getDocumentElement().normalize();
@@ -987,7 +991,7 @@ public class ReadXMLFile {
                 // get NumeroCredencial       
                 NumeroCredencial = element.getElementsByTagName("NumeroCredencial").item(0).getTextContent();
                 // get Track       
-                Track = element.getElementsByTagName("Track").item(0).getTextContent();
+                ///Track = element.getElementsByTagName("Track").item(0).getTextContent();
                 // get VersionCredencial       
                 VersionCredencial = element.getElementsByTagName("VersionCredencial").item(0).getTextContent();
                 // get PlanCredencial       
