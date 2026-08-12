@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://server.ws.integral.com.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://server.ws.integral.com.ar/">
+
+<xs:element name="AfiliadoException" type="tns:AfiliadoException"></xs:element>
+
+<xs:element name="Exception" type="tns:Exception"></xs:element>
+
+<xs:element name="SOAPException" type="tns:SOAPException"></xs:element>
+
+<xs:complexType name="SOAPException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="suppressed" type="tns:throwable" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="throwable">
+<xs:sequence>
+<xs:element name="stackTrace" type="tns:stackTraceElement" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stackTraceElement" final="extension restriction">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Exception">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="suppressed" type="tns:throwable" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="AfiliadoException">
+<xs:sequence>
+<xs:element name="faultCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="faultMessage" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="suppressed" type="tns:throwable" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

@@ -19,22 +19,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatos_2e_aspx>http://186.122.150.144/ws_expendio/aafiliadodatos.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatos_2e_aspx>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx_5f_1>http://18.188.226.170/ws_expendio/aordenvalidadaanular.aspx</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx_5f_1>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatostraer_2e_aspx_5f_1>http://18.188.226.170/ws_expendio/aafiliadodatostraer.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatostraer_2e_aspx_5f_1>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_WebService_5f_IA_2e_asmx>https://canalws.traditum.com/WebService_IA.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_WebService_5f_IA_2e_asmx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_AgenteServicios_2e_svc>http://rproxy.cobituc.info:9011/AgenteServicios.svc?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_AgenteServicios_2e_svc>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_APAWE_5f_SSA_5f_V2_2e_aspx>http://e.sancorsalud.com.ar/APAWE_SSA_V2.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_APAWE_5f_SSA_5f_V2_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_awsboreal>http://rproxy.cobituc.info:5480/WsBoreal/servlet/awsboreal?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_awsboreal>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatostraer_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aafiliadodatostraer.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadodatostraer_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenautorizar_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordenautorizar.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenautorizar_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidar_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordenvalidar.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidar_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aordendevolver_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordendevolver.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordendevolver_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx>http://rproxy.cobituc.info/ws_expendio/aordenvalidadaanular.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aordenvalidadaanular_2e_aspx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx_5f_1>https://ws.ipsst.gov.ar:8543/ws_expendio/aafiliadopuedeconsumir.aspx?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_aafiliadopuedeconsumir_2e_aspx_5f_1>
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>http://wsconectado.activiaweb.com.ar/WSActiviaC.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_WSActiviaC_2e_asmx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_wsGecrosNet_2e_asmx>https://servicioweb.nobissalud.com.ar/wsGecrosNet.asmx?WSDL</org-netbeans-modules-maven-jaxws._5f_C_5f_wsGecrosNet_2e_asmx>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_1>https://testservicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_1>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_2>https://servicios.sancorsalud.com.ar/Autorizador/WSDL/HL7v24</org-netbeans-modules-maven-jaxws._5f_C_5f_hl7v24_5f_2>
     </properties>
 </project-shared-configuration>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="22" bottomMargin="14" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="22" bottomMargin="14" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
 	<property name="ireport.zoom" value="2.357947691000025"/>
 	<property name="ireport.x" value="442"/>
 	<property name="ireport.y" value="0"/>
@@ -56,8 +56,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 		<variableExpression><![CDATA[$F{precio_practica}]]></variableExpression>
 	</variable>
 	<variable name="total" class="java.lang.String"/>
-	<title>
-		<band height="79">
+	<title height="79">
 			<textField>
 				<reportElement x="1" y="1" width="137" height="15" uuid="21eafd1f-26f7-49c8-8268-ad9ee99a6c2e"/>
 				<textElement>
@@ -130,8 +129,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				</textElement>
 				<text><![CDATA[Practicas                                                              Precio]]></text>
 			</staticText>
-		</band>
-	</title>
+		</title>
 	<detail>
 		<band height="12">
 			<textField>
@@ -181,8 +179,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="93">
+	<pageFooter height="93">
 			<staticText>
 				<reportElement x="0" y="80" width="101" height="13" uuid="0f2ce083-6a2c-4383-9fc9-dcd9d6f8bde9"/>
 				<textElement>
@@ -377,6 +374,5 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
-		</band>
-	</pageFooter>
+		</pageFooter>
 </jasperReport>

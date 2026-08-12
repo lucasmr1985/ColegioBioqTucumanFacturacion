@@ -7,6 +7,8 @@ public class Cancelacion {
     private String alta;
     private String ticketExt;
     private String param1;
+     private String termId;
+    private String codPrestador;
 
     public Cancelacion() {
     }
@@ -42,6 +44,21 @@ public class Cancelacion {
     public void setParam1(String param1) {
         this.param1 = param1;
     }
-    
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public String getCodPrestador() {
+        return codPrestador;
+    }
+
+    public void setCodPrestador(String codPrestador) {
+        this.codPrestador = codPrestador;
+    }
     
 }

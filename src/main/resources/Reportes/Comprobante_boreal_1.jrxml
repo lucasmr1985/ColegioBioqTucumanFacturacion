@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -51,8 +51,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 	<variable name="coseguro_1" class="java.lang.Double" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{coseguro}]]></variableExpression>
 	</variable>
-	<title>
-		<band height="82">
+	<title height="82">
 			<rectangle radius="10">
 				<reportElement x="7" y="55" width="245" height="20" uuid="63944621-7662-4e2b-9bac-050d6e4232cb"/>
 			</rectangle>
@@ -105,8 +104,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{fecha_orden}]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
+		</title>
 	<detail>
 		<band height="16">
 			<textField>
@@ -160,8 +158,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="55">
+	<pageFooter height="55">
 			<staticText>
 				<reportElement x="7" y="6" width="166" height="14" uuid="12befc3d-8768-4fec-a836-a8cad6c583e8"/>
 				<textElement textAlignment="Right">
@@ -252,6 +249,5 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{numero_afiliado}]]></textFieldExpression>
 			</textField>
-		</band>
-	</pageFooter>
+		</pageFooter>
 </jasperReport>

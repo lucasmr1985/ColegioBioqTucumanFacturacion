@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
 	<property name="ireport.zoom" value="1.7715610000000024"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -69,14 +69,10 @@ GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
 	<variable name="Total_2" class="java.lang.Double" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
 	</variable>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<background splitType="Stretch"/>
 	<title>
-		<band/>
 	</title>
-	<pageHeader>
-		<band height="99">
+	<pageHeader height="99">
 			<rectangle radius="10">
 				<reportElement x="0" y="42" width="554" height="43" uuid="bde5655b-6b26-4090-afd4-9470bf27afda"/>
 			</rectangle>
@@ -286,8 +282,7 @@ GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
 				</textElement>
 				<text><![CDATA[Id orden]]></text>
 			</staticText>
-		</band>
-	</pageHeader>
+		</pageHeader>
 	<detail>
 		<band height="12" splitType="Stretch">
 			<textField>
@@ -348,8 +343,7 @@ GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="43">
+	<pageFooter height="43">
 			<rectangle radius="10">
 				<reportElement x="-1" y="-1" width="555" height="42" uuid="f27ec9ec-415e-4c4c-82d9-c1f4ad07b2eb"/>
 			</rectangle>
@@ -430,6 +424,5 @@ GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{id_orden_1}]]></textFieldExpression>
 			</textField>
-		</band>
-	</pageFooter>
+		</pageFooter>
 </jasperReport>

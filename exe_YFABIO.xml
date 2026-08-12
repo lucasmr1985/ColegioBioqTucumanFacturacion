@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>C:\Repositorio_git\facturacion\target\FacturacionMavenMariadb-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
-  <outfile>C:\Facturacion Laboratorios\Facturacion.exe</outfile>
+  <outfile>C:\Repositorio_git\facturacion\exe\Facturacion.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>

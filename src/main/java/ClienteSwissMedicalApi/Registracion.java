@@ -17,10 +17,28 @@ public class Registracion {
     private String idEfector;
     private String tipoPrescr;
     private String idPrescr;
+    private String termId;
+    private String codPrestador;
 
     // Getter Methods 
     public String getCreden() {
         return creden;
+    }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public String getCodPrestador() {
+        return codPrestador;
+    }
+
+    public void setCodPrestador(String codPrestador) {
+        this.codPrestador = codPrestador;
     }
 
     public String getAlta() {

@@ -1,0 +1,241 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
+<jasperReport name="report name" language="java" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="22" bottomMargin="14" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+	<property name="ireport.zoom" value="1.464100000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.jrdax"/>
+	<parameter name="id_orden" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<query language="sql"><![CDATA[SELECT matricula_colegiado, nombre_colegiado,fecha_orden,matricula_prescripcion,nombre_afiliado,numero_afiliado,numero_orden,
+detalle_ordenes.cod_practica,nombre_practica,round(CAST(precio_practica as double),2) as precio_practica ,ordenes.coseguro as coseguro,obrasocial.razonsocial_obrasocial
+FROM ordenes
+INNER JOIN detalle_ordenes using(id_orden) 
+INNER JOIN obrasocial USING (id_obrasocial)
+INNER JOIN colegiados USING (id_colegiados)
+WHERE ordenes.id_orden=$P{id_orden}]]></query>
+	<field name="matricula_colegiado" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="nombre_colegiado" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="fecha_orden" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="matricula_prescripcion" class="java.lang.Long">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="nombre_afiliado" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="numero_afiliado" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="numero_orden" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="cod_practica" class="java.lang.Long">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="nombre_practica" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="precio_practica" class="java.lang.Double"/>
+	<field name="coseguro" class="java.lang.Double">
+		<description><![CDATA[]]></description>
+	</field>
+	<field name="razonsocial_obrasocial" class="java.lang.String">
+		<description><![CDATA[]]></description>
+	</field>
+	<variable name="precio_practica_1" resetType="Page" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{precio_practica}]]></expression>
+	</variable>
+	<variable name="precio_practica_2" resetType="Page" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{precio_practica}]]></expression>
+	</variable>
+	<variable name="total" class="java.lang.String"/>
+	<title height="114">
+		<element kind="textField" uuid="21eafd1f-26f7-49c8-8268-ad9ee99a6c2e" x="100" y="52" width="152" height="15" bold="true" hTextAlign="Right">
+			<expression><![CDATA["Nº Orden: "+$F{numero_orden}]]></expression>
+		</element>
+		<element kind="textField" uuid="11eca44b-4493-4cc9-9dd0-97015a919e76" x="0" y="68" width="100" height="13">
+			<expression><![CDATA["Medico: "+$F{matricula_prescripcion}]]></expression>
+		</element>
+		<element kind="textField" uuid="aa44ba25-c4fd-4119-a891-f0ebb6223b73" x="0" y="54" width="100" height="13">
+			<expression><![CDATA[$F{fecha_orden}]]></expression>
+		</element>
+		<element kind="textField" uuid="3491d0ab-6fae-495e-a87d-8922d71c2db6" x="0" y="81" width="183" height="12" fontSize="9.0" bold="true">
+			<expression><![CDATA["Bq: "+$F{nombre_colegiado}]]></expression>
+		</element>
+		<element kind="staticText" uuid="88cdb989-988e-4d9f-a135-39376b4b27fe" x="0" y="98" width="252" height="14" fontSize="10.0" vTextAlign="Middle">
+			<text><![CDATA[Practicas                                                                 Precio]]></text>
+			<box>
+				<bottomPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="52f4c98c-3bda-42d7-b9f9-cec44fa03172" x="302" y="55" width="100" height="13">
+			<expression><![CDATA[$F{fecha_orden}]]></expression>
+		</element>
+		<element kind="textField" uuid="44900983-b5b5-47b3-a55b-d803572ecf6c" x="302" y="69" width="100" height="13">
+			<expression><![CDATA["Medico: "+$F{matricula_prescripcion}]]></expression>
+		</element>
+		<element kind="textField" uuid="cf07de61-b36f-4705-913a-ace74a970066" x="302" y="82" width="183" height="12" fontSize="9.0" bold="true">
+			<expression><![CDATA["Bq: "+$F{nombre_colegiado}]]></expression>
+		</element>
+		<element kind="staticText" uuid="085a0dea-2e0d-49a3-adbb-c5a3eedffcbf" x="302" y="98" width="253" height="14" fontSize="10.0" vTextAlign="Middle">
+			<text><![CDATA[Practicas                                                                  Precio]]></text>
+			<box>
+				<bottomPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="image" uuid="b2f112c7-22be-4af9-b54d-862b17b81d0b" x="-1" y="0" width="115" height="45">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\ASUNT.PNG"]]></expression>
+		</element>
+		<element kind="staticText" uuid="0f2ce083-6a2c-4383-9fc9-dcd9d6f8bde9" x="147" y="32" width="101" height="13" fontSize="6.0">
+			<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+		</element>
+		<element kind="image" uuid="03aab86f-bb35-40c1-b394-51c80a39b47d" x="167" y="0" width="60" height="32" hImageAlign="Left" vImageAlign="Middle">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></expression>
+		</element>
+		<element kind="image" uuid="cbe25df0-ab29-48c3-861c-1e7610f58636" x="468" y="0" width="60" height="32" hImageAlign="Left" vImageAlign="Middle">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="d6146a7e-2d34-4906-825f-ddde86c45cbf" x="452" y="32" width="101" height="13" fontSize="6.0">
+			<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+		</element>
+		<element kind="textField" uuid="2154c020-5e1e-4d0e-b1a6-491f9219e624" x="402" y="53" width="151" height="15" bold="true" hTextAlign="Right">
+			<expression><![CDATA["Nº Orden: "+$F{numero_orden}]]></expression>
+		</element>
+		<element kind="image" uuid="ef1001a9-e155-4721-9171-133596d16551" x="302" y="3" width="115" height="45">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\ASUNT.PNG"]]></expression>
+		</element>
+	</title>
+	<detail>
+		<band height="12">
+			<element kind="textField" uuid="fc46219e-a14c-4542-9aeb-cd0981451e10" x="40" y="0" width="173" height="11" fontSize="8.0">
+				<expression><![CDATA[$F{nombre_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="26139d7b-b368-4b58-9f22-0802c7dbddd1" x="0" y="0" width="40" height="11" fontSize="8.0">
+				<paragraph firstLineIndent="2"/>
+				<expression><![CDATA[$F{cod_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="d6db9a23-8e24-4c02-bd3c-0b9a9ced981e" x="343" y="0" width="172" height="11" fontSize="8.0">
+				<expression><![CDATA[$F{nombre_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="925e706c-2bfc-4a86-8e75-2eaf2b2d93fa" x="302" y="0" width="41" height="11" fontSize="8.0">
+				<expression><![CDATA[$F{cod_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="d15adc3f-5d48-452d-ad5f-72c6228ee7b5" x="213" y="0" width="40" height="11" fontSize="8.0" pattern="$##.00" hTextAlign="Right" vTextAlign="Middle">
+				<paragraph firstLineIndent="2"/>
+				<expression><![CDATA[$F{precio_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="8c1627be-08fa-4183-a842-f03a97160a68" x="515" y="0" width="40" height="11" fontSize="8.0" pattern="$##.00" hTextAlign="Right" vTextAlign="Middle">
+				<paragraph firstLineIndent="2"/>
+				<expression><![CDATA[$F{precio_practica}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="93">
+		<element kind="staticText" uuid="621086a2-250d-4f14-b9f3-f07e4ab9d7bb" x="8" y="22" width="59" height="12" fontSize="9.0" vTextAlign="Middle">
+			<text><![CDATA[Nombre Af.:]]></text>
+		</element>
+		<element kind="textField" uuid="aaa032c0-f581-41ef-b48e-50858f3e047d" x="67" y="36" width="100" height="12" fontSize="9.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$F{numero_afiliado}]]></expression>
+		</element>
+		<element kind="textField" uuid="0097c232-ad50-40bc-8f56-7de087ced2dd" x="67" y="22" width="186" height="12" fontSize="9.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$F{nombre_afiliado}]]></expression>
+		</element>
+		<element kind="staticText" uuid="83d55fa3-a194-4b7d-8a50-96746e41db30" x="8" y="36" width="59" height="12" fontSize="9.0" vTextAlign="Middle">
+			<text><![CDATA[Numero Af.:]]></text>
+		</element>
+		<element kind="staticText" uuid="e1adf7d4-11e8-4354-a9e6-d2ca7ca481dc" x="0" y="4" width="55" height="14" fontSize="9.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<paragraph firstLineIndent="2"/>
+			<text><![CDATA[Coseguro: $]]></text>
+			<box>
+				<topPen lineWidth="1.0"/>
+				<leftPen lineWidth="1.0"/>
+				<bottomPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="8eeeb2a7-58db-404b-8570-b0cb4ee4991b" x="167" y="75" width="86" height="14" fontSize="9.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Firma]]></text>
+			<box>
+				<topPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="ed0e7547-73b2-4bb6-8861-dc35081feb28" x="308" y="22" width="59" height="12" fontSize="9.0" vTextAlign="Middle">
+			<text><![CDATA[Nombre Af.:]]></text>
+		</element>
+		<element kind="staticText" uuid="db207d4b-3c30-4f83-9dbf-73412874f58d" x="468" y="75" width="86" height="14" fontSize="9.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Firma]]></text>
+			<box>
+				<topPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="1da43e17-9a0e-4fd0-a485-610f81de4e9a" x="367" y="22" width="186" height="12" fontSize="9.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$F{nombre_afiliado}]]></expression>
+		</element>
+		<element kind="staticText" uuid="fd369f1a-90fa-4196-ab8c-f2058dfeddb3" x="308" y="36" width="59" height="12" fontSize="9.0" vTextAlign="Middle">
+			<text><![CDATA[Numero Af.:]]></text>
+		</element>
+		<element kind="textField" uuid="c5279f89-e95e-4d81-a1e2-a401910b9e26" x="367" y="36" width="100" height="12" fontSize="9.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$F{numero_afiliado}]]></expression>
+		</element>
+		<element kind="textField" uuid="2d722f11-f6cb-464e-8a8c-79a206b99a12" x="55" y="4" width="59" height="14" fontSize="9.0" pattern="#,##0.00" bold="true" vTextAlign="Middle">
+			<paragraph firstLineIndent="2"/>
+			<expression><![CDATA[$F{coseguro}]]></expression>
+			<box>
+				<topPen lineWidth="1.0"/>
+				<bottomPen lineWidth="1.0"/>
+				<rightPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="51ce1421-b37e-4af1-9693-d2fab3bff455" x="174" y="4" width="78" height="14" fontSize="9.0" pattern="$#,##0.00" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<paragraph firstLineIndent="2"/>
+			<expression><![CDATA[$V{precio_practica_2}]]></expression>
+			<box>
+				<topPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="969f9ab3-947d-479a-bde6-1b8b4cfdc56e" x="147" y="4" width="27" height="14" fontSize="9.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Total:]]></text>
+			<box>
+				<topPen lineWidth="1.0"/>
+				<bottomPen lineWidth="0.0"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="70fdfa04-64d9-48b4-8439-db4f990eeb8a" x="479" y="4" width="74" height="14" fontSize="9.0" pattern="$#,##0.00" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<paragraph firstLineIndent="2"/>
+			<expression><![CDATA[$V{precio_practica_2}]]></expression>
+			<box>
+				<topPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="ac55f824-d38e-4492-b307-6990acfb8333" x="452" y="4" width="27" height="14" fontSize="9.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Total:]]></text>
+			<box>
+				<topPen lineWidth="1.0"/>
+				<bottomPen lineWidth="0.0"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="8f66617e-582f-4a0a-8408-a8afd465cfd7" x="357" y="4" width="59" height="14" fontSize="9.0" pattern="#,##0.00" bold="true" vTextAlign="Middle">
+			<paragraph firstLineIndent="2"/>
+			<expression><![CDATA[$F{coseguro}]]></expression>
+			<box>
+				<topPen lineWidth="1.0"/>
+				<bottomPen lineWidth="1.0"/>
+				<rightPen lineWidth="1.0"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="3038ba31-2e0b-4b1d-b13d-2cd69770708d" x="302" y="4" width="55" height="14" fontSize="9.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<paragraph firstLineIndent="2"/>
+			<text><![CDATA[Coseguro: $]]></text>
+			<box>
+				<topPen lineWidth="1.0"/>
+				<leftPen lineWidth="1.0"/>
+				<bottomPen lineWidth="1.0"/>
+			</box>
+		</element>
+	</pageFooter>
+</jasperReport>

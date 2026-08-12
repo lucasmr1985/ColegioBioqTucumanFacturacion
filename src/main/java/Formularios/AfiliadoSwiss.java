@@ -10,16 +10,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 import ClienteSwissMedicalApi.Login;
 import ClienteSwissMedicalApi.Device;
 import ClienteSwissMedicalApi.ElegibiliadadResponse;
 import ClienteSwissMedicalApi.Elegibilidad;
-import javax.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Entity;
 import ClienteSwissMedicalApi.LoginResponse;
 import ClienteSwissMedicalApi.LoginError;
 import static Formularios.Login.id_usuario;
@@ -216,7 +216,9 @@ public class AfiliadoSwiss extends javax.swing.JDialog {
         // HTTP post request
         public void sendPost() throws Exception {
             String resJson = "";
+            //String uriLogin ="https://mobilepre.swissmedical.com.ar/pre/api-smg/v0/auth-login";
             String uriLogin = "https://mobile.swissmedical.com.ar/pre/api-smg/v0/auth-login";
+            //String uriElegibilidad = "https://mobilepre.swissmedical.com.ar/pre/api-smg/v3.0/prestadores/hl7/elegibilidad";
             String uriElegibilidad = "https://mobile.swissmedical.com.ar/pre/api-smg/v1.0/prestadores/hl7/elegibilidad";
             String jsonString;
             Gson gsonEnvio = new Gson();
@@ -279,6 +281,8 @@ public class AfiliadoSwiss extends javax.swing.JDialog {
                         afiliado.setCreden(Codigo_afiliado);
                         afiliado.setAlta(fechasw);
                         afiliado.setFecdif(fechasw);
+                        afiliado.setCodPrestador("57594");
+                        afiliado.setTermId("SMIA00000001");
 
                         //Convertimos el objeto req a un json
                         jsonString = gsonEnvio.toJson(afiliado);

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Procesar_StringXML_HL7_XML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cadenaXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Procesar_StringXML_HL7_XMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Procesar_StringXML_HL7_XMLResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Procesar_StringXML_HL7">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cadenaXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Procesar_StringXML_HL7Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Procesar_StringXML_HL7Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Procesar_StringXML_HL7_XMLSoapIn">
+    <wsdl:part name="parameters" element="tns:Procesar_StringXML_HL7_XML" />
+  </wsdl:message>
+  <wsdl:message name="Procesar_StringXML_HL7_XMLSoapOut">
+    <wsdl:part name="parameters" element="tns:Procesar_StringXML_HL7_XMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="Procesar_StringXML_HL7SoapIn">
+    <wsdl:part name="parameters" element="tns:Procesar_StringXML_HL7" />
+  </wsdl:message>
+  <wsdl:message name="Procesar_StringXML_HL7SoapOut">
+    <wsdl:part name="parameters" element="tns:Procesar_StringXML_HL7Response" />
+  </wsdl:message>
+  <wsdl:portType name="ServicioWebAutorizadorSoap">
+    <wsdl:operation name="Procesar_StringXML_HL7_XML">
+      <wsdl:input message="tns:Procesar_StringXML_HL7_XMLSoapIn" />
+      <wsdl:output message="tns:Procesar_StringXML_HL7_XMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Procesar_StringXML_HL7">
+      <wsdl:input message="tns:Procesar_StringXML_HL7SoapIn" />
+      <wsdl:output message="tns:Procesar_StringXML_HL7SoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioWebAutorizadorSoap" type="tns:ServicioWebAutorizadorSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Procesar_StringXML_HL7_XML">
+      <soap:operation soapAction="http://tempuri.org/Procesar_StringXML_HL7_XML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Procesar_StringXML_HL7">
+      <soap:operation soapAction="http://tempuri.org/Procesar_StringXML_HL7" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServicioWebAutorizadorSoap12" type="tns:ServicioWebAutorizadorSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Procesar_StringXML_HL7_XML">
+      <soap12:operation soapAction="http://tempuri.org/Procesar_StringXML_HL7_XML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Procesar_StringXML_HL7">
+      <soap12:operation soapAction="http://tempuri.org/Procesar_StringXML_HL7" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioWebAutorizador">
+    <wsdl:port name="ServicioWebAutorizadorSoap" binding="tns:ServicioWebAutorizadorSoap">
+      <soap:address location="http://www.micamsalud.com.ar:8080/webserviceautorizador/Index.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServicioWebAutorizadorSoap12" binding="tns:ServicioWebAutorizadorSoap12">
+      <soap12:address location="http://www.micamsalud.com.ar:8080/webserviceautorizador/Index.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

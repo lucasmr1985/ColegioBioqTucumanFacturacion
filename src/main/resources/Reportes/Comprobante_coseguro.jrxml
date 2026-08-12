@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="22" bottomMargin="14" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="22" bottomMargin="14" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
 	<property name="ireport.zoom" value="1.464100000000015"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -13,7 +13,7 @@ FROM ordenes
 INNER JOIN detalle_ordenes using(id_orden) 
 INNER JOIN obrasocial USING (id_obrasocial)
 INNER JOIN colegiados USING (id_colegiados)
-WHERE ordenes.id_orden=$P{id_orden}]]>
+WHERE ordenes.id_orden=$P{id_orden} and detalle_ordenes.estado=0]]>
 	</queryString>
 	<field name="matricula_colegiado" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -42,8 +42,10 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 	<field name="nombre_practica" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="precio_practica" class="java.lang.Double"/>
-	<field name="coseguro" class="java.lang.Double">
+	<field name="precio_practica" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coseguro" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="razonsocial_obrasocial" class="java.lang.String">
@@ -56,32 +58,31 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 		<variableExpression><![CDATA[$F{precio_practica}]]></variableExpression>
 	</variable>
 	<variable name="total" class="java.lang.String"/>
-	<title>
-		<band height="93">
+	<title height="108">
 			<textField>
-				<reportElement x="1" y="17" width="137" height="15" uuid="21eafd1f-26f7-49c8-8268-ad9ee99a6c2e"/>
+				<reportElement x="0" y="33" width="137" height="15" uuid="21eafd1f-26f7-49c8-8268-ad9ee99a6c2e"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nº Orden: "+$F{numero_orden}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="47" width="100" height="13" uuid="11eca44b-4493-4cc9-9dd0-97015a919e76"/>
+				<reportElement x="0" y="63" width="100" height="13" uuid="11eca44b-4493-4cc9-9dd0-97015a919e76"/>
 				<textFieldExpression><![CDATA["Medico: "+$F{matricula_prescripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="33" width="100" height="13" uuid="aa44ba25-c4fd-4119-a891-f0ebb6223b73"/>
+				<reportElement x="0" y="49" width="100" height="13" uuid="aa44ba25-c4fd-4119-a891-f0ebb6223b73"/>
 				<textFieldExpression><![CDATA[$F{fecha_orden}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="60" width="184" height="12" uuid="3491d0ab-6fae-495e-a87d-8922d71c2db6"/>
+				<reportElement x="-1" y="76" width="184" height="12" uuid="3491d0ab-6fae-495e-a87d-8922d71c2db6"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Bq: "+$F{nombre_colegiado}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="78" width="252" height="14" uuid="88cdb989-988e-4d9f-a135-39376b4b27fe"/>
+				<reportElement x="0" y="94" width="252" height="14" uuid="88cdb989-988e-4d9f-a135-39376b4b27fe"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -91,29 +92,29 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<text><![CDATA[Practicas                                                              Precio]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="303" y="18" width="137" height="15" uuid="deedde87-4ed0-4d3b-a2cc-bb756307dde1"/>
+				<reportElement x="302" y="34" width="137" height="15" uuid="deedde87-4ed0-4d3b-a2cc-bb756307dde1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nº Orden: "+$F{numero_orden}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="303" y="34" width="100" height="13" uuid="52f4c98c-3bda-42d7-b9f9-cec44fa03172"/>
+				<reportElement x="302" y="50" width="100" height="13" uuid="52f4c98c-3bda-42d7-b9f9-cec44fa03172"/>
 				<textFieldExpression><![CDATA[$F{fecha_orden}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="303" y="48" width="100" height="13" uuid="44900983-b5b5-47b3-a55b-d803572ecf6c"/>
+				<reportElement x="302" y="64" width="100" height="13" uuid="44900983-b5b5-47b3-a55b-d803572ecf6c"/>
 				<textFieldExpression><![CDATA["Medico: "+$F{matricula_prescripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="302" y="61" width="184" height="12" uuid="cf07de61-b36f-4705-913a-ace74a970066"/>
+				<reportElement x="301" y="77" width="184" height="12" uuid="cf07de61-b36f-4705-913a-ace74a970066"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Bq: "+$F{nombre_colegiado}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="302" y="78" width="252" height="14" uuid="085a0dea-2e0d-49a3-adbb-c5a3eedffcbf"/>
+				<reportElement x="301" y="94" width="252" height="14" uuid="085a0dea-2e0d-49a3-adbb-c5a3eedffcbf"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -123,21 +124,20 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				<text><![CDATA[Practicas                                                              Precio]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="2" width="253" height="15" uuid="eea93161-f88f-4915-8363-f0f5c79ff06a"/>
-				<textElement textAlignment="Center">
+				<reportElement x="-1" y="18" width="253" height="15" uuid="eea93161-f88f-4915-8363-f0f5c79ff06a"/>
+				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{razonsocial_obrasocial}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="303" y="3" width="253" height="15" uuid="823ed82e-0d7f-49cd-ae02-9f0e6cc09883"/>
-				<textElement textAlignment="Center">
+				<reportElement x="302" y="19" width="253" height="15" uuid="823ed82e-0d7f-49cd-ae02-9f0e6cc09883"/>
+				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{razonsocial_obrasocial}]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
+		</title>
 	<detail>
 		<band height="12">
 			<textField>
@@ -187,8 +187,7 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="93">
+	<pageFooter height="93">
 			<staticText>
 				<reportElement x="0" y="80" width="101" height="13" uuid="0f2ce083-6a2c-4383-9fc9-dcd9d6f8bde9"/>
 				<textElement>
@@ -383,6 +382,5 @@ WHERE ordenes.id_orden=$P{id_orden}]]>
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
-		</band>
-	</pageFooter>
+		</pageFooter>
 </jasperReport>

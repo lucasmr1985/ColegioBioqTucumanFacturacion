@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
 	<property name="ireport.zoom" value="1.6105100000000014"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -23,14 +23,10 @@
 	<field name="analisis" class="java.lang.String"/>
 	<field name="importe" class="java.lang.String"/>
 	<field name="codigo_fac" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<background splitType="Stretch"/>
 	<title>
-		<band/>
 	</title>
-	<pageHeader>
-		<band height="99">
+	<pageHeader height="99">
 			<rectangle radius="10">
 				<reportElement x="0" y="42" width="554" height="43" uuid="bde5655b-6b26-4090-afd4-9470bf27afda"/>
 			</rectangle>
@@ -233,8 +229,7 @@
 				<reportElement x="84" y="4" width="55" height="12" uuid="f084d28a-2cb8-4475-bcb9-62377918cfd3"/>
 				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\icocbt.png"]]></imageExpression>
 			</image>
-		</band>
-	</pageHeader>
+		</pageHeader>
 	<detail>
 		<band height="12" splitType="Stretch">
 			<textField>
@@ -288,8 +283,7 @@
 			</textField>
 		</band>
 	</detail>
-	<lastPageFooter>
-		<band height="54">
+	<lastPageFooter height="54">
 			<rectangle radius="10">
 				<reportElement x="1" y="2" width="555" height="50" uuid="f27ec9ec-415e-4c4c-82d9-c1f4ad07b2eb"/>
 			</rectangle>
@@ -349,6 +343,5 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{matricula}+$P{num_obra_social}+$P{pacientes}+$P{practicas}+$P{total}]]></textFieldExpression>
 			</textField>
-		</band>
-	</lastPageFooter>
+		</lastPageFooter>
 </jasperReport>

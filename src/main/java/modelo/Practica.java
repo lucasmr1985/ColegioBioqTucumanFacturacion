@@ -25,8 +25,9 @@ public class Practica {
     private double precioTotal;
     private int idDetalleORden;
     private int tipoPractica;
+    private int coseguro;
 
-    public Practica(int id, int codigo, int codigoFacturacion, String determinacion, String instrucciones, double precio1, double precio2, double precio3, double precio4, int tiempoProcesamiento, double precioTotal) {
+    public Practica(int id, int codigo, int codigoFacturacion, String determinacion, String instrucciones, double precio1, double precio2, double precio3, double precio4, int tiempoProcesamiento, double precioTotal,int coseguro) {
         this.id = id;
         this.codigo = codigo;
         this.codigoFacturacion = codigoFacturacion;
@@ -38,6 +39,7 @@ public class Practica {
         this.precio4 = precio4;
         this.tiempoProcesamiento = tiempoProcesamiento;
         this.precioTotal = precioTotal;
+        this.coseguro = coseguro;
     }
 
     public Practica(int codigo, int codigoFacturacion, String determinacion, double precioTotal, int idDetalleORden) {
@@ -64,13 +66,14 @@ public class Practica {
         this.tipoPractica = tipoPractica;
     }
     
-     public Practica(int codigo, int codigoFacturacion, String determinacion, double precioTotal,int tipoPractica, int id) {
+     public Practica(int codigo, int codigoFacturacion, String determinacion, double precioTotal,int tipoPractica, int id, int coseguro) {
         this.codigo = codigo;
         this.codigoFacturacion = codigoFacturacion;
         this.determinacion = determinacion;
         this.precioTotal = precioTotal;
         this.tipoPractica = tipoPractica;
         this.id=id;
+        this.coseguro = coseguro;
     }
 
     public int getId() {
@@ -168,8 +171,14 @@ public class Practica {
     public void setTipoPractica(int tipoPractica) {
         this.tipoPractica = tipoPractica;
     }
-    
-    
+
+    public double getCoseguro() {
+        return coseguro;
+    }
+
+    public void setCoseguro(int coseguro) {
+        this.coseguro = coseguro;
+    }        
 
     @Override
     public String toString() {
@@ -221,13 +230,14 @@ public class Practica {
             ResultSet rs;
             
             if (Login.estadopeec == 1) {
-                rs = instruccion.executeQuery("SELECT codigo_practica,preciototal,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial +" and estado=1");
+                rs = instruccion.executeQuery("SELECT codigo_practica,preciototal,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu, coseguro FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial +" and estado=1");
+           
             } else {
-                rs = instruccion.executeQuery("SELECT codigo_practica,precioSinPEEC,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial +" and estado=1");
+                rs = instruccion.executeQuery("SELECT codigo_practica,precioSinPEEC,determinacion, codigo_fac_practicas_obrasocial, tipo_practica,id_practicasnbu, coseguro FROM obrasocial_tiene_practicasnbu  WHERE id_obrasocial=" + id_obrasocial +" and estado=1");
             }
             
-            while (rs.next()) {               
-                lista.add(new Practica(rs.getInt("codigo_practica"), rs.getInt("codigo_fac_practicas_obrasocial"), rs.getString("determinacion"), rs.getDouble("preciototal"),rs.getInt("tipo_practica"),rs.getInt("id_practicasnbu")));                               
+            while (rs.next()) {                    
+                lista.add(new Practica(rs.getInt("codigo_practica"), rs.getInt("codigo_fac_practicas_obrasocial"), rs.getString("determinacion"), rs.getDouble("preciototal"),rs.getInt("tipo_practica"),rs.getInt("id_practicasnbu"),rs.getInt("coseguro")));                               
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -246,11 +256,32 @@ public class Practica {
         return resultado;
     }
     
+    public static Practica buscarPracticaCodigo(int Practica, ArrayList<Practica> lista) {
+        Practica resultado = null;
+        
+        for (Practica practica : lista) {
+            if (practica.getCodigo() == Practica) {
+                resultado = practica;
+                break;
+            }
+        }
+        return resultado;
+    }
     
+     public static boolean buscarCodigoPracticaBool(int Practica, ArrayList<Practica> lista) {
+        boolean resultado = false;
+        for (Practica practica : lista) {
+            if (practica.getCodigo()==Practica) {
+                resultado = true;
+            }
+        }
+        return resultado;
+    }
     
     public static boolean buscarPracticaBool(String cadenaPractica, ArrayList<Practica> lista) {
         boolean resultado = false;
         for (Practica practica : lista) {
+         //   System.out.println("A:"+practica.getCodigo() + " - " + practica.getDeterminacion()+" B:"+cadenaPractica);
             if ((practica.getCodigo() + " - " + practica.getDeterminacion()).equals(cadenaPractica)) {
                 resultado = true;
             }

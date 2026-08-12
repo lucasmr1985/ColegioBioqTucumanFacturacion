@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws1.traditum.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://ws1.traditum.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ws1.traditum.com/">
+      <s:element name="Enviar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsgType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviarResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Enviar20">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsgType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Enviar20Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Enviar20Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviarAES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsgType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviarAESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviarAESResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Echo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pszMsgType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EchoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EchoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Test">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pszRes" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EnviarSoapIn">
+    <wsdl:part name="parameters" element="tns:Enviar" />
+  </wsdl:message>
+  <wsdl:message name="EnviarSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviarResponse" />
+  </wsdl:message>
+  <wsdl:message name="Enviar20SoapIn">
+    <wsdl:part name="parameters" element="tns:Enviar20" />
+  </wsdl:message>
+  <wsdl:message name="Enviar20SoapOut">
+    <wsdl:part name="parameters" element="tns:Enviar20Response" />
+  </wsdl:message>
+  <wsdl:message name="EnviarAESSoapIn">
+    <wsdl:part name="parameters" element="tns:EnviarAES" />
+  </wsdl:message>
+  <wsdl:message name="EnviarAESSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviarAESResponse" />
+  </wsdl:message>
+  <wsdl:message name="EchoSoapIn">
+    <wsdl:part name="parameters" element="tns:Echo" />
+  </wsdl:message>
+  <wsdl:message name="EchoSoapOut">
+    <wsdl:part name="parameters" element="tns:EchoResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestSoapIn">
+    <wsdl:part name="parameters" element="tns:Test" />
+  </wsdl:message>
+  <wsdl:message name="TestSoapOut">
+    <wsdl:part name="parameters" element="tns:TestResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebService_IASoap">
+    <wsdl:operation name="Enviar">
+      <wsdl:input message="tns:EnviarSoapIn" />
+      <wsdl:output message="tns:EnviarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Enviar20">
+      <wsdl:input message="tns:Enviar20SoapIn" />
+      <wsdl:output message="tns:Enviar20SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviarAES">
+      <wsdl:input message="tns:EnviarAESSoapIn" />
+      <wsdl:output message="tns:EnviarAESSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <wsdl:input message="tns:EchoSoapIn" />
+      <wsdl:output message="tns:EchoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Test">
+      <wsdl:input message="tns:TestSoapIn" />
+      <wsdl:output message="tns:TestSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebService_IASoap" type="tns:WebService_IASoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Enviar">
+      <soap:operation soapAction="http://ws1.traditum.com/Enviar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Enviar20">
+      <soap:operation soapAction="http://ws1.traditum.com/Enviar20" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviarAES">
+      <soap:operation soapAction="http://ws1.traditum.com/EnviarAES" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <soap:operation soapAction="http://ws1.traditum.com/Echo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Test">
+      <soap:operation soapAction="http://ws1.traditum.com/Test" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebService_IASoap12" type="tns:WebService_IASoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Enviar">
+      <soap12:operation soapAction="http://ws1.traditum.com/Enviar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Enviar20">
+      <soap12:operation soapAction="http://ws1.traditum.com/Enviar20" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviarAES">
+      <soap12:operation soapAction="http://ws1.traditum.com/EnviarAES" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <soap12:operation soapAction="http://ws1.traditum.com/Echo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Test">
+      <soap12:operation soapAction="http://ws1.traditum.com/Test" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService_IA">
+    <wsdl:port name="WebService_IASoap" binding="tns:WebService_IASoap">
+      <soap:address location="https://tdm-canalws-soap-testing.azurewebsites.net/WebService_IA.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebService_IASoap12" binding="tns:WebService_IASoap12">
+      <soap12:address location="https://tdm-canalws-soap-testing.azurewebsites.net/WebService_IA.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

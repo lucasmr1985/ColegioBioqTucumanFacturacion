@@ -23,12 +23,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
+
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -129,7 +129,7 @@ public class Tabla_NBU extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "NBU", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "NBU", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         tabla_practicas_nbu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tabla_practicas_nbu.setModel(new javax.swing.table.DefaultTableModel(
@@ -202,8 +202,7 @@ public class Tabla_NBU extends javax.swing.JFrame {
 
         cboaño.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cboaño.setForeground(new java.awt.Color(0, 102, 204));
-        cboaño.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2010", "2012", "2016", "1380", " " }));
-        cboaño.setSelectedIndex(1);
+        cboaño.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2010", "2012", "2016", "2023", "2024", "1380", " " }));
         cboaño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboañoActionPerformed(evt);
@@ -306,7 +305,7 @@ public class Tabla_NBU extends javax.swing.JFrame {
         parametros.put("añonbu", cboaño.getSelectedItem().toString());
 
         try {
-            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/Planilla_NBU.jasper"));
+            JasperReport report = loadReport("Planilla_NBU");
             JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, cn);
             //JasperExportManager.exportReportToPdfFile(jPrint_validacion, "C:\\Descargas-CBT\\" + periodo + "-" + txtcolegiado.getText() + "-validacion-.pdf");
             //JasperPrintManager.printReport(jPrint_comprobante, true);
@@ -367,4 +366,13 @@ public class Tabla_NBU extends javax.swing.JFrame {
     private javax.swing.JTable tabla_practicas_nbu;
     private javax.swing.JTextField txtpracticanbu;
     // End of variables declaration//GEN-END:variables
+
+    private JasperReport loadReport(String name) throws JRException {
+        try (java.io.InputStream is = getClass().getResourceAsStream("/Reportes/" + name + ".jrxml")) {
+            if (is == null) throw new JRException("Report not found: " + name + ".jrxml");
+            return JasperCompileManager.compileReport(is);
+        } catch (java.io.IOException e) {
+            throw new JRException("Error reading report: " + name, e);
+        }
+    }
 }

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="15" bottomMargin="14" uuid="a010bfc6-e0a6-41d5-9524-28acb0576e41">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="15" bottomMargin="14" uuid="a010bfc6-e0a6-41d5-9524-28acb0576e41">
 	<property name="ireport.zoom" value="1.1000000000000005"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -32,11 +32,8 @@ where añonbu_practicas=$P{añonbu}]]>
 	<field name="fercuencia_practica" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="58" splitType="Stretch">
+	<background splitType="Stretch"/>
+	<title height="58" splitType="Stretch">
 			<staticText>
 				<reportElement x="9" y="44" width="115" height="13" uuid="936cc7e0-7bbf-458d-8c04-22c3838c90c2"/>
 				<textElement>
@@ -60,10 +57,8 @@ where añonbu_practicas=$P{añonbu}]]>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pagina:" +$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
-	<columnHeader>
-		<band height="16" splitType="Stretch">
+		</title>
+	<columnHeader height="16" splitType="Stretch">
 			<staticText>
 				<reportElement x="60" y="1" width="307" height="15" uuid="d8387054-25de-4bef-a797-9fd623687cc7"/>
 				<textElement textAlignment="Justified">
@@ -99,8 +94,7 @@ where añonbu_practicas=$P{añonbu}]]>
 				</textElement>
 				<text><![CDATA[Codigo]]></text>
 			</staticText>
-		</band>
-	</columnHeader>
+		</columnHeader>
 	<detail>
 		<band height="13" splitType="Stretch">
 			<textField isBlankWhenNull="true">

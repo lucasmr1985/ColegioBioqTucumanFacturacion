@@ -5,6 +5,8 @@ public class Elegibilidad {
     private String creden;
     private String alta;
     private String fecdif;
+    private String termId;
+    private String codPrestador;
 
     public Elegibilidad() {
     }
@@ -32,5 +34,21 @@ public class Elegibilidad {
     public void setFecdif(String fecdif) {
         this.fecdif = fecdif;
     }
-    
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public String getCodPrestador() {
+        return codPrestador;
+    }
+
+    public void setCodPrestador(String codPrestador) {
+        this.codPrestador = codPrestador;
+    }
+        
 }

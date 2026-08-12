@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+<jasperReport name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -13,8 +13,7 @@
 	<parameter name="bioquimico" class="java.lang.String"/>
 	<field name="codigo" class="java.lang.String"/>
 	<field name="coseguro" class="java.lang.String"/>
-	<title>
-		<band height="82">
+	<title height="82">
 			<rectangle radius="10">
 				<reportElement x="7" y="55" width="245" height="20" uuid="63944621-7662-4e2b-9bac-050d6e4232cb"/>
 			</rectangle>
@@ -95,8 +94,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA["N° Transacción: "+$P{numero_autorizacion}]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
+		</title>
 	<detail>
 		<band height="16">
 			<textField>
@@ -136,8 +134,7 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="75">
+	<pageFooter height="75">
 			<textField>
 				<reportElement x="66" y="35" width="186" height="12" uuid="6c307988-6cbd-4aa2-a2d8-dc72f79ec303"/>
 				<textElement>
@@ -252,6 +249,5 @@
 				</textElement>
 				<text><![CDATA[Firma paciente]]></text>
 			</staticText>
-		</band>
-	</pageFooter>
+		</pageFooter>
 </jasperReport>

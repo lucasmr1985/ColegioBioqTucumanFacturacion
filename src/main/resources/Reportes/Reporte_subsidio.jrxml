@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
 	<property name="ireport.zoom" value="2.1435888100000025"/>
 	<property name="ireport.x" value="329"/>
 	<property name="ireport.y" value="2"/>
@@ -8,8 +8,7 @@
 	<parameter name="numero" class="java.lang.String"/>
 	<parameter name="bioquimico" class="java.lang.String"/>
 	<parameter name="mensaje" class="java.lang.String"/>
-	<title>
-		<band height="179">
+	<title height="179">
 			<rectangle radius="10">
 				<reportElement uuid="63944621-7662-4e2b-9bac-050d6e4232cb" x="7" y="76" width="535" height="20"/>
 			</rectangle>
@@ -41,10 +40,8 @@
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{mensaje}]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
-	<pageFooter>
-		<band height="90">
+		</title>
+	<pageFooter height="90">
 			<textField>
 				<reportElement uuid="6c307988-6cbd-4aa2-a2d8-dc72f79ec303" x="66" y="26" width="186" height="12"/>
 				<textElement>
@@ -87,6 +84,5 @@
 				</textElement>
 				<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
 			</staticText>
-		</band>
-	</pageFooter>
+		</pageFooter>
 </jasperReport>

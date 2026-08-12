@@ -11,13 +11,13 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 
@@ -225,17 +225,17 @@ public class AfiliadoJerarquicos extends javax.swing.JDialog {
                     System.out.println("Respuesta = " + respuestaString.getValue()); // type string/                
                    // JOptionPane.showMessageDialog(null, "Afiliado habilitado");
                     int pos1 = respuestaString.getValue().indexOf("Apellido") + 11;
-                    int pos2 = pos1 + 35;
+                    int pos2 = respuestaString.getValue().indexOf("EsAutonomo");
                     int pos3 = respuestaString.getValue().indexOf("Nombre") + 9;
-                    int pos4 = pos3 + 34;
+                    int pos4 = respuestaString.getValue().indexOf("Numero");
                     int pos5 = respuestaString.getValue().indexOf("NumeroDocumento") + 18;
-                    int pos6 = pos5 + 8;
+                    int pos6 = respuestaString.getValue().indexOf("Orden");
                     int pos7 = respuestaString.getValue().indexOf("PlanId") + 8;
                     int pos8 = respuestaString.getValue().indexOf(",\"PlanNombre");//"PlanEsAutonomo":false,"PlanId":4,"PlanNombre":
                     MainL.plan= Integer.valueOf(respuestaString.getValue().substring(pos7, pos8));
-                    nombreafiliado = respuestaString.getValue().substring(pos1, pos2).trim() + " " + respuestaString.getValue().substring(pos3, pos4).trim();//"Apellido": + "Nombre":
+                    nombreafiliado = respuestaString.getValue().substring(pos1, pos2).replace("\"", "").replace(",", "") + " " + respuestaString.getValue().substring(pos3, pos4).replace("\"", "").replace(",", "");//"Apellido": + "Nombre":
                     dni = respuestaString.getValue().substring(pos5, pos6);//"NumeroDocumento":
-                    dni = dni.replace("\"", "");
+                    dni = dni.replace("\"", "").replace(",", "");
                     Codigo_afiliado = txtafiliado.getText();
                     habilitado = "OK";
                     System.out.println(nombreafiliado);

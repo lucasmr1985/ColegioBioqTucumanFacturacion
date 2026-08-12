@@ -9,14 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 import ClienteSancor.Login;
 import ClienteSancor.LoginResponse;
-import javax.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Entity;
 import ClienteSancorPro.HL7V24;
 import ClienteSancorPro.HL7V24Service;
 import static Formularios.Login.id_usuario;
@@ -198,7 +198,7 @@ public class AfiliadoSancorHL7 extends javax.swing.JDialog {
         nombreafiliado="";
         numeroPreautorizacion="";
         numero_afiliado="";
-        System.out.println("Testing 1 - Send Http post request");
+        System.out.println("Send Http post request");
         try {
             if (txtafiliado.getText().length() > 0) {
                 //Codigo_afiliado = txtafiliado.getText().substring(0, 7)+"^"+txtafiliado.getText().substring(7, 9);
@@ -345,7 +345,7 @@ public class AfiliadoSancorHL7 extends javax.swing.JDialog {
 
                             String Mensaje = "MSH|^~\\&|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD^604940^IIN|" + fechahora + "||ZQI^Z01^ZQI_Z01|" + codigo_seguridad + "|D|2.4|||NE|AL|ARG\r\n"
                                     + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
-                                    //+ "PID|||0121297^00^^SANCOR_SALUD^HC||UNKNOW";//prueba
+                                    //+ "PID|||0121297^00^^SANCOR_SALUD^HC||UNKNOW";//prueba 12129700
                                     //+ "PID|||0815867^00^^SANCOR_SALUD^HC||UNKNOW";//ale 31454672   0815867^00
                                     //+ "PID|||"+Codigo_afiliado+"^^"+ csc + "^SANCOR_SALUD^HC^SANCOR_SALUD||";
                                     + "PID|||" + dni + "^^" + csc + "^SANCOR_SALUD^DU^SANCOR_SALUD||UNKNOWN";
@@ -469,11 +469,8 @@ public class AfiliadoSancorHL7 extends javax.swing.JDialog {
                                     int opcion = JOptionPane.showOptionDialog(null, "Posee una orden PreAutorizada?", "Sancor PreAutorización", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
                                             new Object[]{"Si", "No", "Cancelar"}, "No"); // dinde quieres que se posicione el selector
 
-                                    if (opcion == 0) {
-                                        new SancorPreAutorizacion(null, true).setVisible(true);
-                                        dispose();
-                                    } else {
-                                        dispose();
+                                    if (opcion == 0) {//si
+                                        new SancorPreAutorizacion(null, true).setVisible(true);                                     
                                     }
                                     dispose();
                                 } else {

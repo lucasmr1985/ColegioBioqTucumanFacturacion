@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://server.ws.integral.ar.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://server.ws.integral.ar.com/">
+
+<xs:element name="API_prestacional" type="tns:API_prestacional"></xs:element>
+
+<xs:element name="Afilidado" type="tns:Afilidado"></xs:element>
+
+<xs:element name="Orden" type="tns:Orden"></xs:element>
+
+<xs:element name="Prestacion" type="tns:Prestacion"></xs:element>
+
+<xs:element name="RetornarOrden" type="tns:RetornarOrden"></xs:element>
+
+<xs:complexType name="RetornarOrden">
+<xs:sequence>
+<xs:element name="pdf" type="xs:base64Binary" minOccurs="0"></xs:element>
+<xs:element name="codigo" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="nroBono" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="json">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="key" minOccurs="0" type="xs:anyType"></xs:element>
+<xs:element name="value" minOccurs="0" type="xs:anyType"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Afilidado">
+<xs:sequence>
+<xs:element name="nombreApellido" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nroDocumento" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="edad" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="sexo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="parentesco" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Orden">
+<xs:sequence>
+<xs:element name="nroBono" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="fechaEmision" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="codAfiliado" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nombreAfiliado" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cuitSolicitante" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cuitEfector" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nombreEfector" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="codAlternativoEfector" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="convenioAfiliado" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="fechaVencimiento" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="DetallesOrden" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="tns:Prestacion" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Prestacion">
+<xs:sequence>
+<xs:element name="codigo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nombre" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cantidad" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="montoArancel" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="montoCoseguro" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="diente" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cara" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="maxilar" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lado" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="API_prestacional">
+<xs:sequence>
+<xs:element name="json" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

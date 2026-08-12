@@ -97,7 +97,7 @@ public class Tabla_practicas extends javax.swing.JFrame {
             Connection cn = cc.Conectar();
             try {
                 Statement St = cn.createStatement();
-                ResultSet Rs = St.executeQuery("SELECT obrasocial_tiene_practicasnbu.codigo_practica, obrasocial_tiene_practicasnbu.codigo_fac_practicas_obrasocial,practicasnbu.determinacion_practica,obrasocial_tiene_practicasnbu.unidaddebioquimica_practica,round(obrasocial_tiene_practicasnbu.preciototal,2),obrasocial_tiene_practicasnbu.añonbu FROM obrasocial_tiene_practicasnbu INNER JOIN practicasnbu ON obrasocial_tiene_practicasnbu.id_practicasnbu = practicasnbu.id_practicasnbu INNER JOIN obrasocial ON obrasocial.id_obrasocial = obrasocial_tiene_practicasnbu.id_obrasocial WHERE (obrasocial_tiene_practicasnbu.id_obrasocial=" + id_obrasocial + ")");
+                ResultSet Rs = St.executeQuery("SELECT obrasocial_tiene_practicasnbu.codigo_practica, obrasocial_tiene_practicasnbu.codigo_fac_practicas_obrasocial,practicasnbu.determinacion_practica,obrasocial_tiene_practicasnbu.unidaddebioquimica_practica,round(obrasocial_tiene_practicasnbu.preciototal,2),obrasocial_tiene_practicasnbu.añonbu FROM obrasocial_tiene_practicasnbu INNER JOIN practicasnbu ON obrasocial_tiene_practicasnbu.id_practicasnbu = practicasnbu.id_practicasnbu INNER JOIN obrasocial ON obrasocial.id_obrasocial = obrasocial_tiene_practicasnbu.id_obrasocial WHERE (obrasocial_tiene_practicasnbu.id_obrasocial=" + id_obrasocial + " and estado=1)");
                 while (Rs.next()) {
                     datos[0] = Rs.getString(1);
                     datos[1] = Rs.getString(2);
