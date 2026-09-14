@@ -15252,7 +15252,7 @@ PID|||121297^00^^SANCOR_SALUD^HC^SANCOR_SALUD||UNKNOWN
                     if (band2 == 0) {
 
                         String[] arreglo = {"Aceptar", "Link"};
-                        int opcion = JOptionPane.showOptionDialog(null, "EL Afiliado no se encuentra en nuestra base de datos.\nPor favor haga clic en el botón 'LINK' para verificarlo en el padrón de PAMI para que lo podamos dar de alta.\nRecuerde que debe tener asignado la UGL: TUCUMAN y el prestador: Colegio de Bioquímicos de Tucumán.\nLuego debe enviar un mensaje al WhatsApp 03815473513 con los datos del paciente para poder dar de alta al paciente de PAMI.", "Error en carga del Afiliado", 0, JOptionPane.QUESTION_MESSAGE, null, arreglo, "Aceptar");
+                        int opcion = JOptionPane.showOptionDialog(null, "El Afiliado no se encuentra en nuestra base de datos.\nPor favor enviar un mensaje al WhatsApp 03815473513 con los datos del paciente para poder verificarlo y darlo de alta.", "Error en carga del Afiliado", 0, JOptionPane.QUESTION_MESSAGE, null, arreglo, "Aceptar");
 
                         if (opcion == 1) {
 
