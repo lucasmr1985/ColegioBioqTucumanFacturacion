@@ -254,14 +254,16 @@ public class AsuntValidadorClient {
                             : connection.getErrorStream()
             );
 
+            String contexto = "obtener link del reporte GET " + urlFinal;
+
             if (responseBody == null || responseBody.trim().isEmpty()) {
-                throw new AsuntApiException(statusCode, "Respuesta vacía del servicio.", null);
+                throw new AsuntApiException(contexto, statusCode, "Respuesta vacía del servicio.", null);
             }
 
             String body = responseBody.trim();
 
             if (!body.startsWith("{")) {
-                throw new AsuntApiException(statusCode, responseBody, null);
+                throw new AsuntApiException(contexto, statusCode, responseBody, null);
             }
 
             com.google.gson.JsonObject jsonObject
@@ -316,7 +318,7 @@ public class AsuntValidadorClient {
 
             if (statusCode < 200 || statusCode >= 300) {
                 String responseBody = readResponseBody(connection.getErrorStream());
-                throw new AsuntApiException(statusCode, responseBody, null);
+                throw new AsuntApiException("descargar PDF GET " + urlPdf, statusCode, responseBody, null);
             }
 
             File archivo = new File(folder);

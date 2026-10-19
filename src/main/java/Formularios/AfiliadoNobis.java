@@ -26,7 +26,7 @@ import org.jdom2.Document;
 public class AfiliadoNobis extends javax.swing.JDialog {
 
     String hora = "", fechasw = "";
-    public static String habilitado = "", nombreafiliado = "", Codigo_afiliado = "",dni="", respuesta = "";;
+    public static String habilitado = "", nombreafiliado = "", Codigo_afiliado = "", dni = "", respuesta = "", token = "";
 
     public AfiliadoNobis(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -60,11 +60,13 @@ public class AfiliadoNobis extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtafiliado = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtToken = new javax.swing.JTextField();
         btnValidar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingrese el numero de afiliado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -84,15 +86,38 @@ public class AfiliadoNobis extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Token:");
+
+        txtToken.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtToken.setForeground(new java.awt.Color(0, 102, 204));
+        txtToken.setToolTipText("XXXXXXXXXXXXX");
+        txtToken.setNextFocusableComponent(btnValidar);
+        txtToken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTokenActionPerformed(evt);
+            }
+        });
+        txtToken.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTokenKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtafiliado, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtToken)
+                    .addComponent(txtafiliado, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -102,7 +127,11 @@ public class AfiliadoNobis extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtafiliado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         btnValidar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -131,10 +160,10 @@ public class AfiliadoNobis extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnValidar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -144,22 +173,22 @@ public class AfiliadoNobis extends javax.swing.JDialog {
         txtafiliado.transferFocus();
     }//GEN-LAST:event_txtafiliadoActionPerformed
 
-    String sacarCaracteresEspeciales(String xml){
+    String sacarCaracteresEspeciales(String xml) {
         // 1. Normalizar los caracteres acentuados (convertirlos a sus equivalentes sin acento)
         String textoNormalizado = Normalizer.normalize(xml, Normalizer.Form.NFD)
-                                            .replaceAll("\\p{M}", ""); // Elimina los diacríticos (acentos)
+                .replaceAll("\\p{M}", ""); // Elimina los diacríticos (acentos)
 
         // 2. Reemplazar caracteres especiales no deseados (excepto letras y números)
         ///String textoLimpio = textoNormalizado.replaceAll("[^a-zA-Z0-9 ]", ""); 
         return textoNormalizado;
     }
-    
+
     private void btnValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarActionPerformed
         cargarfecha();
         respuesta = "";
         String numero_afiliado = txtafiliado.getText();
         System.out.println("numero_afiliado " + numero_afiliado);
-
+        token = txtToken.getText();
         Document doc = new Document();
         try {
             ConsultarAfiliado mensaje = new ConsultarAfiliado();
@@ -168,54 +197,59 @@ public class AfiliadoNobis extends javax.swing.JDialog {
 
             String xml = "<Afiliado>\n"
                     + "			<TipoDoc>2</TipoDoc>\n"
-                    + "			<NroDoc>"+numero_afiliado+"</NroDoc>\n"
+                    + "			<NroDoc>" + numero_afiliado + "</NroDoc>\n"
                     + "			<NumeroAfiliado></NumeroAfiliado>\n"
-                    + "			<Fecha>"+fechasw+"</Fecha>\n"
+                    + "			<Fecha>" + fechasw + "</Fecha>\n"
                     + "		</Afiliado>";
             mensaje.setPXml(xml);
-            System.out.println("Send:" +mensaje.getPClave() +" "+mensaje.getPUsuario()+" " + mensaje.getPXml());
+            System.out.println("Send:" + mensaje.getPClave() + " " + mensaje.getPUsuario() + " " + mensaje.getPXml());
             String resultado = null;
-            try {
-                WSGecrosNet servicio = new WSGecrosNet();
-                WSGecrosNetSoap port = servicio.getWSGecrosNetSoap();
-                resultado = port.consultarAfiliado(mensaje.getPUsuario(), mensaje.getPClave(), mensaje.getPXml());
-                System.out.println("resultado:" + resultado);
-                System.out.println("resultado sin:"+sacarCaracteresEspeciales(resultado));
-                resultado=sacarCaracteresEspeciales(resultado);
-                //Generate XML
+            if (!token.equals("")) {
                 try {
-                    FileWriter archivo = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
-                    archivo.write(resultado);
-                    archivo.close();
-                    System.out.println(".....");
-                    ReadXMLFile respuestaNobis = new ReadXMLFile();                    
-                    System.out.println("-----");
-                    ///43564951
-                    System.out.println("respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado(): "+respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado());
-                    if (!respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado().equals("Afiliado inexistente")) {
-                       
-                        dni = respuestaNobis.ReadXMLNobisConsultarAfiliado().getDni();
-                        nombreafiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getAfiliado();
-                        Codigo_afiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getNumeroAfi();
-                        habilitado = "OK";
-                        JOptionPane.showMessageDialog(null, "Mensaje WS: " + "El Afiliado está habilitado. " + "\n" + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado() +" "+  respuestaNobis.ReadXMLNobisConsultarAfiliado().getMensaje());
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null,  "Mensaje WS: " + "El Afiliado no está habilitado. " + "\n" + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado() +" "+ respuestaNobis.ReadXMLNobisConsultarAfiliado().getMensaje());
+                    WSGecrosNet servicio = new WSGecrosNet();
+                    WSGecrosNetSoap port = servicio.getWSGecrosNetSoap();
+                    resultado = port.consultarAfiliado(mensaje.getPUsuario(), mensaje.getPClave(), mensaje.getPXml());
+                    System.out.println("resultado:" + resultado);
+                    System.out.println("resultado sin:" + sacarCaracteresEspeciales(resultado));
+                    resultado = sacarCaracteresEspeciales(resultado);
+                    //Generate XML
+                    try {
+                        FileWriter archivo = new FileWriter("C:/Facturacion Laboratorios/respuesta.xml");
+                        archivo.write(resultado);
+                        archivo.close();
+                        System.out.println(".....");
+                        ReadXMLFile respuestaNobis = new ReadXMLFile();
+                        System.out.println("-----");
+                        ///43564951
+                    System.out.println("respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado(): " + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado());
+                        if (!respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado().equals("Afiliado inexistente")) {
+
+                            dni = respuestaNobis.ReadXMLNobisConsultarAfiliado().getDni();
+                            nombreafiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getAfiliado();
+                            Codigo_afiliado = respuestaNobis.ReadXMLNobisConsultarAfiliado().getNumeroAfi();
+                            habilitado = "OK";
+                            JOptionPane.showMessageDialog(null, "Mensaje WS: " + "El Afiliado está habilitado. " + "\n" + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado() + " " + respuestaNobis.ReadXMLNobisConsultarAfiliado().getMensaje());
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Mensaje WS: " + "El Afiliado no está habilitado. " + "\n" + respuestaNobis.ReadXMLNobisConsultarAfiliado().getEstado() + " " + respuestaNobis.ReadXMLNobisConsultarAfiliado().getMensaje());
+                        }
+                    } catch (Exception er) {
+                        JOptionPane.showMessageDialog(null, "error al generar archivo " + er);
+                        System.out.println("error al generar archivo " + er);
                     }
-                } catch (Exception er) {
-                    JOptionPane.showMessageDialog(null, "error al generar archivo " + er);
-                    System.out.println("error al generar archivo " + er);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "error al conectarse con servidor " + resultado);
+                    System.out.println("error al conectarse con servidor " + resultado);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "error al conectarse con servidor " + resultado);
-                System.out.println("error al conectarse con servidor " + resultado);
+            }else{
+                        JOptionPane.showMessageDialog(null, "Debe ingresar Token");
             }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error " + e);
             System.out.println("e" + e);
         }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //        try {
 //            TipoPrestadores mensaje = new TipoPrestadores();
 //            mensaje.setPUsuario("CBTUCUMAN");
@@ -241,8 +275,16 @@ public class AfiliadoNobis extends javax.swing.JDialog {
     }//GEN-LAST:event_btnValidarActionPerformed
 
     private void txtafiliadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtafiliadoKeyPressed
-      //  btnValidar.requestFocus();
+        //  btnValidar.requestFocus();
     }//GEN-LAST:event_txtafiliadoKeyPressed
+
+    private void txtTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTokenActionPerformed
+        txtToken.transferFocus();
+    }//GEN-LAST:event_txtTokenActionPerformed
+
+    private void txtTokenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTokenKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTokenKeyPressed
 
     /**
      * @param args the command line arguments
@@ -251,7 +293,9 @@ public class AfiliadoNobis extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnValidar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtToken;
     private javax.swing.JTextField txtafiliado;
     // End of variables declaration//GEN-END:variables
 }
