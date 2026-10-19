@@ -14,22 +14,35 @@ public class AsuntApiException extends java.lang.Exception {
     private final ApiErrorResponse errorResponse;
 
     public AsuntApiException(int statusCode, String responseBody, ApiErrorResponse errorResponse) {
-        super(buildMessage(statusCode, responseBody, errorResponse));
+        this(null, statusCode, responseBody, errorResponse);
+    }
+
+    public AsuntApiException(String contexto, int statusCode, String responseBody, ApiErrorResponse errorResponse) {
+        super(buildMessage(contexto, statusCode, responseBody, errorResponse));
         this.statusCode = statusCode;
         this.responseBody = responseBody;
         this.errorResponse = errorResponse;
     }
 
-    private static String buildMessage(int statusCode, String responseBody, ApiErrorResponse errorResponse) {
+    private static String buildMessage(String contexto, int statusCode, String responseBody, ApiErrorResponse errorResponse) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Error al invocar ASUNT. HTTP ").append(statusCode);
+        sb.append("Error al invocar ASUNT");
+        if (contexto != null && !contexto.isEmpty()) {
+            sb.append(" (").append(contexto).append(")");
+        }
+        sb.append(". HTTP ").append(statusCode);
 
         if (errorResponse != null && errorResponse.getError() != null) {
             sb.append(" - ").append(errorResponse.getError());
         }
 
         if (responseBody != null && !responseBody.trim().isEmpty()) {
-            sb.append(" - Respuesta: ").append(responseBody);
+            String body = responseBody.trim();
+            if (body.startsWith("<")) {
+                sb.append(" - El servidor devolvió una página de error HTML (error interno de ASUNT)");
+            } else {
+                sb.append(" - Respuesta: ").append(body);
+            }
         }
 
         return sb.toString();

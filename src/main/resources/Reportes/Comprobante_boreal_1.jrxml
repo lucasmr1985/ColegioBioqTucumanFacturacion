@@ -1,253 +1,144 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+<jasperReport name="report name" language="java" columnCount="1" pageWidth="595" pageHeight="421" orientation="Landscape" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="808fc87c-98ec-4ee4-b553-ac29238ba3f2">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="id_orden" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<queryString>
-		<![CDATA[SELECT matricula_colegiado, nombre_colegiado,fecha_orden,matricula_prescripcion,nombre_afiliado,numero_afiliado,numero_orden,
+	<query language="sql"><![CDATA[SELECT matricula_colegiado, nombre_colegiado,fecha_orden,matricula_prescripcion,nombre_afiliado,numero_afiliado,numero_orden,
 detalle_ordenes.cod_practica,nombre_practica,round(CAST(precio_practica as double),2) as precio_practica ,round(CAST(ordenes.coseguro as double),2) as coseguro
 FROM ordenes
 INNER JOIN detalle_ordenes using(id_orden) 
 INNER JOIN obrasocial USING (id_obrasocial)
 INNER JOIN colegiados USING (id_colegiados)
-WHERE ordenes.id_orden=$P{id_orden}]]>
-	</queryString>
+WHERE ordenes.id_orden=$P{id_orden}]]></query>
 	<field name="matricula_colegiado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="nombre_colegiado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="fecha_orden" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="matricula_prescripcion" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="nombre_afiliado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="numero_afiliado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="numero_orden" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="cod_practica" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="nombre_practica" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="precio_practica" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="coseguro" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
-	<variable name="coseguro_1" class="java.lang.Double" resetType="Page" calculation="Sum">
-		<variableExpression><![CDATA[$F{coseguro}]]></variableExpression>
+	<variable name="coseguro_1" resetType="Page" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{coseguro}]]></expression>
 	</variable>
-	<title height="82">
-			<rectangle radius="10">
-				<reportElement x="7" y="55" width="245" height="20" uuid="63944621-7662-4e2b-9bac-050d6e4232cb"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="12" y="56" width="240" height="20" uuid="5db78293-7a2e-44c1-8a17-dd9ec7da53db"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Código                                                     Coseguro]]></text>
-			</staticText>
-			<image>
-				<reportElement x="7" y="4" width="86" height="52" uuid="9a2d0f11-3027-4e8c-85a1-0969b557b875"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\boreal.jpg"]]></imageExpression>
-			</image>
-			<rectangle radius="10">
-				<reportElement x="297" y="55" width="245" height="20" uuid="63944621-7662-4e2b-9bac-050d6e4232cb"/>
-			</rectangle>
-			<image>
-				<reportElement x="297" y="4" width="86" height="52" uuid="9a2d0f11-3027-4e8c-85a1-0969b557b875"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\boreal.jpg"]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement x="302" y="56" width="240" height="20" uuid="5db78293-7a2e-44c1-8a17-dd9ec7da53db"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Código                                                     Coseguro]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="152" y="33" width="100" height="13" uuid="96036484-0609-443f-87d5-760e79d1d212"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{fecha_orden}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="115" y="9" width="137" height="20" uuid="0dd5b765-aa60-4eae-ab7e-c60b10319202"/>
-				<textElement textAlignment="Right">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Nº Transacción: "+$F{numero_orden}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="399" y="9" width="137" height="20" uuid="de05e058-1f08-43d7-be3f-94577b86e13a"/>
-				<textElement textAlignment="Right">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Nº Transacción: "+$F{numero_orden}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="436" y="33" width="100" height="13" uuid="7123a31f-a05b-4aad-8e3c-feaa721cfbd4"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{fecha_orden}]]></textFieldExpression>
-			</textField>
-		</title>
+	<title height="82" splitType="Stretch">
+		<element kind="rectangle" uuid="bf708656-5f3c-4dc2-8e1f-c26a6b3053c7" stretchType="NoStretch" x="7" y="55" width="245" height="20" radius="10"/>
+		<element kind="staticText" uuid="23dbef50-2e56-46a8-b6eb-07c2af1e5141" stretchType="NoStretch" x="12" y="56" width="240" height="20" fontSize="10.0">
+			<text><![CDATA[Código                                                     Coseguro]]></text>
+		</element>
+		<element kind="image" uuid="f5417e90-5746-432e-9439-d5bd46c86126" stretchType="NoStretch" x="7" y="4" width="86" height="52" linkType="None" linkTarget="Self">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\boreal.jpg"]]></expression>
+		</element>
+		<element kind="rectangle" uuid="b5451c72-8db6-4b41-892f-e3a0bb4a378b" stretchType="NoStretch" x="297" y="55" width="245" height="20" radius="10"/>
+		<element kind="image" uuid="753289dc-8f4c-4c2a-801d-7725033aed1b" stretchType="NoStretch" x="297" y="4" width="86" height="52" linkType="None" linkTarget="Self">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\boreal.jpg"]]></expression>
+		</element>
+		<element kind="staticText" uuid="10f80204-ae3c-467b-8ccf-776cee8e1917" stretchType="NoStretch" x="302" y="56" width="240" height="20" fontSize="10.0">
+			<text><![CDATA[Código                                                     Coseguro]]></text>
+		</element>
+		<element kind="textField" uuid="17855943-85d3-4e02-9147-13c5228b47f5" stretchType="NoStretch" x="152" y="33" width="100" height="13" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$F{fecha_orden}]]></expression>
+		</element>
+		<element kind="textField" uuid="607ae9f5-7198-4a2e-9c97-a89c9c044d66" stretchType="NoStretch" x="115" y="9" width="137" height="20" linkType="None" linkTarget="Self" bold="true" hTextAlign="Right">
+			<expression><![CDATA["Nº Transacción: "+$F{numero_orden}]]></expression>
+		</element>
+		<element kind="textField" uuid="9e3e8f88-845c-47fd-805e-c02b88a894da" stretchType="NoStretch" x="399" y="9" width="137" height="20" linkType="None" linkTarget="Self" bold="true" hTextAlign="Right">
+			<expression><![CDATA["Nº Transacción: "+$F{numero_orden}]]></expression>
+		</element>
+		<element kind="textField" uuid="61fa714b-81cb-4fef-98de-daea95283e6c" stretchType="NoStretch" x="436" y="33" width="100" height="13" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$F{fecha_orden}]]></expression>
+		</element>
+	</title>
 	<detail>
-		<band height="16">
-			<textField>
-				<reportElement x="303" y="14" width="78" height="0" uuid="c2de8817-0202-4def-b330-b0e998d29a2f"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="195" y="2" width="50" height="14" uuid="cda3e65f-262f-4c71-a35d-0525825c8b9c"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="10" y="2" width="41" height="14" uuid="2369be43-b9f7-401b-9cda-a6dd38caba84"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cod_practica}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="51" y="2" width="144" height="14" uuid="d906a80e-ed54-4e37-a8f6-1f0331606f38"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre_practica}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="348" y="2" width="144" height="14" uuid="465c5f64-239b-43a1-b01f-d4a31a1e1b60"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre_practica}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="303" y="2" width="41" height="14" uuid="a210e2bb-8f54-45f6-beea-912d8cf1fdab"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cod_practica}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="495" y="2" width="50" height="14" uuid="742840f5-1dfb-41d1-aa2f-1c04a764acf7"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
-			</textField>
+		<band height="16" splitType="Stretch">
+			<element kind="textField" uuid="eb7af063-ca3b-46d0-b907-55a712253e7f" stretchType="NoStretch" x="303" y="14" width="78" height="0" fontSize="9.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+				<expression><![CDATA[$F{coseguro}]]></expression>
+			</element>
+			<element kind="textField" uuid="29a3e665-0ca9-4c18-880c-e2e7d08de3f6" stretchType="NoStretch" x="195" y="2" width="50" height="14" fontSize="8.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA["-"]]></expression>
+			</element>
+			<element kind="textField" uuid="e43df70d-d2c3-4edb-92eb-249fc22817c5" stretchType="NoStretch" x="10" y="2" width="41" height="14" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{cod_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="7d9df6f6-edc4-4546-9142-e20a31c9b684" stretchType="NoStretch" x="51" y="2" width="144" height="14" fontSize="8.0" linkType="None" linkTarget="Self">
+				<expression><![CDATA[$F{nombre_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="43539b85-cdce-411a-b536-4aa30847a4e8" stretchType="NoStretch" x="348" y="2" width="144" height="14" fontSize="8.0" linkType="None" linkTarget="Self">
+				<expression><![CDATA[$F{nombre_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="aaa48dc7-9018-422a-8dc2-5f15db528ddc" stretchType="NoStretch" x="303" y="2" width="41" height="14" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{cod_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="2925044f-5e7f-470c-84af-57ea2248e40a" stretchType="NoStretch" x="495" y="2" width="50" height="14" fontSize="8.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA["-"]]></expression>
+			</element>
 		</band>
 	</detail>
-	<pageFooter height="55">
-			<staticText>
-				<reportElement x="7" y="6" width="166" height="14" uuid="12befc3d-8768-4fec-a836-a8cad6c583e8"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Total: $]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="7" y="21" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Nombre Af.:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="7" y="3" width="245" height="1" uuid="b0411632-0ccc-414c-a726-70fc26b0934c"/>
-			</line>
-			<staticText>
-				<reportElement x="7" y="35" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Numero Af.:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="6" width="171" height="14" uuid="12befc3d-8768-4fec-a836-a8cad6c583e8"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Total: $]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="21" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Nombre Af.:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="300" y="3" width="245" height="1" uuid="b0411632-0ccc-414c-a726-70fc26b0934c"/>
-			</line>
-			<staticText>
-				<reportElement x="300" y="35" width="59" height="12" uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Numero Af.:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="66" y="21" width="186" height="12" uuid="7496681e-7fbe-4f46-a5f9-83a5768d012f"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre_afiliado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="66" y="35" width="100" height="12" uuid="376fab5c-ecef-4c70-9b36-9e18e159ba82"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{numero_afiliado}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="173" y="6" width="79" height="14" uuid="0b24c621-02b6-4ec1-9107-720f6e5ec039"/>
-				<textElement textAlignment="Center">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="473" y="6" width="71" height="14" uuid="7f6dd8f3-e97a-4ab7-9f2b-d4840b00e38b"/>
-				<textElement textAlignment="Center">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="359" y="21" width="186" height="12" uuid="a1fa7ce9-b4a3-4c89-943c-b041940f1b08"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre_afiliado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="359" y="35" width="100" height="12" uuid="9e8073ce-7037-4b34-8081-58d1e86dc582"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{numero_afiliado}]]></textFieldExpression>
-			</textField>
-		</pageFooter>
+	<pageFooter height="55" splitType="Stretch">
+		<element kind="staticText" uuid="cfa905d5-e58c-480e-b4e0-1423cf56bf2c" stretchType="NoStretch" x="7" y="6" width="166" height="14" fontSize="9.0" hTextAlign="Right">
+			<text><![CDATA[Total: $]]></text>
+		</element>
+		<element kind="staticText" uuid="964b4ee0-b175-495e-a366-62fc0f7bbfc6" stretchType="NoStretch" x="7" y="21" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[Nombre Af.:]]></text>
+		</element>
+		<element kind="line" uuid="682d35e9-bb8a-41e7-9ae5-c1116cbeb943" stretchType="NoStretch" x="7" y="3" width="245" height="1"/>
+		<element kind="staticText" uuid="10537a83-fb0d-4f6a-b596-7e27288ca76f" stretchType="NoStretch" x="7" y="35" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[Numero Af.:]]></text>
+		</element>
+		<element kind="staticText" uuid="f95e823e-990b-4e44-898e-d6aaca651719" stretchType="NoStretch" x="300" y="6" width="171" height="14" fontSize="9.0" hTextAlign="Right">
+			<text><![CDATA[Total: $]]></text>
+		</element>
+		<element kind="staticText" uuid="8ea1865b-5807-494f-8d31-55a4ffa3b61a" stretchType="NoStretch" x="300" y="21" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[Nombre Af.:]]></text>
+		</element>
+		<element kind="line" uuid="d85d7c05-bd59-46da-a316-2269b94ef588" stretchType="NoStretch" x="300" y="3" width="245" height="1"/>
+		<element kind="staticText" uuid="216684bc-3ec8-4e9f-8a0d-bd639f8cabe6" stretchType="NoStretch" x="300" y="35" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[Numero Af.:]]></text>
+		</element>
+		<element kind="textField" uuid="46fa93c2-3831-4a8c-a035-2c9242fd2896" stretchType="NoStretch" x="66" y="21" width="186" height="12" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$F{nombre_afiliado}]]></expression>
+		</element>
+		<element kind="textField" uuid="6ec6cce0-ca4f-4205-b453-dbe7fe76992a" stretchType="NoStretch" x="66" y="35" width="100" height="12" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$F{numero_afiliado}]]></expression>
+		</element>
+		<element kind="textField" uuid="83f3b26f-d821-4773-be33-b8489f499b9e" stretchType="NoStretch" x="173" y="6" width="79" height="14" fontSize="9.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$F{coseguro}]]></expression>
+		</element>
+		<element kind="textField" uuid="55c15ca0-d966-411d-9859-8395b36b0925" stretchType="NoStretch" x="473" y="6" width="71" height="14" fontSize="9.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$F{coseguro}]]></expression>
+		</element>
+		<element kind="textField" uuid="8bb71ac1-aa86-4693-9fc0-89424fce1aa4" stretchType="NoStretch" x="359" y="21" width="186" height="12" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$F{nombre_afiliado}]]></expression>
+		</element>
+		<element kind="textField" uuid="8c327354-b13f-4346-9536-9b84c6d94943" stretchType="NoStretch" x="359" y="35" width="100" height="12" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$F{numero_afiliado}]]></expression>
+		</element>
+	</pageFooter>
 </jasperReport>

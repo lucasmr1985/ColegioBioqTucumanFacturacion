@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6cdc85e-4576-4f47-9125-afa0f40f6130">
+<jasperReport name="report name" language="java" columnCount="1" pageWidth="595" pageHeight="421" orientation="Landscape" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="deb91d6d-6a2d-4252-9973-7773fedd275d">
 	<property name="ireport.zoom" value="2.1435888100000025"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -15,310 +14,145 @@
 	<field name="coseguro" class="java.lang.String"/>
 	<field name="descripcion" class="java.lang.String"/>
 	<field name="precio" class="java.lang.String"/>
-	<title height="102">
-			<rectangle radius="10">
-				<reportElement uuid="63944621-7662-4e2b-9bac-050d6e4232cb" x="7" y="76" width="245" height="20"/>
-			</rectangle>
-			<staticText>
-				<reportElement uuid="5db78293-7a2e-44c1-8a17-dd9ec7da53db" x="12" y="78" width="240" height="20"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Practicas                                         Precio   Coseguro]]></text>
-			</staticText>
-			<image>
-				<reportElement uuid="9a2d0f11-3027-4e8c-85a1-0969b557b875" x="12" y="9" width="71" height="50"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\IPSST.jpg"]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement uuid="1b292168-19ea-410e-9aae-09c4c0d4e0e5" x="83" y="9" width="169" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Nº Transacción: " + $P{numero_autorizacion}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="74432beb-b726-4184-aa2c-619a95236ef0" x="83" y="29" width="169" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
-			</textField>
-			<rectangle radius="10">
-				<reportElement uuid="63944621-7662-4e2b-9bac-050d6e4232cb" x="297" y="76" width="245" height="20"/>
-			</rectangle>
-			<image>
-				<reportElement uuid="9a2d0f11-3027-4e8c-85a1-0969b557b875" x="297" y="13" width="86" height="45"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\IPSST.jpg"]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement uuid="5db78293-7a2e-44c1-8a17-dd9ec7da53db" x="302" y="78" width="240" height="20"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Practicas                                         Precio   Coseguro]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement uuid="41c21e1c-24b7-432a-a5c6-23b55ec30208" x="130" y="51" width="122" height="12"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Medico: "+$P{Medico}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="e055e2a3-79e5-46a9-954a-0780eb710c60" x="12" y="63" width="240" height="12"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Bioquimico: "+$P{bioquimico}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="1b292168-19ea-410e-9aae-09c4c0d4e0e5" x="376" y="9" width="169" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Nº Transacción: " + $P{numero_autorizacion}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="74432beb-b726-4184-aa2c-619a95236ef0" x="376" y="29" width="169" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement uuid="41c21e1c-24b7-432a-a5c6-23b55ec30208" x="423" y="49" width="122" height="12"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Medico: "+ $P{Medico}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="e055e2a3-79e5-46a9-954a-0780eb710c60" x="303" y="61" width="242" height="12"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Bioquimico: "+$P{bioquimico}]]></textFieldExpression>
-			</textField>
-		</title>
+	<title height="102" splitType="Stretch">
+		<element kind="rectangle" uuid="e92edd02-f258-4fad-8bb4-cbee644df02c" stretchType="NoStretch" x="7" y="76" width="245" height="20" radius="10"/>
+		<element kind="staticText" uuid="80607fd4-6677-4066-9b85-8d9ac79234cc" stretchType="NoStretch" x="12" y="78" width="240" height="20" fontSize="10.0">
+			<text><![CDATA[Practicas                                         Precio   Coseguro]]></text>
+		</element>
+		<element kind="image" uuid="cd1f7608-9f60-4723-ada0-fc555a96e136" stretchType="NoStretch" x="12" y="9" width="71" height="50" linkType="None" linkTarget="Self">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\IPSST.jpg"]]></expression>
+		</element>
+		<element kind="textField" uuid="4742aadd-c5f0-4b90-937c-a1066aa597f2" stretchType="NoStretch" x="83" y="9" width="169" height="20" fontSize="10.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA["Nº Transacción: " + $P{numero_autorizacion}]]></expression>
+		</element>
+		<element kind="textField" uuid="c57981ec-9583-4c5a-a931-cd03bdfa25f1" stretchType="NoStretch" x="83" y="29" width="169" height="20" fontSize="10.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$P{fecha}]]></expression>
+		</element>
+		<element kind="rectangle" uuid="7b3b726d-828e-441c-b4f8-ca31465337ed" stretchType="NoStretch" x="297" y="76" width="245" height="20" radius="10"/>
+		<element kind="image" uuid="b6c0d8d8-ccad-4004-a097-79a37fbfb7c3" stretchType="NoStretch" x="297" y="13" width="86" height="45" linkType="None" linkTarget="Self">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\IPSST.jpg"]]></expression>
+		</element>
+		<element kind="staticText" uuid="c9e0a616-4c05-4119-8f85-95313a59325d" stretchType="NoStretch" x="302" y="78" width="240" height="20" fontSize="10.0">
+			<text><![CDATA[Practicas                                         Precio   Coseguro]]></text>
+		</element>
+		<element kind="textField" uuid="e2518a24-b7fe-4d6e-b1c2-c0cf7f8b7ac0" stretchType="NoStretch" x="130" y="51" width="122" height="12" fontSize="9.0" linkType="None" linkTarget="Self" blankWhenNull="true" hTextAlign="Right">
+			<expression><![CDATA["Medico: "+$P{Medico}]]></expression>
+		</element>
+		<element kind="textField" uuid="e25ca3e9-a717-4c63-a194-28cf49c6f875" stretchType="NoStretch" x="12" y="63" width="240" height="12" fontSize="9.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA["Bioquimico: "+$P{bioquimico}]]></expression>
+		</element>
+		<element kind="textField" uuid="56e972f2-8c16-4deb-9644-00d8fa7679a8" stretchType="NoStretch" x="376" y="9" width="169" height="20" fontSize="10.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA["Nº Transacción: " + $P{numero_autorizacion}]]></expression>
+		</element>
+		<element kind="textField" uuid="5c4b6592-2d31-4963-a6d8-e0ec2631e8ef" stretchType="NoStretch" x="376" y="29" width="169" height="20" fontSize="10.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$P{fecha}]]></expression>
+		</element>
+		<element kind="textField" uuid="b9ac4293-6598-4c9d-9fb5-5d53cbea5bb4" stretchType="NoStretch" x="423" y="49" width="122" height="12" fontSize="9.0" linkType="None" linkTarget="Self" blankWhenNull="true" hTextAlign="Right">
+			<expression><![CDATA["Medico: "+ $P{Medico}]]></expression>
+		</element>
+		<element kind="textField" uuid="edfbcf4c-e2e4-4a89-9b1d-902c3534e104" stretchType="NoStretch" x="303" y="61" width="242" height="12" fontSize="9.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA["Bioquimico: "+$P{bioquimico}]]></expression>
+		</element>
+	</title>
 	<detail>
-		<band height="14">
-			<textField>
-				<reportElement uuid="c2de8817-0202-4def-b330-b0e998d29a2f" x="303" y="14" width="78" height="0"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="a3309755-694e-4549-a389-5b195da6635b" x="12" y="0" width="35" height="12"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="87b51189-90ed-4c27-afca-a2299cafa7f7" x="204" y="0" width="48" height="12"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="a3309755-694e-4549-a389-5b195da6635b" x="303" y="0" width="35" height="12"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="87b51189-90ed-4c27-afca-a2299cafa7f7" x="490" y="0" width="52" height="12"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="f5e4aa3b-0b36-40cc-b6e1-181f50e4d3bf" x="50" y="0" width="113" height="12"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="f5e4aa3b-0b36-40cc-b6e1-181f50e4d3bf" x="342" y="0" width="107" height="12"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="928dc170-0175-48f4-85e0-8d67fadd4caf" x="163" y="0" width="41" height="12"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="928dc170-0175-48f4-85e0-8d67fadd4caf" x="449" y="0" width="41" height="12"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
-			</textField>
+		<band height="14" splitType="Stretch">
+			<element kind="textField" uuid="0d73a1ac-68be-4cd4-a0c7-2abf2e4eb87d" stretchType="NoStretch" x="303" y="14" width="78" height="0" fontSize="9.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+				<expression><![CDATA[$F{coseguro}]]></expression>
+			</element>
+			<element kind="textField" uuid="6a6119d4-0463-4a95-b7c9-d5254c6e1322" stretchType="NoStretch" x="12" y="0" width="35" height="12" fontSize="7.0" linkType="None" linkTarget="Self">
+				<expression><![CDATA[$F{codigo}]]></expression>
+			</element>
+			<element kind="textField" uuid="407e0cd9-af97-4c10-aa73-73b9a6d0d184" stretchType="NoStretch" x="204" y="0" width="48" height="12" fontSize="7.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{coseguro}]]></expression>
+			</element>
+			<element kind="textField" uuid="48c1c3ee-f79d-4e10-b03f-fdc7707f38ad" stretchType="NoStretch" x="303" y="0" width="35" height="12" fontSize="7.0" linkType="None" linkTarget="Self">
+				<expression><![CDATA[$F{codigo}]]></expression>
+			</element>
+			<element kind="textField" uuid="ccd4e1ec-a7b4-4a69-a0eb-7ec0a616a5a3" stretchType="NoStretch" x="490" y="0" width="52" height="12" fontSize="7.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{coseguro}]]></expression>
+			</element>
+			<element kind="textField" uuid="7110e4f3-23b9-4f08-a9c2-78fc26060270" stretchType="NoStretch" x="50" y="0" width="113" height="12" fontSize="7.0" linkType="None" linkTarget="Self">
+				<expression><![CDATA[$F{descripcion}]]></expression>
+			</element>
+			<element kind="textField" uuid="bd71518d-15cd-4f42-9f31-9e9a95f127ff" stretchType="NoStretch" x="342" y="0" width="107" height="12" fontSize="7.0" linkType="None" linkTarget="Self">
+				<expression><![CDATA[$F{descripcion}]]></expression>
+			</element>
+			<element kind="textField" uuid="eef8bfc8-92de-40b6-845c-e1b87449f175" stretchType="NoStretch" x="163" y="0" width="41" height="12" fontSize="7.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{precio}]]></expression>
+			</element>
+			<element kind="textField" uuid="62669502-3e38-4244-8579-71a2c07b6aa5" stretchType="NoStretch" x="449" y="0" width="41" height="12" fontSize="7.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{precio}]]></expression>
+			</element>
 		</band>
 	</detail>
-	<pageFooter height="90">
-			<textField>
-				<reportElement uuid="6c307988-6cbd-4aa2-a2d8-dc72f79ec303" x="66" y="35" width="186" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="6c28dd8b-8335-4b04-8e4e-ca66f3bcd11f" x="66" y="21" width="186" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="1687382c-1a62-4ed8-abb4-39f31389aea6" x="204" y="6" width="48" height="14"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc" x="7" y="21" width="59" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Nombre Af.:]]></text>
-			</staticText>
-			<line>
-				<reportElement uuid="b0411632-0ccc-414c-a726-70fc26b0934c" x="7" y="3" width="245" height="1"/>
-			</line>
-			<staticText>
-				<reportElement uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc" x="7" y="35" width="59" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[CUIL Af.:]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="6c307988-6cbd-4aa2-a2d8-dc72f79ec303" x="359" y="35" width="186" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="6c28dd8b-8335-4b04-8e4e-ca66f3bcd11f" x="359" y="21" width="186" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="12befc3d-8768-4fec-a836-a8cad6c583e8" x="407" y="6" width="87" height="14"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total Coseguro: $]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="1687382c-1a62-4ed8-abb4-39f31389aea6" x="494" y="6" width="51" height="14"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc" x="300" y="21" width="59" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Nombre Af.:]]></text>
-			</staticText>
-			<line>
-				<reportElement uuid="b0411632-0ccc-414c-a726-70fc26b0934c" x="300" y="3" width="245" height="1"/>
-			</line>
-			<staticText>
-				<reportElement uuid="3276b5ed-30c2-47d3-b1fd-6205162354fc" x="300" y="35" width="59" height="12"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[CUIL Af.:]]></text>
-			</staticText>
-			<line>
-				<reportElement uuid="80cee0c1-6081-446b-aa0d-f50dcb574e19" x="127" y="71" width="120" height="1"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Dashed"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement uuid="2a17587a-a15a-4408-80e0-85f64b95feaa" x="95" y="59" width="31" height="19"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Firma:]]></text>
-			</staticText>
-			<image hAlign="Left" vAlign="Middle">
-				<reportElement uuid="c251ab13-4d2f-43f2-8ce7-13e574dd9ba3" x="22" y="51" width="60" height="32"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></imageExpression>
-			</image>
-			<image hAlign="Left" vAlign="Middle">
-				<reportElement uuid="c251ab13-4d2f-43f2-8ce7-13e574dd9ba3" x="464" y="38" width="64" height="46"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement uuid="ca7ba9e2-1b85-410c-b85e-595e10a82525" x="442" y="73" width="115" height="13"/>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ca7ba9e2-1b85-410c-b85e-595e10a82525" x="0" y="77" width="115" height="13"/>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="12befc3d-8768-4fec-a836-a8cad6c583e8" x="126" y="6" width="78" height="14"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total Coseguro: $]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="12befc3d-8768-4fec-a836-a8cad6c583e8" x="7" y="6" width="59" height="14"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Subtotal: $]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="12befc3d-8768-4fec-a836-a8cad6c583e8" x="300" y="6" width="56" height="14"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Subtotal: $]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="ee04fad1-a8ae-49ea-9fb6-a3da650af7c3" x="66" y="6" width="48" height="14"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{subtotal}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="ee04fad1-a8ae-49ea-9fb6-a3da650af7c3" x="357" y="6" width="48" height="14"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{subtotal}]]></textFieldExpression>
-			</textField>
-		</pageFooter>
+	<pageFooter height="90" splitType="Stretch">
+		<element kind="textField" uuid="9719ab59-554f-4e02-9c16-2fac58e7f318" stretchType="NoStretch" x="66" y="35" width="186" height="12" fontSize="9.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{numero}]]></expression>
+		</element>
+		<element kind="textField" uuid="5ec76ed8-206b-4380-b609-e749064a758a" stretchType="NoStretch" x="66" y="21" width="186" height="12" fontSize="9.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{nombre}]]></expression>
+		</element>
+		<element kind="textField" uuid="1f47e446-5e3a-42ec-9a31-5da88b0123b9" stretchType="NoStretch" x="204" y="6" width="48" height="14" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$P{total}]]></expression>
+		</element>
+		<element kind="staticText" uuid="aa4add5e-7f5f-4d56-a1bf-c0d4c2f99f24" stretchType="NoStretch" x="7" y="21" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[Nombre Af.:]]></text>
+		</element>
+		<element kind="line" uuid="08ecc4ad-a014-4934-99be-7dc01e6d7c0f" stretchType="NoStretch" x="7" y="3" width="245" height="1"/>
+		<element kind="staticText" uuid="4e46d729-9b23-40de-97fc-663864d146be" stretchType="NoStretch" x="7" y="35" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[CUIL Af.:]]></text>
+		</element>
+		<element kind="textField" uuid="4a5af047-a6f7-4d50-9bf3-8c469c62e899" stretchType="NoStretch" x="359" y="35" width="186" height="12" fontSize="9.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{numero}]]></expression>
+		</element>
+		<element kind="textField" uuid="caf4926a-1e0f-40a8-9fb3-6953628cd7bf" stretchType="NoStretch" x="359" y="21" width="186" height="12" fontSize="9.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{nombre}]]></expression>
+		</element>
+		<element kind="staticText" uuid="1b95cd5c-4476-4725-bd42-61d17bee93ca" stretchType="NoStretch" x="407" y="6" width="87" height="14" fontSize="9.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Total Coseguro: $]]></text>
+		</element>
+		<element kind="textField" uuid="7c6cf21c-5ba7-4d61-8434-dc91e5216fd1" stretchType="NoStretch" x="494" y="6" width="51" height="14" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$P{total}]]></expression>
+		</element>
+		<element kind="staticText" uuid="688e93b8-fe0b-4be6-9d1c-b488467c78aa" stretchType="NoStretch" x="300" y="21" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[Nombre Af.:]]></text>
+		</element>
+		<element kind="line" uuid="0c895321-63af-42b8-8bfe-31774470406b" stretchType="NoStretch" x="300" y="3" width="245" height="1"/>
+		<element kind="staticText" uuid="a2000b72-763b-4d6c-8f1e-24fc60c2eb10" stretchType="NoStretch" x="300" y="35" width="59" height="12" fontSize="9.0">
+			<text><![CDATA[CUIL Af.:]]></text>
+		</element>
+		<element kind="line" uuid="79ffb6ae-995e-427a-9c34-ec31d0bbc8b5" stretchType="NoStretch" x="127" y="71" width="120" height="1">
+			<pen lineWidth="0.5" lineStyle="Dashed"/>
+		</element>
+		<element kind="staticText" uuid="99f6f5a6-71d8-41da-91e3-a6d7680c4b2d" stretchType="NoStretch" x="95" y="59" width="31" height="19" vTextAlign="Middle">
+			<text><![CDATA[Firma:]]></text>
+		</element>
+		<element kind="image" uuid="68a78291-9971-4dd1-9519-899538fe72f0" stretchType="NoStretch" x="22" y="51" width="60" height="32" linkType="None" linkTarget="Self" hImageAlign="Left" vImageAlign="Middle">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></expression>
+		</element>
+		<element kind="image" uuid="f437a1d7-b1e5-4203-8d48-a7d1101cd83d" stretchType="NoStretch" x="464" y="38" width="64" height="46" linkType="None" linkTarget="Self" hImageAlign="Left" vImageAlign="Middle">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="707f3a86-8c58-4a3d-95df-d4ca3ab0ea2f" stretchType="NoStretch" x="442" y="73" width="115" height="13" fontSize="6.0">
+			<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+		</element>
+		<element kind="staticText" uuid="5b3d7b1d-0789-4988-9076-dabcdb429ab6" stretchType="NoStretch" x="0" y="77" width="115" height="13" fontSize="6.0">
+			<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+		</element>
+		<element kind="staticText" uuid="3eee514f-4577-4ceb-8ae9-99d46aa67253" stretchType="NoStretch" x="126" y="6" width="78" height="14" fontSize="9.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Total Coseguro: $]]></text>
+		</element>
+		<element kind="staticText" uuid="aef9c52a-6e24-448b-9a81-fa570cefaab3" stretchType="NoStretch" x="7" y="6" width="59" height="14" fontSize="9.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Subtotal: $]]></text>
+		</element>
+		<element kind="staticText" uuid="707f2133-421a-46ec-85b1-3191a6c871d0" stretchType="NoStretch" x="300" y="6" width="56" height="14" fontSize="9.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Subtotal: $]]></text>
+		</element>
+		<element kind="textField" uuid="6921e31a-05c6-4a1e-bbc5-76766259a9a6" stretchType="NoStretch" x="66" y="6" width="48" height="14" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$P{subtotal}]]></expression>
+		</element>
+		<element kind="textField" uuid="f0bf71bd-67c1-4b90-9960-6b6edbffc7ec" stretchType="NoStretch" x="357" y="6" width="48" height="14" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$P{subtotal}]]></expression>
+		</element>
+	</pageFooter>
 </jasperReport>

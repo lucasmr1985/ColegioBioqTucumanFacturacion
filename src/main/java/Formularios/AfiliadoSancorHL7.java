@@ -1,30 +1,12 @@
 package Formularios;
 
-import Clases.ConexionMariaDB;
-import Clases.TripleDes;
-import static Formularios.MainL.idObraSocialOnline;
-import com.google.gson.Gson;
 import java.awt.Cursor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Invocation;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
-import ClienteSancor.Login;
-import ClienteSancor.LoginResponse;
-import jakarta.ws.rs.client.Entity;
 import ClienteSancorPro.HL7V24;
 import ClienteSancorPro.HL7V24Service;
-import static Formularios.Login.id_usuario;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -218,333 +200,58 @@ public class AfiliadoSancorHL7 extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnaceptarActionPerformed
 
-    boolean traeToken() {
-
-        /////////Trae token
-        System.out.println("fecha token:" + fecha);
-        String sql = "SELECT * FROM tokens_ws WHERE fecha=" + fecha + " and tiene_permiso=1";
-        boolean tiene_permiso = false;
-        ConexionMariaDB maria = new ConexionMariaDB();
-        Connection cn = maria.Conectar();
-        Statement Select = null;
-        try {
-            Select = cn.createStatement();
-            ResultSet rs = Select.executeQuery(sql);
-            while (rs.next()) {
-                tiene_permiso = rs.getBoolean("tiene_permiso");
-                token = rs.getString("token");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la base de datos...");
-            JOptionPane.showMessageDialog(null, ex);
-        } finally {
-            try {
-                if (Select != null) {
-                    Select.close();
-                }
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }
-        System.out.println("tiene_permiso:" + tiene_permiso);
-        return tiene_permiso;
-    }
-
-    int insertToken(String token, boolean permiso, String mensaje) {
-        int insert = 0;
-        /////////insert token
-        System.out.println("fecha token:" + fecha);
-        String SQL = "INSERT INTO tokens_ws(token, tiene_permiso,mensaje,id_obrasocial,id_colegiado,fecha,hora)"
-                + "VALUES(?,?,?,?,?,?,?)";
-
-        ConexionMariaDB maria = new ConexionMariaDB();
-        Connection cn = maria.Conectar();
-        try {
-            PreparedStatement st = cn.prepareStatement(SQL);
-            st.setString(1, token);
-            st.setBoolean(2, permiso);
-            st.setString(3, mensaje);
-            st.setInt(4, 47);//id sancor online
-            st.setInt(5, id_usuario);//id colegiado
-            st.setString(6, fecha);
-            st.setString(7, hora);
-            insert = st.executeUpdate();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la base de datos...");
-            JOptionPane.showMessageDialog(null, ex);
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }
-        System.out.println("insert:" + insert);
-        return insert;
-    }
-
     public class apiSancorElegibilidad {
 
         private final String USER_AGENT = "Mozilla/5.0";
 
-        // HTTP post request
+        // HTTP post request (el autorizador de Sancor ya no requiere login/token)
         public void sendPost() throws Exception {
             cursor();
-            String resJson = "";
-            String uriLogin = "https://servicios.sancorsalud.com.ar/Seguridad/webresources/ServicioUsuario/Usuario_Login";
-            String jsonString;
-            Gson gsonEnvio = new Gson();
-            Gson gsonRespuesta = new Gson();
-            //Codigo_afiliado = txtafiliado.getText();
 
-            if (traeToken() == false) {
-                System.out.println("no hay token");
-                try {
-                    System.out.println("/////////////////////////////// LOGIN   /////////////////////////////////////////////////////////////////////////////////////////////////////");
-                    //Creamos el cliente de conexión al API Restful
-                    Client client = ClientBuilder.newClient();
+            String Mensaje = "MSH|^~\\&|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD^604940^IIN|" + fechahora + "||ZQI^Z01^ZQI_Z01|" + codigo_seguridad + "|D|2.4|||NE|AL|ARG\r\n"
+                    + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
+                    //+ "PID|||"+Codigo_afiliado+"^^SANCOR_SALUD^HC||UNKNOW";
+                    // + "PID|||"+Codigo_afiliado+"^^"+csc+"^SANCOR_SALUD^HC||UNKNOW";                        
+                    //+ "PID|||"+Codigo_afiliado+"^^"+ csc + "^SANCOR_SALUD^HC^SANCOR_SALUD||";
+                    //  + "PID|||0815867^00^^SANCOR_SALUD^HC||UNKNOW";//ale 31454672   
+                    // + "PID|||0121297^00^^SANCOR_SALUD^HC||UNKNOW";//prueba
+                    + "PID|||" + dni + "^^" + csc + "^SANCOR_SALUD^DU^SANCOR_SALUD||UNKNOWN";
+            //+ "PID|||22606^^9999^SANCOR_SALUD^DU^SANCOR_SALUD||";
+            try { // Call Web Service Operation
+                HL7V24Service service = new HL7V24Service();
+                HL7V24 port = service.getHL7V24Port();
+                String result = port.message(8, Mensaje);
+                System.out.println("Envío= "+Mensaje);
+                System.out.println("Respuesta = " + result);
 
-                    //Creamos el target lo cuál es nuestra URL junto con el nombre del método a llamar
-                    WebTarget targetLogin = client.target(uriLogin);
-
-                    //Creamos nuestra solicitud que realizará el request
-                    Invocation.Builder solicitud = targetLogin.request();
-
-                    Login req = new Login();
-                    req.setUsuario("WSRVSSA");
-                    req.setPassword("15WSSA08");
-
-                    //Convertimos el objeto req a un json
-                    jsonString = gsonEnvio.toJson(req);
-                    System.out.println(jsonString);
-
-                    //Enviamos nuestro json vía post al API Restful
-                    Response post = solicitud.post(Entity.json(jsonString));
-
-                    //Recibimos la respuesta y la leemos en una clase de tipo String, en caso de que el json sea tipo json y no string, debemos usar la clase de tipo JsonObject.class en lugar de String.class
-                    String responseJson = post.readEntity(String.class);
-                    resJson = responseJson;
-
-                    //Imprimimos el status de la solicitud
-                    System.out.println("Estatus: " + post.getStatus());
-
-                    switch (post.getStatus()) {
-                        case 200:
-                            resJson = responseJson;
-                            System.out.println("/////////////////////////////// Respuesta Login   /////////////////////////////////////////////////////////////////////////////////////////////////////");
-                            //Imprimimos la respuesta del API Restful
-                            System.out.println(resJson);
-                            LoginResponse respuestaLogin = gsonRespuesta.fromJson(resJson, LoginResponse.class);
-                            respuestaLogin.muestraRespuesta();
-                            insertToken(respuestaLogin.getToken(), respuestaLogin.isTienePermiso(), respuestaLogin.getMensaje());
-
-                            String Mensaje = "MSH|^~\\&|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD^604940^IIN|" + fechahora + "||ZQI^Z01^ZQI_Z01|" + codigo_seguridad + "|D|2.4|||NE|AL|ARG\r\n"
-                                    + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
-                                    //+ "PID|||0121297^00^^SANCOR_SALUD^HC||UNKNOW";//prueba 12129700
-                                    //+ "PID|||0815867^00^^SANCOR_SALUD^HC||UNKNOW";//ale 31454672   0815867^00
-                                    //+ "PID|||"+Codigo_afiliado+"^^"+ csc + "^SANCOR_SALUD^HC^SANCOR_SALUD||";
-                                    + "PID|||" + dni + "^^" + csc + "^SANCOR_SALUD^DU^SANCOR_SALUD||UNKNOWN";
-                            try { // Call Web Service Operation
-                                HL7V24Service service = new HL7V24Service();
-                                HL7V24 port = service.getHL7V24Port();
-                                String result = port.message(8, Mensaje);
-                                System.out.println("Envío= "+Mensaje);
-                                System.out.println("Respuesta = " + result);
-
-                                int i;
-                                int pipe = 0, tilde = 0, acento = 0;
-                                int bandera_dni = 0, bandera_afiliado = 0, bandera_afiliado_dni = 0;
-                                ///busco la respuesta
-                                i = result.indexOf("ZAU");
-                                pipe = 0;
-                                while (i < result.indexOf("PRD")) {
-                                    if (pipe == 3) {
-                                        mensaje = mensaje + result.charAt(i);
-                                    }
-                                    if (result.charAt(i) == '|') {
-                                        pipe++;
-                                    }
-                                    i++;
-                                }
-                                //String codigo_respuesta = mensaje.substring(0, 2);
-                                String codigo_respuesta = mensaje.substring(0, 4);
-                                mensaje = mensaje.replace("^", " ");
-                                System.out.println(dni);
-                                System.out.println(nombreafiliado);
-                                System.out.println(plan);
-
-                                System.out.println(codigo_respuesta);
-                                System.out.println(mensaje);
-                                //if (codigo_respuesta.equals("-1")) {
-                                if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
-                                    habilitado = "OK";
-                                    //buscar dni, apellido y nombre del afiliado 
-                                    i = result.indexOf("PID");
-                                    pipe = 0;
-                                    while (i < result.indexOf("IN1")) {
-//                                        if (bandera_dni == 0) {
-//                                            if (pipe == 2) {//busco el dni
-//                                                int j = i;
-//                                                while (j < result.indexOf("IN1")) {
-//                                                    if (result.charAt(j) == '^') {
-//                                                        j = result.indexOf("IN1");
-//                                                        bandera_dni = 1;
-//                                                    } else {
-//                                                        dni = dni + result.charAt(j);
-//                                                    }
-//                                                    j++;
-//                                                }
-//                                            }
-//                                        }
-                                        if (bandera_afiliado == 0) {
-                                            if (pipe == 5) {//busco apellido y nombre
-                                                int j = i;
-                                                while (j < result.indexOf("IN1")) {
-                                                    if (result.charAt(j) != '|') {
-                                                        nombreafiliado = nombreafiliado + result.charAt(j);
-                                                    } else {
-                                                        j = result.indexOf("IN1");
-                                                        bandera_afiliado = 1;
-                                                    }
-                                                    j++;
-                                                }
-                                            }
-                                        }
-                                        if (bandera_afiliado_dni == 0) {
-                                            if (pipe == 3) {//busco num af
-                                                int j = i;
-                                                while (j < result.indexOf("IN1")) {
-                                                    if (tilde == 0) {
-                                                        Codigo_afiliado = Codigo_afiliado + result.charAt(j);
-                                                    } else {
-                                                        if (tilde == 1) {
-                                                            Codigo_afiliado = Codigo_afiliado + result.charAt(j);
-                                                        } else {
-                                                            j = result.indexOf("IN1");
-                                                            bandera_afiliado_dni = 1;
-                                                        }
-                                                    }
-                                                    if (result.charAt(j) == '^') {
-                                                        tilde++;
-                                                    }
-                                                    j++;
-                                                }
-                                            }
-                                        }
-                                        if (result.charAt(i) == '|') {
-                                            pipe++;
-                                        }
-                                        i++;
-                                    }
-                                    nombreafiliado = nombreafiliado.replace("^", " ");
-                                    //////////busco el plan/////////////////////////////////////////////
-                                    i = result.indexOf("IN1|");
-                                    pipe = 0;
-                                    if (result.indexOf("IN1|") > 0) {
-                                        while (i < (result.indexOf("ZIN|") - 1)) {
-                                            if (pipe == 2) {
-                                                plan = plan + result.charAt(i);
-                                            }
-                                            if (result.charAt(i) == '|') {
-                                                pipe++;
-                                            }
-                                            i++;
-                                        }
-                                    }
-                                    plan = plan.replace("|", "");
-
-                                    System.out.println("plan:" + plan);
-                                    System.out.println("nombreafiliado: " + nombreafiliado);
-                                    System.out.println("dni:" + dni);
-                                    numero_afiliado = Codigo_afiliado;
-                                    numero_afiliado = numero_afiliado.replace("^", "");
-                                    System.out.println("numero_afiliado:" + numero_afiliado);
-                                    System.out.println("Codigo_afiliado:" + Codigo_afiliado);
-                                    JOptionPane.showMessageDialog(null, mensaje);
-                                    int opcion = JOptionPane.showOptionDialog(null, "Posee una orden PreAutorizada?", "Sancor PreAutorización", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
-                                            new Object[]{"Si", "No", "Cancelar"}, "No"); // dinde quieres que se posicione el selector
-
-                                    if (opcion == 0) {//si
-                                        new SancorPreAutorizacion(null, true).setVisible(true);                                     
-                                    }
-                                    dispose();
-                                } else {
-                                    habilitado = "!OK";
-                                    JOptionPane.showMessageDialog(null, mensaje);
-                                }
-                                cursor2();
-                            } catch (Exception ex) {
-                                cursor2();
-                                JOptionPane.showMessageDialog(null, ex);
-                                System.out.println("error sancor: " + ex);
-                            }
-                            break;
-                        default:
-                            cursor2();
-                            System.out.println("/////////////////////////////// Respuesta Login  error  /////////////////////////////////////////////////////////////////////////////////////////////////////");
-                            resJson = "Error";
-                            System.out.println("Error " + post.getStatusInfo().toString() + ": " + post.getStatus());
-                            JOptionPane.showMessageDialog(null, "Error al conectarse al servidor de Sancor: " + post.getStatusInfo().toString() + ": " + post.getStatus());
-                            break;
+                int i;
+                int pipe = 0, tilde = 0, acento = 0;
+                int bandera_dni = 0, bandera_afiliado = 0, bandera_afiliado_dni = 0;
+                ///busco la respuesta
+                i = result.indexOf("ZAU");
+                pipe = 0;
+                while (i < result.indexOf("PRD")) {
+                    if (pipe == 3) {
+                        mensaje = mensaje + result.charAt(i);
                     }
-
-                } catch (Exception e) {
-                    cursor2();
-                    //En caso de un error en la solicitud, llenaremos res con la exceptión para verificar que sucedió
-                    resJson = e.toString();
+                    if (result.charAt(i) == '|') {
+                        pipe++;
+                    }
+                    i++;
                 }
-            } else {
-                System.out.println("si hay token " + token);
+                //String codigo_respuesta = mensaje.substring(0, 2);
+                String codigo_respuesta = mensaje.substring(0, 4);
+                mensaje = mensaje.replace("^", " ");
 
-                String Mensaje = "MSH|^~\\&|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD|SANCOR_SALUD^604940^IIN|" + fechahora + "||ZQI^Z01^ZQI_Z01|" + codigo_seguridad + "|D|2.4|||NE|AL|ARG\r\n"
-                        + "PRD|PS^Prestador Solicitante||^^^T||||30522483881^CU|\r\n"
-                        //+ "PID|||"+Codigo_afiliado+"^^SANCOR_SALUD^HC||UNKNOW";
-                        // + "PID|||"+Codigo_afiliado+"^^"+csc+"^SANCOR_SALUD^HC||UNKNOW";                        
-                        //+ "PID|||"+Codigo_afiliado+"^^"+ csc + "^SANCOR_SALUD^HC^SANCOR_SALUD||";
-                        //  + "PID|||0815867^00^^SANCOR_SALUD^HC||UNKNOW";//ale 31454672   
-                        // + "PID|||0121297^00^^SANCOR_SALUD^HC||UNKNOW";//prueba
-                        + "PID|||" + dni + "^^" + csc + "^SANCOR_SALUD^DU^SANCOR_SALUD||UNKNOWN";
-                //+ "PID|||22606^^9999^SANCOR_SALUD^DU^SANCOR_SALUD||";
-                try { // Call Web Service Operation
-                    HL7V24Service service = new HL7V24Service();
-                    HL7V24 port = service.getHL7V24Port();
-                    String result = port.message(8, Mensaje);
-                    System.out.println("Envío= "+Mensaje);
-                    System.out.println("Respuesta = " + result);
-
-                    int i;
-                    int pipe = 0, tilde = 0, acento = 0;
-                    int bandera_dni = 0, bandera_afiliado = 0, bandera_afiliado_dni = 0;
-                    ///busco la respuesta
-                    i = result.indexOf("ZAU");
+                System.out.println(codigo_respuesta);
+                System.out.println(mensaje);
+                //if (codigo_respuesta.equals("-1")) {
+                if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
+                    habilitado = "OK";
+                    //buscar dni, apellido y nombre del afiliado 
+                    i = result.indexOf("PID");
                     pipe = 0;
-                    while (i < result.indexOf("PRD")) {
-                        if (pipe == 3) {
-                            mensaje = mensaje + result.charAt(i);
-                        }
-                        if (result.charAt(i) == '|') {
-                            pipe++;
-                        }
-                        i++;
-                    }
-                    //String codigo_respuesta = mensaje.substring(0, 2);
-                    String codigo_respuesta = mensaje.substring(0, 4);
-                    mensaje = mensaje.replace("^", " ");
-
-                    System.out.println(codigo_respuesta);
-                    System.out.println(mensaje);
-                    //if (codigo_respuesta.equals("-1")) {
-                    if (codigo_respuesta.equals("B000") || codigo_respuesta.equals("B001")) {
-                        habilitado = "OK";
-                        //buscar dni, apellido y nombre del afiliado 
-                        i = result.indexOf("PID");
-                        pipe = 0;
-                        while (i < result.indexOf("IN1")) {
+                    while (i < result.indexOf("IN1")) {
 //                            if (bandera_dni == 0) {
 //                                if (pipe == 2) {//busco el dni
 //                                    int j = i;
@@ -559,91 +266,90 @@ public class AfiliadoSancorHL7 extends javax.swing.JDialog {
 //                                    }
 //                                }
 //                            }
-                            if (bandera_afiliado == 0) {
-                                if (pipe == 5) {//busco apellido y nombre
-                                    int j = i;
-                                    while (j < result.indexOf("IN1")) {
-                                        if (result.charAt(j) != '|') {
-                                            nombreafiliado = nombreafiliado + result.charAt(j);
-                                        } else {
-                                            j = result.indexOf("IN1");
-                                            bandera_afiliado = 1;
-                                        }
-                                        j++;
+                        if (bandera_afiliado == 0) {
+                            if (pipe == 5) {//busco apellido y nombre
+                                int j = i;
+                                while (j < result.indexOf("IN1")) {
+                                    if (result.charAt(j) != '|') {
+                                        nombreafiliado = nombreafiliado + result.charAt(j);
+                                    } else {
+                                        j = result.indexOf("IN1");
+                                        bandera_afiliado = 1;
                                     }
+                                    j++;
                                 }
                             }
-                            if (bandera_afiliado_dni == 0) {
-                                if (pipe == 3) {//busco num af
-                                    int j = i;
-                                    while (j < result.indexOf("IN1")) {
-                                        if (tilde == 0) {
+                        }
+                        if (bandera_afiliado_dni == 0) {
+                            if (pipe == 3) {//busco num af
+                                int j = i;
+                                while (j < result.indexOf("IN1")) {
+                                    if (tilde == 0) {
+                                        Codigo_afiliado = Codigo_afiliado + result.charAt(j);
+                                    } else {
+                                        if (tilde == 1) {
                                             Codigo_afiliado = Codigo_afiliado + result.charAt(j);
                                         } else {
-                                            if (tilde == 1) {
-                                                Codigo_afiliado = Codigo_afiliado + result.charAt(j);
-                                            } else {
-                                                j = result.indexOf("IN1");
-                                                bandera_afiliado_dni = 1;
-                                            }
+                                            j = result.indexOf("IN1");
+                                            bandera_afiliado_dni = 1;
                                         }
-
-                                        if (result.charAt(j) == '^') {
-                                            tilde++;
-                                        }
-                                        j++;
                                     }
+
+                                    if (result.charAt(j) == '^') {
+                                        tilde++;
+                                    }
+                                    j++;
                                 }
+                            }
+                        }
+                        if (result.charAt(i) == '|') {
+                            pipe++;
+                        }
+                        i++;
+                    }
+                    nombreafiliado = nombreafiliado.replace("^", " ");
+                    //////////busco el plan/////////////////////////////////////////////
+                    i = result.indexOf("IN1|");
+                    pipe = 0;
+                    if (result.indexOf("IN1|") > 0) {
+                        while (i < (result.indexOf("ZIN|") - 1)) {
+                            if (pipe == 2) {
+                                plan = plan + result.charAt(i);
                             }
                             if (result.charAt(i) == '|') {
                                 pipe++;
                             }
                             i++;
                         }
-                        nombreafiliado = nombreafiliado.replace("^", " ");
-                        //////////busco el plan/////////////////////////////////////////////
-                        i = result.indexOf("IN1|");
-                        pipe = 0;
-                        if (result.indexOf("IN1|") > 0) {
-                            while (i < (result.indexOf("ZIN|") - 1)) {
-                                if (pipe == 2) {
-                                    plan = plan + result.charAt(i);
-                                }
-                                if (result.charAt(i) == '|') {
-                                    pipe++;
-                                }
-                                i++;
-                            }
-                        }
-                        plan = plan.replace("|", "");
-                        System.out.println("plan:" + plan);
-                        System.out.println("nombreafiliado: " + nombreafiliado);
-                        System.out.println("dni:" + dni);
-                        numero_afiliado = Codigo_afiliado;
-                        numero_afiliado = numero_afiliado.replace("^", "");
-                        System.out.println("numero_afiliado:" + numero_afiliado);
-                        System.out.println("Codigo_afiliado:" + Codigo_afiliado);
-                        JOptionPane.showMessageDialog(null, mensaje);
-                        int opcion = JOptionPane.showOptionDialog(null, "Posee una orden PreAutorizada?", "Sancor PreAutorización", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
-                                new Object[]{"Si", "No", "Cancelar"}, "No"); // dinde quieres que se posicione el selector
+                    }
+                    plan = plan.replace("|", "");
+                    System.out.println("plan:" + plan);
+                    System.out.println("nombreafiliado: " + nombreafiliado);
+                    System.out.println("dni:" + dni);
+                    numero_afiliado = Codigo_afiliado;
+                    numero_afiliado = numero_afiliado.replace("^", "");
+                    System.out.println("numero_afiliado:" + numero_afiliado);
+                    System.out.println("Codigo_afiliado:" + Codigo_afiliado);
+                    JOptionPane.showMessageDialog(null, mensaje);
+                    int opcion = JOptionPane.showOptionDialog(null, "Posee una orden PreAutorizada?", "Sancor PreAutorización", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
+                            new Object[]{"Si", "No", "Cancelar"}, "No"); // dinde quieres que se posicione el selector
 
-                        if (opcion == 0) {
-                            new SancorPreAutorizacion(null, true).setVisible(true);
-                            dispose();
-                        } else {
-                            dispose();
-                        }
+                    if (opcion == 0) {
+                        new SancorPreAutorizacion(null, true).setVisible(true);
                         dispose();
                     } else {
-                        habilitado = "!OK";
-                        JOptionPane.showMessageDialog(null, mensaje);
+                        dispose();
                     }
-                    cursor2();
-                } catch (Exception ex) {
-                    cursor2();
-                    JOptionPane.showMessageDialog(null, ex);
-                    System.out.println("error sancor: " + ex);
+                    dispose();
+                } else {
+                    habilitado = "!OK";
+                    JOptionPane.showMessageDialog(null, mensaje);
                 }
+                cursor2();
+            } catch (Exception ex) {
+                cursor2();
+                JOptionPane.showMessageDialog(null, ex);
+                System.out.println("error sancor: " + ex);
             }
 
         }

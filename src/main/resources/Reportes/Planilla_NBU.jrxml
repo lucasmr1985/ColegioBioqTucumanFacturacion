@@ -1,137 +1,82 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="15" bottomMargin="14" uuid="a010bfc6-e0a6-41d5-9524-28acb0576e41">
+<jasperReport name="report name" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="15" bottomMargin="14" uuid="10b53bab-7d29-4cde-80ba-8adbf8b4912d">
 	<property name="ireport.zoom" value="1.1000000000000005"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="añonbu" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<queryString>
-		<![CDATA[Select codigo_practica,determinacion_practica,round(CAST(unidadbioquimica_practica as double),2) as unidadbioquimica_practica,abreviatura_practica,urgencia_practica,referencia_practica,fercuencia_practica
+	<query language="sql"><![CDATA[Select codigo_practica,determinacion_practica,round(CAST(unidadbioquimica_practica as double),2) as unidadbioquimica_practica,abreviatura_practica,urgencia_practica,referencia_practica,fercuencia_practica
 from practicasnbu
-where añonbu_practicas=$P{añonbu}]]>
-	</queryString>
+where añonbu_practicas=$P{añonbu}]]></query>
 	<field name="codigo_practica" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="determinacion_practica" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="unidadbioquimica_practica" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="abreviatura_practica" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="urgencia_practica" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="referencia_practica" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="fercuencia_practica" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
-	<background splitType="Stretch"/>
 	<title height="58" splitType="Stretch">
-			<staticText>
-				<reportElement x="9" y="44" width="115" height="13" uuid="936cc7e0-7bbf-458d-8c04-22c3838c90c2"/>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
-			</staticText>
-			<image hAlign="Left" vAlign="Middle">
-				<reportElement x="19" y="2" width="93" height="42" uuid="042daa3b-a5fc-4d41-8dea-920502b7477e"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="137" y="11" width="386" height="33" uuid="c4f543ad-eef9-4e35-98a2-f2acbe187e8a"/>
-				<textElement>
-					<font size="16" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Nomenclador Bioquimcio año: "+$P{añonbu}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="472" y="31" width="83" height="13" uuid="2e894bef-b373-450b-ab85-7f5b5c80343e"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Pagina:" +$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</title>
+		<element kind="staticText" uuid="6c0e806b-ed67-45b6-a963-25cc15c59fed" stretchType="NoStretch" x="9" y="44" width="115" height="13" fontSize="6.0">
+			<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+		</element>
+		<element kind="image" uuid="ce303ea4-3cc1-4f12-8ac0-403f4d180276" stretchType="NoStretch" x="19" y="2" width="93" height="42" linkType="None" linkTarget="Self" hImageAlign="Left" vImageAlign="Middle">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\cbt.png"]]></expression>
+		</element>
+		<element kind="textField" uuid="18f731fd-5589-440e-9c74-520efcb8157d" stretchType="NoStretch" x="137" y="11" width="386" height="33" fontSize="16.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA["Nomenclador Bioquimcio año: "+$P{añonbu}]]></expression>
+		</element>
+		<element kind="textField" uuid="6ad9a4ae-4ec2-4125-b8fa-1315e57add22" stretchType="NoStretch" x="472" y="31" width="83" height="13" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA["Pagina:" +$V{PAGE_NUMBER}]]></expression>
+		</element>
+	</title>
 	<columnHeader height="16" splitType="Stretch">
-			<staticText>
-				<reportElement x="60" y="1" width="307" height="15" uuid="d8387054-25de-4bef-a797-9fd623687cc7"/>
-				<textElement textAlignment="Justified">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Determinacion]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="497" y="1" width="58" height="15" uuid="3bfc9a96-516f-45a9-8885-954d2fca26f0"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Fercuencia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="367" y="1" width="62" height="15" uuid="4fc6973e-a3bc-4945-ac94-e41fb51faece"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Unidad Bioq.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="429" y="1" width="66" height="15" uuid="7b07dcf6-0ea9-41db-a13f-a6d9ce0870f9"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Urgencia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="13" y="1" width="50" height="15" uuid="46e86629-8f46-4044-985f-1cbb75a1114d"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Codigo]]></text>
-			</staticText>
-		</columnHeader>
+		<element kind="staticText" uuid="b49d180f-10d3-4124-ad05-d06a9fab16c1" stretchType="NoStretch" x="60" y="1" width="307" height="15" bold="true" hTextAlign="Justified">
+			<text><![CDATA[Determinacion]]></text>
+		</element>
+		<element kind="staticText" uuid="3f6373c2-a1df-420e-8d84-789b110fdf6c" stretchType="NoStretch" x="497" y="1" width="58" height="15" bold="true">
+			<text><![CDATA[Fercuencia]]></text>
+		</element>
+		<element kind="staticText" uuid="6f8f6a51-ecc8-4230-b0b7-6536f4f188d0" stretchType="NoStretch" x="367" y="1" width="62" height="15" bold="true" hTextAlign="Center">
+			<text><![CDATA[Unidad Bioq.]]></text>
+		</element>
+		<element kind="staticText" uuid="73e99b7b-2fd4-4754-be9c-52ce18b86476" stretchType="NoStretch" x="429" y="1" width="66" height="15" bold="true" hTextAlign="Center">
+			<text><![CDATA[Urgencia]]></text>
+		</element>
+		<element kind="staticText" uuid="8ba7ead6-0564-4b53-bc24-c096d226c6d4" stretchType="NoStretch" x="13" y="1" width="50" height="15" bold="true">
+			<text><![CDATA[Codigo]]></text>
+		</element>
+	</columnHeader>
 	<detail>
 		<band height="13" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement x="12" y="1" width="48" height="12" uuid="8daac306-921a-4877-9b5f-7fa49c31a475"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codigo_practica}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="60" y="1" width="314" height="12" uuid="87d2234c-50ae-4d8f-9f8c-e8660e20d20f"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{determinacion_practica}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="374" y="1" width="46" height="12" uuid="4beea66c-f26c-46a0-8c54-0e45ad81d153"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{unidadbioquimica_practica}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="443" y="1" width="52" height="12" uuid="0edf49b2-69c9-4fea-b6e6-48d0580afe6b"/>
-				<textElement textAlignment="Center">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{urgencia_practica}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="497" y="1" width="58" height="12" uuid="7689a394-dac8-41c0-8d4b-4379076d325d"/>
-				<textElement textAlignment="Center">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{fercuencia_practica}]]></textFieldExpression>
-			</textField>
+			<element kind="textField" uuid="cc46ff2d-3985-4bc6-84cc-8b4f6cbac956" stretchType="NoStretch" x="12" y="1" width="48" height="12" fontSize="9.0" linkType="None" linkTarget="Self" blankWhenNull="true">
+				<expression><![CDATA[$F{codigo_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="54b76c44-bdc7-48f8-93d8-530c09b05d4d" stretchType="NoStretch" x="60" y="1" width="314" height="12" fontSize="9.0" linkType="None" linkTarget="Self" blankWhenNull="true">
+				<expression><![CDATA[$F{determinacion_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="97c29a06-210e-4316-91c9-256bf41650dd" stretchType="NoStretch" x="374" y="1" width="46" height="12" fontSize="9.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" blankWhenNull="true" hTextAlign="Right">
+				<expression><![CDATA[$F{unidadbioquimica_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="11f007e9-7cf3-41ce-ad1a-ab903ca50976" stretchType="NoStretch" x="443" y="1" width="52" height="12" fontSize="9.0" linkType="None" linkTarget="Self" blankWhenNull="true" hTextAlign="Center">
+				<expression><![CDATA[$F{urgencia_practica}]]></expression>
+			</element>
+			<element kind="textField" uuid="9529d45d-17fe-489b-8abb-4cca06a10d8f" stretchType="NoStretch" x="497" y="1" width="58" height="12" fontSize="9.0" linkType="None" linkTarget="Self" blankWhenNull="true" hTextAlign="Center">
+				<expression><![CDATA[$F{fercuencia_practica}]]></expression>
+			</element>
 		</band>
 	</detail>
 </jasperReport>

@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="e041c7c9-d3b3-403a-987b-bfa16f3b4d27">
+<jasperReport name="report name" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="9" bottomMargin="20" uuid="5fb58016-bd63-4f99-a1c5-c2eaac861f71">
 	<property name="ireport.zoom" value="1.7715610000000024"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -13,8 +12,7 @@
 	<parameter name="localidad" class="java.lang.String"/>
 	<parameter name="pacientes" class="java.lang.String"/>
 	<parameter name="practicas" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[SELECT  ordenes.id_orden,obrasocial.razonsocial_obrasocial ,ordenes.numero_afiliado, ordenes.nombre_afiliado,ordenes.numero_orden,ordenes.fecha_orden
+	<query language="sql"><![CDATA[SELECT  ordenes.id_orden,obrasocial.razonsocial_obrasocial ,ordenes.numero_afiliado, ordenes.nombre_afiliado,ordenes.numero_orden,ordenes.fecha_orden
 ,colegiados.matricula_colegiado,SUM(detalle_ordenes.precio_practica) AS Total,if(ordenes.id_obrasocial=89,CAST(ordenes.coseguro as double),SUM(detalle_ordenes.coseguro)) as coseguro,
 ordenes.estado_orden, ordenes.dni_afiliado,substring(ip,15,28) as ip , obrasocial.`codigo_obrasocial`
 FROM colegiados
@@ -22,407 +20,206 @@ JOIN ordenes ON colegiados.id_colegiados = ordenes.id_colegiados
 JOIN detalle_ordenes ON detalle_ordenes.id_orden = ordenes.id_orden
 JOIN obrasocial ON obrasocial.id_obrasocial = ordenes.id_obrasocial
 WHERE detalle_ordenes.estado=0 and ordenes.estado_orden!=0 AND colegiados.matricula_colegiado=$P{matricula} and periodo=$P{periodo} and obrasocial.`codigo_obrasocial`=$P{num_obra_social} 
-GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]>
-	</queryString>
+GROUP BY ordenes.id_orden  order by ip,ordenes.id_orden]]></query>
 	<field name="id_orden" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="razonsocial_obrasocial" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="numero_afiliado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="nombre_afiliado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="numero_orden" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="fecha_orden" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="matricula_colegiado" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="Total" class="java.lang.Double"/>
 	<field name="coseguro" class="java.lang.Double"/>
 	<field name="estado_orden" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="dni_afiliado" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="ip" class="java.lang.String"/>
 	<field name="codigo_obrasocial" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
-	<variable name="Total_1" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	<variable name="Total_1" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{Total}]]></expression>
 	</variable>
-	<variable name="coseguro_1" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{coseguro}]]></variableExpression>
+	<variable name="coseguro_1" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{coseguro}]]></expression>
 	</variable>
-	<variable name="id_orden_1" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{id_orden}]]></variableExpression>
+	<variable name="id_orden_1" calculation="Count" class="java.lang.Integer">
+		<expression><![CDATA[$F{id_orden}]]></expression>
 	</variable>
-	<variable name="Total_2" class="java.lang.Double" resetType="Page" calculation="Sum">
-		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	<variable name="Total_2" resetType="Page" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{Total}]]></expression>
 	</variable>
-	<background splitType="Stretch"/>
-	<title>
-	</title>
-	<pageHeader height="99">
-			<rectangle radius="10">
-				<reportElement x="0" y="42" width="554" height="43" uuid="bde5655b-6b26-4090-afd4-9470bf27afda"/>
-			</rectangle>
-			<rectangle radius="10">
-				<reportElement x="1" y="2" width="553" height="37" uuid="bde5655b-6b26-4090-afd4-9470bf27afda"/>
-			</rectangle>
-			<rectangle radius="10">
-				<reportElement x="0" y="88" width="554" height="11" uuid="47909fb3-805d-4328-9215-2ce9cccc119b"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="52" y="89" width="65" height="10" uuid="f9b68fd5-1a78-4905-a677-e2bb8d3edfd1"/>
-				<textElement textAlignment="Left">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[N° de Afiliado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="119" y="89" width="103" height="10" uuid="80f3d267-05fb-4bb2-ba32-10e6bd6858d7"/>
-				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Nombre Afiliado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="266" y="89" width="96" height="10" uuid="987bb10f-ae42-470c-b279-208db74241ad"/>
-				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[N° Orden]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="363" y="89" width="48" height="10" uuid="b4aa0396-d0f6-4ce6-bc77-2e2908e2e285"/>
-				<textElement textAlignment="Right">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Importe]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="8" y="74" width="65" height="10" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[Domicilio:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="392" y="53" width="91" height="20" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Obra Social N°:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="9" y="53" width="20" height="11" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[a:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="8" y="43" width="361" height="11" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[Resumen por servicios de Laboratorio prestados durante el periodo de:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="306" y="74" width="64" height="10" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[Localidad:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="8" y="63" width="73" height="10" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[Laboratorio:]]></text>
-			</staticText>
-			<textField pattern="">
-				<reportElement x="371" y="43" width="168" height="11" uuid="24e24fe1-c069-4177-aaab-ff39b15c0021"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="27" y="53" width="366" height="11" uuid="3f90ca45-0911-45d9-8a2d-b37e5424918d"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{obra_social}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="483" y="53" width="56" height="20" uuid="62ef6189-40d8-4e06-8aea-8ab27ccf520c"/>
-				<textElement>
-					<font fontName="Verdana" size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{num_obra_social}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="81" y="63" width="458" height="10" uuid="187674c5-ef39-4650-ae8f-25335b7641be"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{laboratorio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="73" y="74" width="233" height="10" uuid="2ef4f4e9-e348-4d0b-a0af-ad5d24680480"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{domicilio_lab}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="370" y="74" width="169" height="10" uuid="c3c21000-1f78-43b8-90ce-331f426886a1"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{localidad}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="439" y="15" width="61" height="13" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Matrícula:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="499" y="15" width="36" height="13" uuid="654f04ab-a64b-4283-842a-5e42e96a026e"/>
-				<textElement>
-					<font fontName="Verdana" size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{matricula}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="439" y="27" width="61" height="11" uuid="e4edae72-f1c0-4cd9-b6bd-e185ecd4adec"/>
-				<textElement textAlignment="Right">
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="499" y="27" width="36" height="12" uuid="8156aafc-78a4-4305-b724-b42879ae5fa2"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="269" y="3" width="124" height="13" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[San Miguel de Tucumán, ]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="393" y="3" width="142" height="13" uuid="fc65cdd5-199d-4324-b77f-db202b767b8e"/>
-				<textElement>
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="3" y="28" width="194" height="11" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="3" y="18" width="194" height="11" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="8"/>
-				</textElement>
-				<text><![CDATA[Ley 5482]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="226" y="89" width="41" height="10" uuid="9b45e156-b7c2-44ca-a192-e34f454cc011"/>
-				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Fecha]]></text>
-			</staticText>
-			<image>
-				<reportElement x="78" y="3" width="76" height="16" uuid="2d340a68-5fc6-4104-98a0-61c6eca69c34"/>
-				<imageExpression><![CDATA["C:\\Facturacion Laboratorios\\icocbt.png"]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement x="414" y="88" width="48" height="10" uuid="8f2552f7-b274-41fc-bd0d-9851c8a9c29e"/>
-				<textElement textAlignment="Right">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Coseguro]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="472" y="88" width="48" height="10" uuid="2f1701be-c1f1-4c02-a4cf-b4ac4bf976de"/>
-				<textElement textAlignment="Right">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Terminal]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2" y="89" width="48" height="10" uuid="eedb2376-2719-41f3-ba9c-fdd65635476c"/>
-				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Id orden]]></text>
-			</staticText>
-		</pageHeader>
+	<pageHeader height="99" splitType="Stretch">
+		<element kind="rectangle" uuid="339e3c97-f570-48c1-8344-238b2552c670" stretchType="NoStretch" x="0" y="42" width="554" height="43" radius="10"/>
+		<element kind="rectangle" uuid="00c7dca6-60e9-4c2e-a53b-5165179007d1" stretchType="NoStretch" x="1" y="2" width="553" height="37" radius="10"/>
+		<element kind="rectangle" uuid="41ed0edf-e2fb-42fe-ae41-5315f1713c6f" stretchType="NoStretch" x="0" y="88" width="554" height="11" radius="10"/>
+		<element kind="staticText" uuid="0fca64ec-0c73-4bca-9ba1-2383c8479a2d" stretchType="NoStretch" x="52" y="89" width="65" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[N° de Afiliado]]></text>
+		</element>
+		<element kind="staticText" uuid="70795539-5dbd-4721-8a74-89918e96ca99" stretchType="NoStretch" x="119" y="89" width="103" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Nombre Afiliado]]></text>
+		</element>
+		<element kind="staticText" uuid="7301252e-c4fd-42b3-98e2-49d9459090f7" stretchType="NoStretch" x="266" y="89" width="96" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[N° Orden]]></text>
+		</element>
+		<element kind="staticText" uuid="08eca747-ca1d-47de-b5e3-183b4270cfef" stretchType="NoStretch" x="363" y="89" width="48" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Importe]]></text>
+		</element>
+		<element kind="staticText" uuid="f4e48696-c884-4562-881a-cb902bf28d85" stretchType="NoStretch" x="8" y="74" width="65" height="10" fontName="Verdana" fontSize="8.0">
+			<text><![CDATA[Domicilio:]]></text>
+		</element>
+		<element kind="staticText" uuid="872369cf-ad88-4365-8829-87f310c837ff" stretchType="NoStretch" x="392" y="53" width="91" height="20" fontName="Verdana" fontSize="10.0" bold="true">
+			<text><![CDATA[Obra Social N°:]]></text>
+		</element>
+		<element kind="staticText" uuid="0b4d314f-93e5-473a-9970-7f41cc0ff85b" stretchType="NoStretch" x="9" y="53" width="20" height="11" fontName="Verdana" fontSize="8.0">
+			<text><![CDATA[a:]]></text>
+		</element>
+		<element kind="staticText" uuid="de3126b0-d815-44f5-a931-7b146444f2c7" stretchType="NoStretch" x="8" y="43" width="361" height="11" fontName="Verdana" fontSize="8.0">
+			<text><![CDATA[Resumen por servicios de Laboratorio prestados durante el periodo de:]]></text>
+		</element>
+		<element kind="staticText" uuid="1a411e14-174b-437f-805f-695c7b3e9d6d" stretchType="NoStretch" x="306" y="74" width="64" height="10" fontName="Verdana" fontSize="8.0">
+			<text><![CDATA[Localidad:]]></text>
+		</element>
+		<element kind="staticText" uuid="e2a7f367-41df-4eb7-b066-c8165af958a1" stretchType="NoStretch" x="8" y="63" width="73" height="10" fontName="Verdana" fontSize="8.0">
+			<text><![CDATA[Laboratorio:]]></text>
+		</element>
+		<element kind="textField" uuid="cb7afa37-34b2-44bc-b8a5-d5706315ce05" stretchType="NoStretch" x="371" y="43" width="168" height="11" fontName="Verdana" fontSize="8.0" pattern="" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{periodo}]]></expression>
+		</element>
+		<element kind="textField" uuid="49a040a3-4094-4be1-ae98-73ca5a88c547" stretchType="NoStretch" x="27" y="53" width="366" height="11" fontName="Verdana" fontSize="8.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{obra_social}]]></expression>
+		</element>
+		<element kind="textField" uuid="f74aa805-2a18-4173-a13c-a61cfe09d08f" stretchType="NoStretch" x="483" y="53" width="56" height="20" fontName="Verdana" fontSize="10.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$P{num_obra_social}]]></expression>
+		</element>
+		<element kind="textField" uuid="f6f4e155-f3d9-4ab1-92ef-81b1b0f1377a" stretchType="NoStretch" x="81" y="63" width="458" height="10" fontName="Verdana" fontSize="8.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{laboratorio}]]></expression>
+		</element>
+		<element kind="textField" uuid="19098b54-f421-4e52-ba00-4d91322bee33" stretchType="NoStretch" x="73" y="74" width="233" height="10" fontName="Verdana" fontSize="8.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{domicilio_lab}]]></expression>
+		</element>
+		<element kind="textField" uuid="51275652-a027-4054-b2fd-1b1a8ce86687" stretchType="NoStretch" x="370" y="74" width="169" height="10" fontName="Verdana" fontSize="8.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{localidad}]]></expression>
+		</element>
+		<element kind="staticText" uuid="3011e152-7450-421c-a27f-df39846acc22" stretchType="NoStretch" x="439" y="15" width="61" height="13" fontName="Verdana" fontSize="10.0" bold="true">
+			<text><![CDATA[Matrícula:]]></text>
+		</element>
+		<element kind="textField" uuid="f3326d2f-9b69-4a2d-8f21-232178980248" stretchType="NoStretch" x="499" y="15" width="36" height="13" fontName="Verdana" fontSize="10.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$P{matricula}]]></expression>
+		</element>
+		<element kind="textField" uuid="4bfa8a4e-2495-4bfc-98dd-698d16d1e5e6" stretchType="NoStretch" x="439" y="27" width="61" height="11" fontName="Verdana" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></expression>
+		</element>
+		<element kind="textField" uuid="15c0a349-d8c0-40bf-93da-930ca26da23d" stretchType="NoStretch" x="499" y="27" width="36" height="12" fontName="Verdana" fontSize="8.0" evaluationTime="Report" linkType="None" linkTarget="Self">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="d2fad3bb-a44b-413f-8c86-fb3dcb3721b0" stretchType="NoStretch" x="269" y="3" width="124" height="13" fontName="Verdana" fontSize="8.0">
+			<text><![CDATA[San Miguel de Tucumán, ]]></text>
+		</element>
+		<element kind="textField" uuid="67a3caab-bb89-4138-bed5-098a3e6dbff7" stretchType="NoStretch" x="393" y="3" width="142" height="13" fontName="Verdana" fontSize="8.0" linkType="None" linkTarget="Self">
+			<expression><![CDATA[$P{fecha}]]></expression>
+		</element>
+		<element kind="staticText" uuid="3e74eb48-b483-4459-9ed6-c11967eb208b" stretchType="NoStretch" x="3" y="28" width="194" height="11" fontName="Verdana" fontSize="8.0" hTextAlign="Center">
+			<text><![CDATA[Colegio de Bioquímicos de Tucumán]]></text>
+		</element>
+		<element kind="staticText" uuid="27e512c2-4130-4488-b17a-3e5b7798bf7a" stretchType="NoStretch" x="3" y="18" width="194" height="11" fontName="Verdana" fontSize="8.0" hTextAlign="Center">
+			<text><![CDATA[Ley 5482]]></text>
+		</element>
+		<element kind="staticText" uuid="51cb3683-b6e2-4a2c-9d46-7569988aca5f" stretchType="NoStretch" x="226" y="89" width="41" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Fecha]]></text>
+		</element>
+		<element kind="image" uuid="f65cb67b-cf40-4dd0-8c30-35a949f6c8bf" stretchType="NoStretch" x="78" y="3" width="76" height="16" linkType="None" linkTarget="Self">
+			<expression><![CDATA["C:\\Facturacion Laboratorios\\icocbt.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="12cc2add-0150-49e2-a5ce-d4e495e3188d" stretchType="NoStretch" x="414" y="88" width="48" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Coseguro]]></text>
+		</element>
+		<element kind="staticText" uuid="6f38b605-e0c4-488a-9ef7-ec62154c0042" stretchType="NoStretch" x="472" y="88" width="48" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Terminal]]></text>
+		</element>
+		<element kind="staticText" uuid="d8fbb342-fc93-43f5-90c8-b9b7acd23e89" stretchType="NoStretch" x="2" y="89" width="48" height="10" fontName="Verdana" fontSize="8.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Id orden]]></text>
+		</element>
+	</pageHeader>
 	<detail>
 		<band height="12" splitType="Stretch">
-			<textField>
-				<reportElement x="50" y="1" width="67" height="11" uuid="7495cc92-a612-4e73-b8ce-312e7e6667c7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{numero_afiliado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="225" y="1" width="41" height="11" uuid="e60231eb-f2c2-490f-b08a-e607ac302213"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{fecha_orden}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="266" y="1" width="98" height="11" uuid="eab2f75f-11a3-4539-93a9-8f8828ebc681"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{numero_orden}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="362" y="1" width="50" height="11" uuid="2f20d291-78be-4907-ac63-1395272e2d5b"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="416" y="1" width="45" height="11" uuid="45102217-6cbc-4480-8bf5-59706c94d474"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{coseguro}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="461" y="1" width="88" height="11" uuid="9a0bc36b-b41c-420a-b44d-d38dc3a8c47c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ip}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="119" y="1" width="102" height="11" uuid="4dcb6ff8-244c-4736-8d44-44d5eb09e0e0"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre_afiliado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="2" y="1" width="49" height="11" uuid="d1fa4b92-2531-4633-bd6c-a2aa950db112"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{id_orden}]]></textFieldExpression>
-			</textField>
+			<element kind="textField" uuid="6c8cb195-dd84-4bf1-9c79-f8b7354e262b" stretchType="NoStretch" x="50" y="1" width="67" height="11" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{numero_afiliado}]]></expression>
+			</element>
+			<element kind="textField" uuid="f210936f-5421-4b97-ac0b-ff8a75a252cc" stretchType="NoStretch" x="225" y="1" width="41" height="11" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{fecha_orden}]]></expression>
+			</element>
+			<element kind="textField" uuid="4d222b42-f320-4dd4-a39c-dc16a248ffca" stretchType="NoStretch" x="266" y="1" width="98" height="11" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{numero_orden}]]></expression>
+			</element>
+			<element kind="textField" uuid="651791e9-7a06-4faf-aead-dc0284ce7238" stretchType="NoStretch" x="362" y="1" width="50" height="11" fontSize="8.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{Total}]]></expression>
+			</element>
+			<element kind="textField" uuid="bc07cd1a-a29e-4562-b9b7-a70f85810a3f" stretchType="NoStretch" x="416" y="1" width="45" height="11" fontSize="8.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{coseguro}]]></expression>
+			</element>
+			<element kind="textField" uuid="96e82fd0-0efe-44f3-9139-89db03f8b84d" stretchType="NoStretch" x="461" y="1" width="88" height="11" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{ip}]]></expression>
+			</element>
+			<element kind="textField" uuid="81e1d527-0277-4919-b986-0a6667ae62ec" stretchType="NoStretch" x="119" y="1" width="102" height="11" fontSize="8.0" linkType="None" linkTarget="Self" vTextAlign="Middle">
+				<expression><![CDATA[$F{nombre_afiliado}]]></expression>
+			</element>
+			<element kind="textField" uuid="2b9d8373-ca4b-4931-9436-b31c2cdd8cc9" stretchType="NoStretch" x="2" y="1" width="49" height="11" fontSize="8.0" linkType="None" linkTarget="Self" hTextAlign="Center">
+				<expression><![CDATA[$F{id_orden}]]></expression>
+			</element>
 		</band>
 	</detail>
-	<pageFooter height="43">
-			<rectangle radius="10">
-				<reportElement x="-1" y="-1" width="555" height="42" uuid="f27ec9ec-415e-4c4c-82d9-c1f4ad07b2eb"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="381" y="27" width="35" height="13" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="29" y="15" width="92" height="12" uuid="5da1d715-6e0c-4e86-b85a-87f466290305"/>
-				<textElement>
-					<font fontName="Verdana" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total de Ordenes:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="416" y="27" width="10" height="13" uuid="1a929973-162d-4dfe-af6d-ef9606e39c2f"/>
-				<textElement>
-					<font fontName="Verdana" size="9"/>
-				</textElement>
-				<text><![CDATA[$]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="416" y="14" width="10" height="13" uuid="bea37a72-dff0-4f2c-bc81-bf2448876a59"/>
-				<textElement>
-					<font fontName="Verdana" size="9"/>
-				</textElement>
-				<text><![CDATA[$]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="360" y="14" width="56" height="13" uuid="2eaee431-99b3-4c4f-9fd0-304d56d46d11"/>
-				<textElement>
-					<font fontName="Verdana" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Coseguro:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="416" y="1" width="10" height="13" uuid="a1474540-3cee-49db-9e40-a7ac0de4135b"/>
-				<textElement>
-					<font fontName="Verdana" size="9"/>
-				</textElement>
-				<text><![CDATA[$]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="363" y="2" width="50" height="13" uuid="99bc6043-8d7d-4d92-93af-7b67402d57ef"/>
-				<textElement>
-					<font fontName="Verdana" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Subtotal:]]></text>
-			</staticText>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="429" y="2" width="54" height="12" uuid="cf87d5d3-a161-4309-b461-2635c7dfe43e"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{Total_1}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="429" y="15" width="54" height="12" uuid="13affd4c-5122-4b0a-8f41-328b7d13c79c"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{coseguro_1}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00">
-				<reportElement x="429" y="27" width="54" height="12" uuid="ef1e6bd8-8773-4d28-a844-3f44a3575348"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{Total_1}-$V{coseguro_1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="121" y="15" width="100" height="12" uuid="fcd0a943-8799-41ee-8725-f365e726663b"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{id_orden_1}]]></textFieldExpression>
-			</textField>
-		</pageFooter>
+	<pageFooter height="43" splitType="Stretch">
+		<element kind="rectangle" uuid="e203542a-0fa2-4894-9a1f-1ca3670342d8" stretchType="NoStretch" x="-1" y="-1" width="555" height="42" radius="10"/>
+		<element kind="staticText" uuid="6501bb49-0767-4d1a-9454-507eef53a1c8" stretchType="NoStretch" x="381" y="27" width="35" height="13" fontName="Verdana" fontSize="9.0" bold="true">
+			<text><![CDATA[Total:]]></text>
+		</element>
+		<element kind="staticText" uuid="e7a3609b-1d45-4c94-a1b5-c95abcff0177" stretchType="NoStretch" x="29" y="15" width="92" height="12" fontName="Verdana" fontSize="9.0" bold="true">
+			<text><![CDATA[Total de Ordenes:]]></text>
+		</element>
+		<element kind="staticText" uuid="b969edfb-b20e-4c90-8f3d-5dd42c36e26c" stretchType="NoStretch" x="416" y="27" width="10" height="13" fontName="Verdana" fontSize="9.0">
+			<text><![CDATA[$]]></text>
+		</element>
+		<element kind="staticText" uuid="28160fb8-7517-4496-9b74-1614817a101f" stretchType="NoStretch" x="416" y="14" width="10" height="13" fontName="Verdana" fontSize="9.0">
+			<text><![CDATA[$]]></text>
+		</element>
+		<element kind="staticText" uuid="2d4d33d8-72f0-4c93-aa6b-b9be1567295c" stretchType="NoStretch" x="360" y="14" width="56" height="13" fontName="Verdana" fontSize="9.0" bold="true">
+			<text><![CDATA[Coseguro:]]></text>
+		</element>
+		<element kind="staticText" uuid="86abead7-41b7-4e2d-8e44-1299884a5ffc" stretchType="NoStretch" x="416" y="1" width="10" height="13" fontName="Verdana" fontSize="9.0">
+			<text><![CDATA[$]]></text>
+		</element>
+		<element kind="staticText" uuid="e38d05ed-f3ca-4304-a921-e81859119f2c" stretchType="NoStretch" x="363" y="2" width="50" height="13" fontName="Verdana" fontSize="9.0" bold="true">
+			<text><![CDATA[Subtotal:]]></text>
+		</element>
+		<element kind="textField" uuid="5a792d6b-ac60-441e-b45c-3d345ac09cfd" stretchType="NoStretch" x="429" y="2" width="54" height="12" fontSize="9.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$V{Total_1}]]></expression>
+		</element>
+		<element kind="textField" uuid="978023d2-a110-42e6-a07e-14ab7d22d542" stretchType="NoStretch" x="429" y="15" width="54" height="12" fontSize="9.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$V{coseguro_1}]]></expression>
+		</element>
+		<element kind="textField" uuid="8a191d3e-bd91-4da7-81c7-089ba0e91759" stretchType="NoStretch" x="429" y="27" width="54" height="12" fontSize="9.0" pattern="###0.00;-###0.00" linkType="None" linkTarget="Self" hTextAlign="Right">
+			<expression><![CDATA[$V{Total_1}-$V{coseguro_1}]]></expression>
+		</element>
+		<element kind="textField" uuid="c2382fab-52d1-4b7c-9090-8fd821d9535d" stretchType="NoStretch" x="121" y="15" width="100" height="12" fontSize="9.0" linkType="None" linkTarget="Self" bold="true">
+			<expression><![CDATA[$V{id_orden_1}]]></expression>
+		</element>
+	</pageFooter>
 </jasperReport>

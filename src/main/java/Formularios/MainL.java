@@ -915,7 +915,11 @@ public class MainL extends javax.swing.JFrame {
 
                             total = 0;
                             int id_ordenes = 0;
-                            if (idobraimprime == 95 || idobraimprime == 89 || idobraimprime == 108 || idobraimprime == 21 || idobraimprime == 50 || idobraimprime == 2 ) {
+                            // las obras "ss" (11,12,14,...) suman el coseguro por práctica en el while de abajo; el resto lo suma de ordenes.coseguro
+                            boolean coseguroPorPractica = idobraimprime == 11 || idobraimprime == 12
+                                    || idobraimprime == 14 || idobraimprime == 90 || idobraimprime == 100
+                                    || idobraimprime == 103 || idobraimprime == 15 || idobraimprime == 113;
+                            if (!coseguroPorPractica) {
                                 System.out.println("suma coseguros");
                                 System.out.println("idobraimprime: " + idobraimprime);
                                 Statement st7 = cn.createStatement();
@@ -1195,6 +1199,8 @@ public class MainL extends javax.swing.JFrame {
                                 parametros.put("total_letras_pesos", total_pesos_letras + " PESOS");
                                 parametros.put("total_letras_centavos", total_centavos_letras + " CENTAVOS");
                                 parametros.put("total", df.format(importetotal));
+                                parametros.put("coseguro", df.format(coseguro));
+                                parametros.put("totalconcoseguro", df.format(totalconcoseguro));
                                 JasperPrint jPrint = JasperFillManager.fillReport(report, parametros, new JRBeanCollectionDataSource(Resultados));
 
                                 ImagenPDF pdf = new ImagenPDF();
@@ -1645,6 +1651,8 @@ public class MainL extends javax.swing.JFrame {
                                 JasperReport report = loadReport("Ordenes_Fecha");
                                 ///////////////////////////////////////////////////C:\Users\Lucas\Documents\NetBeansProjects\colegio bioquimicos\src\Reportes
                                 Map parametros = new HashMap();
+                                parametros.put("coseguro", df.format(coseguro));
+                                parametros.put("totalconcoseguro", df.format(totalconcoseguro));
                                 parametros.put("matricula", matricula_colegiado);
                                 parametros.put("periodo", periodo2);
                                 parametros.put("fecha", fecha2);
@@ -8039,6 +8047,7 @@ PV1||||MarcaGuardia|||||||||||||||||||||||||||||||||||||||||||||||V
                                         txtnumorden.setText(num_orden);
                                         /////////////////////grabo en servidor nuestro///////////////////////////////////////////////////////////////////////////
                                         validar_orden asunt = new validar_orden();
+                                        coseguro = coseguro.replace("$", "");
                                         coseguro = coseguro.replace(".", "");
                                         coseguro = coseguro.replace(",", ".");
                                         Double coseguroAsunt = Double.valueOf(coseguro);
@@ -8370,6 +8379,7 @@ PV1||||MarcaGuardia|||||||||||||||||||||||||||||||||||||||||||||||V
                                         + "<CodigoCIE10></CodigoCIE10>\n"
                                         + "<FechaRealizacion>" + fechaComun + "</FechaRealizacion>\n"
                                         + "<Diagnostico></Diagnostico>\n"
+                                        + "<Token>"+AfiliadoNobis.token+"</Token>\n"
                                         + "<Items>\n"
                                         + DetalleProcedimientos + "\n"
                                         + "</Items>\n"
@@ -13804,18 +13814,12 @@ PID|||121297^00^^SANCOR_SALUD^HC^SANCOR_SALUD||UNKNOWN
                                             } else {
                                                 if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
                                                     limpiar_variables();
-                                                    try {
-                                                        new AfiliadoJerarquicos(this, true).setVisible(true);
-
-                                                    } catch (DatatypeConfigurationException ex) {
-                                                        Logger.getLogger(MainL.class
-                                                                .getName()).log(Level.SEVERE, null, ex);
-                                                    }
-                                                    if (AfiliadoJerarquicos.habilitado.equals("OK")) {
-                                                        txtdocumento.setText(AfiliadoJerarquicos.dni);
+                                                    new AfiliadoJerarquicosApi(this, true).setVisible(true);
+                                                    if (AfiliadoJerarquicosApi.habilitado.equals("OK")) {
+                                                        txtdocumento.setText(AfiliadoJerarquicosApi.dni);
                                                         txtdocumento.setEditable(false);
-                                                        txtnombreafiliado.setText(AfiliadoJerarquicos.nombreafiliado);
-                                                        txtnumafiliado.setText(AfiliadoJerarquicos.Codigo_afiliado);
+                                                        txtnombreafiliado.setText(AfiliadoJerarquicosApi.nombreafiliado);
+                                                        txtnumafiliado.setText(AfiliadoJerarquicosApi.Codigo_afiliado);
                                                         txtmatricula.setText("");
                                                         txtmatricula.requestFocus();
                                                         habilitarpanelOnline();
@@ -14500,21 +14504,15 @@ PID|||121297^00^^SANCOR_SALUD^HC^SANCOR_SALUD||UNKNOWN
                                 }
                             }
                             if (obra.equals("37701 - JERARQUICOS SALUD - EMP. BNA - ONLINE")) {
-                                try {
-                                    new AfiliadoJerarquicos(this, true).setVisible(true);
-
-                                } catch (DatatypeConfigurationException ex) {
-                                    Logger.getLogger(MainL.class
-                                            .getName()).log(Level.SEVERE, null, ex);
-                                }
-                                if (AfiliadoJerarquicos.habilitado.equals("OK")) {
-                                    txtdocumento.setText(AfiliadoJerarquicos.dni);
+                                new AfiliadoJerarquicosApi(this, true).setVisible(true);
+                                if (AfiliadoJerarquicosApi.habilitado.equals("OK")) {
+                                    txtdocumento.setText(AfiliadoJerarquicosApi.dni);
                                     txtdocumento.setEditable(false);
                                     txtdocumento.setEnabled(false);
                                     txtfecha.setEditable(false);
                                     txtnumorden.setEditable(false);
-                                    txtnombreafiliado.setText(AfiliadoJerarquicos.nombreafiliado);
-                                    txtnumafiliado.setText(AfiliadoJerarquicos.Codigo_afiliado);
+                                    txtnombreafiliado.setText(AfiliadoJerarquicosApi.nombreafiliado);
+                                    txtnumafiliado.setText(AfiliadoJerarquicosApi.Codigo_afiliado);
                                     txtmatricula.requestFocus();
                                     habilitarpanelOnline();
                                     id_obra_social = idobrasocial[i];
@@ -15251,18 +15249,18 @@ PID|||121297^00^^SANCOR_SALUD^HC^SANCOR_SALUD||UNKNOWN
 //                        }
                     if (band2 == 0) {
 
-                        String[] arreglo = {"Aceptar", "Link"};
+                        String[] arreglo = {"Aceptar"};
                         int opcion = JOptionPane.showOptionDialog(null, "El Afiliado no se encuentra en nuestra base de datos.\nPor favor enviar un mensaje al WhatsApp 03815473513 con los datos del paciente para poder verificarlo y darlo de alta.", "Error en carga del Afiliado", 0, JOptionPane.QUESTION_MESSAGE, null, arreglo, "Aceptar");
 
-                        if (opcion == 1) {
-
-                            try {
-                                Desktop.getDesktop().browse(new URI("https://prestadores.pami.org.ar/result.php?c=6-2&vm=2"));
-                                //Desktop.getDesktop().browse(new URI("http://www.cobituc.org.ar/2023/08/24/alta-pacientes-pami/"));
-                            } catch (Exception ex) {
-                                JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
-                            }
-                        }
+//                        if (opcion == 1) {
+//
+//                            try {
+//                                Desktop.getDesktop().browse(new URI("https://prestadores.pami.org.ar/result.php?c=6-2&vm=2"));
+//                                //Desktop.getDesktop().browse(new URI("http://www.cobituc.org.ar/2023/08/24/alta-pacientes-pami/"));
+//                            } catch (Exception ex) {
+//                                JOptionPane.showMessageDialog(null, "No se ha podido cargar la página");
+//                            }
+//                        }
 //                         if (opcion == 2) {
 //                            try {
 //                                //Desktop.getDesktop().browse(new URI("https://prestadores.pami.org.ar/result.php?c=6-2&vm=2"));
